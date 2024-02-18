@@ -47,6 +47,8 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
         this.proxy = proxy;
         this.server = server;
         this.ipAddress = ipAddress;
+
+        properties().setProperties(nucleoPlayer.properties());
     }
 
     public DefaultNucleoOnlinePlayer(UUID uuid, String name, String ipAddress) {

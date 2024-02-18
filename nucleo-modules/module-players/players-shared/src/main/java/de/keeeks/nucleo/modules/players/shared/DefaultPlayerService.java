@@ -12,6 +12,7 @@ import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.Skin;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoOnlinePlayerSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoPlayerSerializer;
+import de.keeeks.nucleo.modules.players.shared.json.PropertyHolderSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.SkinSerializer;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlayerUpdatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlayersRequestPacketListener;
@@ -48,6 +49,7 @@ public class DefaultPlayerService implements PlayerService {
         GsonBuilder.registerSerializer(
                 new SkinSerializer(),
                 new NucleoPlayerSerializer(),
+                new PropertyHolderSerializer(),
                 new NucleoOnlinePlayerSerializer()
         );
 

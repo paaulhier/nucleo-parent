@@ -3,11 +3,13 @@ package de.keeeks.nucleo.modules.players.shared.json;
 import com.google.gson.*;
 import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
+import de.keeeks.nucleo.modules.players.api.PropertyHolder;
 import de.keeeks.nucleo.modules.players.api.Skin;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.Locale;
 import java.util.UUID;
 
 public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
@@ -22,52 +24,64 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
             Type type,
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
-        return new DefaultNucleoPlayer(
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        DefaultNucleoPlayer nucleoPlayer = new DefaultNucleoPlayer(
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "uuid",
                         jsonElement1 -> UUID.fromString(jsonElement1.getAsString())
                 ),
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "name",
                         JsonElement::getAsString
                 ),
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "locale",
-                        jsonElement1 -> jsonDeserializationContext.deserialize(jsonElement1, java.util.Locale.class)
+                        jsonElement1 -> jsonDeserializationContext.deserialize(jsonElement1, Locale.class)
                 ),
                 jsonDeserializationContext.deserialize(
-                        jsonElement.getAsJsonObject().get("skin"),
+                        jsonObject.get("skin"),
                         Skin.class
                 ),
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "onlineTime",
                         JsonElement::getAsLong
                 ),
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "lastLogin",
                         jsonElement1 -> Instant.ofEpochMilli(jsonElement1.getAsLong())
                 ),
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "lastLogout",
                         jsonElement1 -> Instant.ofEpochMilli(jsonElement1.getAsLong())
                 ),
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "createdAt",
                         jsonElement1 -> Instant.ofEpochMilli(jsonElement1.getAsLong())
                 ),
                 readOrNull(
-                        jsonElement.getAsJsonObject(),
+                        jsonObject,
                         "updatedAt",
                         jsonElement1 -> Instant.ofEpochMilli(jsonElement1.getAsLong())
                 )
         );
+
+        PropertyHolder propertyHolder = jsonDeserializationContext.deserialize(
+                jsonObject.get("properties"),
+                PropertyHolder.class
+        );
+        System.out.println("properties (deserialize) = " + jsonObject.get("properties"));
+        if (propertyHolder != null) {
+            nucleoPlayer.properties().setProperties(propertyHolder);
+        }
+
+        return nucleoPlayer;
     }
 
     @Override
@@ -81,6 +95,11 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
         jsonObject.add("skin", jsonSerializationContext.serialize(nucleoPlayer.skin()));
         jsonObject.add("locale", jsonSerializationContext.serialize(nucleoPlayer.locale()));
         jsonObject.addProperty("onlineTime", nucleoPlayer.onlineTime());
+        jsonObject.add("properties", jsonSerializationContext.serialize(
+                nucleoPlayer.properties(),
+                PropertyHolder.class
+        ));
+        System.out.println("properties (serialize) = " + jsonObject.get("properties"));
         jsonObject.add(
                 "lastLogin",
                 nucleoPlayer.lastLogin() == null ? JsonNull.INSTANCE : new JsonPrimitive(

@@ -3,6 +3,7 @@ package de.keeeks.nucleo.modules.players.shared;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
+import de.keeeks.nucleo.modules.players.api.PropertyHolder;
 import de.keeeks.nucleo.modules.players.api.Skin;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,8 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     private static final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
+
+    private final PropertyHolder propertyHolder = new DefaultPropertyHolder();
 
     private final UUID uuid;
 
@@ -89,6 +92,11 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
         this.onlineTime = onlineTime;
         this.updatedAt = Instant.now();
         return this;
+    }
+
+    @Override
+    public PropertyHolder properties() {
+        return propertyHolder;
     }
 
     @Override

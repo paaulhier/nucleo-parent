@@ -41,6 +41,16 @@ public class NatsConnection {
                     ))
                     .userInfo(credentials.username(), credentials.password())
                     .maxReconnects(-1)
+                    .errorListener(new ErrorListener() {
+                        @Override
+                        public void exceptionOccurred(Connection conn, Exception exp) {
+                            logger.log(
+                                    Level.SEVERE,
+                                    "Nats connection error",
+                                    exp
+                            );
+                        }
+                    })
                     .build();
             connection = Nats.connect(options);
             logger.info("Nats connected to %s:%s".formatted(

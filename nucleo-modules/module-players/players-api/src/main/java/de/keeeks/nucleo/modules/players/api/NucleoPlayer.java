@@ -37,6 +37,8 @@ public interface NucleoPlayer {
         );
     }
 
+    PropertyHolder properties();
+
     NucleoPlayer updateLastLogin();
 
     NucleoPlayer updateLastLogout();

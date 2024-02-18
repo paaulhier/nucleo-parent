@@ -64,11 +64,12 @@ public class LoginListener implements Listener {
                 "",
                 address.substring(1).split(":")[0]
         );
+        onlinePlayer.properties().setProperty(
+                "TestProperty",
+                "TestValue"
+        );
         onlinePlayer.updateLastLogin();
         playerService.updateNetworkWide(onlinePlayer);
-
-        Scheduler.runAsync(() -> playerService.savePlayerToDatabase(onlinePlayer));
-
     }
 
 }
