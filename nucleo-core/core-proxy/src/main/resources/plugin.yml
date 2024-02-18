@@ -1,0 +1,3 @@
+name: nucleo-proxy
+version: 1.0
+main: de.keeeks.nucleo.core.proxy.NucleoProxyPlugin

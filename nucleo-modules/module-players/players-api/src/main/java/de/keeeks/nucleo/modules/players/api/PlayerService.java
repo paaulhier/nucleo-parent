@@ -1,0 +1,137 @@
+package de.keeeks.nucleo.modules.players.api;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface PlayerService {
+
+    String CHANNEL = "playerService";
+
+    /**
+     * Creates a new player with the given UUID and name.
+     * @param uuid the UUID of the player
+     * @param name the name of the player
+     * @return the created player
+     */
+    NucleoPlayer createPlayer(UUID uuid, String name);
+
+    /**
+     * Creates a new online player with the given player, server, proxy and address.
+     * @param nucleoPlayer the player
+     * @param server the server the player is on
+     * @param proxy the proxy the player is on
+     * @param address the address of the player
+     * @return the created online player
+     */
+    NucleoOnlinePlayer createOnlinePlayer(
+            NucleoPlayer nucleoPlayer,
+            String server,
+            String proxy,
+            String address
+    );
+
+    /**
+     * Returns the player with the given UUID.
+     * @param uuid the UUID of the player
+     * @return the player with the given UUID, if present
+     */
+    Optional<NucleoPlayer> player(UUID uuid);
+
+    /**
+     * Returns the player with the given name.
+     * The name is case-sensitive.
+     * @param name the name of the player
+     * @return the player with the given name, if present
+     */
+    Optional<NucleoPlayer> player(String name);
+
+    /**
+     * Returns the online player with the given UUID.
+     * @param uuid the UUID of the player
+     * @return the online player with the given UUID, if present
+     */
+    default Optional<NucleoOnlinePlayer> onlinePlayer(UUID uuid) {
+        return onlinePlayers().stream()
+                .filter(player -> player.uuid().equals(uuid))
+                .findFirst();
+    }
+
+    /**
+     * Returns the online player with the given name.
+     * The name is case-sensitive.
+     * @param name the name of the player
+     * @return the online player with the given name, if present
+     */
+    default Optional<NucleoOnlinePlayer> onlinePlayer(String name) {
+        return onlinePlayers().stream()
+                .filter(player -> player.name().equals(name))
+                .findFirst();
+    }
+
+
+    /**
+     * Returns a list of all online players.
+     * @return a list of all online players
+     */
+    List<NucleoOnlinePlayer> onlinePlayers();
+
+    /**
+     * Updates the network-wide cache with the given player.
+     * @param nucleoPlayer the player to update the network-wide cache with
+     */
+    void updateNetworkWide(NucleoPlayer nucleoPlayer);
+
+    /**
+     * Updates the network-wide cache with the given player.
+     * @param nucleoOnlinePlayer the player to update the network-wide cache with
+     */
+    void updateNetworkWide(NucleoOnlinePlayer nucleoOnlinePlayer);
+
+    /**
+     * Updates the cache with the given player.
+     * @param nucleoPlayer the player to update the cache with
+     */
+    void updateCache(NucleoPlayer nucleoPlayer);
+
+    /**
+     * Updates the cache with the given player.
+     * @param nucleoOnlinePlayer the player to update the cache with
+     */
+    void updateCache(NucleoOnlinePlayer nucleoOnlinePlayer);
+
+    /**
+     * Invalidates the cache with the given UUID.
+     * @param uuid the UUID of the player to invalidate the cache with
+     */
+    void invalidateCache(UUID uuid);
+
+    /**
+     * Invalidates the network-wide cache with the given UUID.
+     * @param uuid the UUID of the player to invalidate the network-wide cache with
+     */
+    void invalidateCacheNetworkWide(UUID uuid);
+
+    /**
+     * Saves the given player to the database.
+     * @param nucleoPlayer the player to save to the database
+     */
+    void savePlayerToDatabase(NucleoPlayer nucleoPlayer);
+
+    /**
+     * Returns the number of online players.
+     * @return the number of online players
+     */
+    default int onlinePlayerCount() {
+        return onlinePlayers().size();
+    }
+
+    /**
+     * Returns whether the player with the given UUID is online.
+     * @param uuid the UUID of the player
+     * @return whether the player with the given UUID is online
+     */
+    default boolean isPlayerOnline(UUID uuid) {
+        return onlinePlayer(uuid).isPresent();
+    }
+}

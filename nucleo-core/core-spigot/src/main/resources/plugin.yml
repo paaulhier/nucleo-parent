@@ -1,0 +1,5 @@
+name: nucleo-spigot
+version: 1.0
+main: de.keeeks.nucleo.core.spigot.NucleoSpigotPlugin
+
+api-version: 1.20

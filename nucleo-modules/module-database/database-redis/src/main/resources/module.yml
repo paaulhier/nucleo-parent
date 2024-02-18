@@ -1,0 +1,1 @@
+main: de.keeeks.nucleo.modules.database.redis.RedisDatabaseModule
