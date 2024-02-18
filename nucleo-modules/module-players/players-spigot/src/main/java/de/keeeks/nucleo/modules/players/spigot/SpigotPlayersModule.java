@@ -3,10 +3,8 @@ package de.keeeks.nucleo.modules.players.spigot;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
-import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
-import de.keeeks.nucleo.modules.players.spigot.packet.listener.SpigotPlayerUpdatePacketListener;
 
 @ModuleDescription(
         name = "players",
@@ -20,13 +18,6 @@ public class SpigotPlayersModule extends SpigotModule {
         ServiceRegistry.registerService(
                 PlayerService.class,
                 DefaultPlayerService.create()
-        );
-    }
-
-    @Override
-    public void enable() {
-        ServiceRegistry.service(NatsConnection.class).registerPacketListener(
-                new SpigotPlayerUpdatePacketListener()
         );
     }
 }
