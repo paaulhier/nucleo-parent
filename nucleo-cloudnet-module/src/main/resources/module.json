@@ -1,0 +1,11 @@
+{
+  "runtimeModule": false,
+  "storesSensitiveData": false,
+  "main": "de.keeeks.nucleo.cloudnet.NucleoCloudNetModule",
+  "name": "Nucleo-CloudNet-Module",
+  "group": "de.keeeks.nucleo.cloudnet",
+  "author": "Keeeks Development Team",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "Module to create serviceName files for each starting task.",
+  "minJavaVersionId": 0
+}

@@ -6,10 +6,7 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.MessagingModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
-import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
-import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
-import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.players.api.Skin;
+import de.keeeks.nucleo.modules.players.api.*;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoOnlinePlayerSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoPlayerSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.PropertyHolderSerializer;
@@ -87,7 +84,13 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
-    public NucleoOnlinePlayer createOnlinePlayer(NucleoPlayer nucleoPlayer, String server, String proxy, String address) {
+    public NucleoOnlinePlayer createOnlinePlayer(
+            NucleoPlayer nucleoPlayer,
+            String server,
+            String proxy,
+            String address,
+            Version version
+    ) {
         logger.info("Creating online player %s with UUID %s on server %s and proxy %s (Connected from: %s)".formatted(
                 nucleoPlayer.name(),
                 nucleoPlayer.uuid(),
@@ -99,7 +102,8 @@ public class DefaultPlayerService implements PlayerService {
                 nucleoPlayer,
                 server,
                 proxy,
-                address
+                address,
+                version
         );
     }
 

@@ -5,6 +5,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
+import de.keeeks.nucleo.modules.players.api.Version;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
@@ -18,20 +19,23 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     );
 
     private final String ipAddress;
+    private final Version version;
 
     private String proxy;
     private String server;
 
-    public DefaultNucleoOnlinePlayer(UUID uuid, String ipAddress) {
+    public DefaultNucleoOnlinePlayer(UUID uuid, String ipAddress, Version version) {
         super(uuid);
         this.ipAddress = ipAddress;
+        this.version = version;
     }
 
     public DefaultNucleoOnlinePlayer(
             NucleoPlayer nucleoPlayer,
             String proxy,
             String server,
-            String ipAddress
+            String ipAddress,
+            Version version
     ) {
         super(
                 nucleoPlayer.uuid(),
@@ -47,13 +51,15 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
         this.proxy = proxy;
         this.server = server;
         this.ipAddress = ipAddress;
+        this.version = version;
 
         properties().setProperties(nucleoPlayer.properties());
     }
 
-    public DefaultNucleoOnlinePlayer(UUID uuid, String name, String ipAddress) {
+    public DefaultNucleoOnlinePlayer(UUID uuid, String name, String ipAddress, Version version) {
         super(uuid, name);
         this.ipAddress = ipAddress;
+        this.version = version;
     }
 
     @Override

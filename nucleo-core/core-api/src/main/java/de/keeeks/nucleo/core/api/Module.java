@@ -1,16 +1,14 @@
 package de.keeeks.nucleo.core.api;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
 @Getter
@@ -23,15 +21,27 @@ public abstract class Module {
     private final File dataFolder;
 
     protected ModuleState moduleState = ModuleState.INITIALIZED;
+    protected String serviceName;
     protected Logger logger;
 
+    @SneakyThrows
     protected Module() {
         Class<? extends Module> clazz = getClass();
         this.description = clazz.getAnnotation(ModuleDescription.class);
         this.dataFolder = new File("nucleo/modules/%s".formatted(
                 description.name()
         ));
+
         modules.add(this);
+        readServiceName();
+    }
+
+    private void readServiceName() throws IOException {
+        File serviceFile = new File("serviceName");
+        if (!serviceFile.exists()) return;
+        this.serviceName = Files.readString(
+                serviceFile.toPath()
+        );
     }
 
     public void load() {

@@ -76,7 +76,6 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
                 jsonObject.get("properties"),
                 PropertyHolder.class
         );
-        System.out.println("properties (deserialize) = " + jsonObject.get("properties"));
         if (propertyHolder != null) {
             nucleoPlayer.properties().setProperties(propertyHolder);
         }
@@ -99,7 +98,6 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
                 nucleoPlayer.properties(),
                 PropertyHolder.class
         ));
-        System.out.println("properties (serialize) = " + jsonObject.get("properties"));
         jsonObject.add(
                 "lastLogin",
                 nucleoPlayer.lastLogin() == null ? JsonNull.INSTANCE : new JsonPrimitive(

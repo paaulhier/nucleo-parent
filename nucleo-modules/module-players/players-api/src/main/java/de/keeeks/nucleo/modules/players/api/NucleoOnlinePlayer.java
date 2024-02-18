@@ -8,6 +8,8 @@ public interface NucleoOnlinePlayer extends NucleoPlayer {
 
     String ipAddress();
 
+    Version version();
+
     NucleoOnlinePlayer updateServer(String server);
 
     NucleoOnlinePlayer updateProxy(String proxy);

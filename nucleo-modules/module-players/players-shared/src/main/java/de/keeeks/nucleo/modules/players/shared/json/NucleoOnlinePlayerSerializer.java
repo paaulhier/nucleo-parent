@@ -5,6 +5,7 @@ import com.google.gson.*;
 import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
+import de.keeeks.nucleo.modules.players.api.Version;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
 
@@ -29,6 +30,7 @@ public class NucleoOnlinePlayerSerializer extends JsonSerializer<NucleoOnlinePla
         jsonObject.addProperty("ipAddress", nucleoOnlinePlayer.ipAddress());
         jsonObject.addProperty("proxy", nucleoOnlinePlayer.proxy());
         jsonObject.addProperty("server", nucleoOnlinePlayer.server());
+        jsonObject.addProperty("version", nucleoOnlinePlayer.version().protocol());
         return jsonObject;
     }
 
@@ -38,11 +40,13 @@ public class NucleoOnlinePlayerSerializer extends JsonSerializer<NucleoOnlinePla
             Type type,
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
         return new DefaultNucleoOnlinePlayer(
                 jsonDeserializationContext.deserialize(jsonElement, DefaultNucleoPlayer.class),
-                jsonElement.getAsJsonObject().get("proxy").getAsString(),
-                jsonElement.getAsJsonObject().get("server").getAsString(),
-                jsonElement.getAsJsonObject().get("ipAddress").getAsString()
+                jsonObject.get("proxy").getAsString(),
+                jsonObject.get("server").getAsString(),
+                jsonObject.get("ipAddress").getAsString(),
+                Version.byProtocol(jsonObject.get("version").getAsInt())
         );
     }
 }

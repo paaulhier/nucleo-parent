@@ -22,13 +22,15 @@ public interface PlayerService {
      * @param server the server the player is on
      * @param proxy the proxy the player is on
      * @param address the address of the player
+     * @param version the version of the player
      * @return the created online player
      */
     NucleoOnlinePlayer createOnlinePlayer(
             NucleoPlayer nucleoPlayer,
             String server,
             String proxy,
-            String address
+            String address,
+            Version version
     );
 
     /**
