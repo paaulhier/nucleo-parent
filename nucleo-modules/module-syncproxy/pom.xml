@@ -5,19 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.keeeks.nucleo</groupId>
-        <artifactId>nucleo-parent</artifactId>
+        <artifactId>nucleo-modules</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>nucleo-modules</artifactId>
+    <artifactId>module-syncproxy</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>module-config</module>
-        <module>module-messaging</module>
-        <module>module-database</module>
-        <module>module-players</module>
-        <module>module-syncproxy</module>
+        <module>syncproxy-api</module>
+        <module>syncproxy-shared</module>
+        <module>syncproxy-proxy</module>
     </modules>
 
     <properties>

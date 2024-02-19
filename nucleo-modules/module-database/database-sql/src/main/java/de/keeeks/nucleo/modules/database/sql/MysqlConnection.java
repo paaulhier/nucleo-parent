@@ -12,9 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class MysqlConnection {
     private static final List<MysqlConnection> sqlConnections = new ArrayList<>();
+    private static final AtomicInteger connectionCounter = new AtomicInteger(1);
 
     private final HikariDataSource hikariDataSource;
 
@@ -29,6 +31,9 @@ public final class MysqlConnection {
         hikariConfig.setUsername(sqlCredentials.username());
         hikariConfig.setPassword(sqlCredentials.password());
         hikariConfig.setThreadFactory(r -> new Thread(r, "kks-sql-%d"));
+        hikariConfig.setPoolName("kks-sql-%d".formatted(
+                connectionCounter.getAndIncrement()
+        ));
         this.hikariDataSource = new HikariDataSource(hikariConfig);
         sqlConnections.add(this);
     }

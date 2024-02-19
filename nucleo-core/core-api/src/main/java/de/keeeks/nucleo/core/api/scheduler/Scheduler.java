@@ -1,9 +1,6 @@
 package de.keeeks.nucleo.core.api.scheduler;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.*;
 
 public final class Scheduler {
     private static final ThreadFactory threadFactory = new NucleoThreadFactory();
@@ -27,12 +24,21 @@ public final class Scheduler {
         );
     }
 
-    public static void runAsyncTimer(Runnable runnable, long delay, long period) {
+    public static void runAsyncTimer(Runnable runnable, long delay, long period, TimeUnit timeUnit) {
         scheduledExecutorService.scheduleAtFixedRate(
                 runnable,
                 delay,
                 period,
-                java.util.concurrent.TimeUnit.MILLISECONDS
+                timeUnit
+        );
+    }
+
+    public static void runAsyncTimer(Runnable runnable, long period, TimeUnit timeUnit) {
+        runAsyncTimer(
+                runnable,
+                0,
+                period,
+                timeUnit
         );
     }
 

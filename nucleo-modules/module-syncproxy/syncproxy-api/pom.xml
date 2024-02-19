@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.keeeks.nucleo</groupId>
-        <artifactId>nucleo-core</artifactId>
+        <artifactId>module-syncproxy</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>core-api</artifactId>
+    <artifactId>syncproxy-api</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -19,31 +19,22 @@
 
     <dependencies>
         <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>core-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
             <version>4.15.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-serializer-gson</artifactId>
-            <version>4.15.0</version>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>module-messaging</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jgrapht</groupId>
-            <artifactId>jgrapht-core</artifactId>
-            <version>1.5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
         </dependency>
     </dependencies>
 

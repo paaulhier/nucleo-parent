@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.keeeks.nucleo</groupId>
-        <artifactId>nucleo-core</artifactId>
+        <artifactId>module-syncproxy</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>core-proxy</artifactId>
+    <artifactId>syncproxy-proxy</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -20,45 +20,34 @@
     <dependencies>
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>core-api</artifactId>
+            <artifactId>syncproxy-shared</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>core-loader</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.Revxrsal.Lamp</groupId>
-            <artifactId>common</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.Revxrsal.Lamp</groupId>
-            <artifactId>bungee</artifactId>
-            <version>3.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bungeecord</artifactId>
             <version>4.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.15.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-serializer-gson</artifactId>
-            <version>4.15.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-bungeecord</artifactId>
             <version>4.3.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>core-proxy</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>players-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.waterfallmc</groupId>
@@ -69,7 +58,6 @@
     </dependencies>
 
     <build>
-        <finalName>nucleo-proxy-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -89,5 +77,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
