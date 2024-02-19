@@ -21,7 +21,6 @@ public class ProxyPingListener implements Listener {
     );
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
     private final NucleoProxyPlugin plugin = NucleoProxyPlugin.plugin();
-    private final Module module;
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleProxyPing(ProxyPingEvent event) {

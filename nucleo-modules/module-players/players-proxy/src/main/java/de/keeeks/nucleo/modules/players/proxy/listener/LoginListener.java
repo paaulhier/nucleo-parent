@@ -20,8 +20,10 @@ public class LoginListener implements Listener {
     );
     private final Module playersModule = Module.module("players");
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void handleLogin(LoginEvent event) {
+        if (event.isCancelled()) return;
+
         event.registerIntent(NucleoProxyPlugin.plugin());
         var connection = event.getConnection();
         var socketAddress = connection.getSocketAddress();
@@ -39,10 +41,6 @@ public class LoginListener implements Listener {
             event.completeIntent(NucleoProxyPlugin.plugin());
             return;
         }
-
-        Module.module("players").logger().info(
-                "Player " + connection.getName() + " connected from " + socketAddress + " with version " + version.version() + " (protocol " + version.protocol() + ")"
-        );
 
         playerService.player(connection.getUniqueId()).ifPresentOrElse(
                 nucleoPlayer -> {

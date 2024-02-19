@@ -4,6 +4,7 @@ import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
 import revxrsal.commands.bungee.BungeeCommandHandler;
 
@@ -28,6 +29,9 @@ public class NucleoProxyPlugin extends Plugin {
 
     private final BungeeCommandHandler bungeeCommandHandler = BungeeCommandHandler.create(
         this
+    );
+    private final BungeeAudiences bungeeAudiences = BungeeAudiences.create(
+             this
     );
 
     private boolean enabled = false;

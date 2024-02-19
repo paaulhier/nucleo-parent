@@ -43,7 +43,6 @@ public class ProxyVersionPingListener implements Listener {
                     -1
             ));
             response.setDescriptionComponent(bungeeComponentSerializer.serialize(unsupportedMotd)[0]);
-            System.out.println("ProxyPing - Unsupported version: " + event.getConnection().getVersion());
         }
         event.setResponse(response);
         event.completeIntent(plugin);
