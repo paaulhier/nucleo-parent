@@ -2,8 +2,10 @@ package de.keeeks.nucleo.modules.config.json;
 
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
-import de.keeeks.nucleo.core.api.ModuleState;
 
-@ModuleDescription(name = "config")
+@ModuleDescription(
+        name = "config",
+        description = "The json configuration module"
+)
 public class JsonConfigurationModule extends Module {
 }

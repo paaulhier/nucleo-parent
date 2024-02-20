@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Accessors(fluent = true)
 public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements NucleoOnlinePlayer {
-    private static final PlayerService playerService = ServiceRegistry.service(
+    private static PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
 
@@ -83,5 +83,12 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     public void update() {
         Module.module("players").logger().info("Network wide update for " + name() + " (UUID: " + uuid() + ")");
         playerService.updateNetworkWide(this);
+    }
+
+    private PlayerService playerService() {
+        if (playerService == null) {
+            return playerService = ServiceRegistry.service(PlayerService.class);
+        }
+        return playerService;
     }
 }

@@ -11,7 +11,7 @@ public abstract class SpigotModule extends Module {
         plugin.registerCommands(objects);
     }
 
-    public void registerListener(Object... objects) {
-        plugin.registerListener((Listener[]) objects);
+    public void registerListener(Listener... listeners) {
+        plugin.registerListener(listeners);
     }
 }

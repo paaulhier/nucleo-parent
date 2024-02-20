@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.keeeks.nucleo</groupId>
-        <artifactId>nucleo-core</artifactId>
+        <artifactId>module-translation</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>core-spigot</artifactId>
+    <artifactId>translation-spigot</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -20,35 +20,8 @@
     <dependencies>
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>core-api</artifactId>
+            <artifactId>translation-global</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>core-loader</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-api</artifactId>
-            <version>4.15.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-platform-bukkit</artifactId>
-            <version>4.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.Revxrsal.Lamp</groupId>
-            <artifactId>common</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.Revxrsal.Lamp</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>3.1.0</version>
         </dependency>
 
         <dependency>
@@ -57,10 +30,21 @@
             <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.15.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>core-spigot</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>nucleo-spigot-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -2,11 +2,20 @@ package de.keeeks.nucleo.core.proxy.module;
 
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.proxy.NucleoProxyPlugin;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.PluginManager;
 
+@Getter
+@Accessors(fluent = true)
 public abstract class ProxyModule extends Module {
     private final NucleoProxyPlugin plugin = NucleoProxyPlugin.plugin();
+
+    public BungeeAudiences audiences() {
+        return plugin.bungeeAudiences();
+    }
 
     public void registerCommands(Object... commands) {
         plugin.registerCommands(commands);

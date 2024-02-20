@@ -1,5 +1,7 @@
 package de.keeeks.nucleo.core.api;
 
+import org.intellij.lang.annotations.Subst;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

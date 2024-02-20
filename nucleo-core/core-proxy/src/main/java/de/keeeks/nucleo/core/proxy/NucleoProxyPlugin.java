@@ -30,6 +30,8 @@ public class NucleoProxyPlugin extends Plugin {
     private final BungeeCommandHandler bungeeCommandHandler = BungeeCommandHandler.create(
         this
     );
+    @Getter
+    @Accessors(fluent = true)
     private final BungeeAudiences bungeeAudiences = BungeeAudiences.create(
              this
     );

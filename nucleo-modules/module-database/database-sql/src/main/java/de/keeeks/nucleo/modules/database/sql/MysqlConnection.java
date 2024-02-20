@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.database.sql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.database.sql.statement.BatchPreparedStatementFiller;
 import de.keeeks.nucleo.modules.database.sql.statement.PreparedStatementFiller;
 import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
@@ -13,11 +14,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class MysqlConnection {
     private static final List<MysqlConnection> sqlConnections = new ArrayList<>();
     private static final AtomicInteger connectionCounter = new AtomicInteger(1);
 
+    private final Logger logger = Module.module(MysqlDatabaseModule.class).logger();
     private final HikariDataSource hikariDataSource;
 
     public MysqlConnection(MysqlCredentials sqlCredentials) {
@@ -42,7 +47,7 @@ public final class MysqlConnection {
         sqlConnections.forEach(MysqlConnection::closeSource);
     }
 
-    protected void closeSource() {
+    private void closeSource() {
         hikariDataSource.close();
     }
 
@@ -78,7 +83,11 @@ public final class MysqlConnection {
                 return resultSet.getObject(1, clazz);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.log(
+                    Level.SEVERE,
+                    "Error while executing keyInsert: " + e.getMessage(),
+                    e
+            );
         }
         return null;
     }
@@ -97,7 +106,11 @@ public final class MysqlConnection {
             }
             preparedStatement.executeBatch();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.log(
+                    Level.SEVERE,
+                    "Error while executing batchInsert: " + e.getMessage(),
+                    e
+            );
         }
     }
 
@@ -125,7 +138,11 @@ public final class MysqlConnection {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.log(
+                    Level.SEVERE,
+                    "Error while executing queryList: " + e.getMessage(),
+                    e
+            );
         }
         return result;
     }
@@ -150,7 +167,11 @@ public final class MysqlConnection {
                 return resultSetTransformer.transform(resultSet);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.log(
+                    Level.SEVERE,
+                    "Error while executing query: " + e.getMessage(),
+                    e
+            );
         }
         return null;
     }
@@ -164,8 +185,13 @@ public final class MysqlConnection {
             filler.fill(preparedStatement);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.log(
+                    Level.SEVERE,
+                    "Error while executing rawExecute: " + e.getMessage(),
+                    e
+            );
         }
+        return null;
     }
 
     public Connection connection() throws SQLException {

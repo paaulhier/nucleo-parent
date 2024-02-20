@@ -55,6 +55,7 @@ public final class ModuleLoader {
                         return;
                     }
 
+                    boolean mainClassFound = false;
                     for (JarEntry jarEntry : Collections.list(jarFile.entries())) {
                         var className = readAbleFileName(jarEntry);
                         if (className == null) continue;
@@ -67,6 +68,7 @@ public final class ModuleLoader {
                                     classLoader
                             );
                             logger.info("Loaded class " + clazz.getName());
+                            mainClassFound  = true;
 
                             Module module = (Module) clazz.getConstructor().newInstance();
                             ModuleLogger moduleLogger = ModuleLogger.create(module, logger);
@@ -81,6 +83,12 @@ public final class ModuleLoader {
                                     e
                             );
                         }
+                    }
+                    if (!mainClassFound) {
+                        loadFailure(
+                                "Could not find main class %s".formatted(mainClass),
+                                jarFile
+                        );
                     }
                 }
             }
