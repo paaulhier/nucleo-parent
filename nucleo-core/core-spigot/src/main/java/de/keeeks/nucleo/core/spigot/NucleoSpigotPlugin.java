@@ -5,7 +5,6 @@ import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.commands.ModulesCommand;
 import lombok.Getter;
 import lombok.experimental.Accessors;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
@@ -28,7 +27,6 @@ public class NucleoSpigotPlugin extends JavaPlugin {
     private final ModuleLoader moduleLoader = ModuleLoader.create(
             getLogger()
     );
-    private BukkitAudiences bukkitAudiences;
 
     private BukkitCommandHandler bukkitCommandHandler;
     @Override
@@ -42,10 +40,8 @@ public class NucleoSpigotPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        bukkitAudiences = BukkitAudiences.create(this);
-
         bukkitCommandHandler = BukkitCommandHandler.create(this);
-        bukkitCommandHandler.enableAdventure(bukkitAudiences);
+        bukkitCommandHandler.enableAdventure();
         bukkitCommandHandler.register(new ModulesCommand(this));
         bukkitCommandHandler.register(commandRegistrations.toArray());
         bukkitCommandHandler.registerBrigadier();

@@ -3,6 +3,7 @@ package de.keeeks.nucleo.modules.players.proxy;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.proxy.module.ProxyModule;
+import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.proxy.listener.LoginListener;
 import de.keeeks.nucleo.modules.players.proxy.listener.PlayerDisconnectListener;

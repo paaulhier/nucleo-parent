@@ -8,6 +8,7 @@
     <artifactId>nucleo-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>nucleo-cloudnet-module</module>
         <module>nucleo-core</module>
@@ -18,7 +19,20 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <adventure.version>4.13.1</adventure.version>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>keeeks</id>
+            <url>https://repo.keeeks.de/repository/keeeks/</url>
+        </repository>
+        <snapshotRepository>
+            <id>keeeks</id>
+            <url>https://repo.keeeks.de/repository/keeeks/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <repositories>
         <repository>

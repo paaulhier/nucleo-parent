@@ -12,6 +12,6 @@ public class TestCommand {
     ) {
         actor.audience().sendMessage(Component.translatable(
                 "default.missing"
-        ));
+        ).args(Component.text("REPLACEMENT ALDA")));
     }
 }

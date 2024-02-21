@@ -7,6 +7,10 @@ import de.keeeks.nucleo.modules.translation.global.configuration.TranslationEntr
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.Tag;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.Translator;
 
@@ -21,7 +25,7 @@ import java.util.logging.Logger;
 public abstract class TranslationRegistry {
     private final List<TranslationEntry> translationEntries = new LinkedList<>();
 
-    private final Translator translator = new ComponentTranslator(this::translationEntryAsComponent);
+    private final Translator translator = new ComponentTranslator(this::translationEntryAsString);
 
     private final File translationsFolder;
     private final Logger logger;
@@ -98,6 +102,18 @@ public abstract class TranslationRegistry {
                 .filter(translationEntry -> translationEntry.key().equals(key))
                 .filter(translationEntry -> translationEntry.locale().toString().equals(locale.toString()))
                 .map(TranslationEntry::toComponent)
+                .findFirst()
+                .orElseGet(() -> {
+                    logger.warning("No translation found for %s in %s".formatted(key, locale));
+                    return null;
+                });
+    }
+
+    public String translationEntryAsString(String key, Locale locale) {
+        return translationEntries.stream()
+                .filter(translationEntry -> translationEntry.key().equals(key))
+                .filter(translationEntry -> translationEntry.locale().toString().equals(locale.toString()))
+                .map(TranslationEntry::value)
                 .findFirst()
                 .orElseGet(() -> {
                     logger.warning("No translation found for %s in %s".formatted(key, locale));
