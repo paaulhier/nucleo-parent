@@ -28,7 +28,8 @@ cache:
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test
+    - 'echo $MAVEN_SETTINGS_XML >> ci_settings.xml'
+    - 'mvn $MAVEN_CLI_OPTS test'
 
 deploy:
   stage: deploy
