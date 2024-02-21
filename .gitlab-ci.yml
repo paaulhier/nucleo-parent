@@ -1,7 +1,7 @@
-image: generic_java21:latest
+image: maven:3-eclipse-temurin-21
 
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 stages:
