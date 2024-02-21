@@ -1,8 +1,20 @@
 image: maven:3-eclipse-temurin-21
 
 variables:
-  MAVEN_CLI_OPTS: "--batch-mode -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD"
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+    -DinstallAtEnd=true
+    -DdeployAtEnd=true
 
 stages:
   - test
@@ -15,12 +27,13 @@ cache:
 
 test:
   stage: test
-  script: 
+  script:
     - mvn $MAVEN_CLI_OPTS test
 
 deploy:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS deploy
+    - 'echo $MAVEN_SETTINGS_XML >> ci_settings.xml'
+    - 'mvn $MAVEN_CLI_OPTS deploy --settings ci_settings.xml'
   only:
     - main
