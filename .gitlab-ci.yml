@@ -1,7 +1,7 @@
 image: maven:3-eclipse-temurin-21
 
 variables:
-  MAVEN_CLI_OPTS: "--batch-mode"
+  MAVEN_CLI_OPTS: "--batch-mode -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 stages:
@@ -21,6 +21,6 @@ test:
 deploy:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS deploy -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD
+    - mvn $MAVEN_CLI_OPTS deploy
   only:
     - main
