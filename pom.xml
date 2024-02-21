@@ -26,11 +26,11 @@
     <distributionManagement>
         <repository>
             <id>keeeks</id>
-            <url>https://repo.keeeks.de/repository/keeeks/</url>
+            <url>https://repo.keeeks.de/repository/keeeks-releases/</url>
         </repository>
         <snapshotRepository>
             <id>keeeks</id>
-            <url>https://repo.keeeks.de/repository/keeeks/</url>
+            <url>https://repo.keeeks.de/repository/keeeks-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
