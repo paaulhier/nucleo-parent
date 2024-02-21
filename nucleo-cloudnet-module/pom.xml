@@ -9,7 +9,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>test</groupId>
     <artifactId>nucleo-cloudnet-module</artifactId>
 
     <properties>
@@ -19,7 +18,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>eu.cloudnetservice.cloudnet</groupId>
             <artifactId>driver</artifactId>
