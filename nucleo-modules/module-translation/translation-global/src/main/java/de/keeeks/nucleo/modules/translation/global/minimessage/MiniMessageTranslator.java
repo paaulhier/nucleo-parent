@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 public abstract class MiniMessageTranslator implements Translator {
-
     private final MiniMessage miniMessage;
 
     public MiniMessageTranslator() {
@@ -41,9 +41,27 @@ public abstract class MiniMessageTranslator implements Translator {
         final Component resultingComponent;
 
         if (component.args().isEmpty()) {
-            resultingComponent = miniMessage.deserialize(miniMessageString);
+            resultingComponent = miniMessage.deserialize(
+                    miniMessageString,
+                    new PrefixResolver(() -> translate(
+                            Component.translatable("prefix"),
+                            locale
+                    ))
+            );
         } else {
-            resultingComponent = miniMessage.deserialize(miniMessageString, new ArgumentTag(component.args()));
+            List<Component> translatedArgs = component.args().stream()
+                    .filter(arg -> arg instanceof TranslatableComponent)
+                    .map(arg -> translate((TranslatableComponent) arg, locale))
+                    .toList();
+
+            resultingComponent = miniMessage.deserialize(
+                    miniMessageString,
+                    new ArgumentTag(translatedArgs),
+                    new PrefixResolver(() -> translate(
+                            Component.translatable("prefix"),
+                            locale
+                    ))
+            );
         }
 
         if (component.children().isEmpty()) {

@@ -90,25 +90,6 @@ public abstract class TranslationRegistry {
         }
     }
 
-    public Component translationEntryAsComponent(String key, Locale locale) {
-        System.out.println("Searching for " + key + " in " + locale);
-
-
-        for (TranslationEntry translationEntry : translationEntries) {
-            logger.info("Checking %s - %s".formatted(translationEntry.key(), translationEntry.locale().toString()));
-        }
-
-        return translationEntries.stream()
-                .filter(translationEntry -> translationEntry.key().equals(key))
-                .filter(translationEntry -> translationEntry.locale().toString().equals(locale.toString()))
-                .map(TranslationEntry::toComponent)
-                .findFirst()
-                .orElseGet(() -> {
-                    logger.warning("No translation found for %s in %s".formatted(key, locale));
-                    return null;
-                });
-    }
-
     public String translationEntryAsString(String key, Locale locale) {
         return translationEntries.stream()
                 .filter(translationEntry -> translationEntry.key().equals(key))
