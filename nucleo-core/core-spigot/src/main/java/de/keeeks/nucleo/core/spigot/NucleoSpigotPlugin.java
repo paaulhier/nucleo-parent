@@ -3,10 +3,15 @@ package de.keeeks.nucleo.core.spigot;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.commands.ModulesCommand;
+import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.util.LinkedList;
@@ -42,9 +47,15 @@ public class NucleoSpigotPlugin extends JavaPlugin {
     public void onEnable() {
         bukkitCommandHandler = BukkitCommandHandler.create(this);
         bukkitCommandHandler.enableAdventure();
-        bukkitCommandHandler.register(new ModulesCommand(this));
+        bukkitCommandHandler.register(new ModulesCommand());
         bukkitCommandHandler.register(commandRegistrations.toArray());
         bukkitCommandHandler.registerBrigadier();
+
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(
+                this,
+                "nucleo:main",
+                new NucleoPluginMessageListener()
+        );
 
         moduleLoader.enableModules();
     }

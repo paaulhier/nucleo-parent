@@ -25,11 +25,11 @@
 
     <distributionManagement>
         <repository>
-            <id>keeeks</id>
+            <id>keeeks-releases</id>
             <url>https://repo.keeeks.de/repository/keeeks-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>keeeks</id>
+            <id>keeeks-snapshots</id>
             <url>https://repo.keeeks.de/repository/keeeks-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
@@ -37,6 +37,10 @@
     <repositories>
         <repository>
             <id>keeeks-releases</id>
+            <url>https://repo.keeeks.de/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>keeeks-snapshots</id>
             <url>https://repo.keeeks.de/repository/maven-releases/</url>
         </repository>
         <repository>

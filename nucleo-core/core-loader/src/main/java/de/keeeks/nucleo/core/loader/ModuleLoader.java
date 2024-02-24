@@ -68,7 +68,7 @@ public final class ModuleLoader {
                                     classLoader
                             );
                             logger.info("Loaded class " + clazz.getName());
-                            mainClassFound  = true;
+                            mainClassFound = true;
 
                             Module module = (Module) clazz.getConstructor().newInstance();
                             ModuleLogger moduleLogger = ModuleLogger.create(module, logger);
@@ -119,11 +119,14 @@ public final class ModuleLoader {
     }
 
     private void enableModule(ModuleContainer moduleContainer) {
+        Module module = moduleContainer.module();
         try {
             moduleOutput("Enabling", moduleContainer);
-            moduleContainer.module().enable();
+            module.enable();
+            module.updateState(ModuleState.ENABLED);
         } catch (Throwable throwable) {
             disableModule(moduleContainer);
+            module.updateState(ModuleState.FAILED_TO_ENABLE);
             logger.log(
                     Level.SEVERE,
                     "Failed to enabled module %s".formatted(moduleContainer.description().name()),
@@ -146,11 +149,14 @@ public final class ModuleLoader {
     }
 
     private void loadModule(ModuleContainer moduleContainer) {
+        Module module = moduleContainer.module();
         try {
             moduleOutput("Loading", moduleContainer);
-            moduleContainer.module().load();
+            module.load();
+            module.updateState(ModuleState.LOADED);
         } catch (Throwable throwable) {
             disableModule(moduleContainer);
+            module.updateState(ModuleState.FAILED_TO_LOAD);
             logger.log(
                     Level.SEVERE,
                     "Failed to load module %s".formatted(moduleContainer.description().name()),
@@ -164,11 +170,14 @@ public final class ModuleLoader {
     }
 
     private void disableModule(ModuleContainer moduleContainer) {
+        Module module = moduleContainer.module();
         try {
             moduleOutput("Disabling", moduleContainer);
-            moduleContainer.module().disable();
+            module.disable();
+            module.updateState(ModuleState.DISABLED);
         } catch (Throwable throwable) {
             moduleContainer.available().set(false);
+            module.updateState(ModuleState.FAILED_TO_DISABLE);
             logger.log(
                     Level.SEVERE,
                     "Failed to disable module %s".formatted(moduleContainer.description().name()),

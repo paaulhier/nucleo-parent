@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @RequiredArgsConstructor
 public enum ModuleState {
+    LOADED(false),
+    FAILED_TO_LOAD(true),
     ENABLED(false),
     FAILED_TO_ENABLE(true),
     DISABLED(false),
@@ -18,4 +20,8 @@ public enum ModuleState {
 
     private final boolean failed;
 
+    public String display() {
+        String lowerCaseName = name().toLowerCase().replaceAll("_", " ");
+        return lowerCaseName.substring(0, 1).toUpperCase() + lowerCaseName.substring(1);
+    }
 }

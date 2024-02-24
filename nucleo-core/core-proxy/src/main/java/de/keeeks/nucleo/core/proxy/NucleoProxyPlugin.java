@@ -2,9 +2,11 @@ package de.keeeks.nucleo.core.proxy;
 
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
+import de.keeeks.nucleo.core.proxy.commands.ModulesCommand;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import revxrsal.commands.bungee.BungeeCommandHandler;
 
@@ -52,6 +54,8 @@ public class NucleoProxyPlugin extends Plugin {
         enabled = true;
 
         bungeeCommandHandler.register(commandRegistrations);
+
+        registerCommands(new ModulesCommand(this));
 
         moduleLoader.enableModules();
     }
