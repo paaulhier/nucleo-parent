@@ -41,7 +41,7 @@
         </repository>
         <repository>
             <id>keeeks-snapshots</id>
-            <url>https://repo.keeeks.de/repository/maven-releases/</url>
+            <url>https://repo.keeeks.de/repository/maven-snapshots/</url>
         </repository>
         <repository>
             <id>papermc</id>
