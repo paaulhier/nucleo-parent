@@ -6,7 +6,6 @@ import de.keeeks.nucleo.core.proxy.commands.ModulesCommand;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import revxrsal.commands.bungee.BungeeCommandHandler;
 
@@ -23,19 +22,19 @@ public class NucleoProxyPlugin extends Plugin {
     private final List<Object> commandRegistrations = new LinkedList<>();
 
     private final ModuleClassLoader moduleClassLoader = ModuleClassLoader.create(
-        NucleoProxyPlugin.class.getClassLoader()
+            NucleoProxyPlugin.class.getClassLoader()
     );
     private final ModuleLoader moduleLoader = ModuleLoader.create(
-        this.getLogger()
+            this.getLogger()
     );
 
     private final BungeeCommandHandler bungeeCommandHandler = BungeeCommandHandler.create(
-        this
+            this
     );
     @Getter
     @Accessors(fluent = true)
     private final BungeeAudiences bungeeAudiences = BungeeAudiences.create(
-             this
+            this
     );
 
     private boolean enabled = false;

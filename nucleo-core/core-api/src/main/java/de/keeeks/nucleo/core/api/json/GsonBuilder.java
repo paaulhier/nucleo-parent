@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 
-import java.awt.*;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;

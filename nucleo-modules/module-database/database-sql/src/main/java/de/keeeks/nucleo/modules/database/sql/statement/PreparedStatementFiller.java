@@ -5,7 +5,8 @@ import java.sql.SQLException;
 
 public interface PreparedStatementFiller {
 
-    PreparedStatementFiller EMPTY = statement -> {};
+    PreparedStatementFiller EMPTY = statement -> {
+    };
 
     void fill(PreparedStatement statement) throws SQLException;
 

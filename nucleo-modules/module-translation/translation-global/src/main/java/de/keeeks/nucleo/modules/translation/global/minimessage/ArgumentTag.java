@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.OptionalInt;
 
 public class ArgumentTag implements TagResolver {
     private static final String NAME = "argument";

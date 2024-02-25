@@ -18,7 +18,7 @@ public abstract class JsonSerializer<T> implements com.google.gson.JsonSerialize
         this.types = types;
     }
 
-    protected  <V> V readOrNull(JsonObject element, String key, Function<JsonElement, V> parser) {
+    protected <V> V readOrNull(JsonObject element, String key, Function<JsonElement, V> parser) {
         return element.has(key) ? parser.apply(element.get(key)) : null;
     }
 }

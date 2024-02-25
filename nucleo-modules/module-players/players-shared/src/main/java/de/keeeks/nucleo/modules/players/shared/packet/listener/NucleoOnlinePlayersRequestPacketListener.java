@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.players.shared.packet.listener;
 
-import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
 import de.keeeks.nucleo.modules.players.api.PlayerService;

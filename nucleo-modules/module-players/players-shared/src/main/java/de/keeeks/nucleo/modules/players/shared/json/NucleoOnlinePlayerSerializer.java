@@ -4,7 +4,6 @@ package de.keeeks.nucleo.modules.players.shared.json;
 import com.google.gson.*;
 import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
-import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.Version;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;

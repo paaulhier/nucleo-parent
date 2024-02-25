@@ -10,6 +10,7 @@ public interface PlayerService {
 
     /**
      * Creates a new player with the given UUID and name.
+     *
      * @param uuid the UUID of the player
      * @param name the name of the player
      * @return the created player
@@ -18,11 +19,12 @@ public interface PlayerService {
 
     /**
      * Creates a new online player with the given player, server, proxy and address.
+     *
      * @param nucleoPlayer the player
-     * @param server the server the player is on
-     * @param proxy the proxy the player is on
-     * @param address the address of the player
-     * @param version the version of the player
+     * @param server       the server the player is on
+     * @param proxy        the proxy the player is on
+     * @param address      the address of the player
+     * @param version      the version of the player
      * @return the created online player
      */
     NucleoOnlinePlayer createOnlinePlayer(
@@ -35,6 +37,7 @@ public interface PlayerService {
 
     /**
      * Returns the player with the given UUID.
+     *
      * @param uuid the UUID of the player
      * @return the player with the given UUID, if present
      */
@@ -43,6 +46,7 @@ public interface PlayerService {
     /**
      * Returns the player with the given name.
      * The name is case-sensitive.
+     *
      * @param name the name of the player
      * @return the player with the given name, if present
      */
@@ -50,6 +54,7 @@ public interface PlayerService {
 
     /**
      * Returns the online player with the given UUID.
+     *
      * @param uuid the UUID of the player
      * @return the online player with the given UUID, if present
      */
@@ -62,6 +67,7 @@ public interface PlayerService {
     /**
      * Returns the online player with the given name.
      * The name is case-sensitive.
+     *
      * @param name the name of the player
      * @return the online player with the given name, if present
      */
@@ -74,54 +80,63 @@ public interface PlayerService {
 
     /**
      * Returns a list of all online players.
+     *
      * @return a list of all online players
      */
     List<NucleoOnlinePlayer> onlinePlayers();
 
     /**
      * Updates the network-wide cache with the given player.
+     *
      * @param nucleoPlayer the player to update the network-wide cache with
      */
     void updateNetworkWide(NucleoPlayer nucleoPlayer);
 
     /**
      * Updates the network-wide cache with the given player.
+     *
      * @param nucleoOnlinePlayer the player to update the network-wide cache with
      */
     void updateNetworkWide(NucleoOnlinePlayer nucleoOnlinePlayer);
 
     /**
      * Updates the cache with the given player.
+     *
      * @param nucleoPlayer the player to update the cache with
      */
     void updateCache(NucleoPlayer nucleoPlayer);
 
     /**
      * Updates the cache with the given player.
+     *
      * @param nucleoOnlinePlayer the player to update the cache with
      */
     void updateCache(NucleoOnlinePlayer nucleoOnlinePlayer);
 
     /**
      * Invalidates the cache with the given UUID.
+     *
      * @param uuid the UUID of the player to invalidate the cache with
      */
     void invalidateCache(UUID uuid);
 
     /**
      * Invalidates the network-wide cache with the given UUID.
+     *
      * @param uuid the UUID of the player to invalidate the network-wide cache with
      */
     void invalidateCacheNetworkWide(UUID uuid);
 
     /**
      * Saves the given player to the database.
+     *
      * @param nucleoPlayer the player to save to the database
      */
     void savePlayerToDatabase(NucleoPlayer nucleoPlayer);
 
     /**
      * Returns the number of online players.
+     *
      * @return the number of online players
      */
     default int onlinePlayerCount() {
@@ -130,6 +145,7 @@ public interface PlayerService {
 
     /**
      * Returns whether the player with the given UUID is online.
+     *
      * @param uuid the UUID of the player
      * @return whether the player with the given UUID is online
      */

@@ -7,11 +7,8 @@ import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.util.LinkedList;
@@ -34,6 +31,7 @@ public class NucleoSpigotPlugin extends JavaPlugin {
     );
 
     private BukkitCommandHandler bukkitCommandHandler;
+
     @Override
     public void onLoad() {
         plugin = this;
@@ -73,6 +71,7 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         }
         bukkitCommandHandler.register(commands);
     }
+
     public void registerListener(Listener... listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);

@@ -3,8 +3,6 @@ package de.keeeks.nucleo.modules.translation.global.configuration;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-import java.util.function.Function;
-
 public record ConfigurationTranslationEntry(
         String key,
         String value

@@ -6,11 +6,6 @@ import de.keeeks.nucleo.modules.translation.global.configuration.ConfigurationTr
 import de.keeeks.nucleo.modules.translation.global.configuration.TranslationEntryConfiguration;
 import lombok.Getter;
 import lombok.experimental.Accessors;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.Tag;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.Translator;
 
@@ -73,7 +68,7 @@ public abstract class TranslationRegistry {
             locale = Locale.of(fileNameParts[0]);
         } else if (fileNameParts.length == 2) {
             locale = Locale.of(fileNameParts[0], fileNameParts[1]);
-        } else if(fileNameParts.length == 3) {
+        } else if (fileNameParts.length == 3) {
             locale = Locale.of(fileNameParts[0], fileNameParts[1], fileNameParts[2]);
         } else {
             locale = Locale.of("en", "US");

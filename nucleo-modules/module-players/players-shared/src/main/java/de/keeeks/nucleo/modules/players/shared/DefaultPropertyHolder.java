@@ -2,7 +2,10 @@ package de.keeeks.nucleo.modules.players.shared;
 
 import de.keeeks.nucleo.modules.players.api.PropertyHolder;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class DefaultPropertyHolder implements PropertyHolder {
     private Map<String, Object> properties = new HashMap<>();
