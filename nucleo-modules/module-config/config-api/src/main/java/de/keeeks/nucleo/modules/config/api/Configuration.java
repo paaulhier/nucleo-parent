@@ -28,8 +28,10 @@ public abstract class Configuration<H> {
     public void checkFile() {
         try {
             File parentFile = file.getParentFile();
-            if (Files.notExists(parentFile.toPath())) {
-                Files.createDirectories(parentFile.toPath());
+            if (parentFile != null) {
+                if (Files.notExists(parentFile.toPath())) {
+                    Files.createDirectories(parentFile.toPath());
+                }
             }
             if (Files.notExists(file.toPath())) {
                 Files.createFile(file.toPath());

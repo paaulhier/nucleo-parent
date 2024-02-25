@@ -72,7 +72,10 @@ public class LogFormatter extends SimpleFormatter {
 
     private String formattedLogLevel(Level recordLevel) {
         var coloredLevelName = logLevelColor(recordLevel) + recordLevel.getLocalizedName();
-        return fileFormat ? coloredLevelName.concat("&r") : stringWithSpecificLength(coloredLevelName, 9).concat("&r");
+        return fileFormat ? coloredLevelName.concat("&r") : stringWithSpecificLength(
+                coloredLevelName,
+                9
+        ).concat("&r");
     }
 
     private String stringWithSpecificLength(String s, int length) {

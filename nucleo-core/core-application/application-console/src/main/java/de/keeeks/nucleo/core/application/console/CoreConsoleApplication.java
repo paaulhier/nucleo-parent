@@ -6,25 +6,31 @@ import de.keeeks.nucleo.core.application.console.config.ConsoleConfiguration;
 import de.keeeks.nucleo.core.application.console.logger.ConsoleLogger;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public final class CoreConsoleApplication {
     private static final Console console = ServiceRegistry.registerService(
             Console.class,
             Console.create(consoleConfiguration())
     );
-    private static final ModuleLoader moduleLoader = ModuleLoader.create(ConsoleLogger.create(
+    @Getter
+    @Accessors(fluent = true)
+    private final Logger logger = ConsoleLogger.create(
             CoreConsoleApplication.class
-    ));
+    );
+    private final ModuleLoader moduleLoader = ModuleLoader.create(logger);
 
     public CoreConsoleApplication() {
         ModuleLoader.classLoader(ModuleClassLoader.create(
-                getClass().getClassLoader()
+                Thread.currentThread().getContextClassLoader()
         ));
         ServiceRegistry.registerService(
                 CoreConsoleApplication.class,

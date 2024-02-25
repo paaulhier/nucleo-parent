@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Formatter {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
-            "HH.mm.ss.SSS - dd.MM.yyyy"
+            "dd.MM.yyyy - HH.mm.ss.SSS"
     ).withZone(ZoneId.systemDefault());
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(
             "HH.mm.ss.SSS"

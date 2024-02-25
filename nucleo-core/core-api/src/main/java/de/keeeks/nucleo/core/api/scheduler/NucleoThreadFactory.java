@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class NucleoThreadFactory implements ThreadFactory {
-    private static final AtomicInteger poolNumber = new AtomicInteger(0);
+    private static final AtomicInteger poolNumber = new AtomicInteger(1);
 
     private final String threadNameFormat = "nucleo-pool-" + poolNumber.getAndIncrement() + "-thread-%d";
 
