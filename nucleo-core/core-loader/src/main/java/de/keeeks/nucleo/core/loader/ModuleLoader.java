@@ -17,6 +17,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -99,7 +100,11 @@ public final class ModuleLoader {
 
     public void loadModulesFromFolder() {
         try {
-            var files = FileUtils.listJarFiles(new File("nucleo", "modules"));
+            File folder = new File("nucleo", "modules");
+            if (Files.notExists(folder.toPath())) {
+                Files.createDirectories(folder.toPath());
+            }
+            var files = FileUtils.listJarFiles(folder);
             for (File file : files) {
                 classLoader.addURL(file.toURI().toURL());
             }

@@ -6,8 +6,9 @@ import java.util.Map;
 public final class ServiceRegistry {
     private static final Map<Class<?>, Object> services = new HashMap<>();
 
-    public static <T> void registerService(Class<T> clazz, T service) {
+    public static <T> T registerService(Class<T> clazz, T service) {
         services.put(clazz, service);
+        return service;
     }
 
     public static <T> T service(Class<T> clazz) {
