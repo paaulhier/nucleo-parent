@@ -54,7 +54,9 @@ public class LoginListener implements Listener {
                                 connection.getName()
                         );
                     }
-                    handleOnlinePlayerCreation(nucleoPlayer, socketAddress.toString(), version);
+                    handleOnlinePlayerCreation(nucleoPlayer.updateName(
+                            connection.getName()
+                    ), socketAddress.toString(), version);
                     event.completeIntent(NucleoProxyPlugin.plugin());
                 },
                 () -> {

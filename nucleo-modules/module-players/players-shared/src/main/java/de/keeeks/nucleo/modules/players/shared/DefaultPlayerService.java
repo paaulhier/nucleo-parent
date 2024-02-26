@@ -155,16 +155,17 @@ public class DefaultPlayerService implements PlayerService {
     public void updatePlayerName(UUID uuid, String newName) {
         player(uuid).ifPresent(
                 nucleoPlayer -> {
-                    updateCache(nucleoPlayer.updateName(newName));
+                    NucleoPlayer updatedPlayer = nucleoPlayer.updateName(newName);
+                    updateCache(updatedPlayer);
                     natsConnection.publishPacket(
                             CHANNEL,
                             new NucleoPlayerUpdateNamePacket(
-                                    nucleoPlayer,
+                                    updatedPlayer,
                                     nucleoPlayer.name(),
                                     newName
                             )
                     );
-                    savePlayerToDatabase(nucleoPlayer);
+                    savePlayerToDatabase(updatedPlayer);
                 }
         );
     }

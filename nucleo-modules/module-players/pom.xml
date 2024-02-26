@@ -17,6 +17,7 @@
         <module>players-shared</module>
         <module>players-proxy</module>
         <module>players-spigot</module>
+        <module>players-standalone</module>
     </modules>
 
     <properties>
