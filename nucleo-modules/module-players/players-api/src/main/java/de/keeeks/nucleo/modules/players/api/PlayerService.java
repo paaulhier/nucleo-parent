@@ -100,6 +100,13 @@ public interface PlayerService {
     void updateNetworkWide(NucleoOnlinePlayer nucleoOnlinePlayer);
 
     /**
+     * Broadcasts the name update to all services
+     * @param uuid the UUID of the player
+     * @param newName the new name of the player
+     */
+    void updatePlayerName(UUID uuid, String newName);
+
+    /**
      * Updates the cache with the given player.
      *
      * @param nucleoPlayer the player to update the cache with

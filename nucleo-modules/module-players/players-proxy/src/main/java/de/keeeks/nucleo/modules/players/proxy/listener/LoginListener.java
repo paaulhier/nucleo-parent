@@ -48,6 +48,12 @@ public class LoginListener implements Listener {
                             nucleoPlayer,
                             property
                     );
+                    if (!nucleoPlayer.name().equals(connection.getName())) {
+                        playerService.updatePlayerName(
+                                nucleoPlayer.uuid(),
+                                connection.getName()
+                        );
+                    }
                     handleOnlinePlayerCreation(nucleoPlayer, socketAddress.toString(), version);
                     event.completeIntent(NucleoProxyPlugin.plugin());
                 },

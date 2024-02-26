@@ -152,6 +152,24 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
+    public void updatePlayerName(UUID uuid, String newName) {
+        player(uuid).ifPresent(
+                nucleoPlayer -> {
+                    updateCache(nucleoPlayer.updateName(newName));
+                    natsConnection.publishPacket(
+                            CHANNEL,
+                            new NucleoPlayerUpdateNamePacket(
+                                    nucleoPlayer,
+                                    nucleoPlayer.name(),
+                                    newName
+                            )
+                    );
+                    savePlayerToDatabase(nucleoPlayer);
+                }
+        );
+    }
+
+    @Override
     public void updateCache(NucleoPlayer nucleoPlayer) {
         this.players.removeIf(
                 player -> player.uuid().equals(nucleoPlayer.uuid())
