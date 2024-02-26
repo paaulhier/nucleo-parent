@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.translation.global.minimessage;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
+import net.kyori.adventure.text.TranslationArgument;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.translation.Translator;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +41,7 @@ public abstract class MiniMessageTranslator implements Translator {
 
         final Component resultingComponent;
 
-        if (component.args().isEmpty()) {
+        if (component.arguments().isEmpty()) {
             resultingComponent = miniMessage.deserialize(
                     miniMessageString,
                     new PrefixResolver(() -> translate(
@@ -49,9 +50,15 @@ public abstract class MiniMessageTranslator implements Translator {
                     ))
             );
         } else {
-            List<Component> translatedArgs = component.args().stream()
-                    .filter(arg -> arg instanceof TranslatableComponent)
-                    .map(arg -> translate((TranslatableComponent) arg, locale))
+            var translatedArgs = component.arguments().stream()
+                    .map(arg -> {
+                        Component argComponent = arg.asComponent();
+
+                        if (argComponent instanceof TranslatableComponent translatableComponent) {
+                            return translate(translatableComponent, locale);
+                        }
+                        return argComponent;
+                    })
                     .toList();
 
             resultingComponent = miniMessage.deserialize(

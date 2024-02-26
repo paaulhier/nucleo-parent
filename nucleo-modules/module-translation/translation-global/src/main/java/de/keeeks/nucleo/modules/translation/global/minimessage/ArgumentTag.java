@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.translation.global.minimessage;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.Context;
 import net.kyori.adventure.text.minimessage.ParsingException;
@@ -42,7 +43,9 @@ public class ArgumentTag implements TagResolver {
         );
 
         if (index < 0 || index >= argumentComponents.size()) {
-            throw ctx.newException("Invalid argument number", arguments);
+            return Tag.selfClosingInserting(Component.text("<missing argument %s>".formatted(
+                    index
+            )));
         }
 
         return Tag.selfClosingInserting(argumentComponents.get(index));
