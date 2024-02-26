@@ -14,9 +14,7 @@ import java.util.UUID;
 @Getter
 @Accessors(fluent = true)
 public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements NucleoOnlinePlayer {
-    private static PlayerService playerService = ServiceRegistry.service(
-            PlayerService.class
-    );
+    private static PlayerService playerService;
 
     private final String ipAddress;
     private final Version version;
@@ -82,7 +80,7 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     @Override
     public void update() {
         Module.module("players").logger().info("Network wide update for " + name() + " (UUID: " + uuid() + ")");
-        playerService.updateNetworkWide(this);
+        playerService().updateNetworkWide(this);
     }
 
     private PlayerService playerService() {
