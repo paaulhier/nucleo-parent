@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class CoreConsoleApplication {
@@ -29,6 +30,11 @@ public final class CoreConsoleApplication {
     private final ModuleLoader moduleLoader = ModuleLoader.create(logger);
 
     public CoreConsoleApplication() {
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> logger.log(
+                Level.SEVERE,
+                "Uncaught exception in thread " + t.getName(),
+                e
+        ));
         ModuleLoader.classLoader(ModuleClassLoader.create(
                 Thread.currentThread().getContextClassLoader()
         ));
