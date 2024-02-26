@@ -8,7 +8,6 @@ import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.proxy.listener.LoginListener;
 import de.keeeks.nucleo.modules.players.proxy.listener.PlayerDisconnectListener;
 import de.keeeks.nucleo.modules.players.proxy.listener.ServerConnectedListener;
-import de.keeeks.nucleo.modules.players.proxy.packet.listener.NucleoProxyOnlinePlayerUpdatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
 import de.keeeks.nucleo.modules.players.shared.updater.PlayerLocaleUpdater;
 
@@ -43,10 +42,6 @@ public class PlayersProxyModule extends ProxyModule {
                 new LoginListener(),
                 new ServerConnectedListener(),
                 new PlayerDisconnectListener()
-        );
-
-        ServiceRegistry.service(NatsConnection.class).registerPacketListener(
-                new NucleoProxyOnlinePlayerUpdatePacketListener(this)
         );
     }
 }

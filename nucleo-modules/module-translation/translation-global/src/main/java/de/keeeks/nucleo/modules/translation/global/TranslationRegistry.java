@@ -92,8 +92,11 @@ public abstract class TranslationRegistry {
                 .map(TranslationEntry::value)
                 .findFirst()
                 .orElseGet(() -> {
-                    logger.warning("No translation found for %s in %s".formatted(key, locale));
-                    return null;
+                    if (locale.equals(Locale.GERMANY)) return null;
+                    return translationEntryAsString(
+                            key,
+                            Locale.GERMANY
+                    );
                 });
     }
 
