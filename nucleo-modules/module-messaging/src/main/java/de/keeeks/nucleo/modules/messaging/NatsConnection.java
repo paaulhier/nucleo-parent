@@ -160,6 +160,7 @@ public class NatsConnection {
                                 .filter(packetListener -> packetListener.packetClass().isAssignableFrom(
                                         packet.getClass()
                                 ))
+                                .sorted(Comparator.comparingInt(PacketListener::priority))
                                 .forEach(packetListener -> packetListener.receiveRaw(packet, message));
                     }).subscribe(channel);
 
