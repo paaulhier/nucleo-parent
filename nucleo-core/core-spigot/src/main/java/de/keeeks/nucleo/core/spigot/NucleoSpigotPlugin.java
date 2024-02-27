@@ -3,6 +3,7 @@ package de.keeeks.nucleo.core.spigot;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.commands.ModulesCommand;
+import de.keeeks.nucleo.core.spigot.commands.UptimeCommand;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +32,14 @@ public class NucleoSpigotPlugin extends JavaPlugin {
             getLogger()
     );
 
+
+    @Getter
+    @Accessors(fluent = true)
+    private final long startupTime = System.currentTimeMillis();
+    @Getter
+    @Accessors(fluent = true)
+    private Duration startupDuration;
+
     private BukkitCommandHandler bukkitCommandHandler;
 
     @Override
@@ -45,7 +55,10 @@ public class NucleoSpigotPlugin extends JavaPlugin {
     public void onEnable() {
         bukkitCommandHandler = BukkitCommandHandler.create(this);
         bukkitCommandHandler.enableAdventure();
-        bukkitCommandHandler.register(new ModulesCommand());
+        bukkitCommandHandler.register(
+                new ModulesCommand(),
+                new UptimeCommand(this)
+        );
         bukkitCommandHandler.register(commandRegistrations.toArray());
         bukkitCommandHandler.registerBrigadier();
 
@@ -56,6 +69,10 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         );
 
         moduleLoader.enableModules();
+
+        this.startupDuration = Duration.ofMillis(
+                System.currentTimeMillis() - startupTime
+        );
     }
 
     @Override

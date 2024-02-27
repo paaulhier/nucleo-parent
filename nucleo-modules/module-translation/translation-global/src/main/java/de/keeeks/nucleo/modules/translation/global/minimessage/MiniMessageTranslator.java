@@ -2,14 +2,12 @@ package de.keeeks.nucleo.modules.translation.global.minimessage;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
-import net.kyori.adventure.text.TranslationArgument;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.translation.Translator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Command({"modules", "module"})
 @CommandPermission("nucleo.commands.modules")
-public class ModulesCommand {
+public class ModulesCommand extends RedirectableCommand {
     private final NucleoProxyPlugin plugin;
 
     public ModulesCommand(NucleoProxyPlugin plugin) {
@@ -45,24 +45,9 @@ public class ModulesCommand {
         ProxiedPlayer player = actor.asPlayer();
         if (player == null) return;
 
-        player.getServer().getInfo().sendData(
-                "nucleo:main",
-                createDataOutput(
-                        player.getUniqueId(),
-                        "modules"
-                ).toByteArray()
+        sendMessageOnServer(
+                player,
+                "modules"
         );
-    }
-
-    private ByteArrayDataOutput createDataOutput(
-            UUID uuid,
-            String message
-    ) {
-        ByteArrayDataOutput byteArrayDataOutput = ByteStreams.newDataOutput();
-        byteArrayDataOutput.writeUTF("message");
-        byteArrayDataOutput.writeLong(uuid.getMostSignificantBits());
-        byteArrayDataOutput.writeLong(uuid.getLeastSignificantBits());
-        byteArrayDataOutput.writeUTF(message);
-        return byteArrayDataOutput;
     }
 }

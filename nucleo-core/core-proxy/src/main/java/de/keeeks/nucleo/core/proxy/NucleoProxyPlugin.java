@@ -3,12 +3,14 @@ package de.keeeks.nucleo.core.proxy;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.proxy.commands.ModulesCommand;
+import de.keeeks.nucleo.core.proxy.commands.UptimeCommand;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
 import revxrsal.commands.bungee.BungeeCommandHandler;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +39,13 @@ public class NucleoProxyPlugin extends Plugin {
             this
     );
 
+    @Getter
+    @Accessors(fluent = true)
+    private final long startupTime = System.currentTimeMillis();
+    @Getter
+    @Accessors(fluent = true)
+    private Duration startupDuration;
+
     private boolean enabled = false;
 
     @Override
@@ -46,6 +55,11 @@ public class NucleoProxyPlugin extends Plugin {
         ModuleLoader.classLoader(moduleClassLoader);
         moduleLoader.loadModulesFromFolder();
         moduleLoader.loadModules();
+
+        System.setProperty(
+                "net.kyori.adventure.debug",
+                "true"
+        );
     }
 
     @Override
@@ -54,9 +68,15 @@ public class NucleoProxyPlugin extends Plugin {
 
         bungeeCommandHandler.register(commandRegistrations);
 
-        registerCommands(new ModulesCommand(this));
+        registerCommands(
+                new ModulesCommand(this),
+                new UptimeCommand(this)
+        );
 
         moduleLoader.enableModules();
+        startupDuration = Duration.ofMillis(
+                System.currentTimeMillis() - startupTime
+        );
     }
 
     @Override

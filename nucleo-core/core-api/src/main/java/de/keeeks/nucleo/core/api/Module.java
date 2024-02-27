@@ -26,11 +26,13 @@ public abstract class Module {
     @Getter
     private static final List<Module> modules = new ArrayList<>();
 
+    @Getter
+    private static String serviceName;
+
     private final ModuleDescription description;
     private final File dataFolder;
 
     protected ModuleState moduleState = ModuleState.INITIALIZED;
-    protected String serviceName;
     protected Logger logger;
 
     @SneakyThrows
@@ -46,9 +48,10 @@ public abstract class Module {
     }
 
     private void readServiceName() throws IOException {
+        if (serviceName != null) return;
         File serviceFile = new File("serviceName");
         if (!serviceFile.exists()) return;
-        this.serviceName = Files.readString(
+        serviceName = Files.readString(
                 serviceFile.toPath()
         );
     }

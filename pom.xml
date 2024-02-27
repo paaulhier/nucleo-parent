@@ -21,6 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <adventure.version>4.16.0</adventure.version>
+        <lamp.version>3.1.9</lamp.version>
     </properties>
 
     <distributionManagement>

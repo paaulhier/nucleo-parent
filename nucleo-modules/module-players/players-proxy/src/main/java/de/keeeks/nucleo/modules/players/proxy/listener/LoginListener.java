@@ -18,7 +18,6 @@ public class LoginListener implements Listener {
     private final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
-    private final Module playersModule = Module.module("players");
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void handleLogin(LoginEvent event) {
@@ -91,7 +90,7 @@ public class LoginListener implements Listener {
         NucleoOnlinePlayer onlinePlayer = playerService.createOnlinePlayer(
                 nucleoPlayer,
                 "",
-                playersModule.serviceName(),
+                Module.serviceName(),
                 address.substring(1).split(":")[0],
                 version
         );

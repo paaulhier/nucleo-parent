@@ -20,16 +20,12 @@ public class NucleoPluginMessageListener implements PluginMessageListener {
 
         String subChannel = byteArrayDataInput.readUTF();
 
-        Bukkit.getLogger().info("Received message from " + subChannel);
         if (subChannel.equals("message")) {
             UUID uuid = new UUID(
                     byteArrayDataInput.readLong(),
                     byteArrayDataInput.readLong()
             );
-            Bukkit.getLogger().info("Received message from " + uuid);
             String message = byteArrayDataInput.readUTF();
-
-            Bukkit.getLogger().info("Received message from " + message);
 
             Player target = Bukkit.getPlayer(uuid);
             if (target == null) return;

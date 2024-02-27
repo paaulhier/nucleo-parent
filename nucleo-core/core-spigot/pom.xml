@@ -38,12 +38,12 @@
         <dependency>
             <groupId>com.github.Revxrsal.Lamp</groupId>
             <artifactId>common</artifactId>
-            <version>3.1.0</version>
+            <version>${lamp.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.Revxrsal.Lamp</groupId>
             <artifactId>bukkit</artifactId>
-            <version>3.1.0</version>
+            <version>${lamp.version}</version>
         </dependency>
 
         <dependency>
