@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.application.console.color;
+package de.keeeks.nucleo.core.application.command.color;
 
 import java.util.HashMap;
 import java.util.Map;
