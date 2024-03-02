@@ -1,9 +1,9 @@
-package de.keeeks.nucleo.core.application.console.logger.format;
+package de.keeeks.nucleo.core.application.command.logger.format;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.core.api.utils.StringUtils;
-import de.keeeks.nucleo.core.application.console.Console;
+import de.keeeks.nucleo.core.application.command.Console;
 import de.keeeks.nucleo.core.application.console.color.ConsoleColorReplacer;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

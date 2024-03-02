@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.application.console;
+package de.keeeks.nucleo.application.spring;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.application.command.Console;
@@ -7,8 +7,11 @@ import de.keeeks.nucleo.core.application.command.config.ConsoleConfiguration;
 import de.keeeks.nucleo.core.application.command.logger.ConsoleLogger;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
-import lombok.Getter;
-import lombok.experimental.Accessors;
+import org.springframework.boot.ResourceBanner;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.FileSystemResource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,51 +21,45 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class CoreConsoleApplication {
-    private static final Console console = ServiceRegistry.registerService(
-            Console.class,
-            Console.create(consoleConfiguration())
-    );
-    @Getter
-    @Accessors(fluent = true)
-    private final Logger logger = ConsoleLogger.create(
-            CoreConsoleApplication.class
-    );
-    private final ModuleLoader moduleLoader = ModuleLoader.create(logger);
+@SpringBootApplication(scanBasePackages = "de.keeeks")
+public class NucleoSpringApplication {
+    private static final Logger logger = Logger.getLogger(NucleoSpringApplication.class.getName());
+    private static final ModuleLoader moduleLoader = ModuleLoader.create(logger);
 
-    public CoreConsoleApplication() {
+    public static void main(String[] args) {
+        ServiceRegistry.registerService(
+                Console.class,
+                Console.create(consoleConfiguration())
+        );
+        ConsoleLogger.parent(() -> logger);
+        ModuleLoader.classLoader(ModuleClassLoader.create(
+                Thread.currentThread().getContextClassLoader()
+        ));
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> logger.log(
                 Level.SEVERE,
                 "Uncaught exception in thread " + t.getName(),
                 e
         ));
-        ModuleLoader.classLoader(ModuleClassLoader.create(
-                Thread.currentThread().getContextClassLoader()
-        ));
-        ServiceRegistry.registerService(
-                CoreConsoleApplication.class,
-                this
-        );
+        new SpringApplicationBuilder()
+                .main(NucleoSpringApplication.class)
+                .registerShutdownHook(true)
+                .sources(NucleoSpringApplication.class)
+                .banner(new ResourceBanner(new FileSystemResource("banner.txt")))
+                .build(args)
+                .run(args);
     }
 
-    public void load() {
-        CommandRegistry commandRegistry = ServiceRegistry.registerService(
+    @Bean
+    public ModuleLoader moduleLoader() {
+        return moduleLoader;
+    }
+
+    @Bean
+    public CommandRegistry commandRegistry() {
+        return ServiceRegistry.registerService(
                 CommandRegistry.class,
                 new CommandRegistry("de.keeeks")
         );
-
-        moduleLoader.loadModulesFromFolder();
-        moduleLoader.loadModules();
-        console.startLineReading();
-        commandRegistry.registerCommands();
-    }
-
-    public void enable() {
-        moduleLoader.enableModules();
-    }
-
-    public void disable() {
-        moduleLoader.disableModules();
     }
 
     private static ConsoleConfiguration consoleConfiguration() {
@@ -95,5 +92,4 @@ public final class CoreConsoleApplication {
             throw new RuntimeException(e);
         }
     }
-
 }

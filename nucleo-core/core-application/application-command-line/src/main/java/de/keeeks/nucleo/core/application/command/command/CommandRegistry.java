@@ -1,6 +1,6 @@
-package de.keeeks.nucleo.core.application.console.command;
+package de.keeeks.nucleo.core.application.command.command;
 
-import de.keeeks.nucleo.core.application.console.logger.ConsoleLogger;
+import de.keeeks.nucleo.core.application.command.logger.ConsoleLogger;
 import lombok.RequiredArgsConstructor;
 import org.reflections.Reflections;
 
@@ -16,7 +16,7 @@ public final class CommandRegistry {
     private final List<Command> commands = new ArrayList<>();
 
     private final String basePackage;
-    
+
     public void registerCommands() {
         Reflections reflections = new Reflections(basePackage);
 
@@ -28,7 +28,8 @@ public final class CommandRegistry {
     private Command createClassSafe(Class<? extends Command> aClass) {
         try {
             return aClass.getConstructor().newInstance();
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException |
+                 IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

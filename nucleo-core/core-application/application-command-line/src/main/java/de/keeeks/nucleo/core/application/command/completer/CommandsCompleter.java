@@ -1,8 +1,8 @@
-package de.keeeks.nucleo.core.application.console.completer;
+package de.keeeks.nucleo.core.application.command.completer;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
-import de.keeeks.nucleo.core.application.console.command.Command;
-import de.keeeks.nucleo.core.application.console.command.CommandRegistry;
+import de.keeeks.nucleo.core.application.command.command.Command;
+import de.keeeks.nucleo.core.application.command.command.CommandRegistry;
 import org.jline.reader.Candidate;
 import org.jline.reader.Completer;
 import org.jline.reader.LineReader;

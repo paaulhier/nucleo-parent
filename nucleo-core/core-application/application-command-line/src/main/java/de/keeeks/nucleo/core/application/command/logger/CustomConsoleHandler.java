@@ -1,7 +1,7 @@
-package de.keeeks.nucleo.core.application.console.logger;
+package de.keeeks.nucleo.core.application.command.logger;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
-import de.keeeks.nucleo.core.application.console.Console;
+import de.keeeks.nucleo.core.application.command.Console;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.LogRecord;

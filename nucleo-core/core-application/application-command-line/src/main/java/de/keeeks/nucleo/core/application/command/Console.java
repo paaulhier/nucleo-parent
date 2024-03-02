@@ -1,9 +1,9 @@
-package de.keeeks.nucleo.core.application.console;
+package de.keeeks.nucleo.core.application.command;
 
 import de.keeeks.nucleo.core.api.utils.StringUtils;
-import de.keeeks.nucleo.core.application.console.completer.CommandsCompleter;
-import de.keeeks.nucleo.core.application.console.config.ConsoleConfiguration;
-import de.keeeks.nucleo.core.application.console.task.LineReadingThread;
+import de.keeeks.nucleo.core.application.command.completer.CommandsCompleter;
+import de.keeeks.nucleo.core.application.command.config.ConsoleConfiguration;
+import de.keeeks.nucleo.core.application.command.task.LineReadingThread;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.jline.reader.LineReader;

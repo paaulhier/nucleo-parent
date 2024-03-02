@@ -1,11 +1,11 @@
-package de.keeeks.nucleo.core.application.console.task;
+package de.keeeks.nucleo.core.application.command.task;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
-import de.keeeks.nucleo.core.application.console.Console;
-import de.keeeks.nucleo.core.application.console.command.Command;
-import de.keeeks.nucleo.core.application.console.command.CommandRegistry;
-import de.keeeks.nucleo.core.application.console.logger.ConsoleLogger;
+import de.keeeks.nucleo.core.application.command.Console;
+import de.keeeks.nucleo.core.application.command.command.Command;
+import de.keeeks.nucleo.core.application.command.command.CommandRegistry;
+import de.keeeks.nucleo.core.application.command.logger.ConsoleLogger;
 
 import java.util.Arrays;
 import java.util.logging.Logger;

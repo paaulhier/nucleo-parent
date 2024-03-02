@@ -1,15 +1,25 @@
-package de.keeeks.nucleo.core.application.console.logger;
+package de.keeeks.nucleo.core.application.command.logger;
 
-import de.keeeks.nucleo.core.application.console.logger.format.LogFormatter;
+import de.keeeks.nucleo.core.application.command.logger.format.LogFormatter;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Supplier;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConsoleLogger extends Logger {
+
+    @Getter
+    @Setter
+    @Accessors(fluent = true)
+    private static Supplier<Logger> parent = () -> null;
+
     private static final FileHandler fileHandler;
     private static final ConsoleHandler consoleHandler;
 
@@ -35,8 +45,11 @@ public class ConsoleLogger extends Logger {
     private ConsoleLogger(String name) {
         super(name, null);
         setLevel(Level.ALL);
+        Logger parentLogger = parent.get();
+        if (parentLogger != null) setParent(parentLogger);
 
         try {
+            if (parentLogger != null) return;
             addHandler(fileHandler);
             addHandler(consoleHandler);
         } catch (Throwable throwable) {

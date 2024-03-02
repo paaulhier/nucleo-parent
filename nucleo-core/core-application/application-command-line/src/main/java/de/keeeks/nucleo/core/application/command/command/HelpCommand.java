@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.application.console.command;
+package de.keeeks.nucleo.core.application.command.command;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 

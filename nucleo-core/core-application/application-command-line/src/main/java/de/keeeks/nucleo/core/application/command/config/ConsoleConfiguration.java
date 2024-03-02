@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.application.console.config;
+package de.keeeks.nucleo.core.application.command.config;
 
 public record ConsoleConfiguration(
         String prompt,
