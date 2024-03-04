@@ -4,7 +4,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.core.api.utils.StringUtils;
 import de.keeeks.nucleo.core.application.command.Console;
-import de.keeeks.nucleo.core.application.console.color.ConsoleColorReplacer;
+import de.keeeks.nucleo.core.application.command.color.ConsoleColorReplacer;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
