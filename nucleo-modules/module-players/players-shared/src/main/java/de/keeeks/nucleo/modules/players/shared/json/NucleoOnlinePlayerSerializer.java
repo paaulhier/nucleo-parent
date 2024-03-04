@@ -40,10 +40,11 @@ public class NucleoOnlinePlayerSerializer extends JsonSerializer<NucleoOnlinePla
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
+        JsonElement serverElement = jsonObject.get("server");
         return new DefaultNucleoOnlinePlayer(
                 jsonDeserializationContext.deserialize(jsonElement, DefaultNucleoPlayer.class),
                 jsonObject.get("proxy").getAsString(),
-                jsonObject.get("server").getAsString(),
+                serverElement == null ? null : serverElement.getAsString(),
                 jsonObject.get("ipAddress").getAsString(),
                 Version.byProtocol(jsonObject.get("version").getAsInt())
         );

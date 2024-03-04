@@ -15,15 +15,20 @@ public class NucleoPlayerWithSkinResultSetTransformer implements ResultSetTransf
     @Override
     public NucleoPlayer transform(ResultSet resultSet) throws SQLException {
         String localeString = resultSet.getString("locale");
-        String[] localeParts = localeString.split("_");
-
         Locale locale;
-        if (localeParts.length == 1) {
-            locale = Locale.of(localeParts[0]);
-        } else if (localeParts.length == 2) {
-            locale = Locale.of(localeParts[0], localeParts[1]);
+
+        if (localeString != null) {
+            String[] localeParts = localeString.split("_");
+
+            if (localeParts.length == 1) {
+                locale = Locale.of(localeParts[0]);
+            } else if (localeParts.length == 2) {
+                locale = Locale.of(localeParts[0], localeParts[1]);
+            } else {
+                locale = Locale.of(localeParts[0], localeParts[1], localeParts[2]);
+            }
         } else {
-            locale = Locale.of(localeParts[0], localeParts[1], localeParts[2]);
+            locale = Locale.of("de", "DE");
         }
 
         UUID playerId = UUID.fromString(resultSet.getString("uuid"));
