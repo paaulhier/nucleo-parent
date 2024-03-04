@@ -34,6 +34,11 @@ public final class MysqlConnection {
         ));
         hikariConfig.setUsername(sqlCredentials.username());
         hikariConfig.setPassword(sqlCredentials.password());
+        String driverClassName = sqlCredentials.type().driverClass();
+        logger.info("Using %s as driver class".formatted(
+                driverClassName
+        ));
+        hikariConfig.setDriverClassName(driverClassName);
         hikariConfig.setThreadFactory(r -> new Thread(r, "kks-sql-%d"));
         hikariConfig.setPoolName("kks-sql-%d".formatted(
                 connectionCounter.getAndIncrement()
