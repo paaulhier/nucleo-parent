@@ -48,4 +48,18 @@ public class SyncProxyConfigurationRepository {
                 statement -> statement.setInt(1, id)
         );
     }
+
+    public void updateConfiguration(SyncProxyConfiguration configuration) {
+        mysqlConnection.prepare(
+                "update syncProxy_configurations set name = ?, active = ?, maintenance = ?, protocolText = ?, maxPlayers = ? where id = ?;",
+                statement -> {
+                    statement.setString(1, configuration.name());
+                    statement.setBoolean(2, configuration.active());
+                    statement.setBoolean(3, configuration.maintenance());
+                    statement.setString(4, configuration.protocolText());
+                    statement.setInt(5, configuration.maxPlayers());
+                    statement.setInt(6, configuration.id());
+                }
+        );
+    }
 }

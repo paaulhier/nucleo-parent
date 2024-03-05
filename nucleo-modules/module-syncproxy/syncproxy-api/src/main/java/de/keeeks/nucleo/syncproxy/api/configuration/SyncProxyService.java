@@ -7,9 +7,15 @@ public interface SyncProxyService {
 
     String CHANNEL = "syncproxy";
 
+    void reload();
+
+    void reloadNetworkWide();
+
     List<SyncProxyConfiguration> configurations();
 
     Optional<SyncProxyConfiguration> configuration(int id);
+
+    Optional<SyncProxyConfiguration> configuration(String name);
 
     Optional<MotdConfiguration> activeMotdConfiguration();
 

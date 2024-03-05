@@ -14,6 +14,8 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
+import revxrsal.commands.annotation.AutoComplete;
+import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.bungee.BungeeCommandHandler;
 import revxrsal.commands.exception.CooldownException;
 
@@ -62,6 +64,10 @@ public class NucleoProxyPlugin extends Plugin {
         ModuleLoader.classLoader(moduleClassLoader);
         moduleLoader.loadModulesFromFolder();
         moduleLoader.loadModules();
+
+        bungeeCommandHandler.getAutoCompleter().registerSuggestion("@booleans", List.of(
+                "true", "false"
+        ));
     }
 
     @Override
@@ -98,5 +104,9 @@ public class NucleoProxyPlugin extends Plugin {
             return;
         }
         bungeeCommandHandler.register(commands);
+    }
+
+    public AutoCompleter autoCompleter() {
+        return bungeeCommandHandler.getAutoCompleter();
     }
 }

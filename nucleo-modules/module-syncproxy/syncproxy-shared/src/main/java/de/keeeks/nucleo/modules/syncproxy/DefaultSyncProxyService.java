@@ -8,6 +8,10 @@ import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.syncproxy.packet.SyncProxyConfigurationDeletePacket;
 import de.keeeks.nucleo.modules.syncproxy.packet.SyncProxyConfigurationUpdatePacket;
+import de.keeeks.nucleo.modules.syncproxy.packet.SyncProxyReloadPacket;
+import de.keeeks.nucleo.modules.syncproxy.packet.listener.SyncProxyConfigurationDeletePacketListener;
+import de.keeeks.nucleo.modules.syncproxy.packet.listener.SyncProxyConfigurationUpdatePacketListener;
+import de.keeeks.nucleo.modules.syncproxy.packet.listener.SyncProxyReloadPacketListener;
 import de.keeeks.nucleo.modules.syncproxy.sql.SyncProxyConfigurationRepository;
 import de.keeeks.nucleo.syncproxy.api.configuration.MotdConfiguration;
 import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyConfiguration;
@@ -50,6 +54,12 @@ public class DefaultSyncProxyService implements SyncProxyService {
         );
 
         syncProxyConfigurations.addAll(syncProxyConfigurationRepository.configurations());
+
+        natsConnection.registerPacketListener(
+                new SyncProxyConfigurationUpdatePacketListener(this),
+                new SyncProxyConfigurationDeletePacketListener(this),
+                new SyncProxyReloadPacketListener(this)
+        );
     }
 
     private void incrementMotdIndex() {
@@ -59,6 +69,23 @@ public class DefaultSyncProxyService implements SyncProxyService {
                 motdIndex.set(0);
             }
         });
+    }
+
+    @Override
+    public void reload() {
+        synchronized (syncProxyConfigurations) {
+            syncProxyConfigurations.clear();
+            syncProxyConfigurations.addAll(syncProxyConfigurationRepository.configurations());
+            motdIndex.set(0);
+        }
+    }
+
+    @Override
+    public void reloadNetworkWide() {
+        natsConnection.publishPacket(
+                CHANNEL,
+                new SyncProxyReloadPacket()
+        );
     }
 
     @Override
@@ -89,6 +116,13 @@ public class DefaultSyncProxyService implements SyncProxyService {
     }
 
     @Override
+    public Optional<SyncProxyConfiguration> configuration(String name) {
+        return syncProxyConfigurations.stream().filter(
+                syncProxyConfiguration -> syncProxyConfiguration.name().equals(name)
+        ).findFirst();
+    }
+
+    @Override
     public void activateConfiguration(int id) {
         configuration(id).ifPresent(syncProxyConfiguration -> {
             syncProxyConfigurations.forEach(configuration -> configuration.active(false));
@@ -115,6 +149,7 @@ public class DefaultSyncProxyService implements SyncProxyService {
 
     @Override
     public void updateConfigurationNetworkWide(SyncProxyConfiguration configuration) {
+        syncProxyConfigurationRepository.updateConfiguration(configuration);
         natsConnection.publishPacket(
                 SyncProxyService.CHANNEL,
                 new SyncProxyConfigurationUpdatePacket(configuration)

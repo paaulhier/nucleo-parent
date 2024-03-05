@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.PluginManager;
+import revxrsal.commands.autocomplete.AutoCompleter;
 
 @Getter
 @Accessors(fluent = true)
@@ -19,6 +20,10 @@ public abstract class ProxyModule extends Module {
 
     public void registerCommands(Object... commands) {
         plugin.registerCommands(commands);
+    }
+
+    public AutoCompleter autoCompleter() {
+        return plugin.autoCompleter();
     }
 
     public void registerListener(Listener... listeners) {
