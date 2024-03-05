@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.core.application.console;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.application.command.Console;
 import de.keeeks.nucleo.core.application.command.command.CommandRegistry;
 import de.keeeks.nucleo.core.application.command.config.ConsoleConfiguration;
@@ -62,6 +63,7 @@ public final class CoreConsoleApplication {
     }
 
     public void disable() {
+        Scheduler.shutdown();
         moduleLoader.disableModules();
     }
 

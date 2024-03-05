@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.core.spigot;
 
+import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.commands.ModulesCommand;
@@ -77,6 +78,7 @@ public class NucleoSpigotPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Scheduler.shutdown();
         moduleLoader.disableModules();
     }
 

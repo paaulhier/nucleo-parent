@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.core.proxy;
 
+import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.proxy.commands.ModulesCommand;
@@ -89,6 +90,7 @@ public class NucleoProxyPlugin extends Plugin {
 
     @Override
     public void onDisable() {
+        Scheduler.shutdown();
         enabled = false;
         moduleLoader.disableModules();
     }
