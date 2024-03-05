@@ -111,6 +111,14 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
+    public void publishOnlinePlayerCreation(NucleoOnlinePlayer nucleoOnlinePlayer) {
+        natsConnection.publishPacket(
+                CHANNEL,
+                new NucleoOnlinePlayerCreatePacket(nucleoOnlinePlayer)
+        );
+    }
+
+    @Override
     public Optional<NucleoPlayer> player(UUID uuid) {
         return players.stream().filter(
                 player -> player.uuid().equals(uuid)

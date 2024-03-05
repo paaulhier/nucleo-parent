@@ -36,6 +36,12 @@ public interface PlayerService {
     );
 
     /**
+     * Publishes the creation of the given online player.
+      * @param nucleoOnlinePlayer the online player to publish the creation is of
+     */
+    void publishOnlinePlayerCreation(NucleoOnlinePlayer nucleoOnlinePlayer);
+
+    /**
      * Returns the player with the given UUID.
      *
      * @param uuid the UUID of the player
