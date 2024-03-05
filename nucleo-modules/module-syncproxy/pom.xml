@@ -16,6 +16,7 @@
         <module>syncproxy-api</module>
         <module>syncproxy-shared</module>
         <module>syncproxy-proxy</module>
+        <module>syncproxy-spigot</module>
     </modules>
 
     <properties>

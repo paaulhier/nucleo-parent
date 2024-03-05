@@ -22,6 +22,9 @@
 
         <adventure.version>4.16.0</adventure.version>
         <lamp.version>3.1.9</lamp.version>
+
+        <paper.version>1.20.4-R0.1-SNAPSHOT</paper.version>
+
     </properties>
 
     <distributionManagement>
