@@ -1,10 +1,12 @@
 package de.keeeks.nucleo.core.spigot;
 
+import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.commands.ModulesCommand;
 import de.keeeks.nucleo.core.spigot.commands.UptimeCommand;
+import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -46,6 +48,8 @@ public class NucleoSpigotPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         plugin = this;
+
+        GsonBuilder.registerSerializer(new LocationSerializer());
 
         ModuleLoader.classLoader(moduleClassLoader);
         moduleLoader.loadModulesFromFolder();
