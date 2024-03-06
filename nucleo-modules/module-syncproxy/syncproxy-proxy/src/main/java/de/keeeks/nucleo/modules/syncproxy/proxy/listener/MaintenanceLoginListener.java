@@ -1,9 +1,11 @@
 package de.keeeks.nucleo.modules.syncproxy.proxy.listener;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.modules.syncproxy.proxy.configuration.SyncProxyKickScreenConfiguration;
 import de.keeeks.nucleo.modules.syncproxy.proxy.player.FakeSyncProxyPlayer;
 import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyService;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ProxyServer;
@@ -20,10 +22,17 @@ public class MaintenanceLoginListener implements Listener {
     private final SyncProxyService syncProxyService = ServiceRegistry.service(
             SyncProxyService.class
     );
-    private final Component maintenanceScreen = MiniMessage.miniMessage().deserialize(
-            "<red><bold>Server is currently in maintenance mode.\n" +
-                    "Please try again later."
-    );
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final Component disconnectScreen;
+
+    public MaintenanceLoginListener(SyncProxyKickScreenConfiguration syncProxyKickScreenConfiguration) {
+        this.disconnectScreen =Component.join(
+                JoinConfiguration.newlines(),
+                syncProxyKickScreenConfiguration.disconnectScreen().stream().map(
+                        miniMessage::deserialize
+                ).toList()
+        );
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleLogin(LoginEvent event) {
@@ -45,7 +54,7 @@ public class MaintenanceLoginListener implements Listener {
             if (syncProxyConfiguration.maintenance()) {
                 event.setCancelled(true);
                 event.setReason(BungeeComponentSerializer.get().serialize(
-                        maintenanceScreen
+                        disconnectScreen
                 )[0]);
             }
         });
