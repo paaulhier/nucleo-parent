@@ -4,6 +4,7 @@ import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
+import de.keeeks.nucleo.core.spigot.commands.BetterPasteLocationCommand;
 import de.keeeks.nucleo.core.spigot.commands.ModulesCommand;
 import de.keeeks.nucleo.core.spigot.commands.UptimeCommand;
 import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
@@ -62,7 +63,8 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         bukkitCommandHandler.enableAdventure();
         bukkitCommandHandler.register(
                 new ModulesCommand(),
-                new UptimeCommand(this)
+                new UptimeCommand(this),
+                new BetterPasteLocationCommand()
         );
         bukkitCommandHandler.register(commandRegistrations.toArray());
         bukkitCommandHandler.registerBrigadier();
