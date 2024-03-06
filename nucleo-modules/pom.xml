@@ -19,6 +19,7 @@
         <module>module-players</module>
         <module>module-syncproxy</module>
         <module>module-translation</module>
+        <module>module-inventory</module>
     </modules>
 
     <properties>

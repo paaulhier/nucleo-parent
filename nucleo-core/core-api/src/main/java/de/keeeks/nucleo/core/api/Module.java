@@ -124,6 +124,9 @@ public abstract class Module {
         Component softDependenciesComponent = grayComponent(
                 "Soft dependencies: "
         ).append(arrayAsComponent(moduleDescription.softDepends()));
+        Component versionComponent = grayComponent(
+                "Version: "
+        ).append(Component.text(moduleDescription.version()));
 
         return Component.join(
                 JoinConfiguration.newlines(),
@@ -131,7 +134,8 @@ public abstract class Module {
                         nameComponent,
                         stateComponent,
                         dependenciesComponent,
-                        softDependenciesComponent
+                        softDependenciesComponent,
+                        versionComponent
                 )
         );
     }
