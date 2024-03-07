@@ -22,16 +22,11 @@ public class MaintenanceLoginListener implements Listener {
     private final SyncProxyService syncProxyService = ServiceRegistry.service(
             SyncProxyService.class
     );
-    private final MiniMessage miniMessage = MiniMessage.miniMessage();
-    private final Component disconnectScreen;
+
+    private final SyncProxyKickScreenConfiguration syncProxyKickScreenConfiguration;
 
     public MaintenanceLoginListener(SyncProxyKickScreenConfiguration syncProxyKickScreenConfiguration) {
-        this.disconnectScreen =Component.join(
-                JoinConfiguration.newlines(),
-                syncProxyKickScreenConfiguration.disconnectScreen().stream().map(
-                        miniMessage::deserialize
-                ).toList()
-        );
+        this.syncProxyKickScreenConfiguration = syncProxyKickScreenConfiguration;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -53,9 +48,7 @@ public class MaintenanceLoginListener implements Listener {
         syncProxyService.currentActiveConfiguration().ifPresent(syncProxyConfiguration -> {
             if (syncProxyConfiguration.maintenance()) {
                 event.setCancelled(true);
-                event.setReason(BungeeComponentSerializer.get().serialize(
-                        disconnectScreen
-                )[0]);
+                event.setReason(syncProxyKickScreenConfiguration.toBungeeComponent());
             }
         });
     }

@@ -6,12 +6,12 @@ import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
-import de.keeeks.nucleo.modules.syncproxy.packet.SyncProxyConfigurationDeletePacket;
-import de.keeeks.nucleo.modules.syncproxy.packet.SyncProxyConfigurationUpdatePacket;
-import de.keeeks.nucleo.modules.syncproxy.packet.SyncProxyReloadPacket;
-import de.keeeks.nucleo.modules.syncproxy.packet.listener.SyncProxyConfigurationDeletePacketListener;
-import de.keeeks.nucleo.modules.syncproxy.packet.listener.SyncProxyConfigurationUpdatePacketListener;
-import de.keeeks.nucleo.modules.syncproxy.packet.listener.SyncProxyReloadPacketListener;
+import de.keeeks.nucleo.syncproxy.api.configuration.packet.SyncProxyConfigurationDeletePacket;
+import de.keeeks.nucleo.syncproxy.api.configuration.packet.SyncProxyConfigurationUpdatePacket;
+import de.keeeks.nucleo.syncproxy.api.configuration.packet.SyncProxyReloadPacket;
+import de.keeeks.nucleo.modules.syncproxy.packetlistener.SyncProxyConfigurationDeletePacketListener;
+import de.keeeks.nucleo.modules.syncproxy.packetlistener.SyncProxyConfigurationUpdatePacketListener;
+import de.keeeks.nucleo.modules.syncproxy.packetlistener.SyncProxyReloadPacketListener;
 import de.keeeks.nucleo.modules.syncproxy.sql.SyncProxyConfigurationRepository;
 import de.keeeks.nucleo.syncproxy.api.configuration.MotdConfiguration;
 import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyConfiguration;
@@ -129,6 +129,10 @@ public class DefaultSyncProxyService implements SyncProxyService {
             syncProxyConfiguration.active(true);
 
             syncProxyConfigurationRepository.activateConfiguration(id);
+            natsConnection.publishPacket(
+                    CHANNEL,
+                    new SyncProxyConfigurationUpdatePacket(syncProxyConfiguration)
+            );
         });
     }
 
