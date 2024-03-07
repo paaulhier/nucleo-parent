@@ -1,7 +1,7 @@
 package de.keeeks.nucleo.modules.syncproxy.sql.transformer;
 
 import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyConfiguration;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyConfiguration;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

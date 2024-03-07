@@ -4,8 +4,8 @@ import de.keeeks.nucleo.modules.database.sql.MysqlConnection;
 import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.syncproxy.sql.transformer.MotdConfigurationTransformer;
 import de.keeeks.nucleo.modules.syncproxy.sql.transformer.SyncProxyConfigurationTransformer;
-import de.keeeks.nucleo.syncproxy.api.configuration.MotdConfiguration;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyConfiguration;
+import de.keeeks.nucleo.syncproxy.api.MotdConfiguration;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyConfiguration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.util.List;

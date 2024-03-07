@@ -13,8 +13,8 @@ import de.keeeks.nucleo.modules.syncproxy.proxy.listener.ProxyPingListener;
 import de.keeeks.nucleo.modules.syncproxy.proxy.listener.ProxyVersionPingListener;
 import de.keeeks.nucleo.modules.syncproxy.proxy.packetlistener.ProxySyncProxyConfigurationUpdatePacketListener;
 import de.keeeks.nucleo.modules.syncproxy.proxy.translation.SyncProxyTranslationRegistry;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyConfiguration;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyService;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyConfiguration;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 
 @ModuleDescription(
         name = "syncproxy",

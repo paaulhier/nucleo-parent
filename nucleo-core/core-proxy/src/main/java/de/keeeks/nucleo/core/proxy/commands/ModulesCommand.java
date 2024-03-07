@@ -1,7 +1,5 @@
 package de.keeeks.nucleo.core.proxy.commands;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.proxy.NucleoProxyPlugin;
 import net.kyori.adventure.text.Component;
@@ -13,7 +11,6 @@ import revxrsal.commands.bungee.BungeeCommandActor;
 import revxrsal.commands.bungee.annotation.CommandPermission;
 
 import java.util.List;
-import java.util.UUID;
 
 @Command({"modules", "module"})
 @CommandPermission("nucleo.commands.modules")

@@ -1,7 +1,7 @@
-package de.keeeks.nucleo.syncproxy.api.configuration.packet;
+package de.keeeks.nucleo.syncproxy.api.packet;
 
 import de.keeeks.nucleo.modules.messaging.packet.Packet;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyConfiguration;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyConfiguration;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;

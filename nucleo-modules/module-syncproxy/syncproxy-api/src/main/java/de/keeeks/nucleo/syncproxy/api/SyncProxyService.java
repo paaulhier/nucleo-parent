@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.syncproxy.api.configuration;
+package de.keeeks.nucleo.syncproxy.api;
 
 import java.util.List;
 import java.util.Optional;

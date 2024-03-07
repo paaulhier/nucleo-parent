@@ -1,7 +1,7 @@
 package de.keeeks.nucleo.modules.syncproxy.proxy.commands;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyService;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;

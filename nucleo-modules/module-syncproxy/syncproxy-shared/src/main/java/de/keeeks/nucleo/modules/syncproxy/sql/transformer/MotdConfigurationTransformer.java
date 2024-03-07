@@ -1,7 +1,7 @@
 package de.keeeks.nucleo.modules.syncproxy.sql.transformer;
 
 import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
-import de.keeeks.nucleo.syncproxy.api.configuration.MotdConfiguration;
+import de.keeeks.nucleo.syncproxy.api.MotdConfiguration;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 

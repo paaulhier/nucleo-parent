@@ -3,7 +3,7 @@ package de.keeeks.nucleo.modules.syncproxy.proxy.listener;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.proxy.NucleoProxyPlugin;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyService;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ServerPing;

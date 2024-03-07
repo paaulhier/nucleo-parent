@@ -4,7 +4,7 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.syncproxy.DefaultSyncProxyService;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyService;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 
 @ModuleDescription(
         name = "syncproxy",

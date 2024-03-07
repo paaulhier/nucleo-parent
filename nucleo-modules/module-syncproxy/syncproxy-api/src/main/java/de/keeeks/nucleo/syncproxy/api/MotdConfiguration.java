@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.syncproxy.api.configuration;
+package de.keeeks.nucleo.syncproxy.api;
 
 import net.kyori.adventure.text.Component;
 

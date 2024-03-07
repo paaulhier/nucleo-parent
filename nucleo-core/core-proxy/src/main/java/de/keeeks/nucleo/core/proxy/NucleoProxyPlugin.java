@@ -8,17 +8,9 @@ import de.keeeks.nucleo.core.proxy.commands.UptimeCommand;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
-import revxrsal.commands.annotation.AutoComplete;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.bungee.BungeeCommandHandler;
-import revxrsal.commands.exception.CooldownException;
 
 import java.time.Duration;
 import java.util.Arrays;

@@ -2,8 +2,8 @@ package de.keeeks.nucleo.modules.syncproxy.packetlistener;
 
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
-import de.keeeks.nucleo.syncproxy.api.configuration.packet.SyncProxyConfigurationDeletePacket;
-import de.keeeks.nucleo.syncproxy.api.configuration.SyncProxyService;
+import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
+import de.keeeks.nucleo.syncproxy.api.packet.SyncProxyConfigurationDeletePacket;
 import io.nats.client.Message;
 
 @ListenerChannel(SyncProxyService.CHANNEL)
