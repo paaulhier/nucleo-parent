@@ -5,25 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.keeeks.nucleo</groupId>
-        <artifactId>nucleo-parent</artifactId>
+        <artifactId>nucleo-modules</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>nucleo-modules</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>module-config</module>
-        <module>module-messaging</module>
-        <module>module-database</module>
-        <module>module-players</module>
-        <module>module-syncproxy</module>
-        <module>module-translation</module>
-        <module>module-inventory</module>
-        <module>module-hologram</module>
-        <module>module-hologram/hologram-api</module>
-        <module>module-hologram/hologram-spigot</module>
-    </modules>
+    <artifactId>hologram-api</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -31,4 +18,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.20.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>core-spigot</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
