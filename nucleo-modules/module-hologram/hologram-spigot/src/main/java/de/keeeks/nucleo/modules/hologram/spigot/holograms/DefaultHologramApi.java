@@ -6,6 +6,7 @@ import org.bukkit.Location;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class DefaultHologramApi implements HologramApi {
     private static final List<Hologram> holograms = new LinkedList<>();
@@ -36,6 +37,14 @@ public class DefaultHologramApi implements HologramApi {
     }
 
     @Override
+    public Hologram hologram(UUID uuid) {
+        return holograms.stream()
+                .filter(hologram -> hologram.uuid().equals(uuid))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public void removeHologram(String name) {
         holograms.removeIf(hologram -> hologram.name().equals(name));
     }
@@ -59,5 +68,10 @@ public class DefaultHologramApi implements HologramApi {
         if (hologram != null) {
             hologram.update();
         }
+    }
+
+    @Override
+    public void removeHologramFromCache(Hologram hologram) {
+        holograms.remove(hologram);
     }
 }

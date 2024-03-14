@@ -3,6 +3,7 @@ package de.keeeks.nucleo.modules.hologram.api;
 import org.bukkit.Location;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface HologramApi {
 
@@ -15,6 +16,8 @@ public interface HologramApi {
 
     Hologram hologram(String name);
 
+    Hologram hologram(UUID uuid);
+
     void removeHologram(String name);
 
     void removeHologram(Hologram hologram);
@@ -23,4 +26,5 @@ public interface HologramApi {
 
     void updateHologram(String name);
 
+    void removeHologramFromCache(Hologram hologram);
 }

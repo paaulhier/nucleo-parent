@@ -1,17 +1,28 @@
 package de.keeeks.nucleo.modules.hologram.spigot.holograms;
 
+import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.hologram.api.Hologram;
+import de.keeeks.nucleo.modules.hologram.api.HologramApi;
 import de.keeeks.nucleo.modules.hologram.api.HologramLine;
 import de.keeeks.nucleo.modules.hologram.api.TextHologramLine;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
+@Getter
+@Accessors(fluent = true)
 public class DefaultHologram implements Hologram {
+    private static final HologramApi hologramApi = ServiceRegistry.service(HologramApi.class);
+
     private final List<HologramLine> hologramLines = new LinkedList<>();
+
+    private final UUID uuid = UUID.randomUUID();
 
     private String name;
     private Location location;
@@ -40,7 +51,8 @@ public class DefaultHologram implements Hologram {
 
     @Override
     public void remove() {
-        for (HologramLine hologramLine : hologramLines) {
+        hologramApi.removeHologramFromCache(this);
+        for (HologramLine hologramLine : List.copyOf(hologramLines)) {
             hologramLine.remove();
             hologramLines.remove(hologramLine);
         }

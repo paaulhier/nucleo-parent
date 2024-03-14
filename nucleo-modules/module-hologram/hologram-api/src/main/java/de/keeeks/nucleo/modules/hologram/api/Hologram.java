@@ -2,7 +2,11 @@ package de.keeeks.nucleo.modules.hologram.api;
 
 import org.bukkit.Location;
 
+import java.util.UUID;
+
 public interface Hologram {
+
+    UUID uuid();
 
     Location location();
 
