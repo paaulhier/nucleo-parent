@@ -38,8 +38,6 @@ public final class ModuleLoader {
 
     public void loadModule(File file) {
         try {
-            classLoader.addURL(file.toURI().toURL());
-
             try (JarFile jarFile = new JarFile(file)) {
                 ZipEntry moduleYamlEntry = jarFile.getEntry("module.yml");
                 if (moduleYamlEntry == null) {
@@ -260,10 +258,6 @@ public final class ModuleLoader {
         return moduleContainers.stream().filter(
                 moduleContainer -> moduleContainer.description().name().equals(dependency)
         ).findFirst().orElse(null);
-    }
-
-    private boolean checkForClassFile(JarEntry jarEntry) {
-        return !jarEntry.isDirectory() && jarEntry.getName().endsWith(".class");
     }
 
     private String readAbleFileName(JarEntry jarEntry) {
