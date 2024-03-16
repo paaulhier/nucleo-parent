@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.core.proxy;
 
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
@@ -78,6 +79,8 @@ public class NucleoProxyPlugin extends Plugin {
         startupDuration = Duration.ofMillis(
                 System.currentTimeMillis() - startupTime
         );
+
+        Module.modules().forEach(Module::postStartup);
     }
 
     @Override

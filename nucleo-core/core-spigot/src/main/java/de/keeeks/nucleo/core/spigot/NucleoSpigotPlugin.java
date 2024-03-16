@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.core.spigot;
 
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
@@ -80,6 +81,8 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         this.startupDuration = Duration.ofMillis(
                 System.currentTimeMillis() - startupTime
         );
+
+        Module.modules().forEach(Module::postStartup);
     }
 
     @Override
