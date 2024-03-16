@@ -12,7 +12,6 @@
     <artifactId>core-application</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>application-spring</module>
         <module>application-console</module>
         <module>application-command-line</module>
     </modules>
