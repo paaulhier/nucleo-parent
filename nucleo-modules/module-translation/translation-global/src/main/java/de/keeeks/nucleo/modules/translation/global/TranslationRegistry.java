@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 @Getter
 @Accessors(fluent = true)
 public abstract class TranslationRegistry {
+    private static final List<TranslationRegistry> translationRegistries = new LinkedList<>();
+
     private final List<TranslationEntry> translationEntries = new LinkedList<>();
 
     private final Translator translator = new ComponentTranslator(this::translationEntryAsString);
@@ -78,7 +80,7 @@ public abstract class TranslationRegistry {
                 TranslationEntryConfiguration.class,
                 TranslationEntryConfiguration.createDefault()
         ).translations()) {
-            register(TranslationEntry.of(
+            registerEntry(TranslationEntry.of(
                     translationEntry,
                     locale
             ));
@@ -100,8 +102,19 @@ public abstract class TranslationRegistry {
                 });
     }
 
+    public void registerEntry(TranslationEntry translationEntry) {
+        logger.info("Registering %s for %s".formatted(translationEntry.key(), translationEntry.locale()));
+        translationEntries.add(translationEntry);
+    }
+
+    @Deprecated
     public void register(TranslationEntry translationEntry) {
         logger.info("Registering %s for %s".formatted(translationEntry.key(), translationEntry.locale()));
         translationEntries.add(translationEntry);
+    }
+
+    public static <T extends TranslationRegistry> T initializeRegistry(T translationRegistry) {
+        translationRegistries.add(translationRegistry);
+        return translationRegistry;
     }
 }
