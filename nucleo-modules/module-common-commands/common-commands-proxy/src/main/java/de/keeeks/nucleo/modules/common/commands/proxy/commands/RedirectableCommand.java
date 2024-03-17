@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.proxy.commands;
+package de.keeeks.nucleo.modules.common.commands.proxy.commands;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;

@@ -94,17 +94,16 @@ public class DefaultPlayerService implements PlayerService {
             String address,
             Version version
     ) {
-        logger.info("Creating online player %s with UUID %s on server %s and proxy %s (Connected from: %s)".formatted(
+        logger.info("Creating online player %s with UUID %s on proxy %s (Connected from: %s)".formatted(
                 nucleoPlayer.name(),
                 nucleoPlayer.uuid(),
-                server,
                 proxy,
                 address
         ));
         return new DefaultNucleoOnlinePlayer(
                 nucleoPlayer,
-                server,
                 proxy,
+                server,
                 address,
                 version
         );

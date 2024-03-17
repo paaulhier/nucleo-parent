@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.spigot.commands;
+package de.keeeks.nucleo.modules.common.commands.spigot.commands;
 
 import de.keeeks.nucleo.core.api.Module;
 import net.kyori.adventure.text.Component;

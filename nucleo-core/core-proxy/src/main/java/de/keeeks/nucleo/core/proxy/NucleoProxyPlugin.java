@@ -4,9 +4,8 @@ import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
-import de.keeeks.nucleo.core.proxy.commands.ModulesCommand;
-import de.keeeks.nucleo.core.proxy.commands.UptimeCommand;
 import lombok.Getter;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
 import revxrsal.commands.autocomplete.AutoCompleter;
@@ -16,6 +15,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class NucleoProxyPlugin extends Plugin {
@@ -65,9 +65,12 @@ public class NucleoProxyPlugin extends Plugin {
 
         bungeeCommandHandler.register(commandRegistrations);
 
-        registerCommands(
-                new ModulesCommand(this),
-                new UptimeCommand(this)
+        bungeeCommandHandler.registerContextResolver(
+                Audience.class,
+                contextResolverContext -> {
+                    UUID uniqueId = contextResolverContext.actor().getUniqueId();
+                    return bungeeAudiences.player(uniqueId);
+                }
         );
 
         moduleLoader.enableModules();

@@ -8,6 +8,8 @@ import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.Version;
 import lombok.Getter;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
@@ -48,7 +50,6 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
         this.server = server;
         this.ipAddress = ipAddress;
         this.version = version;
-
         properties().setProperties(nucleoPlayer.properties());
     }
 
@@ -56,6 +57,14 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
         super(uuid, name);
         this.ipAddress = ipAddress;
         this.version = version;
+    }
+
+    @Override
+    public long onlineTime() {
+        return super.onlineTime() + (Duration.between(
+                lastLogin(),
+                Instant.now()
+        ).toMillis());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.proxy.commands;
+package de.keeeks.nucleo.modules.common.commands.proxy.commands;
 
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.proxy.NucleoProxyPlugin;

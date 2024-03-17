@@ -167,6 +167,10 @@ public abstract class Module {
         return NamedTextColor.RED;
     }
 
+    public static boolean isAvailable(String name) {
+        return module(name) != null;
+    }
+
     public static <T extends Module> T module(Class<T> clazz) {
         return (T) modules.stream()
                 .filter(module -> module.getClass().equals(clazz))

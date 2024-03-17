@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.core.spigot.commands;
+package de.keeeks.nucleo.modules.common.commands.spigot.commands;
 
 import com.google.gson.Gson;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;

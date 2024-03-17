@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.common.commands.proxy.commands;
+package de.keeeks.nucleo.modules.common.commands.proxy.commands.players;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.common.commands.proxy.packet.ping.PlayerPingRequestPacket;
@@ -28,6 +28,7 @@ public class PingCommand {
 
     private final BungeeAudiences bungeeAudiences;
 
+
     @Usage("ping [player]")
     @DefaultFor({"ping", "latenz", "latency"})
     @AutoComplete("@players")
@@ -40,6 +41,14 @@ public class PingCommand {
         if (player == null) return;
 
         Audience audience = bungeeAudiences.player(player);
+
+        if (!player.hasPermission("nucleo.commands.ping.other")) {
+            pingSelf(
+                    audience,
+                    player
+            );
+            return;
+        }
 
         if (targetName != null && !targetName.equalsIgnoreCase(player.getName())) {
             pingOtherPlayer(

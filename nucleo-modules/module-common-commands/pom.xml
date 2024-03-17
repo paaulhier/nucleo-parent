@@ -14,6 +14,7 @@
     <modules>
         <module>common-commands-proxy</module>
         <module>common-commands-api</module>
+        <module>common-commands-spigot</module>
     </modules>
 
     <properties>
