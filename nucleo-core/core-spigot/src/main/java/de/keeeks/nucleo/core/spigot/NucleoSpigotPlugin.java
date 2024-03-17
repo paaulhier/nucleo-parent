@@ -11,7 +11,6 @@ import de.keeeks.nucleo.core.spigot.commands.UptimeCommand;
 import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,10 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Getter
-@Accessors(fluent = true)
 public class NucleoSpigotPlugin extends JavaPlugin {
     @Getter
-    @Accessors(fluent = true)
     private static NucleoSpigotPlugin plugin;
 
     private final List<Object> commandRegistrations = new LinkedList<>();
@@ -39,10 +36,8 @@ public class NucleoSpigotPlugin extends JavaPlugin {
 
 
     @Getter
-    @Accessors(fluent = true)
     private final long startupTime = System.currentTimeMillis();
     @Getter
-    @Accessors(fluent = true)
     private Duration startupDuration;
 
     private BukkitCommandHandler bukkitCommandHandler;

@@ -14,12 +14,14 @@ public @interface ListenerChannel {
 
     /**
      * The channel the packet listener listens to.
+     *
      * @return The channel the packet listener listens to.
      */
     String value();
 
     /**
      * The priority of the packet listener. The lower the priority, the earlier the listener is called.
+     *
      * @return The priority of the packet listener.
      */
     int priority() default 0;

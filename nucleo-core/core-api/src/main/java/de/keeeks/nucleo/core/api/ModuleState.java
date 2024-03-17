@@ -2,10 +2,8 @@ package de.keeeks.nucleo.core.api;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
 
 @Getter
-@Accessors(fluent = true)
 @RequiredArgsConstructor
 public enum ModuleState {
     LOADED(false),

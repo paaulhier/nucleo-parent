@@ -1,4 +1,5 @@
 package de.keeeks.nucleo.core.application.command.color;
+
 public enum Color {
     //Color end string, color reset
     RESET("\033[0m"),

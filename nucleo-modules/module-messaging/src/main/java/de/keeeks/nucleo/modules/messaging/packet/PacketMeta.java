@@ -3,13 +3,11 @@ package de.keeeks.nucleo.modules.messaging.packet;
 import com.google.gson.Gson;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
 @Getter
-@Accessors(fluent = true)
 public class PacketMeta {
     private static final Supplier<Gson> gson = GsonBuilder::globalGson;
     private final String packetJson;

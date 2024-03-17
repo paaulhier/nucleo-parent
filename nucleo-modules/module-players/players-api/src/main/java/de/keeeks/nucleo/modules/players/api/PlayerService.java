@@ -37,7 +37,8 @@ public interface PlayerService {
 
     /**
      * Publishes the creation of the given online player.
-      * @param nucleoOnlinePlayer the online player to publish the creation is of
+     *
+     * @param nucleoOnlinePlayer the online player to publish the creation is of
      */
     void publishOnlinePlayerCreation(NucleoOnlinePlayer nucleoOnlinePlayer);
 
@@ -107,7 +108,8 @@ public interface PlayerService {
 
     /**
      * Broadcasts the name update to all services
-     * @param uuid the UUID of the player
+     *
+     * @param uuid    the UUID of the player
      * @param newName the new name of the player
      */
     void updatePlayerName(UUID uuid, String newName);

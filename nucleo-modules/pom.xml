@@ -23,6 +23,7 @@
         <module>module-hologram</module>
         <module>module-hologram/hologram-api</module>
         <module>module-hologram/hologram-spigot</module>
+        <module>module-common-commands</module>
     </modules>
 
     <properties>

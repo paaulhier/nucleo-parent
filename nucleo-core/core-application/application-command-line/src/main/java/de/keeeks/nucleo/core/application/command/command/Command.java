@@ -2,13 +2,11 @@ package de.keeeks.nucleo.core.application.command.command;
 
 import de.keeeks.nucleo.core.application.command.logger.ConsoleLogger;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Getter
-@Accessors(fluent = true)
 public abstract class Command {
     protected final ConsoleLogger logger;
 

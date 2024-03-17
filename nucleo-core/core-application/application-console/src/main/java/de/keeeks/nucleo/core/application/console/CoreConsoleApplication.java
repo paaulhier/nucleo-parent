@@ -9,7 +9,6 @@ import de.keeeks.nucleo.core.application.command.logger.ConsoleLogger;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,7 +24,6 @@ public final class CoreConsoleApplication {
             Console.create(consoleConfiguration())
     );
     @Getter
-    @Accessors(fluent = true)
     private final Logger logger = ConsoleLogger.create(
             CoreConsoleApplication.class
     );

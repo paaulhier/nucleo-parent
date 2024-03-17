@@ -8,10 +8,8 @@ import de.keeeks.nucleo.modules.translation.spigot.command.LanguageCommand;
 import de.keeeks.nucleo.modules.translation.spigot.command.TestCommand;
 import de.keeeks.nucleo.modules.translation.spigot.registry.GlobalSpigotTranslationRegistry;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 @Getter
-@Accessors(fluent = true)
 @ModuleDescription(
         name = "translations",
         description = "The proxy translations module",

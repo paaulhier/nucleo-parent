@@ -7,11 +7,11 @@ package de.keeeks.nucleo.core.api.utils.expiringmap;
  * @param <V> Value type
  */
 public interface ExpiringEntryLoader<K, V> {
-  /**
-   * Called to load a new value for the {@code key} into an expiring map.
-   *
-   * @param key to load a value for
-   * @return contains new value to load along with its expiry duration
-   */
-  ExpiringValue<V> load(K key);
+    /**
+     * Called to load a new value for the {@code key} into an expiring map.
+     *
+     * @param key to load a value for
+     * @return contains new value to load along with its expiry duration
+     */
+    ExpiringValue<V> load(K key);
 }

@@ -13,7 +13,7 @@ public record ConfigurationHologramList(
         return new ConfigurationHologramList(List.of(
                 new ConfigurationHologram(
                         "example",
-                        new Location(Bukkit.getWorld("world"), 0, 100 ,0),
+                        new Location(Bukkit.getWorld("world"), 0, 100, 0),
                         new String[]{"line1", "line2", "line3"}
                 )
         ));

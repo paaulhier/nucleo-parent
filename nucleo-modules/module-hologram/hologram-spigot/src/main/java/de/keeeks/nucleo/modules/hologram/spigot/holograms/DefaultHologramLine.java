@@ -4,7 +4,6 @@ import de.keeeks.nucleo.core.spigot.NucleoSpigotPlugin;
 import de.keeeks.nucleo.modules.hologram.api.Hologram;
 import de.keeeks.nucleo.modules.hologram.api.HologramLine;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,7 +15,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Getter
-@Accessors(fluent = true)
 public abstract class DefaultHologramLine<C> implements HologramLine<C> {
     private final AtomicReference<ArmorStand> armorStand = new AtomicReference<>();
 

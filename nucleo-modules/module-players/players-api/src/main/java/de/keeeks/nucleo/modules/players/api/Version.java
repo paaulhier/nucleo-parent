@@ -1,10 +1,8 @@
 package de.keeeks.nucleo.modules.players.api;
 
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 @Getter
-@Accessors(fluent = true)
 public enum Version {
 
     VERSION_1_20_1(

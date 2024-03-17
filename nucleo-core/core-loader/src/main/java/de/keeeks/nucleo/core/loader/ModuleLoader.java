@@ -8,7 +8,6 @@ import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -29,7 +28,6 @@ import java.util.zip.ZipEntry;
 public final class ModuleLoader {
     private static final Yaml yaml = new Yaml();
     @Setter
-    @Accessors(fluent = true)
     private static ModuleClassLoader classLoader;
 
     private final List<ModuleContainer> moduleContainers = new ArrayList<>();

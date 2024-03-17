@@ -7,7 +7,6 @@ import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.core.api.json.serializer.LocaleSerializer;
 import de.keeeks.nucleo.core.api.utils.UpdateListener;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 
 import java.lang.reflect.Type;
@@ -20,7 +19,6 @@ public final class GsonBuilder {
     private static final List<UpdateListener<Gson>> updateListener = new ArrayList<>();
 
     @Getter
-    @Accessors(fluent = true)
     private static Gson globalGson = new com.google.gson.GsonBuilder()
             .registerTypeAdapter(Instant.class, new InstantSerializer())
             .registerTypeAdapter(Locale.class, new LocaleSerializer())

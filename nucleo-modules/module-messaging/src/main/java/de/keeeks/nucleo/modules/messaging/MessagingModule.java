@@ -5,10 +5,8 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 @Getter
-@Accessors(fluent = true)
 @ModuleDescription(name = "messaging", depends = "config")
 public class MessagingModule extends Module {
 

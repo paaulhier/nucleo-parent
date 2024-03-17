@@ -7,14 +7,12 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 import io.lettuce.core.api.sync.RedisCommands;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Getter
-@Accessors(fluent = true)
 public final class RedisConnection {
     private static final List<RedisConnection> connections = new LinkedList<>();
 

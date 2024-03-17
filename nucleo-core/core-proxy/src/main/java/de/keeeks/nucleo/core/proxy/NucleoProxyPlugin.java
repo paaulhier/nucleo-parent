@@ -7,7 +7,6 @@ import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.proxy.commands.ModulesCommand;
 import de.keeeks.nucleo.core.proxy.commands.UptimeCommand;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
 import revxrsal.commands.autocomplete.AutoCompleter;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 
 public class NucleoProxyPlugin extends Plugin {
     @Getter
-    @Accessors(fluent = true)
     private static NucleoProxyPlugin plugin;
 
     private final List<Object> commandRegistrations = new LinkedList<>();
@@ -37,16 +35,13 @@ public class NucleoProxyPlugin extends Plugin {
             this
     );
     @Getter
-    @Accessors(fluent = true)
     private final BungeeAudiences bungeeAudiences = BungeeAudiences.create(
             this
     );
 
     @Getter
-    @Accessors(fluent = true)
     private final long startupTime = System.currentTimeMillis();
     @Getter
-    @Accessors(fluent = true)
     private Duration startupDuration;
 
     private boolean enabled = false;

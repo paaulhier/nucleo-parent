@@ -17,7 +17,6 @@ import de.keeeks.nucleo.syncproxy.api.packet.SyncProxyConfigurationDeletePacket;
 import de.keeeks.nucleo.syncproxy.api.packet.SyncProxyConfigurationUpdatePacket;
 import de.keeeks.nucleo.syncproxy.api.packet.SyncProxyReloadPacket;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
-@Accessors(fluent = true)
 public class DefaultSyncProxyService implements SyncProxyService {
 
     private final List<SyncProxyConfiguration> syncProxyConfigurations = new LinkedList<>();

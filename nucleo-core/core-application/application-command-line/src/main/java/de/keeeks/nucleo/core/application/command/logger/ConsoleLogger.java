@@ -3,7 +3,6 @@ package de.keeeks.nucleo.core.application.command.logger;
 import de.keeeks.nucleo.core.application.command.logger.format.LogFormatter;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,6 @@ public class ConsoleLogger extends Logger {
 
     @Getter
     @Setter
-    @Accessors(fluent = true)
     private static Supplier<Logger> parent = () -> null;
 
     private static final FileHandler fileHandler;

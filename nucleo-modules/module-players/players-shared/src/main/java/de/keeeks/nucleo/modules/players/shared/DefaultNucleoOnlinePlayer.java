@@ -7,12 +7,10 @@ import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.Version;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.util.UUID;
 
 @Getter
-@Accessors(fluent = true)
 public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements NucleoOnlinePlayer {
     private static PlayerService playerService;
 

@@ -2,13 +2,11 @@ package de.keeeks.nucleo.modules.messaging.packet;
 
 import io.nats.client.Message;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 @Getter
-@Accessors(fluent = true)
 public abstract class PacketListener<P extends Packet> {
     private final String channelName;
-    private int priority;
+    private final int priority;
     private final Class<P> packetClass;
 
     public PacketListener(Class<P> packetClass) {

@@ -5,7 +5,6 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.translation.global.configuration.ConfigurationTranslationEntry;
 import de.keeeks.nucleo.modules.translation.global.configuration.TranslationEntryConfiguration;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.Translator;
 
@@ -16,7 +15,6 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 @Getter
-@Accessors(fluent = true)
 public abstract class TranslationRegistry {
     private static final List<TranslationRegistry> translationRegistries = new LinkedList<>();
 

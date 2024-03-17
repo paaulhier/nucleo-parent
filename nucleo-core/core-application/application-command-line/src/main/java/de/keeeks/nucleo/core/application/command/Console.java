@@ -5,7 +5,6 @@ import de.keeeks.nucleo.core.application.command.completer.CommandsCompleter;
 import de.keeeks.nucleo.core.application.command.config.ConsoleConfiguration;
 import de.keeeks.nucleo.core.application.command.task.LineReadingThread;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Getter
-@Accessors(fluent = true)
 public final class Console {
     private final LineReadingThread lineReadingThread = LineReadingThread.create(this);
 

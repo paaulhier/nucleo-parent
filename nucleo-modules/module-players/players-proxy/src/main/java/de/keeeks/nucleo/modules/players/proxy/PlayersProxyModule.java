@@ -3,12 +3,12 @@ package de.keeeks.nucleo.modules.players.proxy;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.proxy.module.ProxyModule;
+import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.proxy.listener.LoginListener;
 import de.keeeks.nucleo.modules.players.proxy.listener.PlayerDisconnectListener;
 import de.keeeks.nucleo.modules.players.proxy.listener.ServerConnectedListener;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
-import de.keeeks.nucleo.modules.players.shared.updater.PlayerLocaleUpdater;
 
 @ModuleDescription(
         name = "players",
@@ -18,21 +18,17 @@ import de.keeeks.nucleo.modules.players.shared.updater.PlayerLocaleUpdater;
 public class PlayersProxyModule extends ProxyModule {
     @Override
     public void load() {
-        ServiceRegistry.registerService(
+        PlayerService playerService = ServiceRegistry.registerService(
                 PlayerService.class,
                 DefaultPlayerService.create()
         );
-        try {
-            ServiceRegistry.registerService(
-                    PlayerLocaleUpdater.class,
-                    new PlayerLocaleUpdater(
-                            Class.forName("net.md_5.bungee.UserConnection"),
-                            this
-                    )
-            );
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
+        autoCompleter().registerSuggestion(
+                "players",
+                (list, commandActor, executableCommand) -> playerService.onlinePlayers().stream()
+                        .map(NucleoPlayer::name)
+                        .toList()
+        );
     }
 
     @Override

@@ -6,7 +6,6 @@ import de.keeeks.nucleo.modules.hologram.api.HologramApi;
 import de.keeeks.nucleo.modules.hologram.api.HologramLine;
 import de.keeeks.nucleo.modules.hologram.api.TextHologramLine;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Accessors(fluent = true)
 public class DefaultHologram implements Hologram {
     private static final HologramApi hologramApi = ServiceRegistry.service(HologramApi.class);
 

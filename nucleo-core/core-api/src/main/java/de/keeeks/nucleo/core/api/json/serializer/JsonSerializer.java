@@ -4,13 +4,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.lang.reflect.Type;
 import java.util.function.Function;
 
 @Getter
-@Accessors(fluent = true)
 public abstract class JsonSerializer<T> implements com.google.gson.JsonSerializer<T>, JsonDeserializer<T> {
     private final Type[] types;
 

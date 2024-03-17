@@ -2,7 +2,6 @@ package de.keeeks.nucleo.modules.config.api;
 
 import de.keeeks.nucleo.core.api.Module;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +11,6 @@ import java.nio.file.Files;
  * @param <H> the handle of the configuration
  */
 @Getter
-@Accessors(fluent = true)
 public abstract class Configuration<H> {
     protected final Module module;
 

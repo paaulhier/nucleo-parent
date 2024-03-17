@@ -17,6 +17,7 @@ public class UptimeCommand {
     public UptimeCommand(NucleoSpigotPlugin plugin) {
         this.plugin = plugin;
     }
+
     @DefaultFor("uptime")
     public void uptime(
             final BukkitCommandActor actor

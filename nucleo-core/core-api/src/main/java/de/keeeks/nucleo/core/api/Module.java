@@ -2,7 +2,6 @@ package de.keeeks.nucleo.core.api;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.TextComponent;
@@ -21,7 +20,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Getter
-@Accessors(fluent = true)
 public abstract class Module {
     @Getter
     private static final List<Module> modules = new ArrayList<>();

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.time.Instant;
 import java.util.LinkedList;
@@ -13,7 +12,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Accessors(fluent = true)
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class SyncProxyConfiguration {
