@@ -42,11 +42,11 @@
     <repositories>
         <repository>
             <id>keeeks-releases</id>
-            <url>https://repo.keeeks.de/repository/maven-releases/</url>
+            <url>https://repo.keeeks.de/repository/keeeks-releases/</url>
         </repository>
         <repository>
             <id>keeeks-snapshots</id>
-            <url>https://repo.keeeks.de/repository/maven-snapshots/</url>
+            <url>https://repo.keeeks.de/repository/keeeks-snapshots/</url>
         </repository>
         <repository>
             <id>papermc</id>
