@@ -67,6 +67,30 @@ public class SyncProxyCommand {
         )));
     }
 
+
+    @AutoComplete("@syncproxy:configurations")
+    @Subcommand({"activate", "enable"})
+    public void activateConfiguration(
+            final BungeeCommandActor actor,
+            final String configurationName
+    ) {
+        if (!actor.isPlayer()) return;
+
+        Audience audience = bungeeAudiences.player(actor.getUniqueId());
+
+        syncProxyService.configuration(configurationName).ifPresentOrElse(
+                syncProxyConfiguration -> {
+                    syncProxyService.activateConfiguration(syncProxyConfiguration.id());
+                    audience.sendMessage(Component.translatable(
+                            "nucleo.command.syncproxy.configuration-activated"
+                    ));
+                },
+                () -> audience.sendMessage(Component.translatable(
+                        "nucleo.command.syncproxy.configuration-not-found"
+                ))
+        );
+    }
+
     @AutoComplete("@syncproxy:configurations")
     @Subcommand("info")
     public void infoSubCommand(
