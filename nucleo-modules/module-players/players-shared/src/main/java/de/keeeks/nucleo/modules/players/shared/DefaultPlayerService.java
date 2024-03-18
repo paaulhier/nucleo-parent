@@ -6,10 +6,7 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.MessagingModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
-import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
-import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
-import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.players.api.Version;
+import de.keeeks.nucleo.modules.players.api.*;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoOnlinePlayerSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoPlayerSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.PropertyHolderSerializer;
@@ -19,7 +16,9 @@ import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlaye
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerInvalidatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerUpdatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.player.*;
+import de.keeeks.nucleo.modules.players.shared.packet.player.message.NucleoOnlinePlayerMessagePacket;
 import de.keeeks.nucleo.modules.players.shared.sql.PlayerRepository;
+import net.kyori.adventure.text.Component;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -219,6 +218,18 @@ public class DefaultPlayerService implements PlayerService {
                 nucleoPlayer.uuid(),
                 nucleoPlayer.skin().value(),
                 nucleoPlayer.skin().signature()
+        );
+    }
+
+    @Override
+    public void send(UUID receiver, Component component, NucleoMessageSender.MessageType messageType) {
+        natsConnection.publishPacket(
+                CHANNEL,
+                new NucleoOnlinePlayerMessagePacket(
+                        receiver,
+                        component,
+                        messageType
+                )
         );
     }
 
