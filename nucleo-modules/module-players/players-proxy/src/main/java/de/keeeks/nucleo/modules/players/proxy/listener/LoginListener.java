@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.players.proxy.listener;
 
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.proxy.NucleoProxyPlugin;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
@@ -41,7 +42,7 @@ public class LoginListener implements Listener {
             return;
         }
 
-        playerService.player(connection.getUniqueId()).ifPresentOrElse(
+        Scheduler.runAsync(() -> playerService.player(connection.getUniqueId()).ifPresentOrElse(
                 nucleoPlayer -> {
                     handleSkinUpdate(
                             nucleoPlayer,
@@ -70,7 +71,7 @@ public class LoginListener implements Listener {
                     handleOnlinePlayerCreation(nucleoPlayer, socketAddress.toString(), version);
                     event.completeIntent(NucleoProxyPlugin.plugin());
                 }
-        );
+        ));
     }
 
     private void handleSkinUpdate(NucleoPlayer onlinePlayer, Property property) {
