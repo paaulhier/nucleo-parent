@@ -4,9 +4,11 @@ import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
+import de.keeeks.nucleo.core.proxy.listener.NucleoProxyDefineCommandsEventListener;
 import lombok.Getter;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.bungee.BungeeCommandHandler;
@@ -62,6 +64,11 @@ public class NucleoProxyPlugin extends Plugin {
     @Override
     public void onEnable() {
         enabled = true;
+
+        ProxyServer.getInstance().getPluginManager().registerListener(
+                this,
+                new NucleoProxyDefineCommandsEventListener(bungeeCommandHandler)
+        );
 
         bungeeCommandHandler.register(commandRegistrations);
 
