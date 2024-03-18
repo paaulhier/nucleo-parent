@@ -5,6 +5,7 @@ import de.keeeks.nucleo.modules.hologram.api.Hologram;
 import de.keeeks.nucleo.modules.hologram.api.HologramLine;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
@@ -16,9 +17,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Getter
 public abstract class DefaultHologramLine<C> implements HologramLine<C> {
+    private static final PlainTextComponentSerializer plainTextComponentSerializer = PlainTextComponentSerializer.plainText();
+
     private final AtomicReference<ArmorStand> armorStand = new AtomicReference<>();
 
-    private final Hologram hologram;
+    protected final Hologram hologram;
 
     private C content;
 
@@ -44,12 +47,15 @@ public abstract class DefaultHologramLine<C> implements HologramLine<C> {
         removeArmorStand();
     }
 
+    public abstract double yOffSet();
+
     protected void spawnArmorStand() {
         removeArmorStand();
 
+        double yOffset = yOffSet();
         Location location = hologram.location().clone().subtract(
                 0.0,
-                hologram.yOffset(this),
+                yOffset,
                 0.0
         );
         World world = location.getWorld();
@@ -60,7 +66,8 @@ public abstract class DefaultHologramLine<C> implements HologramLine<C> {
 
         if (content instanceof Component component) {
             armorStand.customName(component);
-            armorStand.setCustomNameVisible(true);
+            String plainText = plainTextComponentSerializer.serialize(component);
+            armorStand.setCustomNameVisible(!plainText.isBlank());
         } else if (content instanceof ItemStack itemStack) {
             armorStand.setCustomNameVisible(false);
             world.dropItem(

@@ -8,4 +8,9 @@ public class DefaultItemHologramLine extends DefaultHologramLine<ItemStack> impl
     protected DefaultItemHologramLine(Hologram hologram, ItemStack content) {
         super(hologram, content);
     }
+
+    @Override
+    public double yOffSet() {
+        return hologram.yOffset(this);
+    }
 }
