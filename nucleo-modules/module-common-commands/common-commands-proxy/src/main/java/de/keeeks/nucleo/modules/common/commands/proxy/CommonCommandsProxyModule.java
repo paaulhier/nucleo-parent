@@ -8,7 +8,7 @@ import de.keeeks.nucleo.modules.common.commands.api.translation.CommonCommandsTr
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.ModulesCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.players.PingCommand;
-import de.keeeks.nucleo.modules.common.commands.proxy.commands.players.PlayerInfoCommand;
+import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.PlayerInfoCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.JumpToCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.TeamCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.packet.listener.ping.PlayerPingRequestPacketListener;

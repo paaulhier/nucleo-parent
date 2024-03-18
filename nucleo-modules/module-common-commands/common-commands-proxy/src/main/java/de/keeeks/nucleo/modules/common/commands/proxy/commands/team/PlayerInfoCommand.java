@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.common.commands.proxy.commands.players;
+package de.keeeks.nucleo.modules.common.commands.proxy.commands.team;
 
 import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PrefixType;
@@ -113,9 +113,6 @@ public final class PlayerInfoCommand {
                                 "commands.playerinfo.playerInfo"
                         ).arguments(arguments));
                     } else {
-                        Module.module(CommonCommandsProxyModule.class).logger().info(
-                                "Arguments: %s".formatted(arguments)
-                        );
                         audience.sendMessage(Component.translatable(
                                 "commands.playerinfo.playerInfoOffline"
                         ).arguments(arguments));
