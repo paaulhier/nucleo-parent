@@ -122,7 +122,7 @@ public final class PlayerInfoCommand {
                     }
                 },
                 () -> audience.sendMessage(Component.translatable(
-                        "commands.playerinfo.playerNotFound",
+                        "playerNotFound",
                         Component.text(targetName)
                 ))
         );
