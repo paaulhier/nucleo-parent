@@ -1,5 +1,7 @@
 package de.keeeks.nucleo.modules.players.api;
 
+import net.kyori.adventure.text.Component;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -156,6 +158,32 @@ public interface PlayerService {
      */
     default int onlinePlayerCount() {
         return onlinePlayers().size();
+    }
+
+    /**
+     * Sends the given component to the player with the given UUID.
+     * @param receiver the UUID of the player to send the component to
+     * @param component the component to send
+     * @param messageType the type of the message
+     */
+    void send(
+            UUID receiver,
+            Component component,
+            NucleoMessageSender.MessageType messageType
+    );
+
+    /**
+     * Sends the given component to the player with the given UUID.
+     * @param nucleoOnlinePlayer the player to send the component to
+     * @param component the component to send
+     * @param messageType the type of the message
+     */
+    default void send(
+            NucleoOnlinePlayer nucleoOnlinePlayer,
+            Component component,
+            NucleoMessageSender.MessageType messageType
+    ) {
+        send(nucleoOnlinePlayer.uuid(), component, messageType);
     }
 
     /**

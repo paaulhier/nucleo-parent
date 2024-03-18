@@ -7,6 +7,7 @@ import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.Version;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -95,5 +96,14 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
             return playerService = ServiceRegistry.service(PlayerService.class);
         }
         return playerService;
+    }
+
+    @Override
+    public void send(Component component, MessageType messageType) {
+        playerService.send(
+                this,
+                component,
+                messageType
+        );
     }
 }

@@ -3,11 +3,13 @@ package de.keeeks.nucleo.modules.players.proxy;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.proxy.module.ProxyModule;
+import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.proxy.listener.LoginListener;
 import de.keeeks.nucleo.modules.players.proxy.listener.PlayerDisconnectListener;
 import de.keeeks.nucleo.modules.players.proxy.listener.ServerConnectedListener;
+import de.keeeks.nucleo.modules.players.proxy.packet.listener.NucleoOnlinePlayerMessagePacketListener;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
 
 @ModuleDescription(
@@ -37,6 +39,10 @@ public class PlayersProxyModule extends ProxyModule {
                 new LoginListener(),
                 new ServerConnectedListener(),
                 new PlayerDisconnectListener()
+        );
+
+        ServiceRegistry.service(NatsConnection.class).registerPacketListener(
+                new NucleoOnlinePlayerMessagePacketListener(audiences())
         );
     }
 }

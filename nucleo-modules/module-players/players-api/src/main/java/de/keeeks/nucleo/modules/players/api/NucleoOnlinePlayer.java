@@ -1,6 +1,6 @@
 package de.keeeks.nucleo.modules.players.api;
 
-public interface NucleoOnlinePlayer extends NucleoPlayer {
+public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
 
     String server();
 
@@ -15,5 +15,4 @@ public interface NucleoOnlinePlayer extends NucleoPlayer {
     NucleoOnlinePlayer updateProxy(String proxy);
 
     void update();
-
 }
