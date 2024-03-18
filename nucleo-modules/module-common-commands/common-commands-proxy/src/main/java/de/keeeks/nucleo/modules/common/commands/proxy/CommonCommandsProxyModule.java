@@ -9,6 +9,7 @@ import de.keeeks.nucleo.modules.common.commands.proxy.commands.ModulesCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.players.PingCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.players.PlayerInfoCommand;
+import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.TeamCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.packet.listener.ping.PlayerPingRequestPacketListener;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
@@ -42,6 +43,9 @@ public class CommonCommandsProxyModule extends ProxyModule {
             registerCommands(new PingCommand(audiences()));
             if (lejetModuleEnabled && verificaModuleEnabled) {
                 registerCommands(new PlayerInfoCommand());
+            }
+            if (lejetModuleEnabled) {
+                registerCommands(new TeamCommand());
             }
         }
 

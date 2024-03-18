@@ -75,9 +75,10 @@ public final class PlayerInfoCommand {
                             Component.text(Formatter.formatDateTime(
                                     nucleoPlayer.lastLogin()
                             )),
-                            Component.text(Formatter.formatDateTime(
-                                    nucleoPlayer.lastLogout()
-                            )),
+                            nucleoPlayer.lastLogout() == null
+                                    ? Component.translatable("commands.playerinfo.neverConnected")
+                                    : Component.text(Formatter.formatDateTime(nucleoPlayer.lastLogout())
+                            ),
                             Component.text(Formatter.formatDateTime(
                                     nucleoPlayer.updatedAt()
                             )),
