@@ -34,7 +34,7 @@ public class DiscordCloudServiceStopListener extends DiscordCloudServiceListener
 
             try {
                 discordWebhook.execute();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });

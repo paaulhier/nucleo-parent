@@ -33,7 +33,7 @@ public class DiscordCloudServiceStartListener extends DiscordCloudServiceListene
 
             try {
                 discordWebhook.execute();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });

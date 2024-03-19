@@ -1,11 +1,10 @@
-package de.keeeks.nucleo.cloudnet.discord;
+package de.keeeks.nucleo.core.api.utils.discord;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URI;
@@ -38,8 +37,14 @@ public class DiscordWebhook {
         this.url = url;
     }
 
-    public void addEmbed(EmbedObject embed) {
+    public DiscordWebhook addEmbed(EmbedObject embed) {
         this.embeds.add(embed);
+        return this;
+    }
+
+    public DiscordWebhook addEmbed(EmbedCreator embedCreator) {
+        this.embeds.add(embedCreator.createEmbed(new EmbedObject()));
+        return this;
     }
 
     public void execute() throws Exception {
@@ -216,6 +221,10 @@ public class DiscordWebhook {
 
         private record Field(String name, String value, boolean inline) {
         }
+    }
+
+    public interface EmbedCreator {
+        EmbedObject createEmbed(EmbedObject embedObject);
     }
 
     private static class JSONObject {

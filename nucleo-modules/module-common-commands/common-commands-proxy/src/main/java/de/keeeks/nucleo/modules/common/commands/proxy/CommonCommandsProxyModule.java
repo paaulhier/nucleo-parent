@@ -8,17 +8,20 @@ import de.keeeks.nucleo.modules.common.commands.api.translation.CommonCommandsTr
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.ModulesCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.players.PingCommand;
-import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.PlayerInfoCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.JumpToCommand;
+import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.PlayerInfoCommand;
 import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.TeamCommand;
+import de.keeeks.nucleo.modules.common.commands.proxy.commands.team.administration.PushCommand;
+import de.keeeks.nucleo.modules.common.commands.proxy.configuration.PushConfiguration;
 import de.keeeks.nucleo.modules.common.commands.proxy.packet.listener.ping.PlayerPingRequestPacketListener;
+import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(
         name = "common-commands",
         depends = {"translations"},
-        softDepends = {"players", "messaging", "lejet", "verifica"}
+        softDepends = {"players", "messaging", "lejet", "verifica", "config"}
 )
 public class CommonCommandsProxyModule extends ProxyModule {
 
@@ -39,6 +42,11 @@ public class CommonCommandsProxyModule extends ProxyModule {
         boolean messagingModuleEnabled = Module.isAvailable("messaging");
         boolean lejetModuleEnabled = Module.isAvailable("lejet");
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
+        boolean configModuleEnabled = Module.isAvailable("config");
+
+        if (configModuleEnabled) {
+            registerCommands(new PushCommand(pushConfiguration()));
+        }
 
         if (playersModuleEnabled) {
             registerCommands(
@@ -61,5 +69,15 @@ public class CommonCommandsProxyModule extends ProxyModule {
                     new PlayerPingRequestPacketListener()
             );
         }
+    }
+
+    private PushConfiguration pushConfiguration() {
+        return JsonConfiguration.create(
+                dataFolder(),
+                "push"
+        ).loadObject(
+                PushConfiguration.class,
+                PushConfiguration.createDefault()
+        );
     }
 }
