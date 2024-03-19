@@ -8,8 +8,14 @@
         <artifactId>nucleo-modules</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
 
     <artifactId>module-hologram</artifactId>
+
+    <modules>
+        <module>hologram-api</module>
+        <module>hologram-spigot</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

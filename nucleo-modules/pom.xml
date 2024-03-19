@@ -21,9 +21,8 @@
         <module>module-translation</module>
         <module>module-inventory</module>
         <module>module-hologram</module>
-        <module>module-hologram/hologram-api</module>
-        <module>module-hologram/hologram-spigot</module>
         <module>module-common-commands</module>
+        <module>module-moderation-tools</module>
     </modules>
 
     <properties>
