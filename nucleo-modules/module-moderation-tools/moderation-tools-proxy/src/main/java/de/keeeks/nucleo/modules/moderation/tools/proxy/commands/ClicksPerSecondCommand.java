@@ -54,7 +54,8 @@ public class ClicksPerSecondCommand {
                 nucleoOnlinePlayer.uuid()
         ).ifPresent(clickCheckInformation -> {
             audience.sendMessage(Component.translatable(
-                    "nucleo.moderation.tools.cps.activate.success"
+                    "nucleo.moderation.tools.cps.activate.success",
+                    Component.text(nucleoOnlinePlayer.name())
             ));
 
             connectPlayerToServerIfNecessary(audience, nucleoOnlinePlayer, player);
@@ -70,12 +71,17 @@ public class ClicksPerSecondCommand {
             ServerInfo info = player.getServer().getInfo();
 
             if (!info.getName().equals(targetPlayer.server())) {
-                connectPlayerToServer(audience, player, info);
+                connectPlayerToServer(audience, player, info, targetPlayer.name());
             }
         }
     }
 
-    private static void connectPlayerToServer(Audience audience, ProxiedPlayer player, ServerInfo info) {
+    private static void connectPlayerToServer(
+            Audience audience,
+            ProxiedPlayer player,
+            ServerInfo info,
+            String targetPlayerName
+    ) {
         player.connect(info, (aBoolean, throwable) -> {
             if (throwable != null) {
                 audience.sendMessage(Component.translatable(
@@ -84,7 +90,9 @@ public class ClicksPerSecondCommand {
                 return;
             }
             audience.sendMessage(Component.translatable(
-                    "nucleo.moderation.tools.cps.activate.serverChangeSuccess"
+                    "nucleo.moderation.tools.cps.activate.serverChangeSuccess",
+                    Component.text(targetPlayerName),
+                    Component.text(info.getName())
             ));
         });
     }
@@ -121,7 +129,15 @@ public class ClicksPerSecondCommand {
                                     clickCheckInformation,
                                     nucleoOnlinePlayer
                             ),
-                            () -> deleteIfTargetIsOffline(audience, clickCheckInformation));
+                            () -> {
+                                playerService.player(clickCheckInformation.target()).ifPresent(
+                                        nucleoPlayer -> deleteIfTargetIsOffline(
+                                                audience,
+                                                clickCheckInformation,
+                                                nucleoPlayer.name()
+                                        )
+                                );
+                            });
                 }),
                 () -> audience.sendMessage(Component.translatable(
                         "nucleo.moderation.tools.cps.info.noActive"
@@ -146,9 +162,14 @@ public class ClicksPerSecondCommand {
         ));
     }
 
-    private void deleteIfTargetIsOffline(Audience audience, ClickCheckInformation clickCheckInformation) {
+    private void deleteIfTargetIsOffline(
+            Audience audience,
+            ClickCheckInformation clickCheckInformation,
+            String targetName
+    ) {
         audience.sendMessage(Component.translatable(
-                "nucleo.moderation.tools.cps.info.activeOffline"
+                "nucleo.moderation.tools.cps.info.activeOffline",
+                Component.text(targetName)
         ));
         clickCheckApi.removeClickCheck(clickCheckInformation);
     }

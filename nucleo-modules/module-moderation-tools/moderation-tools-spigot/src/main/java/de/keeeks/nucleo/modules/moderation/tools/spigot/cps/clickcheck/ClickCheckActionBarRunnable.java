@@ -9,6 +9,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import static de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondInformation.ClickType;
+
 public class ClickCheckActionBarRunnable implements Runnable {
     private final ClicksPerSecondProvider clicksPerSecondProvider = ServiceRegistry.service(ClicksPerSecondProvider.class);
     private final ClickCheckApi clickCheckApi = ServiceRegistry.service(ClickCheckApi.class);
@@ -21,13 +23,18 @@ public class ClickCheckActionBarRunnable implements Runnable {
             Player target = Bukkit.getPlayer(clickCheck.target());
             if (target == null) continue;
 
-            clicksPerSecondProvider.clicksPerSecondInformation(target).map(
-                    ClicksPerSecondInformation::clicksPerSecond
-            ).ifPresentOrElse(cps -> player.sendActionBar(Component.translatable(
-                    "nucleo.modules.moderation.tools.cps.clickcheck.actionbar",
-                    Component.text(cps)
-            )), () -> player.sendActionBar(Component.translatable(
-                    "nucleo.modules.moderation.tools.cps.clickcheck.actionbar.notMeasured"
+            clicksPerSecondProvider.clicksPerSecondInformation(target).ifPresentOrElse(clicksPerSecondInformation -> {
+                int leftClicks = clicksPerSecondInformation.clicksPerSecondByType(ClickType.LEFT);
+                int rightClicks = clicksPerSecondInformation.clicksPerSecondByType(ClickType.RIGHT);
+                player.sendActionBar(Component.translatable(
+                        "nucleo.modules.moderation.tools.cps.clickcheck.actionbar",
+                        Component.text(leftClicks),
+                        Component.text(rightClicks),
+                        Component.text(target.getName())
+                ));
+            }, () -> player.sendActionBar(Component.translatable(
+                    "nucleo.modules.moderation.tools.cps.clickcheck.actionbar.notMeasured",
+                    Component.text(target.getName())
             )));
         }
     }

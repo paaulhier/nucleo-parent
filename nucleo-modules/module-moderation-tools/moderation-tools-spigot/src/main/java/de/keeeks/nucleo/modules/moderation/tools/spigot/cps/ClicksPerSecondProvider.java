@@ -11,13 +11,16 @@ import java.util.Optional;
 public final class ClicksPerSecondProvider {
     private final List<ClicksPerSecondInformation> clicksPerSecondInformation = new LinkedList<>();
 
-    public void handleClick(Player player) {
+    public void handleClick(Player player, ClicksPerSecondInformation.ClickType clickType) {
         ClicksPerSecondInformation information = clicksPerSecondInformation.stream()
                 .filter(info -> info.uuid().equals(player.getUniqueId()))
                 .findFirst()
                 .orElseGet(() -> createClicksPerSecondInformation(player));
 
-        information.clicks().add(Instant.now());
+        information.clicks().add(new ClicksPerSecondInformation.ClickDetails(
+                clickType,
+                Instant.now()
+        ));
     }
 
     public Optional<ClicksPerSecondInformation> clicksPerSecondInformation(Player player) {
