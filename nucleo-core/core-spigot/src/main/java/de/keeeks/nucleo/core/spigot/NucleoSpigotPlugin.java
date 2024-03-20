@@ -5,6 +5,7 @@ import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
+import de.keeeks.nucleo.core.spigot.command.NucleoSpigotExceptionHandler;
 import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import lombok.Getter;
@@ -56,6 +57,7 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         bukkitCommandHandler.enableAdventure();
         bukkitCommandHandler.register(commandRegistrations.toArray());
         bukkitCommandHandler.registerBrigadier();
+        bukkitCommandHandler.setExceptionHandler(new NucleoSpigotExceptionHandler());
 
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(
                 this,

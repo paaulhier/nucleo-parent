@@ -31,11 +31,6 @@
 
         <dependency>
             <groupId>com.github.Revxrsal.Lamp</groupId>
-            <artifactId>common</artifactId>
-            <version>${lamp.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.Revxrsal.Lamp</groupId>
             <artifactId>bungee</artifactId>
             <version>${lamp.version}</version>
         </dependency>

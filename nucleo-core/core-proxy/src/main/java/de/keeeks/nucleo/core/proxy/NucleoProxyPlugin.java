@@ -4,6 +4,7 @@ import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
+import de.keeeks.nucleo.core.proxy.command.NucleoProxyExceptionHandler;
 import de.keeeks.nucleo.core.proxy.listener.NucleoProxyDefineCommandsEventListener;
 import lombok.Getter;
 import net.kyori.adventure.audience.Audience;
@@ -71,6 +72,7 @@ public class NucleoProxyPlugin extends Plugin {
         );
 
         bungeeCommandHandler.register(commandRegistrations);
+        bungeeCommandHandler.setExceptionHandler(new NucleoProxyExceptionHandler(bungeeAudiences));
 
         bungeeCommandHandler.registerContextResolver(
                 Audience.class,
