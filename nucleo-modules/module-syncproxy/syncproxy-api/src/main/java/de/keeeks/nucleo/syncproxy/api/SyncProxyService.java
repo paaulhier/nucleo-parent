@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface SyncProxyService {
 
-    String CHANNEL = "syncproxy";
+    String CHANNEL = "nucleo:syncproxy";
 
     void reload();
 

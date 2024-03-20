@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 public interface ClickCheckApi {
 
-    String CHANNEL = "clickcheck";
+    String CHANNEL = "nucleo:clickcheck";
 
     List<ClickCheckInformation> clickChecks();
 

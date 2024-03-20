@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface PlayerService {
 
-    String CHANNEL = "playerService";
+    String CHANNEL = "nucleo:players";
 
     /**
      * Creates a new player with the given UUID and name.
