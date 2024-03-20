@@ -2,7 +2,9 @@ package de.keeeks.nucleo.modules.players.proxy.listener;
 
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
+import de.keeeks.nucleo.modules.players.shared.packet.player.NucleoOnlinePlayerSwitchServerPacket;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -16,6 +18,9 @@ public class ServerConnectedListener implements Listener {
     private final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
+    private final NatsConnection natsConnection = ServiceRegistry.service(
+            NatsConnection.class
+    );
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleServerConnect(ServerConnectedEvent event) {
@@ -23,16 +28,13 @@ public class ServerConnectedListener implements Listener {
 
         playerService.onlinePlayer(player.getUniqueId()).ifPresentOrElse(
                 nucleoOnlinePlayer -> {
-                    if (nucleoOnlinePlayer.locale() == null) {
-                        nucleoOnlinePlayer.updateLocale(player.getLocale());
-                        Module.module("players").logger().info(
-                                "Updated locale for " + nucleoOnlinePlayer.name() + " to " + player.getLocale()
-                        );
-                    }
-
                     nucleoOnlinePlayer.updateServer(
                             event.getServer().getInfo().getName()
-                    ).update();
+                    );
+                    natsConnection.publishPacket(
+                            PlayerService.CHANNEL,
+                            new NucleoOnlinePlayerSwitchServerPacket(nucleoOnlinePlayer)
+                    );
                 },
                 () -> {
                     player.disconnect(TextComponent.fromLegacy(

@@ -8,6 +8,10 @@ public final class ServiceRegistry {
 
     public static <T> T registerService(Class<T> clazz, T service) {
         services.put(clazz, service);
+        Class<?> serviceClass = service.getClass();
+        if (serviceClass != clazz) {
+            services.put(serviceClass, service);
+        }
         return service;
     }
 
