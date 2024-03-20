@@ -14,6 +14,7 @@
     <modules>
         <module>application-console</module>
         <module>application-command-line</module>
+        <module>application-spring</module>
     </modules>
 
     <properties>

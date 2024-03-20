@@ -70,9 +70,12 @@ public abstract class Module {
         //Does not have any function yet. Do a "module-override" to implement stuff for modules
     }
 
+    @SneakyThrows
     public void updateState(ModuleState moduleState) {
         Class<?> callerClass = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass();
-        if (!callerClass.getName().equals("de.keeeks.nucleo.core.loader.ModuleLoader")) {
+        String callerClassName = callerClass.getName();
+        if (!callerClassName.equals("de.keeeks.nucleo.core.loader.ModuleLoader")
+                && !callerClassName.equals("de.keeeks.nucleo.core.loader.AbstractModuleLoader")) {
             throw new IllegalStateException("You are not allowed to change the module state from outside the module loader");
         }
 
