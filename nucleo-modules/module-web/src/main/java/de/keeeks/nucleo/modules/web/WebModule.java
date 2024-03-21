@@ -6,11 +6,13 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.web.auth.BasicAuthenticationHandler;
 import de.keeeks.nucleo.modules.web.configuration.WebConfiguration;
 import de.keeeks.nucleo.modules.web.configuration.authorization.BasicAuthenticationConfiguration;
+import de.keeeks.nucleo.modules.web.handler.RequestHandler;
 import io.javalin.Javalin;
 import io.javalin.util.JavalinLogger;
 import lombok.Getter;
 
 import java.io.File;
+import java.util.List;
 
 @Getter
 @ModuleDescription(
