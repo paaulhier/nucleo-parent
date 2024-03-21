@@ -6,13 +6,11 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.web.auth.BasicAuthenticationHandler;
 import de.keeeks.nucleo.modules.web.configuration.WebConfiguration;
 import de.keeeks.nucleo.modules.web.configuration.authorization.BasicAuthenticationConfiguration;
-import de.keeeks.nucleo.modules.web.handler.RequestHandler;
 import io.javalin.Javalin;
 import io.javalin.util.JavalinLogger;
 import lombok.Getter;
 
 import java.io.File;
-import java.util.List;
 
 @Getter
 @ModuleDescription(
@@ -35,11 +33,19 @@ public class WebModule extends Module {
         );
         JavalinLogger.enabled = false;
         JavalinLogger.startupInfo = false;
+        javalin = Javalin.create(javalinConfig -> {
+            if (webConfiguration.devLogging()) {
+                javalinConfig.bundledPlugins.enableDevLogging();
+            }
+        });
     }
 
     @Override
     public void enable() {
-        javalin = createJavalin();
+        if (javalin != null) {
+            startJavalinWebServer();
+        }
+
         initializeAuthentication();
     }
 
@@ -50,17 +56,17 @@ public class WebModule extends Module {
         }
     }
 
-    private Javalin createJavalin() {
+    private void startJavalinWebServer() {
         if (webConfiguration.host() == null) {
-            logger.info("No host specified, starting on localhost");
-            return Javalin.create(javalinConfig -> {
-                if (webConfiguration.devLogging()) {
-                    javalinConfig.bundledPlugins.enableDevLogging();
-                }
-            }).start(webConfiguration.port());
+            logger.info("No host specified, binding to localhost");
+            javalin.start(webConfiguration.port());
+            return;
         }
-        logger.info("Starting on " + webConfiguration.host() + ":" + webConfiguration.port());
-        return Javalin.create().start(
+        logger.info("Binding to %s:%s".formatted(
+                webConfiguration.host(),
+                webConfiguration.port()
+        ));
+        javalin.start(
                 webConfiguration.host(),
                 webConfiguration.port()
         );
