@@ -5,16 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.keeeks.nucleo</groupId>
-        <artifactId>nucleo-core</artifactId>
+        <artifactId>module-notifications</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>core-application</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>application-console</module>
-        <module>application-command-line</module>
-    </modules>
+    <artifactId>notifications-api</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

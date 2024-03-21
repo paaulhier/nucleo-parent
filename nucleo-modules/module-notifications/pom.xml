@@ -5,27 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.keeeks.nucleo</groupId>
-        <artifactId>nucleo-parent</artifactId>
+        <artifactId>nucleo-modules</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>nucleo-modules</artifactId>
+    <artifactId>module-notifications</artifactId>
     <packaging>pom</packaging>
-
     <modules>
-        <module>module-config</module>
-        <module>module-messaging</module>
-        <module>module-database</module>
-        <module>module-players</module>
-        <module>module-syncproxy</module>
-        <module>module-translation</module>
-        <module>module-inventory</module>
-        <module>module-hologram</module>
-        <module>module-common-commands</module>
-        <module>module-moderation-tools</module>
-        <module>module-automessage</module>
-        <module>module-notifications</module>
-        <module>module-web</module>
+        <module>notifications-api</module>
+        <module>notifications-shared</module>
+        <module>notifications-proxy</module>
+        <module>notifications-spigot</module>
     </modules>
 
     <properties>
