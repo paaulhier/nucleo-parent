@@ -7,6 +7,7 @@ import de.keeeks.nucleo.modules.web.auth.BasicAuthenticationHandler;
 import de.keeeks.nucleo.modules.web.configuration.WebConfiguration;
 import de.keeeks.nucleo.modules.web.configuration.authorization.BasicAuthenticationConfiguration;
 import io.javalin.Javalin;
+import io.javalin.util.JavalinLogger;
 import lombok.Getter;
 
 import java.io.File;
@@ -30,6 +31,8 @@ public class WebModule extends Module {
                 WebConfiguration.class,
                 WebConfiguration.defaultConfiguration()
         );
+        JavalinLogger.enabled = false;
+        JavalinLogger.startupInfo = false;
     }
 
     @Override
