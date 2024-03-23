@@ -36,7 +36,7 @@ public class FlyCommand {
     }
 
     private void toggleFlyForOther(Player player, Player target) {
-        if (toggleFlyFor(player)) {
+        if (toggleFlyFor(target)) {
             player.sendMessage(Component.translatable(
                     "commands.fly.enabled.other",
                     Component.text(target.getName())
