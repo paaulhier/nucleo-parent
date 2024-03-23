@@ -8,7 +8,7 @@ import de.keeeks.nucleo.core.proxy.module.ProxyModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.teamchat.listener.TeamChatChatListener;
+import de.keeeks.nucleo.modules.teamchat.commands.TeamChatCommand;
 import de.keeeks.nucleo.modules.teamchat.packet.listener.TeamChatMessagePacketListener;
 import de.keeeks.nucleo.modules.teamchat.translation.TeamChatTranslationRegistry;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
@@ -44,6 +44,6 @@ public class TeamChatModule extends ProxyModule {
 
     @Override
     public void enable() {
-        registerListener(new TeamChatChatListener(natsConnection));
+        registerCommands(new TeamChatCommand(natsConnection));
     }
 }
