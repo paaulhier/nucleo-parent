@@ -71,7 +71,12 @@ public class ClicksPerSecondCommand {
             ServerInfo info = player.getServer().getInfo();
 
             if (!info.getName().equals(targetPlayer.server())) {
-                connectPlayerToServer(audience, player, info, targetPlayer.name());
+                connectPlayerToServer(
+                        audience,
+                        player,
+                        ProxyServer.getInstance().getServerInfo(targetPlayer.server()),
+                        targetPlayer.name()
+                );
             }
         }
     }
