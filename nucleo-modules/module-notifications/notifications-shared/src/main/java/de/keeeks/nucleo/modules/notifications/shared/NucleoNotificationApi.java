@@ -63,21 +63,27 @@ public class NucleoNotificationApi implements NotificationApi {
             String name,
             String description
     ) {
-        int notificationId = notificationRepository.createNotification(
-                name,
-                description
-        );
+        return notification(name).or(() -> {
+            int notificationId = notificationRepository.createNotification(
+                    name,
+                    description
+            );
 
-        Notification notification = new NucleoNotification(
-                notificationId,
-                name,
-                description
-        );
-        natsConnection.publishPacket(
-                CHANNEL,
-                new NotificationCreatePacket(notification)
-        );
-        return notification;
+            Notification notification = new NucleoNotification(
+                    notificationId,
+                    name,
+                    description
+            );
+            notificationStateCaches.put(
+                    notification.id(),
+                    new NotificationStateCache(notificationRepository, notification)
+            );
+            natsConnection.publishPacket(
+                    CHANNEL,
+                    new NotificationCreatePacket(notification)
+            );
+            return Optional.of(notification);
+        }).orElseThrow();
     }
 
     @Override

@@ -26,6 +26,7 @@
         <module>module-automessage</module>
         <module>module-notifications</module>
         <module>module-web</module>
+        <module>module-teamchat</module>
     </modules>
 
     <properties>
