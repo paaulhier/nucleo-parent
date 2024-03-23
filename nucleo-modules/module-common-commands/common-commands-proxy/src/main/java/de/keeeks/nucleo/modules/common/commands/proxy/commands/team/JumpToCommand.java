@@ -10,6 +10,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
+import revxrsal.commands.annotation.AutoComplete;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Usage;
@@ -24,6 +25,7 @@ public class JumpToCommand {
 
     private final BungeeAudiences bungeeAudiences;
 
+    @AutoComplete("players")
     @Usage("jumpto <player>")
     @DefaultFor({"jumpto", "jt", "goto"})
     public void jumpToCommand(
