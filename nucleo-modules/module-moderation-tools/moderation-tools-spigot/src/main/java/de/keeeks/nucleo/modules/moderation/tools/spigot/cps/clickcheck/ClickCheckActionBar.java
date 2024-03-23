@@ -7,6 +7,8 @@ import de.keeeks.nucleo.modules.moderation.tools.spigot.ModerationToolsSpigotMod
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.logging.Logger;
+
 public class ClickCheckActionBar {
     private final ClickCheckApi clickCheckApi = ServiceRegistry.service(
             ClickCheckApi.class
@@ -14,9 +16,12 @@ public class ClickCheckActionBar {
     private final ModerationToolsSpigotModule module = Module.module(ModerationToolsSpigotModule.class);
     private final ClickCheckActionBarRunnable actionBarRunnable = new ClickCheckActionBarRunnable();
 
+    private final Logger logger;
+
     private BukkitTask actionBarTask;
 
-    public ClickCheckActionBar() {
+    public ClickCheckActionBar(Logger logger) {
+        this.logger = logger;
         clickCheckApi.createListener(clickCheckInformation -> {
             if (actionBarTask == null || actionBarTask.isCancelled()) {
                 start();
@@ -33,6 +38,7 @@ public class ClickCheckActionBar {
                 0,
                 5
         );
+        logger.info("Started ClickCheckActionBar task");
     }
 
     public final void stopIfNoClickChecks() {
@@ -45,6 +51,7 @@ public class ClickCheckActionBar {
         if (actionBarTask != null && !actionBarTask.isCancelled()) {
             actionBarTask.cancel();
             actionBarTask = null;
+            logger.info("Stopped ClickCheckActionBar task");
         }
     }
 }

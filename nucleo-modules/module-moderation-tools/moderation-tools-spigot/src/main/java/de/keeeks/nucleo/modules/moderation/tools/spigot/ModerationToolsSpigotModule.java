@@ -36,7 +36,7 @@ public class ModerationToolsSpigotModule extends SpigotModule {
     public void enable() {
         ServiceRegistry.registerService(
                 ClickCheckActionBar.class,
-                new ClickCheckActionBar()
+                new ClickCheckActionBar(logger)
         );
         registerListener(new ModerationToolsClickListener());
     }
