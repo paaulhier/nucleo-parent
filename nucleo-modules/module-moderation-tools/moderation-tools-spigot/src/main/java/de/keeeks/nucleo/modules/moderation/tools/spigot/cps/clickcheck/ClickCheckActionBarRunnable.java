@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.moderation.tools.spigot.cps.clickcheck;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckInformation;
-import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondInformation;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondProvider;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;

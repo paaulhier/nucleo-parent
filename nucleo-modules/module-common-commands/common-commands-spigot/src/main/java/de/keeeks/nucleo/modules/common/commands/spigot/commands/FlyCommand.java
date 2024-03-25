@@ -2,7 +2,6 @@ package de.keeeks.nucleo.modules.common.commands.spigot.commands;
 
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.common.commands.spigot.CommonCommandsSpigotModule;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

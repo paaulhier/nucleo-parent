@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.moderation.tools.shared.packet.listener;
 
-import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;

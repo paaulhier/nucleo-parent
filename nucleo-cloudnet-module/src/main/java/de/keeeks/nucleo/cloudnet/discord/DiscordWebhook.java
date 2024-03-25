@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URI;

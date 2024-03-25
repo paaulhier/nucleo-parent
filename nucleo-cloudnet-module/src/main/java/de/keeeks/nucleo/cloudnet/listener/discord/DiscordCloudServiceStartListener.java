@@ -8,7 +8,6 @@ import eu.cloudnetservice.node.service.CloudService;
 import jakarta.inject.Singleton;
 
 import java.awt.*;
-import java.io.IOException;
 
 @Singleton
 public class DiscordCloudServiceStartListener extends DiscordCloudServiceListener {

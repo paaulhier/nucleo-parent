@@ -9,12 +9,9 @@ import de.keeeks.nucleo.modules.notifications.proxy.commands.NotificationCommand
 import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.translation.NotificationsTranslationRegistry;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
-import org.apache.commons.collections4.ListUtils;
-
-import java.util.List;
 
 @ModuleDescription(
-        name ="notifications",
+        name = "notifications",
         depends = {"config", "messaging", "database-mysql"},
         description = "Provides notifications for various events"
 )

@@ -162,8 +162,9 @@ public interface PlayerService {
 
     /**
      * Sends the given component to the player with the given UUID.
-     * @param receiver the UUID of the player to send the component to
-     * @param component the component to send
+     *
+     * @param receiver    the UUID of the player to send the component to
+     * @param component   the component to send
      * @param messageType the type of the message
      */
     void send(
@@ -174,9 +175,10 @@ public interface PlayerService {
 
     /**
      * Sends the given component to the player with the given UUID.
+     *
      * @param nucleoOnlinePlayer the player to send the component to
-     * @param component the component to send
-     * @param messageType the type of the message
+     * @param component          the component to send
+     * @param messageType        the type of the message
      */
     default void send(
             NucleoOnlinePlayer nucleoOnlinePlayer,

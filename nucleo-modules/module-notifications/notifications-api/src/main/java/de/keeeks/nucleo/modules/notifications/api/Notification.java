@@ -1,7 +1,6 @@
 package de.keeeks.nucleo.modules.notifications.api;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public interface Notification {
 

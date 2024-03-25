@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.players.proxy.listener;
 
-import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.PlayerService;

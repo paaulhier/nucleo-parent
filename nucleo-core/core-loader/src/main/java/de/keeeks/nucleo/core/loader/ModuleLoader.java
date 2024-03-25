@@ -1,14 +1,11 @@
 package de.keeeks.nucleo.core.loader;
 
-import de.keeeks.nucleo.core.api.Module;
-import de.keeeks.nucleo.core.api.ModuleLogger;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import lombok.Setter;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Map;

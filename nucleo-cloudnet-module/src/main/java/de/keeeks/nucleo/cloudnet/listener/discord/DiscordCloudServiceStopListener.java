@@ -8,7 +8,6 @@ import eu.cloudnetservice.node.event.service.CloudServicePostLifecycleEvent;
 import eu.cloudnetservice.node.service.CloudService;
 
 import java.awt.*;
-import java.io.IOException;
 
 public class DiscordCloudServiceStopListener extends DiscordCloudServiceListener {
 

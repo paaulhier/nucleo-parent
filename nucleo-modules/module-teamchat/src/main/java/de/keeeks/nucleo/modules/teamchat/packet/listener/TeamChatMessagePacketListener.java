@@ -10,12 +10,10 @@ import io.nats.client.Message;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @ListenerChannel("nucleo:teamchat")
 public class TeamChatMessagePacketListener extends PacketListener<TeamChatMessagePacket> {
@@ -51,7 +49,7 @@ public class TeamChatMessagePacketListener extends PacketListener<TeamChatMessag
     }
 
     private boolean canReceiveTeamMessages(CommandSender commandSender) {
-        if (commandSender instanceof ProxiedPlayer player)  {
+        if (commandSender instanceof ProxiedPlayer player) {
             if (!commandSender.hasPermission("nucleo.teamchat.receive")) return false;
             return notificationApi.notificationActive(notification, player.getUniqueId());
         }

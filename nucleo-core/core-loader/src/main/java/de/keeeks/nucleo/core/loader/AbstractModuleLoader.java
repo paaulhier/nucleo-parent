@@ -31,8 +31,7 @@ public abstract class AbstractModuleLoader {
             InstantiationException,
             IllegalAccessException,
             InvocationTargetException,
-            NoSuchMethodException
-    {
+            NoSuchMethodException {
         Module module = (Module) clazz.getConstructor().newInstance();
         ModuleLogger moduleLogger = ModuleLogger.create(module, logger);
         module.updateLogger(moduleLogger);

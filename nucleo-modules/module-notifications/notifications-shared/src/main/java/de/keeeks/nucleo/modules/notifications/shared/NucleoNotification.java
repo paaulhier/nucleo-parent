@@ -1,14 +1,11 @@
 package de.keeeks.nucleo.modules.notifications.shared;
 
-import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.notifications.api.Notification;
-import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
