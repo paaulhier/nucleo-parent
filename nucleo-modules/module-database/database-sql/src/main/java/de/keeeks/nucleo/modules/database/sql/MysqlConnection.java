@@ -7,10 +7,7 @@ import de.keeeks.nucleo.modules.database.sql.statement.BatchPreparedStatementFil
 import de.keeeks.nucleo.modules.database.sql.statement.PreparedStatementFiller;
 import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,6 +19,8 @@ public final class MysqlConnection {
     private static final AtomicInteger connectionCounter = new AtomicInteger(1);
 
     private final Logger logger = Module.module(MysqlDatabaseModule.class).logger();
+    private final List<Runnable> connectionUnavailableListeners = new ArrayList<>();
+
     private final HikariDataSource hikariDataSource;
 
     public MysqlConnection(MysqlCredentials sqlCredentials) {
@@ -49,6 +48,10 @@ public final class MysqlConnection {
 
     public static void shutdown() {
         sqlConnections.forEach(MysqlConnection::closeSource);
+    }
+
+    public void onConnectionUnavailable(Runnable listener) {
+        connectionUnavailableListeners.add(listener);
     }
 
     private void closeSource() {
@@ -199,7 +202,12 @@ public final class MysqlConnection {
     }
 
     public Connection connection() throws SQLException {
-        return hikariDataSource.getConnection();
+        try {
+            return hikariDataSource.getConnection();
+        } catch (Throwable exception) {
+            connectionUnavailableListeners.forEach(Runnable::run);
+            throw exception;
+        }
     }
 
     public static MysqlConnection create(MysqlCredentials sqlCredentials) {
