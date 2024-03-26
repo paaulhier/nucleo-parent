@@ -10,6 +10,7 @@ import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.verifica.api.VerificaApi;
+import de.keeeks.verifica.api.VerificationState;
 import de.keeeks.verifica.api.platform.Platform;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.audience.Audience;
@@ -131,9 +132,14 @@ public final class PlayerInfoCommand {
         return verificaApi.verification(
                 nucleoPlayer.uuid(),
                 platform
-        ).map(
-                verification -> (Component) Component.text(verification.userId())
-        ).orElse(Component.translatable(
+        ).map(verification -> {
+            VerificationState verificationState = verification.verificationState();
+
+            if (verificationState == VerificationState.PENDING) {
+                return Component.translatable("commands.playerinfo.pendingVerification");
+            }
+            return (Component) Component.text(verification.userId());
+        }).orElse(Component.translatable(
                 "commands.playerinfo.noVerification"
         ));
     }
