@@ -74,7 +74,7 @@ public final class CoreConsoleApplication {
                 properties.setProperty("console.prompt", ">");
                 properties.setProperty("console.terminalName", "Nucleo Console");
                 properties.setProperty("console.applicationName", "Nucleo");
-                properties.setProperty("console.logFormat", "format");
+                properties.setProperty("console.logFormat", "[%time%] - [%level%] - %thread%: %message%");
                 properties.store(
                         Files.newBufferedWriter(path),
                         "Nucleo Console Configuration"

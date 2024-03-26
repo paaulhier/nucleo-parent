@@ -9,10 +9,10 @@ public record ConsoleConfiguration(
 
     public static ConsoleConfiguration createDefault() {
         return new ConsoleConfiguration(
-                "%user% >",
-                "Terminal",
-                "Application",
-                "logFormat"
+                ">",
+                "Nucleo Console",
+                "Nucleo",
+                "[%time%] - [%level%] - %thread%: %message%"
         );
     }
 }
