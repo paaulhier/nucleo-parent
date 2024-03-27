@@ -27,6 +27,7 @@
         <module>module-notifications</module>
         <module>module-web</module>
         <module>module-teamchat</module>
+        <module>module-economy</module>
     </modules>
 
     <properties>
