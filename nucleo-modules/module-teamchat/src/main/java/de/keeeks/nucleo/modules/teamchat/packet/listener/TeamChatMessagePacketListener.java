@@ -1,5 +1,7 @@
 package de.keeeks.nucleo.modules.teamchat.packet.listener;
 
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ProxyServer;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
@@ -7,13 +9,12 @@ import de.keeeks.nucleo.modules.notifications.api.Notification;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.teamchat.packet.TeamChatMessagePacket;
 import io.nats.client.Message;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
 import java.util.function.Function;
+
+import static net.kyori.adventure.text.Component.translatable;
 
 @ListenerChannel("nucleo:teamchat")
 public class TeamChatMessagePacketListener extends PacketListener<TeamChatMessagePacket> {
@@ -23,12 +24,12 @@ public class TeamChatMessagePacketListener extends PacketListener<TeamChatMessag
             "Notification to receive team chat messages"
     );
 
-    private final BungeeAudiences bungeeAudiences;
+    private final ProxyServer proxyServer;
     private final Function<UUID, Component> playerNameApplier;
 
-    public TeamChatMessagePacketListener(BungeeAudiences bungeeAudiences, Function<UUID, Component> playerNameApplier) {
+    public TeamChatMessagePacketListener(ProxyServer proxyServer, Function<UUID, Component> playerNameApplier) {
         super(TeamChatMessagePacket.class);
-        this.bungeeAudiences = bungeeAudiences;
+        this.proxyServer = proxyServer;
         this.playerNameApplier = playerNameApplier;
     }
 
@@ -37,9 +38,9 @@ public class TeamChatMessagePacketListener extends PacketListener<TeamChatMessag
             TeamChatMessagePacket teamChatMessagePacket,
             Message message
     ) {
-        bungeeAudiences.filter(
+        proxyServer.getAllPlayers().stream().filter(
                 this::canReceiveTeamMessages
-        ).forEachAudience(audience -> audience.sendMessage(Component.translatable(
+        ).forEach(player -> player.sendMessage(translatable(
                 "nucleo.teamchat.message",
                 playerNameApplier.apply(teamChatMessagePacket.uuid()),
                 Component.text(teamChatMessagePacket.message()),
@@ -48,11 +49,7 @@ public class TeamChatMessagePacketListener extends PacketListener<TeamChatMessag
         )));
     }
 
-    private boolean canReceiveTeamMessages(CommandSender commandSender) {
-        if (commandSender instanceof ProxiedPlayer player) {
-            if (!commandSender.hasPermission("nucleo.teamchat.receive")) return false;
-            return notificationApi.notificationActive(notification, player.getUniqueId());
-        }
-        return false;
+    private boolean canReceiveTeamMessages(Player player) {
+            return player.hasPermission("nucleo.teamchat.receive");
     }
 }

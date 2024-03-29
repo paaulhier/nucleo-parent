@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.core.velocity;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -14,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.velocity.VelocityCommandHandler;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.logging.Logger;
 
 @Getter
@@ -31,28 +34,22 @@ public class NucleoVelocityPlugin {
             NucleoVelocityPlugin.class.getClassLoader()
     );
 
-    private final ModuleLoader moduleLoader;
     private final ProxyServer proxyServer;
     private final Logger logger;
 
-    private final VelocityCommandHandler commandHandler;
+    private VelocityCommandHandler commandHandler;
+    private ModuleLoader moduleLoader;
+
+    @Getter
+    private final long startupTime = System.currentTimeMillis();
+    @Getter
+    private Duration startupDuration;
 
     @Inject
     public NucleoVelocityPlugin(ProxyServer proxyServer, Logger logger) {
         plugin = this;
-
-        this.commandHandler = VelocityCommandHandler.create(
-                this,
-                proxyServer
-        );
-        this.commandHandler.setExceptionHandler(new NucleoVelocityExceptionHandler(proxyServer));
-
-        moduleLoader = initializeModuleLoaderAndLoadModules(logger);
-
         this.proxyServer = proxyServer;
         this.logger = logger;
-
-        logger.info("Nucleo Velocity loaded");
     }
 
     @NotNull
@@ -78,9 +75,21 @@ public class NucleoVelocityPlugin {
         return commandHandler.getAutoCompleter();
     }
 
-    @Subscribe
+    @Subscribe(order = PostOrder.FIRST)
     public void onProxyInitialization(ProxyInitializeEvent event) {
+        this.commandHandler = VelocityCommandHandler.create(
+                this,
+                proxyServer
+        );
+        this.commandHandler.setExceptionHandler(new NucleoVelocityExceptionHandler(proxyServer));
+
+        moduleLoader = initializeModuleLoaderAndLoadModules(logger);
+
         moduleLoader.enableModules();
+        this.startupDuration = Duration.between(
+                Instant.ofEpochMilli(startupTime),
+                Instant.ofEpochMilli(System.currentTimeMillis())
+        );
     }
 
     @Subscribe

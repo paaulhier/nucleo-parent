@@ -15,7 +15,7 @@
     <modules>
         <module>automessage-api</module>
         <module>automessage-shared</module>
-        <module>automessage-proxy</module>
+        <module>automessage-velocity</module>
     </modules>
 
     <properties>

@@ -20,14 +20,14 @@
     <dependencies>
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>core-proxy</artifactId>
+            <artifactId>core-velocity</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.github.waterfallmc</groupId>
-            <artifactId>waterfall-api</artifactId>
-            <version>${waterfall.version}</version>
+            <groupId>com.velocitypowered</groupId>
+            <artifactId>velocity-api</artifactId>
+            <version>${velocity.version}</version>
             <scope>provided</scope>
         </dependency>
 

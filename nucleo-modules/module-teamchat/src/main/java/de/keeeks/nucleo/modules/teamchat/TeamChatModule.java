@@ -4,7 +4,7 @@ import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PermissionUser;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
-import de.keeeks.nucleo.core.proxy.module.ProxyModule;
+import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
@@ -20,7 +20,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
         description = "This module provides a team chat.",
         depends = {"messaging", "notifications", "players", "lejet"}
 )
-public class TeamChatModule extends ProxyModule {
+public class TeamChatModule extends VelocityModule {
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     private NatsConnection natsConnection;
@@ -31,7 +31,7 @@ public class TeamChatModule extends ProxyModule {
         PlayerService playerService = ServiceRegistry.service(PlayerService.class);
         PermissionApi permissionApi = PermissionApi.instance();
 
-        natsConnection.registerPacketListener(new TeamChatMessagePacketListener(audiences(), uuid -> {
+        natsConnection.registerPacketListener(new TeamChatMessagePacketListener(proxyServer, uuid -> {
             String playerName = playerService.player(uuid).map(NucleoPlayer::name).orElse("Unknown");
             return permissionApi.user(uuid).flatMap(
                     PermissionUser::highestPermssionGroup
@@ -44,6 +44,6 @@ public class TeamChatModule extends ProxyModule {
 
     @Override
     public void enable() {
-        registerCommands(new TeamChatCommand(natsConnection));
+        registerCommands(new TeamChatCommand(natsConnection, proxyServer));
     }
 }

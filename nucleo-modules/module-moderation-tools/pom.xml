@@ -15,8 +15,8 @@
     <modules>
         <module>moderation-tools-api</module>
         <module>moderation-tools-shared</module>
-        <module>moderation-tools-proxy</module>
         <module>moderation-tools-spigot</module>
+        <module>moderation-tools-velocity</module>
     </modules>
 
     <properties>

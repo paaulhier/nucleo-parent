@@ -140,13 +140,12 @@ public abstract class AbstractModuleLoader {
 
         if (dependency != null) {
             graph.addVertex(dependency);
-            if (!graph.addEdge(dependency, moduleContainer, new DefaultEdge())) {
-                if (soft) return;
-                printMissingDependencySetUnavailableRemoveVertex(
-                        graph,
-                        moduleContainer,
-                        depend
-                );
+            try {
+                if (!graph.addEdge(dependency, moduleContainer, new DefaultEdge())) {
+                    printDependencyInfoIfNecessary(moduleContainer, depend, graph, soft);
+                }
+            } catch (Throwable throwable) {
+                printDependencyInfoIfNecessary(moduleContainer, depend, graph, soft);
             }
         } else {
             if (!soft) printMissingDependencySetUnavailableRemoveVertex(
@@ -155,6 +154,20 @@ public abstract class AbstractModuleLoader {
                     depend
             );
         }
+    }
+
+    private void printDependencyInfoIfNecessary(
+            ModuleContainer moduleContainer,
+            String depend,
+            Graph<ModuleContainer, DefaultEdge> graph,
+            boolean soft
+    ) {
+        if (soft) return;
+        printMissingDependencySetUnavailableRemoveVertex(
+                graph,
+                moduleContainer,
+                depend
+        );
     }
 
     private void printMissingDependencySetUnavailableRemoveVertex(

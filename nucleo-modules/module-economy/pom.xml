@@ -14,7 +14,7 @@
     <modules>
         <module>economy-api</module>
         <module>economy-shared</module>
-        <module>economy-proxy</module>
+        <module>economy-velocity</module>
     </modules>
 
     <properties>

@@ -14,8 +14,8 @@
     <modules>
         <module>notifications-api</module>
         <module>notifications-shared</module>
-        <module>notifications-proxy</module>
         <module>notifications-spigot</module>
+        <module>notifications-velocity</module>
     </modules>
 
     <properties>
