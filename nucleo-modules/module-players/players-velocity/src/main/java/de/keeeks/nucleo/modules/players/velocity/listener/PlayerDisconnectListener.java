@@ -35,7 +35,10 @@ public class PlayerDisconnectListener {
                             nucleoOnlinePlayer.updateLastLogout().addOnlineTime(
                                     calculatePlayedTime(nucleoOnlinePlayer)
                             )
-                    ));
+                    )
+            );
+
+            playerService.invalidateCacheNetworkWide(player.getUniqueId());
         });
     }
 
