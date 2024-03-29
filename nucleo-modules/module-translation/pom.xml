@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>translation-global</module>
-        <module>translation-proxy</module>
         <module>translation-spigot</module>
+        <module>translation-velocity</module>
     </modules>
 
     <properties>
