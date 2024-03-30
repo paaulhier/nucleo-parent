@@ -24,7 +24,7 @@ public class ProxyPingListener {
                 pingBuilder.clearSamplePlayers()
                         .maximumPlayers(syncProxyConfiguration.maxPlayers())
                         .onlinePlayers(playerService.onlinePlayerCount());
-                if (syncProxyConfiguration.protocolText() != null) {
+                if (syncProxyConfiguration.hasProtocol()) {
                     pingBuilder.version(new ServerPing.Version(
                             -1,
                             syncProxyConfiguration.protocolText()

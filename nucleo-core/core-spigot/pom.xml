@@ -41,11 +41,13 @@
             <groupId>de.keeeks.nucleo</groupId>
             <artifactId>core-api</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
             <artifactId>core-loader</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
