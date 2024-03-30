@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.core.velocity;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -10,6 +11,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.velocity.command.NucleoVelocityExceptionHandler;
+import de.keeeks.nucleo.core.velocity.listener.PlayerAvailableCommandsListener;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.autocomplete.AutoCompleter;
@@ -90,6 +92,7 @@ public class NucleoVelocityPlugin {
                 Instant.ofEpochMilli(startupTime),
                 Instant.ofEpochMilli(System.currentTimeMillis())
         );
+        registerListener(new PlayerAvailableCommandsListener(logger));
     }
 
     @Subscribe
