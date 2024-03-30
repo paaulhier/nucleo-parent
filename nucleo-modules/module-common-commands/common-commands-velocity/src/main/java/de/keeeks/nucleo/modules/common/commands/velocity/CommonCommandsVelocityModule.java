@@ -7,6 +7,7 @@ import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.common.commands.api.translation.CommonCommandsTranslationRegistry;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.ModulesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.UptimeCommand;
+import de.keeeks.nucleo.modules.common.commands.velocity.commands.economy.CookiesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.PingCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.JumpToCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.PlayerInfoCommand;
@@ -43,6 +44,7 @@ public class CommonCommandsVelocityModule extends VelocityModule {
         boolean lejetModuleEnabled = Module.isAvailable("lejet");
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
         boolean configModuleEnabled = Module.isAvailable("config");
+        boolean economyModuleEnabled = Module.isAvailable("economy");
 
         if (configModuleEnabled) {
             registerCommands(new PushCommand(pushConfiguration()));
@@ -68,6 +70,10 @@ public class CommonCommandsVelocityModule extends VelocityModule {
             natsConnection.registerPacketListener(
                     new PlayerPingRequestPacketListener(this)
             );
+        }
+
+        if (economyModuleEnabled) {
+            registerCommands(new CookiesCommand());
         }
     }
 

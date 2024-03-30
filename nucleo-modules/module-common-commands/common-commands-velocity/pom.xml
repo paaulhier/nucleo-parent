@@ -37,6 +37,12 @@
 
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>economy-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
             <artifactId>core-velocity</artifactId>
             <scope>provided</scope>
         </dependency>

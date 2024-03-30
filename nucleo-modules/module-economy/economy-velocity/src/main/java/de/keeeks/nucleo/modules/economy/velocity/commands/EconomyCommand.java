@@ -110,6 +110,79 @@ public class EconomyCommand {
         }, () -> sendEconomyNotFound(player, economyName)));
     }
 
+    @Usage("deposit <economy> <player> <amount>")
+    @Subcommand({"deposit"})
+    @CommandPermission("nucleo.commands.economy.deposit")
+    public void deposit(
+            Player player,
+            String economyName,
+            String playerName,
+            double amount
+    ) {
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
+            playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
+                economy.deposit(targetPlayer.uuid(), amount);
+
+                player.sendMessage(Component.translatable(
+                        "nucleo.economy.command.deposit",
+                        Component.text(playerName),
+                        Component.text(amount),
+                        Component.text(economy.name())
+                ));
+            }, () -> sendPlayerNotFound(player, playerName));
+        }, () -> sendEconomyNotFound(player, economyName)));
+    }
+
+    @Usage("withdraw <economy> <player> <amount>")
+    @Subcommand({"withdraw"})
+    @CommandPermission("nucleo.commands.economy.withdraw")
+    public void withdraw(
+            Player player,
+            String economyName,
+            String playerName,
+            double amount
+    ) {
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
+            playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
+                economy.withdraw(targetPlayer.uuid(), amount);
+
+                player.sendMessage(Component.translatable(
+                        "nucleo.economy.command.withdraw",
+                        Component.text(playerName),
+                        Component.text(amount),
+                        Component.text(economy.name())
+                ));
+            }, () -> sendPlayerNotFound(player, playerName));
+        }, () -> sendEconomyNotFound(player, economyName)));
+    }
+
+    @Usage("transfer <economy> <from> <to> <amount>")
+    @Subcommand({"transfer"})
+    @CommandPermission("nucleo.commands.economy.transfer")
+    public void transfer(
+            Player player,
+            String economyName,
+            String fromName,
+            String toName,
+            double amount
+    ) {
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
+            playerService.player(fromName).ifPresentOrElse(fromPlayer -> {
+                playerService.player(toName).ifPresentOrElse(toPlayer -> {
+                    economy.transfer(fromPlayer.uuid(), toPlayer.uuid(), amount);
+
+                    player.sendMessage(Component.translatable(
+                            "nucleo.economy.command.transfer",
+                            Component.text(fromName),
+                            Component.text(toName),
+                            Component.text(amount),
+                            Component.text(economy.name())
+                    ));
+                }, () -> sendPlayerNotFound(player, toName));
+            }, () -> sendPlayerNotFound(player, fromName));
+        }, () -> sendEconomyNotFound(player, economyName)));
+    }
+
     private void sendPlayerNotFound(Player player, String playerName) {
         player.sendMessage(Component.translatable(
                 "playerNotFound",
