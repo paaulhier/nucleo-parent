@@ -1,7 +1,6 @@
 package de.keeeks.nucleo.core.velocity;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;

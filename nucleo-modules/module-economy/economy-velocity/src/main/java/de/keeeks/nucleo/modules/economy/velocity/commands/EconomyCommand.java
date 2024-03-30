@@ -6,7 +6,6 @@ import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.economy.api.Economy;
 import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;

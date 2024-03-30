@@ -8,7 +8,6 @@ import de.keeeks.nucleo.modules.automessage.api.AutomaticMessage;
 import de.keeeks.nucleo.modules.automessage.api.AutomaticMessageApi;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;

@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class EconomyUserTransferPacket extends EconomyUserUpdatePacket{
+public class EconomyUserTransferPacket extends EconomyUserUpdatePacket {
     protected final double amount;
     protected final UUID to;
 

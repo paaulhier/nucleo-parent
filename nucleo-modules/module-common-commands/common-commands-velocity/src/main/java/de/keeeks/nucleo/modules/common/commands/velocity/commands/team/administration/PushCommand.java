@@ -9,8 +9,6 @@ import de.keeeks.nucleo.core.api.utils.expiringmap.ExpiringMap;
 import de.keeeks.nucleo.modules.common.commands.velocity.CommonCommandsVelocityModule;
 import de.keeeks.nucleo.modules.common.commands.velocity.configuration.PushConfiguration;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.annotation.Command;
@@ -71,7 +69,7 @@ public class PushCommand {
     }
 
     @Subcommand("confirm")
-    public void confirmCommand(Player player    ) {
+    public void confirmCommand(Player player) {
         UUID uuid = player.getUniqueId();
         if (!pushMap.containsKey(uuid)) {
             player.sendMessage(translatable("command.push.noPending"));

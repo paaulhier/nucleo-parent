@@ -4,8 +4,6 @@ import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.notifications.api.Notification;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;

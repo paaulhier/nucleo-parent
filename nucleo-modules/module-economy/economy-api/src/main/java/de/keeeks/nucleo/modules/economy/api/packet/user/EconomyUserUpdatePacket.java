@@ -9,6 +9,7 @@ import java.util.UUID;
 @Getter
 public abstract class EconomyUserUpdatePacket extends EconomyPacket {
     protected final UUID uuid;
+
     public EconomyUserUpdatePacket(Economy economy, UUID uuid) {
         super(economy);
         this.uuid = uuid;

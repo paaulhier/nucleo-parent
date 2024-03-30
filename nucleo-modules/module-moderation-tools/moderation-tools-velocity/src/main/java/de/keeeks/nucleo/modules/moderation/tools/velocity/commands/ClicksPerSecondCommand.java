@@ -10,8 +10,6 @@ import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckInformation;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;
