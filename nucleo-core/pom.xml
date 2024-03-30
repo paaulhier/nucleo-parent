@@ -15,7 +15,6 @@
         <module>core-api</module>
         <module>core-loader</module>
         <module>core-spigot</module>
-        <module>core-proxy</module>
         <module>core-application</module>
         <module>core-velocity</module>
     </modules>

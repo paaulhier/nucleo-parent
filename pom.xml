@@ -13,6 +13,7 @@
         <module>nucleo-cloudnet-module</module>
         <module>nucleo-core</module>
         <module>nucleo-modules</module>
+        <module>nucleo-bom</module>
     </modules>
 
     <properties>
@@ -89,6 +90,14 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

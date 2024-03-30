@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.keeeks.nucleo</groupId>
+        <artifactId>nucleo-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>nucleo-bom</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.velocitypowered</groupId>
+                <artifactId>velocity-api</artifactId>
+                <version>3.3.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.papermc.paper</groupId>
+                <artifactId>paper-api</artifactId>
+                <version>1.20.4-R0.1-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.kyori</groupId>
+                <artifactId>adventure-api</artifactId>
+                <version>4.16.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.Revxrsal.Lamp</groupId>
+                <artifactId>common</artifactId>
+                <version>${lamp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.Revxrsal.Lamp</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${lamp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.Revxrsal.Lamp</groupId>
+                <artifactId>bukkit</artifactId>
+                <version>${lamp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.10.1</version>
+            </dependency>
+
+            <!-- Core -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>core-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>core-application</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>core-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>core-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Modules -->
+
+            <!-- Automessage -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>automessage-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>automessage-shared</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>automessage-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Common commands -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>common-commands-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>common-commands-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>common-commands-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Config -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>config-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>config-json</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Database -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>database-redis</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>database-sql</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Economy -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>economy-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>economy-shared</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>economy-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Hologram -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>hologram-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>hologram-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Inventory -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>module-inventory</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Messaging -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>module-messaging</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Moderation tools -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>moderation-tools-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>moderation-tools-shared</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>moderation-tools-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>moderation-tools-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Notifications -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>notifications-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>notifications-shared</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>notifications-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>notifications-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Players -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>players-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>players-shared</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>players-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>players-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>players-standalone</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- SyncProxy -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>syncproxy-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>syncproxy-shared</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>syncproxy-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>syncproxy-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Teamchat -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>module-teamchat</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Translation -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>translation-global</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>translation-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>translation-velocity</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Web -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>module-web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
