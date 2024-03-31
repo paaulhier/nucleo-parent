@@ -28,6 +28,7 @@
         <module>module-web</module>
         <module>module-teamchat</module>
         <module>module-economy</module>
+        <module>module-scoreboard</module>
     </modules>
 
     <properties>
