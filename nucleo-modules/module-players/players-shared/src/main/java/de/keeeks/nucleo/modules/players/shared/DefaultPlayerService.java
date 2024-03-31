@@ -7,6 +7,8 @@ import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.MessagingModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.*;
+import de.keeeks.nucleo.modules.players.api.packet.*;
+import de.keeeks.nucleo.modules.players.api.packet.message.NucleoOnlinePlayerMessagePacket;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoOnlinePlayerSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoPlayerSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.PropertyHolderSerializer;
@@ -15,8 +17,6 @@ import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlaye
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlayersRequestPacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerInvalidatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerUpdatePacketListener;
-import de.keeeks.nucleo.modules.players.shared.packet.player.*;
-import de.keeeks.nucleo.modules.players.shared.packet.player.message.NucleoOnlinePlayerMessagePacket;
 import de.keeeks.nucleo.modules.players.shared.sql.PlayerRepository;
 import net.kyori.adventure.text.Component;
 

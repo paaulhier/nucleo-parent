@@ -8,7 +8,7 @@ import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.players.shared.packet.player.NucleoOnlinePlayerSwitchServerPacket;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerSwitchServerPacket;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 

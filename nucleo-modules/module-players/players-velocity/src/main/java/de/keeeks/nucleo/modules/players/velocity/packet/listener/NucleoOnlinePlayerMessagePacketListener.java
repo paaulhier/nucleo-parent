@@ -5,7 +5,7 @@ import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
 import de.keeeks.nucleo.modules.players.api.NucleoMessageSender;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.players.shared.packet.player.message.NucleoOnlinePlayerMessagePacket;
+import de.keeeks.nucleo.modules.players.api.packet.message.NucleoOnlinePlayerMessagePacket;
 import io.nats.client.Message;
 
 @ListenerChannel(PlayerService.CHANNEL)
