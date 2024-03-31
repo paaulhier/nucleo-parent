@@ -42,7 +42,6 @@
         <dependency>
             <groupId>io.nats</groupId>
             <artifactId>jnats</artifactId>
-            <version>${nats.version}</version>
         </dependency>
     </dependencies>
 
