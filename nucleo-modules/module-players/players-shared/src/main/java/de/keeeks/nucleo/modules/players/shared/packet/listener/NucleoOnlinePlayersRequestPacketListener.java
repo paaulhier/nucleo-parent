@@ -3,8 +3,8 @@ package de.keeeks.nucleo.modules.players.shared.packet.listener;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.players.shared.packet.player.NucleoOnlinePlayersRequestPacket;
-import de.keeeks.nucleo.modules.players.shared.packet.player.NucleoOnlinePlayersResponsePacket;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayersRequestPacket;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayersResponsePacket;
 import io.nats.client.Message;
 
 @ListenerChannel(PlayerService.CHANNEL)

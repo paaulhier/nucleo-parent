@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.players.shared.packet.player.message;
+package de.keeeks.nucleo.modules.players.api.packet.message;
 
 import de.keeeks.nucleo.modules.messaging.packet.Packet;
 import de.keeeks.nucleo.modules.players.api.NucleoMessageSender;
