@@ -3,8 +3,16 @@ package de.keeeks.nucleo.modules.shared;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.economy.api.Economy;
+import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.economy.api.EconomyBalanceModifier;
+import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserDepositPacket;
+import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserSetBalancePacket;
+import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserTransferPacket;
+import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserWithdrawPacket;
+import de.keeeks.nucleo.modules.messaging.NatsConnection;
+import de.keeeks.nucleo.modules.messaging.packet.Packet;
 import de.keeeks.nucleo.modules.shared.sql.EconomyRepository;
 import lombok.Getter;
 
@@ -13,8 +21,10 @@ import java.util.UUID;
 
 @Getter
 public class NucleoEconomy implements Economy {
-    private final EconomyRepository economyRepository;
-    private final LoadingCache<UUID, Double> balances;
+    private static final NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
+
+    private final transient EconomyRepository economyRepository;
+    private final transient LoadingCache<UUID, Double> balances;
     private final int id;
     private final String name;
 
@@ -47,6 +57,11 @@ public class NucleoEconomy implements Economy {
                 uuid,
                 balance(uuid)
         );
+        publishPacket(new EconomyUserDepositPacket(
+                this,
+                uuid,
+                amount
+        ));
     }
 
     @Override
@@ -57,12 +72,23 @@ public class NucleoEconomy implements Economy {
                 uuid,
                 balance(uuid)
         );
+        publishPacket(new EconomyUserWithdrawPacket(
+                this,
+                uuid,
+                amount
+        ));
     }
 
     @Override
     public void transfer(UUID from, UUID to, double amount) {
         withdraw(from, amount);
         deposit(to, amount);
+        publishPacket(new EconomyUserTransferPacket(
+                this,
+                from,
+                amount,
+                to
+        ));
     }
 
     @Override
@@ -73,6 +99,11 @@ public class NucleoEconomy implements Economy {
                 uuid,
                 amount
         );
+        publishPacket(new EconomyUserSetBalancePacket(
+                this,
+                uuid,
+                amount
+        ));
     }
 
     @Override
@@ -91,5 +122,12 @@ public class NucleoEconomy implements Economy {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    private <P extends Packet> void publishPacket(P packet) {
+        natsConnection.publishPacket(
+                EconomyApi.CHANNEL,
+                packet
+        );
     }
 }
