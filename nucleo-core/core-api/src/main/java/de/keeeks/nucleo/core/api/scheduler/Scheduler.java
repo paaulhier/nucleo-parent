@@ -16,7 +16,7 @@ public final class Scheduler {
         executorService.execute(runnable);
     }
 
-    public static void runAsyncLater(Runnable runnable, long delay) {
+    public static void runAsyncLater(ExceptionRunnable runnable, long delay) {
         scheduledExecutorService.schedule(
                 runnable,
                 delay,
@@ -24,7 +24,7 @@ public final class Scheduler {
         );
     }
 
-    public static void runAsyncTimer(Runnable runnable, long delay, long period, TimeUnit timeUnit) {
+    public static void runAsyncTimer(ExceptionRunnable runnable, long delay, long period, TimeUnit timeUnit) {
         scheduledExecutorService.scheduleAtFixedRate(
                 runnable,
                 delay,
@@ -33,7 +33,7 @@ public final class Scheduler {
         );
     }
 
-    public static void runAsyncTimer(Runnable runnable, long period, TimeUnit timeUnit) {
+    public static void runAsyncTimer(ExceptionRunnable runnable, long period, TimeUnit timeUnit) {
         runAsyncTimer(
                 runnable,
                 0,
