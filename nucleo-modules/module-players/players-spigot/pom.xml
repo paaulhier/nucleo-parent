@@ -40,7 +40,6 @@
             <artifactId>module-messaging</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
             <artifactId>core-spigot</artifactId>

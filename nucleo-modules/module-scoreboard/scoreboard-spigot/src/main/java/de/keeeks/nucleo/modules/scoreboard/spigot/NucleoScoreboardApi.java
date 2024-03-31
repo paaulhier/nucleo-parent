@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class NucleoScoreboardApi implements ScoreboardApi {
@@ -17,5 +18,10 @@ public class NucleoScoreboardApi implements ScoreboardApi {
         NucleoScoreboard nucleoScoreboard = new NucleoScoreboard();
         scoreboards.add(nucleoScoreboard);
         return nucleoScoreboard;
+    }
+
+    @Override
+    public void destroyScoreboard(UUID uuid) {
+        scoreboards.removeIf(scoreboard -> scoreboard.uuid().equals(uuid));
     }
 }

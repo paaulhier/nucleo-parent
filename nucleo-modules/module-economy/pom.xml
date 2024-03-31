@@ -15,6 +15,7 @@
         <module>economy-api</module>
         <module>economy-shared</module>
         <module>economy-velocity</module>
+        <module>economy-spigot</module>
     </modules>
 
     <properties>
