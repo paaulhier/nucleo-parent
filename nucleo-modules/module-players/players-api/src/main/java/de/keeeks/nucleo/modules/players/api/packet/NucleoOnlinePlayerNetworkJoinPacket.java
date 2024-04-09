@@ -6,4 +6,8 @@ public class NucleoOnlinePlayerNetworkJoinPacket extends NucleoOnlinePlayerUpdat
     public NucleoOnlinePlayerNetworkJoinPacket(NucleoOnlinePlayer nucleoOnlinePlayer) {
         super(nucleoOnlinePlayer);
     }
+
+    public NucleoOnlinePlayer player() {
+        return nucleoOnlinePlayer();
+    }
 }
