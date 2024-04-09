@@ -7,8 +7,10 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerDisconnectPacket;
 import de.keeeks.nucleo.modules.players.velocity.PlayersVelocityModule;
 
 import java.time.Instant;
@@ -19,6 +21,7 @@ public class PlayerDisconnectListener {
     private final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
+    private final NatsConnection natsConnection =  ServiceRegistry.service(NatsConnection.class);
     private final Logger logger = Module.module(PlayersVelocityModule.class).logger();
 
     @Subscribe(order = PostOrder.FIRST)
@@ -31,11 +34,17 @@ public class PlayerDisconnectListener {
             );
 
             playerService.onlinePlayer(player.getUniqueId()).ifPresent(
-                    nucleoOnlinePlayer -> playerService.savePlayerToDatabase(
-                            nucleoOnlinePlayer.updateLastLogout().addOnlineTime(
-                                    calculatePlayedTime(nucleoOnlinePlayer)
-                            )
-                    )
+                    nucleoOnlinePlayer -> {
+                        natsConnection.publishPacket(
+                                PlayerService.CHANNEL,
+                                new NucleoOnlinePlayerDisconnectPacket(nucleoOnlinePlayer)
+                        );
+                        playerService.savePlayerToDatabase(
+                                nucleoOnlinePlayer.updateLastLogout().addOnlineTime(
+                                        calculatePlayedTime(nucleoOnlinePlayer)
+                                )
+                        );
+                    }
             );
 
             playerService.invalidateCacheNetworkWide(player.getUniqueId());
