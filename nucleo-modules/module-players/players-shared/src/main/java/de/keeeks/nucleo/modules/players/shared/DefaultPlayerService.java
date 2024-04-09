@@ -112,7 +112,7 @@ public class DefaultPlayerService implements PlayerService {
     public void publishOnlinePlayerCreation(NucleoOnlinePlayer nucleoOnlinePlayer) {
         natsConnection.publishPacket(
                 CHANNEL,
-                new NucleoOnlinePlayerCreatePacket(nucleoOnlinePlayer)
+                new NucleoOnlinePlayerNetworkJoinPacket(nucleoOnlinePlayer)
         );
     }
 

@@ -36,6 +36,10 @@
         </dependency>
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>core-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
             <artifactId>module-messaging</artifactId>
             <scope>provided</scope>
         </dependency>
