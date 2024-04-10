@@ -10,13 +10,13 @@ import java.time.format.DateTimeFormatter;
 
 public class Formatter {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
-            "dd.MM.yyyy - HH.mm.ss.SSS"
+            "dd.MM.yyyy - HH:mm:ss.SSS"
     ).withZone(ZoneId.systemDefault());
     private static final DateTimeFormatter shortDateTimeFormatter = DateTimeFormatter.ofPattern(
-            "dd.MM.yyyy - HH.mm"
+            "dd.MM.yyyy - HH:mm"
     ).withZone(ZoneId.systemDefault());
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(
-            "HH.mm.ss.SSS"
+            "HH:mm:ss.SSS"
     ).withZone(ZoneId.systemDefault());
 
     public static String formatInstant(Instant instant) {
