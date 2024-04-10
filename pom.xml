@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <adventure.version>4.16.0</adventure.version>
-        <lamp.version>3.2.0</lamp.version>
+        <lamp.version>3.2.1</lamp.version>
 
         <paper.version>1.20.4-R0.1-SNAPSHOT</paper.version>
         <waterfall.version>1.20-R0.2-SNAPSHOT</waterfall.version>

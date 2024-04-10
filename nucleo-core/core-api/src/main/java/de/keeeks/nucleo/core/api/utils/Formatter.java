@@ -12,6 +12,9 @@ public class Formatter {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
             "dd.MM.yyyy - HH.mm.ss.SSS"
     ).withZone(ZoneId.systemDefault());
+    private static final DateTimeFormatter shortDateTimeFormatter = DateTimeFormatter.ofPattern(
+            "dd.MM.yyyy - HH.mm"
+    ).withZone(ZoneId.systemDefault());
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(
             "HH.mm.ss.SSS"
     ).withZone(ZoneId.systemDefault());
@@ -29,6 +32,10 @@ public class Formatter {
 
     public static String formatDateTime(Instant instant) {
         return dateTimeFormatter.format(instant);
+    }
+
+    public static String formatShortDateTime(Instant instant) {
+        return shortDateTimeFormatter.format(instant);
     }
 
     public static String formatTime(Instant instant) {
