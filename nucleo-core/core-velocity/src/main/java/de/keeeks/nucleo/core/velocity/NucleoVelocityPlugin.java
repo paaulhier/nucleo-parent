@@ -13,11 +13,13 @@ import de.keeeks.nucleo.core.velocity.command.NucleoVelocityExceptionHandler;
 import de.keeeks.nucleo.core.velocity.listener.PlayerAvailableCommandsListener;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.velocity.VelocityCommandHandler;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 @Getter
@@ -64,6 +66,12 @@ public class NucleoVelocityPlugin {
 
     public void registerCommands(Object... commands) {
         commandHandler.register(commands);
+
+        Arrays.stream(commands).filter(
+                o -> o instanceof CommandHandlerVisitor
+        ).map(
+                o -> ((CommandHandlerVisitor) o)
+        ).forEach(commandHandlerVisitor -> commandHandlerVisitor.visit(commandHandler));
     }
 
     public void registerListener(Object... listeners) {

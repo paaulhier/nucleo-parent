@@ -12,9 +12,11 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -87,6 +89,12 @@ public class NucleoSpigotPlugin extends JavaPlugin {
             return;
         }
         bukkitCommandHandler.register(commands);
+
+        Arrays.stream(commands).filter(
+                o -> o instanceof CommandHandlerVisitor
+        ).map(
+                o -> ((CommandHandlerVisitor) o)
+        ).forEach(commandHandlerVisitor -> commandHandlerVisitor.visit(bukkitCommandHandler));
     }
 
     public void registerListener(Listener... listeners) {
