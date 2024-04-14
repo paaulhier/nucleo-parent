@@ -9,6 +9,7 @@ import de.keeeks.nucleo.modules.syncproxy.DefaultSyncProxyService;
 import de.keeeks.nucleo.modules.syncproxy.velocity.commands.SyncProxyCommand;
 import de.keeeks.nucleo.modules.syncproxy.velocity.configuration.SyncProxyKickScreenConfiguration;
 import de.keeeks.nucleo.modules.syncproxy.velocity.listener.MaintenanceLoginListener;
+import de.keeeks.nucleo.modules.syncproxy.velocity.listener.ProxyPingFixListener;
 import de.keeeks.nucleo.modules.syncproxy.velocity.listener.ProxyPingListener;
 import de.keeeks.nucleo.modules.syncproxy.velocity.listener.ProxyVersionPingListener;
 import de.keeeks.nucleo.modules.syncproxy.velocity.packetlistener.ProxySyncProxyConfigurationUpdatePacketListener;
@@ -44,6 +45,7 @@ public class SyncProxyVelocityModule extends VelocityModule {
         );
         registerListener(
                 new ProxyPingListener(),
+                new ProxyPingFixListener(),
                 new ProxyVersionPingListener(),
                 new MaintenanceLoginListener(syncProxyKickScreenConfiguration)
         );

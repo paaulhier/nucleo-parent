@@ -34,6 +34,7 @@ public class ProxyVersionPingListener {
                         -1,
                         Version.supportedVersionsAsString()
                 ));
+                System.out.println("Setting version to -1 with text " + Version.supportedVersionsAsString());
                 builder.description(unsupportedMotd);
                 event.setPing(builder.build());
             }

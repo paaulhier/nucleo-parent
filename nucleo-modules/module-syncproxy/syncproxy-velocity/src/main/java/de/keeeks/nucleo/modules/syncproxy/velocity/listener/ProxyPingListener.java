@@ -29,6 +29,7 @@ public class ProxyPingListener {
                             -1,
                             syncProxyConfiguration.protocolText()
                     ));
+                    System.out.println("Setting version to -1 with text " + syncProxyConfiguration.protocolText());
                 }
 
                 syncProxyService.activeMotdConfiguration().ifPresent(
@@ -39,4 +40,5 @@ public class ProxyPingListener {
             event.setPing(pingBuilder.build());
         });
     }
+
 }
