@@ -4,6 +4,7 @@ import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.spigot.NucleoSpigotPlugin;
 import lombok.Getter;
 import org.bukkit.event.Listener;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 @Getter
 public abstract class SpigotModule extends Module {
@@ -11,6 +12,10 @@ public abstract class SpigotModule extends Module {
 
     public void registerCommands(Object... objects) {
         plugin.registerCommands(objects);
+    }
+
+    public BukkitCommandHandler commandHandler() {
+        return plugin.bukkitCommandHandler();
     }
 
     public void registerListener(Listener... listeners) {

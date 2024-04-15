@@ -6,6 +6,7 @@ import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.velocity.NucleoVelocityPlugin;
 import lombok.Getter;
 import revxrsal.commands.autocomplete.AutoCompleter;
+import revxrsal.commands.velocity.VelocityCommandHandler;
 
 @Getter
 public abstract class VelocityModule extends Module {
@@ -18,6 +19,10 @@ public abstract class VelocityModule extends Module {
 
     public AutoCompleter autoCompleter() {
         return plugin.autoCompleter();
+    }
+
+    public VelocityCommandHandler commandHandler() {
+        return plugin.commandHandler();
     }
 
     public void registerListener(Object... listeners) {
