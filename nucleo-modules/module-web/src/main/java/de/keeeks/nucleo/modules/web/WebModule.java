@@ -6,6 +6,7 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.web.auth.BasicAuthenticationHandler;
 import de.keeeks.nucleo.modules.web.configuration.WebConfiguration;
 import de.keeeks.nucleo.modules.web.configuration.authorization.BasicAuthenticationConfiguration;
+import de.keeeks.nucleo.modules.web.handler.socket.SocketHandler;
 import io.javalin.Javalin;
 import io.javalin.util.JavalinLogger;
 import lombok.Getter;
@@ -51,6 +52,7 @@ public class WebModule extends Module {
 
     @Override
     public void disable() {
+        SocketHandler.closeAllSessions();
         if (javalin != null) {
             javalin.stop();
         }
