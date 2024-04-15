@@ -35,9 +35,11 @@ public class NucleoVulcanNotificationListener implements Listener {
                     text(player.getName()),
                     text(check.getName()),
                     text(check.getVl()),
+                    text(check.getMaxVl()),
                     text(check.getCategory()),
                     text(check.getDisplayName()),
-                    text(event.getInfo())
+                    text(event.getInfo()),
+                    text(check.getType())
             ));
         }
     }
