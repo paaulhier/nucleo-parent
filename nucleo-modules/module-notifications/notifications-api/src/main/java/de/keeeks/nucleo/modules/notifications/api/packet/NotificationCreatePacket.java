@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.notifications.shared.packet;
+package de.keeeks.nucleo.modules.notifications.api.packet;
 
 import de.keeeks.nucleo.modules.notifications.api.Notification;
 

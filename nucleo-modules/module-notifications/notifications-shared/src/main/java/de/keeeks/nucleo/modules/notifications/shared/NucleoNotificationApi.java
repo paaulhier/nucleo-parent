@@ -10,12 +10,14 @@ import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.notifications.api.Notification;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
+import de.keeeks.nucleo.modules.notifications.api.packet.user.NotificationUserUpdateStatePacket;
 import de.keeeks.nucleo.modules.notifications.shared.cache.NotificationStateCache;
 import de.keeeks.nucleo.modules.notifications.shared.json.NotificationSerializer;
-import de.keeeks.nucleo.modules.notifications.shared.packet.NotificationCreatePacket;
-import de.keeeks.nucleo.modules.notifications.shared.packet.NotificationDeletePacket;
+import de.keeeks.nucleo.modules.notifications.api.packet.NotificationCreatePacket;
+import de.keeeks.nucleo.modules.notifications.api.packet.NotificationDeletePacket;
 import de.keeeks.nucleo.modules.notifications.shared.packet.listener.NotificationCreatePacketListener;
 import de.keeeks.nucleo.modules.notifications.shared.packet.listener.NotificationDeletePacketListener;
+import de.keeeks.nucleo.modules.notifications.shared.packet.listener.user.NotificationUserUpdateStatePacketListener;
 import de.keeeks.nucleo.modules.notifications.shared.repository.NotificationRepository;
 
 import java.util.*;
@@ -37,7 +39,14 @@ public class NucleoNotificationApi implements NotificationApi {
         GsonBuilder.registerSerializer(new NotificationSerializer());
         natsConnection.registerPacketListener(
                 new NotificationCreatePacketListener(this),
-                new NotificationDeletePacketListener(this)
+                new NotificationDeletePacketListener(this),
+                new NotificationUserUpdateStatePacketListener(this)
+        );
+    }
+
+    public void modifyState(Notification notification, UUID uuid, boolean state) {
+        Optional.ofNullable(notificationStateCaches.get(notification.id())).ifPresent(
+                cache -> cache.activeWithoutUpdate(uuid, state)
         );
     }
 
@@ -123,6 +132,10 @@ public class NucleoNotificationApi implements NotificationApi {
             return;
         }
         stateCache.active(uuid, active);
+        natsConnection.publishPacket(
+                CHANNEL,
+                new NotificationUserUpdateStatePacket(notification, uuid, active)
+        );
         module.logger().info("Set notification %s for %s to %s".formatted(
                 notification.name(),
                 uuid,

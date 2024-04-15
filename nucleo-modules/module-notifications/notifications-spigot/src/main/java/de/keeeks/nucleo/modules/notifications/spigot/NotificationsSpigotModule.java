@@ -6,14 +6,16 @@ import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.translation.NotificationsTranslationRegistry;
+import de.keeeks.nucleo.modules.notifications.spigot.vulcan.NucleoVulcanNotificationListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
+import org.bukkit.Bukkit;
 
 @ModuleDescription(
         name = "notifications",
         depends = {"config", "messaging", "database-mysql"},
         description = "Provides notifications for various events"
 )
-public class SpigotNotificationsModule extends SpigotModule {
+public class NotificationsSpigotModule extends SpigotModule {
 
     @Override
     public void load() {
@@ -24,4 +26,11 @@ public class SpigotNotificationsModule extends SpigotModule {
         TranslationRegistry.initializeRegistry(new NotificationsTranslationRegistry(this));
     }
 
+    @Override
+    public void enable() {
+        if (Bukkit.getPluginManager().getPlugin("Vulcan") != null) {
+            registerListener(new NucleoVulcanNotificationListener());
+            logger.info("Found Vulcan! Registered Vulcan notification listener.");
+        }
+    }
 }

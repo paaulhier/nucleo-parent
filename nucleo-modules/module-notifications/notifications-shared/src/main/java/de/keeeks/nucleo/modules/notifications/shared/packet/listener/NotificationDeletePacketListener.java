@@ -3,7 +3,7 @@ package de.keeeks.nucleo.modules.notifications.shared.packet.listener;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
-import de.keeeks.nucleo.modules.notifications.shared.packet.NotificationDeletePacket;
+import de.keeeks.nucleo.modules.notifications.api.packet.NotificationDeletePacket;
 import io.nats.client.Message;
 
 @ListenerChannel(NotificationApi.CHANNEL)

@@ -35,4 +35,8 @@ public final class NotificationStateCache {
         notificationRepository.notificationState(notification.id(), uuid, active);
         cache.put(uuid, active);
     }
+
+    public void activeWithoutUpdate(UUID uuid, boolean active) {
+        cache.put(uuid, active);
+    }
 }
