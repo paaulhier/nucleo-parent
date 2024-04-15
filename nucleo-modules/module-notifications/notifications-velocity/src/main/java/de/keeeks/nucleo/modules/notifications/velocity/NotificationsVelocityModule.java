@@ -8,6 +8,7 @@ import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.translation.NotificationsTranslationRegistry;
 import de.keeeks.nucleo.modules.notifications.velocity.commands.NotificationCommand;
+import de.keeeks.nucleo.modules.notifications.velocity.commands.NotificationStateType;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(
@@ -34,6 +35,13 @@ public class NotificationsVelocityModule extends VelocityModule {
                 (list, commandActor, executableCommand) -> notificationApi.notifications().stream().map(
                         Notification::name
                 ).toList()
+        );
+        commandHandler().registerValueResolver(
+                NotificationStateType.class,
+                valueResolverContext -> {
+                    String typeName = valueResolverContext.pop();
+                    return NotificationStateType.byName(typeName);
+                }
         );
 
         registerCommands(new NotificationCommand());

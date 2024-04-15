@@ -13,7 +13,8 @@ import java.util.UUID;
 
 @Command({"notify", "notification", "notifications"})
 @CommandPermission("nucleo.commands.notifications")
-public final class NotificationCommand {
+public final class
+NotificationCommand {
     private final NotificationApi notificationApi = ServiceRegistry.service(NotificationApi.class);
 
     @DefaultFor({"notify", "notification", "notifications"})
@@ -27,8 +28,21 @@ public final class NotificationCommand {
     }
 
     @Subcommand("list")
-    public void listCommand(Player player) {
+    public void listCommand(
+            Player player,
+            @Optional @Default("all") NotificationStateType notificationStateType
+    ) {
         List<Notification> notifications = notificationApi.notifications();
+
+        if (notificationStateType == NotificationStateType.DISABLED) {
+            notifications = List.copyOf(notifications).stream().filter(
+                    notification -> !notificationApi.notificationActive(notification, player.getUniqueId())
+            ).toList();
+        } else if (notificationStateType == NotificationStateType.ENABLED) {
+            notifications = List.copyOf(notifications).stream().filter(
+                    notification -> notificationApi.notificationActive(notification, player.getUniqueId())
+            ).toList();
+        }
 
         if (notifications.isEmpty()) {
             player.sendMessage(Component.translatable("nucleo.notifications.command.list.empty"));
