@@ -5,6 +5,8 @@ import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PrefixType;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.utils.Formatter;
+import de.keeeks.nucleo.modules.economy.api.Economy;
+import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
@@ -24,17 +26,17 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.translatable;
+
 @Command({"pi", "playerinfo", "π", "3,14"})
 @CommandPermission("nucleo.commands.playerinfo")
 @RequiredArgsConstructor
 public final class PlayerInfoCommand {
-    private final PlayerService playerService = ServiceRegistry.service(
-            PlayerService.class
-    );
+    private final Economy economy = ServiceRegistry.service(EconomyApi.class).create("cookies");
+    private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
+    private final VerificaApi verificaApi = ServiceRegistry.service(VerificaApi.class);
     private final PermissionApi permissionApi = PermissionApi.instance();
-    private final VerificaApi verificaApi = ServiceRegistry.service(
-            VerificaApi.class
-    );
 
     @AutoComplete("@players")
     @DefaultFor({"pi", "playerinfo", "π", "3.14", "3,14"})
@@ -43,7 +45,7 @@ public final class PlayerInfoCommand {
             @Optional String targetName
     ) {
         if (targetName == null) {
-            player.sendMessage(Component.translatable("commands.playerinfo.usage"));
+            player.sendMessage(translatable("commands.playerinfo.usage"));
             return;
         }
 
@@ -59,23 +61,23 @@ public final class PlayerInfoCommand {
                     );
 
                     List<Component> arguments = new ArrayList<>(List.of(
-                            Component.text(nucleoPlayer.name()),
-                            Component.text(nucleoPlayer.uuid().toString()),
-                            Component.text(Formatter.formatDateTime(
+                            text(nucleoPlayer.name()),
+                            text(nucleoPlayer.uuid().toString()),
+                            text(Formatter.formatDateTime(
                                     nucleoPlayer.createdAt()
                             )),
                             nucleoPlayer.lastLogin() == null
-                                    ? Component.translatable("commands.playerinfo.neverConnected")
-                                    : Component.text(Formatter.formatDateTime(nucleoPlayer.lastLogin())
+                                    ? translatable("commands.playerinfo.neverConnected")
+                                    : text(Formatter.formatDateTime(nucleoPlayer.lastLogin())
                             ),
                             nucleoPlayer.lastLogout() == null
-                                    ? Component.translatable("commands.playerinfo.neverConnected")
-                                    : Component.text(Formatter.formatDateTime(nucleoPlayer.lastLogout())
+                                    ? translatable("commands.playerinfo.neverConnected")
+                                    : text(Formatter.formatDateTime(nucleoPlayer.lastLogout())
                             ),
-                            Component.text(Formatter.formatDateTime(
+                            text(Formatter.formatDateTime(
                                     nucleoPlayer.updatedAt()
                             )),
-                            Component.text(Formatter.formatLongTime(
+                            text(Formatter.formatLongTime(
                                     nucleoPlayer.onlineTime()
                             )),
                             groupsAsList,
@@ -86,31 +88,32 @@ public final class PlayerInfoCommand {
                             verificationComponent(
                                     nucleoPlayer,
                                     Platform.TEAMSPEAK
-                            )
+                            ),
+                            text(economy.balance(player.getUniqueId()))
                     ));
 
                     if (nucleoPlayer instanceof NucleoOnlinePlayer nucleoOnlinePlayer) {
                         arguments.addAll(List.of(
-                                Component.text(blurIpAddressIfNecessary(
+                                text(blurIpAddressIfNecessary(
                                         player,
                                         nucleoOnlinePlayer.ipAddress()
                                 )),
-                                Component.text(nucleoOnlinePlayer.proxy()),
-                                Component.text(nucleoOnlinePlayer.server()),
-                                Component.text(nucleoOnlinePlayer.version().version())
+                                text(nucleoOnlinePlayer.proxy()),
+                                text(nucleoOnlinePlayer.server()),
+                                text(nucleoOnlinePlayer.version().version())
                         ));
-                        player.sendMessage(Component.translatable(
+                        player.sendMessage(translatable(
                                 "commands.playerinfo.playerInfo"
                         ).arguments(arguments));
                     } else {
-                        player.sendMessage(Component.translatable(
+                        player.sendMessage(translatable(
                                 "commands.playerinfo.playerInfoOffline"
                         ).arguments(arguments));
                     }
                 },
-                () -> player.sendMessage(Component.translatable(
+                () -> player.sendMessage(translatable(
                         "playerNotFound",
-                        Component.text(targetName)
+                        text(targetName)
                 ))
         );
     }
@@ -124,10 +127,10 @@ public final class PlayerInfoCommand {
             VerificationState verificationState = verification.verificationState();
 
             if (verificationState == VerificationState.PENDING) {
-                return Component.translatable("commands.playerinfo.pendingVerification");
+                return translatable("commands.playerinfo.pendingVerification");
             }
-            return (Component) Component.text(verification.userId());
-        }).orElse(Component.translatable(
+            return (Component) text(verification.userId());
+        }).orElse(translatable(
                 "commands.playerinfo.noVerification"
         ));
     }
