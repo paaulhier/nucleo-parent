@@ -9,6 +9,7 @@ import de.keeeks.nucleo.modules.common.commands.velocity.commands.ModulesCommand
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.economy.CookiesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.PingCommand;
+import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.PlaytimeCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.JumpToCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.PlayerInfoCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.TeamCommand;
@@ -59,7 +60,10 @@ public class CommonCommandsVelocityModule extends VelocityModule {
                 registerCommands(new PlayerInfoCommand());
             }
             if (lejetModuleEnabled) {
-                registerCommands(new TeamCommand());
+                registerCommands(
+                        new TeamCommand(),
+                        new PlaytimeCommand()
+                );
             }
         }
 
