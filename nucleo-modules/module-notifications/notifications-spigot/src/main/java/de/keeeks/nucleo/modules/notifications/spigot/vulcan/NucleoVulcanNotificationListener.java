@@ -16,7 +16,7 @@ import static net.kyori.adventure.text.Component.translatable;
 public class NucleoVulcanNotificationListener implements Listener {
     private final NotificationApi notificationApi = ServiceRegistry.service(NotificationApi.class);
     private final Notification vulcanNotification = notificationApi.createNotification(
-            "vulcan",
+            "anticheat",
             "A notification from Vulcan if a player might be cheating"
     );
 
