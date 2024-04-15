@@ -39,7 +39,7 @@ public class NucleoVulcanNotificationListener implements Listener {
                     text(check.getCategory()),
                     text(check.getDisplayName()),
                     text(event.getInfo()),
-                    text(check.getType())
+                    text(String.valueOf(check.getType()).toUpperCase())
             ));
         }
     }
