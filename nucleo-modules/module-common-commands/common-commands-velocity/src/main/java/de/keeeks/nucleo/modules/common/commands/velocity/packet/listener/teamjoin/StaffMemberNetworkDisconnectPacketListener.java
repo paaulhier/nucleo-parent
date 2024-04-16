@@ -11,7 +11,6 @@ import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerDisconnectPacket;
-import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerNetworkJoinPacket;
 import io.nats.client.Message;
 
 import static net.kyori.adventure.text.Component.text;

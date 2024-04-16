@@ -1,9 +1,7 @@
 package de.keeeks.nucleo.modules.common.commands.spigot.commands;
 
-import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.common.commands.spigot.CommonCommandsSpigotModule;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -13,7 +11,6 @@ import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 import static de.keeeks.lejet.api.NameColorizer.coloredName;
-import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
 @Command("fly")

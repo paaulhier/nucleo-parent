@@ -32,7 +32,7 @@ public class NucleoAnimatedScoreboardLine extends NucleoScoreboardLine implement
 
         int currentIndex = index.getAndIncrement();
 
-        if (currentIndex >= (lines.size()-1)) {
+        if (currentIndex >= (lines.size() - 1)) {
             index.set(0);
         }
         lastUpdate.set(System.currentTimeMillis());

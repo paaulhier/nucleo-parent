@@ -21,7 +21,7 @@ public class PlayerDisconnectListener {
     private final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
-    private final NatsConnection natsConnection =  ServiceRegistry.service(NatsConnection.class);
+    private final NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
     private final Logger logger = Module.module(PlayersVelocityModule.class).logger();
 
     @Subscribe(order = PostOrder.FIRST)

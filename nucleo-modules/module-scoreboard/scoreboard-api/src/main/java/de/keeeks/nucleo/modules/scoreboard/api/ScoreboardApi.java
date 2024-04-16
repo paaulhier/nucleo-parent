@@ -14,7 +14,7 @@ public interface ScoreboardApi {
 
     default Optional<Scoreboard> scoreboard(UUID uuid) {
         return scoreboards().stream().filter(
-            scoreboard -> scoreboard.uuid().equals(uuid)
+                scoreboard -> scoreboard.uuid().equals(uuid)
         ).findFirst();
     }
 }

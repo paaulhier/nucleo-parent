@@ -1,8 +1,8 @@
 package de.keeeks.nucleo.modules.scoreboard.spigot;
 
+import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AnimatedScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.DynamicScoreboardLine;
-import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.ScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoAnimatedScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoDynamicScoreboardLine;

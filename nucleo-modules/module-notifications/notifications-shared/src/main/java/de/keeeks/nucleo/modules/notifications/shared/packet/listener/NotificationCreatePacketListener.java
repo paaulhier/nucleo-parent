@@ -2,8 +2,8 @@ package de.keeeks.nucleo.modules.notifications.shared.packet.listener;
 
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
-import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
 import de.keeeks.nucleo.modules.notifications.api.packet.NotificationCreatePacket;
+import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
 import io.nats.client.Message;
 
 @ListenerChannel(NotificationApi.CHANNEL)
