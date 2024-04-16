@@ -34,7 +34,7 @@ public class TeamChatModule extends VelocityModule {
         natsConnection.registerPacketListener(new TeamChatMessagePacketListener(proxyServer, uuid -> {
             String playerName = playerService.player(uuid).map(NucleoPlayer::name).orElse("Unknown");
             return permissionApi.user(uuid).flatMap(
-                    PermissionUser::highestPermssionGroup
+                    PermissionUser::highestPermissionGroup
             ).map(permissionGroup -> miniMessage.deserialize(permissionGroup.color()).append(
                     Component.text(playerName)
             )).orElse(Component.text(playerName));

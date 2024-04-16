@@ -329,6 +329,13 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 
+            <!-- Externals -->
+            <dependency>
+                <groupId>de.keeeks.lejet</groupId>
+                <artifactId>lejet-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

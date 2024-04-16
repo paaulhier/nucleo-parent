@@ -57,6 +57,10 @@
             <artifactId>translation-global</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>de.keeeks.lejet</groupId>
+            <artifactId>lejet-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

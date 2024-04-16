@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.common.commands.velocity.commands.players;
 
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PermissionGroup;
 import de.keeeks.lejet.api.permission.PermissionUser;
@@ -47,7 +48,7 @@ public class PlaytimeCommand {
                 player.sendMessage(translatable(
                         "nucleo.commands.playtime.other",
                         playerGroup.prefix(PrefixType.DISPLAY),
-                        text(otherPlayerName),
+                        NameColorizer.coloredName(nucleoPlayer.uuid()),
                         text(Formatter.formatTime(onlineTime, false))
                 ));
             }, () -> player.sendMessage(translatable("playerNotFound", text(otherPlayerName))));

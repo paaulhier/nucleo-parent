@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.common.commands.velocity.commands.players;
 
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.common.commands.velocity.CommonCommandsVelocityModule;
@@ -42,9 +43,7 @@ public class PingCommand {
             );
             return;
         }
-        pingSelf(
-                player
-        );
+        pingSelf(player);
     }
 
     private void pingSelf(Player player) {
@@ -58,19 +57,19 @@ public class PingCommand {
         module.proxyServer().getPlayer(targetName).ifPresentOrElse(
                 targetPlayer -> player.sendMessage(Component.translatable(
                         "commands.ping.other",
-                        Component.text(targetPlayer.getUsername()),
+                        NameColorizer.coloredName(targetPlayer.getUniqueId()),
                         Component.text(targetPlayer.getPing())
                 )),
                 () -> playerService.onlinePlayer(targetName).ifPresentOrElse(
-                        nucleoOnlinePlayer -> natsConnection.request(
+                        targetOnlinePlayer -> natsConnection.request(
                                 "common-commands",
                                 new PlayerPingRequestPacket(
-                                        nucleoOnlinePlayer.uuid()
+                                        targetOnlinePlayer.uuid()
                                 ),
                                 PlayerPingResponsePacket.class
                         ).whenCompleteAsync((playerPingResponsePacket, throwable) -> handlePingResponsePacket(
                                 player,
-                                nucleoOnlinePlayer.name(),
+                                NameColorizer.coloredName(targetOnlinePlayer.uuid()),
                                 playerPingResponsePacket,
                                 throwable
                         )),
@@ -81,20 +80,20 @@ public class PingCommand {
 
     private static void handlePingResponsePacket(
             Player player,
-            String targetName,
+            Component targetName,
             PlayerPingResponsePacket playerPingResponsePacket,
             Throwable throwable
     ) {
         if (throwable != null) {
             player.sendMessage(Component.translatable(
                     "commands.ping.error",
-                    Component.text(targetName)
+                    targetName
             ));
             return;
         }
         player.sendMessage(Component.translatable(
                 "commands.ping.other",
-                Component.text(targetName),
+                targetName,
                 Component.text(playerPingResponsePacket.ping())
         ));
     }

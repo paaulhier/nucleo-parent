@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.common.commands.spigot.commands;
 
+import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.common.commands.spigot.CommonCommandsSpigotModule;
 import net.kyori.adventure.text.Component;
@@ -10,6 +11,10 @@ import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
+
+import static de.keeeks.lejet.api.NameColorizer.coloredName;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.translatable;
 
 @Command("fly")
 @CommandPermission("nucleo.commands.fly")
@@ -27,7 +32,7 @@ public class FlyCommand {
 
         Player target = Bukkit.getPlayer(targetName);
         if (target == null) {
-            player.sendMessage(Component.translatable("playerNotFound"));
+            player.sendMessage(translatable("playerNotFound"));
             return;
         }
 
@@ -36,23 +41,23 @@ public class FlyCommand {
 
     private void toggleFlyForOther(Player player, Player target) {
         if (toggleFlyFor(target)) {
-            player.sendMessage(Component.translatable(
+            player.sendMessage(translatable(
                     "commands.fly.enabled.other",
-                    Component.text(target.getName())
+                    coloredName(target.getUniqueId())
             ));
         } else {
-            player.sendMessage(Component.translatable(
+            player.sendMessage(translatable(
                     "commands.fly.disabled.other",
-                    Component.text(target.getName())
+                    coloredName(target.getUniqueId())
             ));
         }
     }
 
     private void toggleFlyForSelf(Player player) {
         if (toggleFlyFor(player)) {
-            player.sendMessage(Component.translatable("commands.fly.enabled.self"));
+            player.sendMessage(translatable("commands.fly.enabled.self"));
         } else {
-            player.sendMessage(Component.translatable("commands.fly.disabled.self"));
+            player.sendMessage(translatable("commands.fly.disabled.self"));
         }
     }
 

@@ -3,6 +3,7 @@ package de.keeeks.nucleo.modules.moderation.tools.velocity.commands;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.api.utils.Formatter;
@@ -17,6 +18,8 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
+
+import static de.keeeks.lejet.api.NameColorizer.coloredName;
 
 @Command({"cps", "clickspersecond", "clicks-per-second"})
 @CommandPermission("nucleo.moderation.tools.cps")
@@ -51,7 +54,7 @@ public class ClicksPerSecondCommand {
         ).ifPresent(clickCheckInformation -> {
             player.sendMessage(Component.translatable(
                     "nucleo.moderation.tools.cps.activate.success",
-                    Component.text(nucleoOnlinePlayer.name())
+                    coloredName(nucleoOnlinePlayer.uuid())
             ));
 
             connectPlayerToServerIfNecessary(player, nucleoOnlinePlayer);
@@ -70,7 +73,7 @@ public class ClicksPerSecondCommand {
             ).ifPresent(registeredServer -> connectPlayerToServer(
                     player,
                     registeredServer,
-                    targetPlayer.name()
+                    targetPlayer.uuid()
             ));
         }
     }
@@ -78,13 +81,13 @@ public class ClicksPerSecondCommand {
     private static void connectPlayerToServer(
             Player player,
             RegisteredServer registeredServer,
-            String targetPlayerName
+            UUID targetUUID
     ) {
         player.createConnectionRequest(registeredServer).connect().thenAccept(result -> {
             if (result.isSuccessful()) {
                 player.sendMessage(Component.translatable(
                         "nucleo.moderation.tools.cps.activate.serverChangeSuccess",
-                        Component.text(targetPlayerName),
+                        NameColorizer.coloredName(targetUUID),
                         Component.text(registeredServer.getServerInfo().getName())
                 ));
             } else {
@@ -123,15 +126,13 @@ public class ClicksPerSecondCommand {
                                     clickCheckInformation,
                                     nucleoOnlinePlayer
                             ),
-                            () -> {
-                                playerService.player(clickCheckInformation.target()).ifPresent(
-                                        nucleoPlayer -> deleteIfTargetIsOffline(
-                                                player,
-                                                clickCheckInformation,
-                                                nucleoPlayer.name()
-                                        )
-                                );
-                            });
+                            () -> playerService.player(clickCheckInformation.target()).ifPresent(
+                                    nucleoPlayer -> deleteIfTargetIsOffline(
+                                            player,
+                                            clickCheckInformation,
+                                            nucleoPlayer.uuid()
+                                    )
+                            ));
                 }),
                 () -> player.sendMessage(Component.translatable(
                         "nucleo.moderation.tools.cps.info.noActive"
@@ -146,7 +147,7 @@ public class ClicksPerSecondCommand {
     ) {
         player.sendMessage(Component.translatable(
                 "nucleo.moderation.tools.cps.info.active",
-                Component.text(targetPlayer.name()),
+                NameColorizer.coloredName(targetPlayer.uuid()),
                 Component.text(targetPlayer.server()),
                 Component.text(Formatter.formatDateTime(clickCheckInformation.startTimestamp())),
                 Component.text(Formatter.formatLongTime(Duration.between(
@@ -159,11 +160,11 @@ public class ClicksPerSecondCommand {
     private void deleteIfTargetIsOffline(
             Player player,
             ClickCheckInformation clickCheckInformation,
-            String targetName
+            UUID targetUUID
     ) {
         player.sendMessage(Component.translatable(
                 "nucleo.moderation.tools.cps.info.activeOffline",
-                Component.text(targetName)
+                NameColorizer.coloredName(targetUUID)
         ));
         clickCheckApi.removeClickCheck(clickCheckInformation);
     }

@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.common.commands.velocity.commands.team;
 
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PermissionGroup;
 import de.keeeks.lejet.api.permission.PrefixType;
@@ -64,7 +65,7 @@ public final class PlayerInfoCommand {
                     );
 
                     List<Component> arguments = new ArrayList<>(List.of(
-                            text(nucleoPlayer.name()).clickEvent(ClickEvent.suggestCommand(
+                            NameColorizer.coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.suggestCommand(
                                     nucleoPlayer.name()
                             )),
                             text(nucleoPlayer.uuid().toString()).clickEvent(ClickEvent.suggestCommand(

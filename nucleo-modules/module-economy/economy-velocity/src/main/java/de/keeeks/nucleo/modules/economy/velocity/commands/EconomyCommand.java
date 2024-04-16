@@ -1,12 +1,14 @@
 package de.keeeks.nucleo.modules.economy.velocity.commands;
 
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.economy.api.Economy;
 import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
@@ -78,7 +80,7 @@ public class EconomyCommand {
 
                 player.sendMessage(Component.translatable(
                         "nucleo.economy.command.balance",
-                        Component.text(playerName),
+                        NameColorizer.coloredName(targetPlayer.uuid()),
                         Component.text(balance),
                         Component.text(economy.name())
                 ));
@@ -102,7 +104,7 @@ public class EconomyCommand {
 
                 player.sendMessage(Component.translatable(
                         "nucleo.economy.command.set",
-                        Component.text(playerName),
+                        NameColorizer.coloredName(targetPlayer.uuid()),
                         Component.text(amount),
                         Component.text(economy.name())
                 ));
@@ -125,7 +127,7 @@ public class EconomyCommand {
 
                 player.sendMessage(Component.translatable(
                         "nucleo.economy.command.deposit",
-                        Component.text(playerName),
+                        NameColorizer.coloredName(targetPlayer.uuid()),
                         Component.text(amount),
                         Component.text(economy.name())
                 ));
@@ -148,7 +150,7 @@ public class EconomyCommand {
 
                 player.sendMessage(Component.translatable(
                         "nucleo.economy.command.withdraw",
-                        Component.text(playerName),
+                        NameColorizer.coloredName(targetPlayer.uuid()),
                         Component.text(amount),
                         Component.text(economy.name())
                 ));
@@ -173,8 +175,8 @@ public class EconomyCommand {
 
                     player.sendMessage(Component.translatable(
                             "nucleo.economy.command.transfer",
-                            Component.text(fromName),
-                            Component.text(toName),
+                            NameColorizer.coloredName(fromPlayer.uuid()),
+                            NameColorizer.coloredName(toPlayer.uuid()),
                             Component.text(amount),
                             Component.text(economy.name())
                     ));

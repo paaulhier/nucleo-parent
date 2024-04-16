@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.common.commands.velocity.commands.team;
 
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.common.commands.velocity.CommonCommandsVelocityModule;
@@ -13,6 +14,8 @@ import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Usage;
 import revxrsal.commands.velocity.annotation.CommandPermission;
+
+import java.util.UUID;
 
 @Command({"jumpto", "jt", "goto"})
 @CommandPermission("nucleo.commands.jumpto")
@@ -31,14 +34,15 @@ public class JumpToCommand {
             String playerName
     ) {
         playerService.onlinePlayer(playerName).ifPresentOrElse(
-                nucleoOnlinePlayer -> connectPlayerToServer(player, playerName, nucleoOnlinePlayer),
+                nucleoOnlinePlayer -> connectPlayerToServer(player, nucleoOnlinePlayer.uuid(), nucleoOnlinePlayer),
                 () -> player.sendMessage(Component.translatable("playerNotFound").arguments(
                         Component.text(playerName)
                 ))
         );
     }
 
-    private void connectPlayerToServer(Player player, String playerName, NucleoOnlinePlayer nucleoOnlinePlayer) {
+    private void connectPlayerToServer(Player player, UUID targetUUID, NucleoOnlinePlayer nucleoOnlinePlayer) {
+        Component nameComponent = NameColorizer.coloredName(targetUUID);
         module.proxyServer().getServer(nucleoOnlinePlayer.server()).ifPresentOrElse(
                 registeredServer -> player.createConnectionRequest(
                         registeredServer
@@ -46,22 +50,16 @@ public class JumpToCommand {
                     if (result.isSuccessful()) {
                         player.sendMessage(Component.translatable(
                                 "nucleo.commands.jumpto.success"
-                        ).arguments(
-                                Component.text(playerName)
-                        ));
+                        ).arguments(nameComponent));
                         return;
                     }
                     player.sendMessage(Component.translatable(
                             "nucleo.commands.jumpto.failed"
-                    ).arguments(
-                            Component.text(playerName)
-                    ));
+                    ).arguments(nameComponent));
                 }),
                 () -> player.sendMessage(Component.translatable(
                         "nucleo.commands.jumpto.unknownServer"
-                ).arguments(
-                        Component.text(playerName)
-                ))
+                ).arguments(nameComponent))
         );
     }
 
