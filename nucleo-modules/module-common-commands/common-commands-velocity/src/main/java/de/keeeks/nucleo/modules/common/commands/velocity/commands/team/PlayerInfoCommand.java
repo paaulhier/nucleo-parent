@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.common.commands.velocity.commands.team;
 
 import com.velocitypowered.api.proxy.Player;
 import de.keeeks.lejet.api.permission.PermissionApi;
+import de.keeeks.lejet.api.permission.PermissionGroup;
 import de.keeeks.lejet.api.permission.PrefixType;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.utils.Formatter;
@@ -16,6 +17,7 @@ import de.keeeks.verifica.api.platform.Platform;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.annotation.AutoComplete;
 import revxrsal.commands.annotation.Command;
@@ -24,6 +26,7 @@ import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static net.kyori.adventure.text.Component.text;
@@ -54,15 +57,19 @@ public final class PlayerInfoCommand {
                     Component groupsAsList = Component.join(
                             JoinConfiguration.commas(true),
                             permissionApi.user(nucleoPlayer.uuid()).stream().flatMap(
-                                    permissionUser -> permissionUser.groups().stream()
-                            ).map(
+                                    permissionUser -> permissionUser.globalGroups().stream()
+                            ).sorted(Comparator.comparingInt(PermissionGroup::priority)).map(
                                     permissionGroup -> permissionGroup.prefix(PrefixType.DISPLAY)
                             ).toList()
                     );
 
                     List<Component> arguments = new ArrayList<>(List.of(
-                            text(nucleoPlayer.name()),
-                            text(nucleoPlayer.uuid().toString()),
+                            text(nucleoPlayer.name()).clickEvent(ClickEvent.suggestCommand(
+                                    nucleoPlayer.name()
+                            )),
+                            text(nucleoPlayer.uuid().toString()).clickEvent(ClickEvent.suggestCommand(
+                                    nucleoPlayer.uuid().toString()
+                            )),
                             text(Formatter.formatDateTime(
                                     nucleoPlayer.createdAt()
                             )),
@@ -93,13 +100,16 @@ public final class PlayerInfoCommand {
                     ));
 
                     if (nucleoPlayer instanceof NucleoOnlinePlayer nucleoOnlinePlayer) {
+                        String ipAddress = blurIpAddressIfNecessary(
+                                player,
+                                nucleoOnlinePlayer.ipAddress()
+                        );
                         arguments.addAll(List.of(
-                                text(blurIpAddressIfNecessary(
-                                        player,
-                                        nucleoOnlinePlayer.ipAddress()
-                                )),
+                                text(ipAddress).clickEvent(ClickEvent.suggestCommand(ipAddress)),
                                 text(nucleoOnlinePlayer.proxy()),
-                                text(nucleoOnlinePlayer.server()),
+                                text(nucleoOnlinePlayer.server()).clickEvent(ClickEvent.runCommand(
+                                        "/jumpto %s".formatted(nucleoOnlinePlayer.name())
+                                )),
                                 text(nucleoOnlinePlayer.version().version())
                         ));
                         player.sendMessage(translatable(
@@ -129,10 +139,8 @@ public final class PlayerInfoCommand {
             if (verificationState == VerificationState.PENDING) {
                 return translatable("commands.playerinfo.pendingVerification");
             }
-            return (Component) text(verification.userId());
-        }).orElse(translatable(
-                "commands.playerinfo.noVerification"
-        ));
+            return text(verification.userId()).clickEvent(ClickEvent.suggestCommand(verification.userId()));
+        }).orElse(translatable("commands.playerinfo.noVerification"));
     }
 
     private String blurIpAddressIfNecessary(
