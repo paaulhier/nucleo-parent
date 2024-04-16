@@ -5,6 +5,7 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.common.commands.api.translation.CommonCommandsTranslationRegistry;
+import de.keeeks.nucleo.modules.common.commands.velocity.cloudnet.CloudNetServiceEventListener;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.ModulesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.economy.CookiesCommand;
@@ -21,6 +22,8 @@ import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoi
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
+import eu.cloudnetservice.driver.event.EventManager;
+import eu.cloudnetservice.driver.inject.InjectionLayer;
 
 @ModuleDescription(
         name = "common-commands",
@@ -89,6 +92,10 @@ public class CommonCommandsVelocityModule extends VelocityModule {
         if (economyModuleEnabled) {
             registerCommands(new CookiesCommand());
         }
+
+        InjectionLayer.ext().instance(EventManager.class).registerListener(
+                new CloudNetServiceEventListener(proxyServer)
+        );
     }
 
     private PushConfiguration pushConfiguration() {

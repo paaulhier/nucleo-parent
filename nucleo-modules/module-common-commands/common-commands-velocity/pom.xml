@@ -86,6 +86,12 @@
             <groupId>de.keeeks.nucleo</groupId>
             <artifactId>notifications-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>eu.cloudnetservice.cloudnet</groupId>
+            <artifactId>driver</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
