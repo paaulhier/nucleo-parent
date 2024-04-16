@@ -16,6 +16,7 @@ import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.TeamComma
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.administration.PushCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.configuration.PushConfiguration;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.ping.PlayerPingRequestPacketListener;
+import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoin.StaffMemberNetworkDisconnectPacketListener;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoin.StaffMemberNetworkJoinPacketListener;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
@@ -78,9 +79,10 @@ public class CommonCommandsVelocityModule extends VelocityModule {
             );
 
             if (notificationsModuleEnabled && playersModuleEnabled && lejetModuleEnabled) {
-                natsConnection.registerPacketListener(new StaffMemberNetworkJoinPacketListener(
-                        proxyServer
-                ));
+                natsConnection.registerPacketListener(
+                        new StaffMemberNetworkJoinPacketListener(proxyServer),
+                        new StaffMemberNetworkDisconnectPacketListener(proxyServer)
+                );
             }
         }
 

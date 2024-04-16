@@ -10,6 +10,7 @@ import de.keeeks.nucleo.modules.notifications.api.Notification;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerDisconnectPacket;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerNetworkJoinPacket;
 import io.nats.client.Message;
 
@@ -17,7 +18,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
 @ListenerChannel(PlayerService.CHANNEL)
-public class StaffMemberNetworkJoinPacketListener extends PacketListener<NucleoOnlinePlayerNetworkJoinPacket> {
+public class StaffMemberNetworkDisconnectPacketListener extends PacketListener<NucleoOnlinePlayerDisconnectPacket> {
     private final NotificationApi notificationApi = ServiceRegistry.service(NotificationApi.class);
     private final Notification notification = notificationApi.createNotification(
             "teamjoin",
@@ -26,37 +27,36 @@ public class StaffMemberNetworkJoinPacketListener extends PacketListener<NucleoO
     private final PermissionApi permissionApi = PermissionApi.instance();
     private final ProxyServer proxyServer;
 
-    public StaffMemberNetworkJoinPacketListener(ProxyServer proxyServer) {
-        super(NucleoOnlinePlayerNetworkJoinPacket.class);
+    public StaffMemberNetworkDisconnectPacketListener(ProxyServer proxyServer) {
+        super(NucleoOnlinePlayerDisconnectPacket.class);
         this.proxyServer = proxyServer;
     }
 
     @Override
     public void receive(
-            NucleoOnlinePlayerNetworkJoinPacket nucleoOnlinePlayerNetworkJoinPacket,
+            NucleoOnlinePlayerDisconnectPacket nucleoOnlinePlayerDisconnectPacket,
             Message message
     ) {
-        permissionApi.user(nucleoOnlinePlayerNetworkJoinPacket.player().uuid()).ifPresent(permissionUser -> {
+        NucleoOnlinePlayer player = nucleoOnlinePlayerDisconnectPacket.player();
+
+        permissionApi.user(player.uuid()).ifPresent(permissionUser -> {
             if (!permissionUser.hasPermission("keeeks.staff")) {
                 return;
             }
 
             proxyServer.getAllPlayers().stream().filter(
-                    player -> player.hasPermission("keeeks.staff")
-            ).filter(player -> notificationApi.notificationActive(
+                    p -> p.hasPermission("keeeks.staff")
+            ).filter(p -> notificationApi.notificationActive(
                     notification,
-                    player.getUniqueId()
-            )).forEach(player -> {
-                NucleoOnlinePlayer nucleoOnlinePlayer = nucleoOnlinePlayerNetworkJoinPacket.player();
-                permissionApi.user(nucleoOnlinePlayer.uuid()).map(
-                        PermissionUser::coloredName
-                ).ifPresent(coloredUsername -> player.sendMessage(translatable(
-                        "nucleo.notifications.team.join",
-                        coloredUsername,
-                        text(nucleoOnlinePlayer.server()),
-                        text(nucleoOnlinePlayer.proxy())
-                )));
-            });
+                    p.getUniqueId()
+            )).forEach(p -> permissionApi.user(player.uuid()).map(
+                    PermissionUser::coloredName
+            ).ifPresent(coloredUsername -> p.sendMessage(translatable(
+                    "nucleo.notifications.team.leave",
+                    coloredUsername,
+                    text(player.server()),
+                    text(player.proxy())
+            ))));
         });
     }
 }
