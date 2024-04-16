@@ -36,21 +36,27 @@ public class StaffMemberNetworkJoinPacketListener extends PacketListener<NucleoO
             NucleoOnlinePlayerNetworkJoinPacket nucleoOnlinePlayerNetworkJoinPacket,
             Message message
     ) {
-        proxyServer.getAllPlayers().stream().filter(
-                player -> player.hasPermission("keeeks.staff")
-        ).filter(player -> notificationApi.notificationActive(
-                notification,
-                player.getUniqueId()
-        )).forEach(player -> {
-            NucleoOnlinePlayer nucleoOnlinePlayer = nucleoOnlinePlayerNetworkJoinPacket.player();
-            permissionApi.user(nucleoOnlinePlayer.uuid()).map(
-                    PermissionUser::coloredName
-            ).ifPresent(coloredUsername -> player.sendMessage(translatable(
-                    "nucleo.notifications.teamjoin",
-                    coloredUsername,
-                    text(nucleoOnlinePlayer.server()),
-                    text(nucleoOnlinePlayer.proxy())
-            )));
+        permissionApi.user(nucleoOnlinePlayerNetworkJoinPacket.player().uuid()).ifPresent(permissionUser -> {
+            if (!permissionUser.hasPermission("keeeks.staff")) {
+                return;
+            }
+
+            proxyServer.getAllPlayers().stream().filter(
+                    player -> player.hasPermission("keeeks.staff")
+            ).filter(player -> notificationApi.notificationActive(
+                    notification,
+                    player.getUniqueId()
+            )).forEach(player -> {
+                NucleoOnlinePlayer nucleoOnlinePlayer = nucleoOnlinePlayerNetworkJoinPacket.player();
+                permissionApi.user(nucleoOnlinePlayer.uuid()).map(
+                        PermissionUser::coloredName
+                ).ifPresent(coloredUsername -> player.sendMessage(translatable(
+                        "nucleo.notifications.teamjoin",
+                        coloredUsername,
+                        text(nucleoOnlinePlayer.server()),
+                        text(nucleoOnlinePlayer.proxy())
+                )));
+            });
         });
     }
 }
