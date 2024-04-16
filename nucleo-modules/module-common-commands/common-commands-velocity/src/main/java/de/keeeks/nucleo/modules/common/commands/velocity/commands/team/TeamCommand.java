@@ -41,7 +41,7 @@ public class TeamCommand {
         ).forEach(nucleoPermissionUserMapping -> {
             NucleoOnlinePlayer onlinePlayer = nucleoPermissionUserMapping.nucleoOnlinePlayer();
             PermissionUser permissionUser = nucleoPermissionUserMapping.permissionUser();
-            Optional<PermissionGroup> highestPermissionGroup = permissionUser.highestPermssionGroup();
+            Optional<PermissionGroup> highestPermissionGroup = permissionUser.highestPermissionGroup();
             player.sendMessage(Component.translatable("nucleo.commands.team.entry").arguments(
                     highestPermissionGroup.map(
                             permissionGroup -> permissionGroup.prefix(PrefixType.DISPLAY)
@@ -85,7 +85,7 @@ public class TeamCommand {
 
     @NotNull
     private static Integer priorityOfGroup(NucleoPermissionUserMapping o1) {
-        return o1.permissionUser().highestPermssionGroup().map(PermissionGroup::priority).orElse(0);
+        return o1.permissionUser().highestPermissionGroup().map(PermissionGroup::priority).orElse(0);
     }
 
     public record NucleoPermissionUserMapping(
