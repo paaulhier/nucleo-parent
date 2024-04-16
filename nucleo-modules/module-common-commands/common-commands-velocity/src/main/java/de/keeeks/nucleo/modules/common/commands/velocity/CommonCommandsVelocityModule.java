@@ -16,6 +16,7 @@ import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.TeamComma
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.administration.PushCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.configuration.PushConfiguration;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.ping.PlayerPingRequestPacketListener;
+import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoin.StaffMemberNetworkJoinPacketListener;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
@@ -46,6 +47,7 @@ public class CommonCommandsVelocityModule extends VelocityModule {
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
         boolean configModuleEnabled = Module.isAvailable("config");
         boolean economyModuleEnabled = Module.isAvailable("economy");
+        boolean notificationsModuleEnabled = Module.isAvailable("notifications");
 
         if (configModuleEnabled) {
             registerCommands(new PushCommand(pushConfiguration()));
@@ -74,6 +76,12 @@ public class CommonCommandsVelocityModule extends VelocityModule {
             natsConnection.registerPacketListener(
                     new PlayerPingRequestPacketListener(this)
             );
+
+            if (notificationsModuleEnabled && playersModuleEnabled && lejetModuleEnabled) {
+                natsConnection.registerPacketListener(new StaffMemberNetworkJoinPacketListener(
+                        proxyServer
+                ));
+            }
         }
 
         if (economyModuleEnabled) {

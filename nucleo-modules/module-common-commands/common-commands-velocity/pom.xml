@@ -82,6 +82,10 @@
             <artifactId>config-json</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>notifications-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
