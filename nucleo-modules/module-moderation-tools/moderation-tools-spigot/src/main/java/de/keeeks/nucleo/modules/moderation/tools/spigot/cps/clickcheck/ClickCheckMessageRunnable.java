@@ -7,6 +7,7 @@ import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondProvi
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import static de.keeeks.lejet.api.NameColorizer.coloredName;
 import static de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondInformation.ClickType;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -30,12 +31,12 @@ public class ClickCheckMessageRunnable implements Runnable {
                         "nucleo.modules.moderation.tools.cps.clickcheck.message",
                         text(leftClicks),
                         text(rightClicks),
-                        text(target.getName()),
+                        coloredName(target.getUniqueId()),
                         text(target.getPing())
                 ));
             }, () -> player.sendMessage(translatable(
                     "nucleo.modules.moderation.tools.cps.clickcheck.message.notMeasured",
-                    text(target.getName())
+                    coloredName(target.getUniqueId())
             )));
         }
     }

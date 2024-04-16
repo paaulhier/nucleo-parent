@@ -15,7 +15,7 @@ import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 @ModuleDescription(
         name = "moderation-tools",
         description = "A module for moderation tools like e.g. click checks",
-        depends = {"players", "messaging"}
+        depends = {"players", "messaging", "lejet"}
 )
 public class ModerationToolsSpigotModule extends SpigotModule {
 

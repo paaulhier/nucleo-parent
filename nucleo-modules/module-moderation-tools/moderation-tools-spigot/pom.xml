@@ -54,6 +54,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>de.keeeks.lejet</groupId>
+            <artifactId>lejet-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>de.keeeks.nucleo</groupId>
             <artifactId>module-messaging</artifactId>
             <scope>provided</scope>
