@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static de.keeeks.lejet.api.NameColorizer.coloredName;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
@@ -65,7 +66,7 @@ public final class PlayerInfoCommand {
                     );
 
                     List<Component> arguments = new ArrayList<>(List.of(
-                            NameColorizer.coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.copyToClipboard(
+                            coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.copyToClipboard(
                                     nucleoPlayer.name()
                             )),
                             text(nucleoPlayer.uuid().toString()).clickEvent(ClickEvent.copyToClipboard(
@@ -106,7 +107,7 @@ public final class PlayerInfoCommand {
                                 nucleoOnlinePlayer.ipAddress()
                         );
                         arguments.addAll(List.of(
-                                text(ipAddress).clickEvent(ClickEvent.suggestCommand(ipAddress)),
+                                text(ipAddress).clickEvent(ClickEvent.copyToClipboard(ipAddress)),
                                 text(nucleoOnlinePlayer.proxy()),
                                 text(nucleoOnlinePlayer.server()).clickEvent(ClickEvent.runCommand(
                                         "/jumpto %s".formatted(nucleoOnlinePlayer.name())
