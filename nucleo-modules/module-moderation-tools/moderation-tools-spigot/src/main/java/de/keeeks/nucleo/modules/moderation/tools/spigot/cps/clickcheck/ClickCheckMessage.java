@@ -9,18 +9,18 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.logging.Logger;
 
-public class ClickCheckActionBar {
+public class ClickCheckMessage {
     private final ClickCheckApi clickCheckApi = ServiceRegistry.service(
             ClickCheckApi.class
     );
     private final ModerationToolsSpigotModule module = Module.module(ModerationToolsSpigotModule.class);
-    private final ClickCheckActionBarRunnable actionBarRunnable = new ClickCheckActionBarRunnable();
+    private final ClickCheckMessageRunnable messageRunnable = new ClickCheckMessageRunnable();
 
     private final Logger logger;
 
     private BukkitTask actionBarTask;
 
-    public ClickCheckActionBar(Logger logger) {
+    public ClickCheckMessage(Logger logger) {
         this.logger = logger;
         clickCheckApi.createListener(clickCheckInformation -> {
             if (actionBarTask == null || actionBarTask.isCancelled()) {
@@ -34,11 +34,11 @@ public class ClickCheckActionBar {
         stop();
         actionBarTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
                 module.plugin(),
-                actionBarRunnable,
-                0,
-                5
+                messageRunnable,
+                20,
+                20
         );
-        logger.info("Started ClickCheckActionBar task");
+        logger.info("Started ClickCheckMessage task");
     }
 
     public final void stopIfNoClickChecks() {
@@ -51,7 +51,7 @@ public class ClickCheckActionBar {
         if (actionBarTask != null && !actionBarTask.isCancelled()) {
             actionBarTask.cancel();
             actionBarTask = null;
-            logger.info("Stopped ClickCheckActionBar task");
+            logger.info("Stopped ClickCheckMessage task");
         }
     }
 }

@@ -14,11 +14,6 @@ public record ClicksPerSecondInformation(
         return (int) clicks.stream().filter(clickDetails -> clickDetails.clickType() == clickType).count();
     }
 
-    public int clicksPerSecond() {
-        clicks.removeIf(clickDetails -> clickDetails.time().isBefore(Instant.now().minusSeconds(1)));
-        return clicks.size();
-    }
-
     public record ClickDetails(
             ClickType clickType,
             Instant time

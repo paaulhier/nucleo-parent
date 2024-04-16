@@ -8,7 +8,7 @@ import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.NucleoClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.translation.ModerationToolsTranslationRegistry;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondProvider;
-import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.clickcheck.ClickCheckActionBar;
+import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.clickcheck.ClickCheckMessage;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.listener.ModerationToolsClickListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
@@ -35,8 +35,8 @@ public class ModerationToolsSpigotModule extends SpigotModule {
     @Override
     public void enable() {
         ServiceRegistry.registerService(
-                ClickCheckActionBar.class,
-                new ClickCheckActionBar(logger)
+                ClickCheckMessage.class,
+                new ClickCheckMessage(logger)
         );
         registerListener(new ModerationToolsClickListener());
     }
