@@ -29,12 +29,12 @@ test:
   stage: test
   script:
     - 'echo $MAVEN_SETTINGS_XML >> ci_settings.xml'
-    - 'mvn $MAVEN_CLI_OPTS test --settings ci_settings.xml'
+    - 'mvn $MAVEN_CLI_OPTS test -U --settings ci_settings.xml'
 
 deploy:
   stage: deploy
   script:
     - 'echo $MAVEN_SETTINGS_XML >> ci_settings.xml'
-    - 'mvn $MAVEN_CLI_OPTS deploy --settings ci_settings.xml'
+    - 'mvn $MAVEN_CLI_OPTS deploy -U --settings ci_settings.xml'
   only:
     - main
