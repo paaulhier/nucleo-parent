@@ -28,7 +28,7 @@ import eu.cloudnetservice.driver.inject.InjectionLayer;
 @ModuleDescription(
         name = "common-commands",
         depends = {"translations"},
-        softDepends = {"players", "messaging", "lejet", "verifica", "config"}
+        softDepends = {"players", "messaging", "lejet", "verifica", "config", "notifications"}
 )
 public class CommonCommandsVelocityModule extends VelocityModule {
 
