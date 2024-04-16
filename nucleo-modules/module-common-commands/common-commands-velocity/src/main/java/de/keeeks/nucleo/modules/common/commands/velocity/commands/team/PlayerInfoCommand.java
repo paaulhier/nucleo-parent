@@ -65,10 +65,10 @@ public final class PlayerInfoCommand {
                     );
 
                     List<Component> arguments = new ArrayList<>(List.of(
-                            NameColorizer.coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.suggestCommand(
+                            NameColorizer.coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.copyToClipboard(
                                     nucleoPlayer.name()
                             )),
-                            text(nucleoPlayer.uuid().toString()).clickEvent(ClickEvent.suggestCommand(
+                            text(nucleoPlayer.uuid().toString()).clickEvent(ClickEvent.copyToClipboard(
                                     nucleoPlayer.uuid().toString()
                             )),
                             text(Formatter.formatDateTime(
@@ -140,7 +140,7 @@ public final class PlayerInfoCommand {
             if (verificationState == VerificationState.PENDING) {
                 return translatable("commands.playerinfo.pendingVerification");
             }
-            return text(verification.userId()).clickEvent(ClickEvent.suggestCommand(verification.userId()));
+            return text(verification.userId()).clickEvent(ClickEvent.copyToClipboard(verification.userId()));
         }).orElse(translatable("commands.playerinfo.noVerification"));
     }
 
