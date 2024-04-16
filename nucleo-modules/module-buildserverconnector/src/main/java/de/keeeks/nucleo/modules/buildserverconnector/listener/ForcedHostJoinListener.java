@@ -23,7 +23,7 @@ public class ForcedHostJoinListener {
             }
 
             player.getVirtualHost().filter(
-                    inetSocketAddress -> inetSocketAddress.toString().equalsIgnoreCase(configuration.forcedHost())
+                    inetSocketAddress -> inetSocketAddress.getHostName().equalsIgnoreCase(configuration.forcedHost())
             ).flatMap(inetSocketAddress -> proxyServer.getServer(
                     configuration.serverName()
             )).ifPresent(event::setInitialServer);
