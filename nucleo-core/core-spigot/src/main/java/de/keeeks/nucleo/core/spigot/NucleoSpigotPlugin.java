@@ -8,23 +8,28 @@ import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.command.NucleoSpigotExceptionHandler;
 import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
+import eu.cloudnetservice.driver.inject.InjectionLayer;
+import eu.cloudnetservice.driver.service.ServiceInfoSnapshot;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
+import java.io.FileInputStream;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Getter
 public class NucleoSpigotPlugin extends JavaPlugin {
     @Getter
     private static NucleoSpigotPlugin plugin;
 
+    private final AtomicReference<String> templateName = new AtomicReference<>();
+    private final AtomicReference<String> serverName = new AtomicReference<>();
     private final List<Object> commandRegistrations = new LinkedList<>();
 
     private final ModuleClassLoader moduleClassLoader = ModuleClassLoader.create(
@@ -74,12 +79,53 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         );
 
         Module.modules().forEach(Module::postStartup);
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        if (pluginManager.getPlugin("CloudNet-Bridge") != null) {
+            ServiceInfoSnapshot serviceInfoSnapshot = InjectionLayer.ext().instance(ServiceInfoSnapshot.class);
+            templateName.set(serviceInfoSnapshot.serviceId().taskName());
+            serverName.set(serviceInfoSnapshot.name());
+        } else {
+            try {
+                Properties properties = new Properties();
+                properties.load(new FileInputStream("server.properties"));
+                String serverName = properties.getProperty("server-name");
+                String templateName = properties.getProperty("template-name");
+                if (serverName == null || templateName == null) {
+                    getLogger().info("No CloudNet-Bridge plugin found and no server.properties file found," +
+                            " disabling nucleo.");
+                    pluginManager.disablePlugin(this);
+                    return;
+                }
+                if (templateName != null) {
+                    this.templateName.set(templateName);
+                }
+                if (serverName != null) {
+                    this.serverName.set(serverName);
+                }
+            } catch (Throwable throwable) {
+                getLogger().info("No CloudNet-Bridge plugin found and no server.properties file found," +
+                        " disabling nucleo.");
+                pluginManager.disablePlugin(this);
+            }
+        }
     }
 
     @Override
     public void onDisable() {
         Scheduler.shutdown();
         moduleLoader.disableModules();
+    }
+
+    public Optional<String> serverName() {
+        return Optional.ofNullable(serverName.get());
+    }
+
+    public Optional<String> templateName() {
+        return Optional.ofNullable(templateName.get());
+    }
+
+    public Optional<String> templateOrServerName() {
+        return templateName().or(this::serverName);
     }
 
     public void registerCommands(Object... commands) {

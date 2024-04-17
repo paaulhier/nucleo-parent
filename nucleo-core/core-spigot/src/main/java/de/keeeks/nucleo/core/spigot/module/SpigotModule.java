@@ -6,6 +6,8 @@ import lombok.Getter;
 import org.bukkit.event.Listener;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
+import java.util.Optional;
+
 @Getter
 public abstract class SpigotModule extends Module {
     private final NucleoSpigotPlugin plugin = NucleoSpigotPlugin.plugin();
@@ -21,4 +23,17 @@ public abstract class SpigotModule extends Module {
     public void registerListener(Listener... listeners) {
         plugin.registerListener(listeners);
     }
+
+    public Optional<String> serverName() {
+        return plugin.serverName();
+    }
+
+    public Optional<String> templateName() {
+        return plugin.templateName();
+    }
+
+    public Optional<String> templateOrServerName() {
+        return plugin.templateOrServerName();
+    }
+
 }
