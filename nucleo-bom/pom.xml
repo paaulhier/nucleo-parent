@@ -76,6 +76,16 @@
                 <artifactId>node</artifactId>
                 <version>${cloudnet.version}</version>
             </dependency>
+            <dependency>
+                <groupId>eu.cloudnetservice.cloudnet</groupId>
+                <artifactId>bridge</artifactId>
+                <version>${cloudnet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.cloudnetservice.cloudnet</groupId>
+                <artifactId>wrapper-jvm</artifactId>
+                <version>${cloudnet.version}</version>
+            </dependency>
 
             <!-- Core -->
             <dependency>

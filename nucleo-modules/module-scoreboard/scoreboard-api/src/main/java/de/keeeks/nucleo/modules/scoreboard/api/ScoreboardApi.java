@@ -1,5 +1,7 @@
 package de.keeeks.nucleo.modules.scoreboard.api;
 
+import org.bukkit.entity.Player;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,7 +10,12 @@ public interface ScoreboardApi {
 
     List<Scoreboard> scoreboards();
 
+    @Deprecated
     Scoreboard createScoreboard();
+
+    Scoreboard createScoreboard(org.bukkit.scoreboard.Scoreboard legacyBoard);
+
+    Scoreboard createScoreboard(Player player);
 
     void destroyScoreboard(UUID uuid);
 
