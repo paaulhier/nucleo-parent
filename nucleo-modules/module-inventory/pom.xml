@@ -43,6 +43,10 @@
             <groupId>de.keeeks.nucleo</groupId>
             <artifactId>core-spigot</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>xyz.xenondevs.invui</groupId>

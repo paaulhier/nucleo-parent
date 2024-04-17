@@ -75,13 +75,6 @@ public class NucleoSpigotPlugin extends JavaPlugin {
                 new NucleoPluginMessageListener()
         );
 
-        moduleLoader.enableModules();
-
-        this.startupDuration = Duration.ofMillis(
-                System.currentTimeMillis() - startupTime
-        );
-
-        Module.modules().forEach(Module::postStartup);
         PluginManager pluginManager = Bukkit.getPluginManager();
         if (pluginManager.getPlugin("CloudNet-Bridge") != null) {
             ServiceInfoSnapshot serviceInfoSnapshot = InjectionLayer.ext().instance(
@@ -100,6 +93,14 @@ public class NucleoSpigotPlugin extends JavaPlugin {
                 disablePluginDueToNoServerData(pluginManager);
             }
         }
+
+        moduleLoader.enableModules();
+
+        this.startupDuration = Duration.ofMillis(
+                System.currentTimeMillis() - startupTime
+        );
+
+        Module.modules().forEach(Module::postStartup);
     }
 
     private void disablePluginDueToNoServerData(PluginManager pluginManager) {
