@@ -69,6 +69,16 @@
             <version>${paper.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>eu.cloudnetservice.cloudnet</groupId>
+            <artifactId>driver</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>eu.cloudnetservice.cloudnet</groupId>
+            <artifactId>wrapper-jvm</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

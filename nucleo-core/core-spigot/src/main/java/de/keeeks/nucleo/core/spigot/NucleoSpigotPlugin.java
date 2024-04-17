@@ -10,6 +10,7 @@ import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import eu.cloudnetservice.driver.inject.InjectionLayer;
 import eu.cloudnetservice.driver.service.ServiceInfoSnapshot;
+import eu.cloudnetservice.wrapper.holder.ServiceInfoHolder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -19,9 +20,11 @@ import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 @Getter
 public class NucleoSpigotPlugin extends JavaPlugin {
@@ -81,32 +84,48 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         Module.modules().forEach(Module::postStartup);
         PluginManager pluginManager = Bukkit.getPluginManager();
         if (pluginManager.getPlugin("CloudNet-Bridge") != null) {
-            ServiceInfoSnapshot serviceInfoSnapshot = InjectionLayer.ext().instance(ServiceInfoSnapshot.class);
+            ServiceInfoSnapshot serviceInfoSnapshot = InjectionLayer.ext().instance(
+                    ServiceInfoHolder.class
+            ).serviceInfo();
             templateName.set(serviceInfoSnapshot.serviceId().taskName());
             serverName.set(serviceInfoSnapshot.name());
         } else {
             try {
-                Properties properties = new Properties();
-                properties.load(new FileInputStream("server.properties"));
-                String serverName = properties.getProperty("server-name");
-                String templateName = properties.getProperty("template-name");
-                if (serverName == null || templateName == null) {
-                    getLogger().info("No CloudNet-Bridge plugin found and no server.properties file found," +
-                            " disabling nucleo.");
-                    pluginManager.disablePlugin(this);
-                    return;
-                }
-                if (templateName != null) {
-                    this.templateName.set(templateName);
-                }
-                if (serverName != null) {
-                    this.serverName.set(serverName);
-                }
+                readServiceInfo(
+                        this.serverName::set,
+                        this.templateName::set,
+                        () -> disablePluginDueToNoServerData(pluginManager)
+                );
             } catch (Throwable throwable) {
-                getLogger().info("No CloudNet-Bridge plugin found and no server.properties file found," +
-                        " disabling nucleo.");
-                pluginManager.disablePlugin(this);
+                disablePluginDueToNoServerData(pluginManager);
             }
+        }
+    }
+
+    private void disablePluginDueToNoServerData(PluginManager pluginManager) {
+        getLogger().info("No CloudNet-Bridge plugin found and no server.properties file found," +
+                " disabling nucleo.");
+        pluginManager.disablePlugin(this);
+    }
+
+    private void readServiceInfo(
+            Consumer<String> serverNameConsumer,
+            Consumer<String> templateNameConsumer,
+            Runnable noDataPresent
+    ) throws IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("server.properties"));
+        String serverName = properties.getProperty("server-name");
+        String templateName = properties.getProperty("template-name");
+        if (serverName == null && templateName == null) {
+            noDataPresent.run();
+            return;
+        }
+        if (serverName != null) {
+            serverNameConsumer.accept(serverName);
+        }
+        if (templateName != null) {
+            templateNameConsumer.accept(templateName);
         }
     }
 
