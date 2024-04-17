@@ -12,6 +12,7 @@ import net.kyori.adventure.text.Component;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Getter
 public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements NucleoOnlinePlayer {
@@ -83,6 +84,15 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     public NucleoOnlinePlayer updateProxy(String proxy) {
         this.proxy = proxy;
         return this;
+    }
+
+    @Override
+    public void connect(String server, Consumer<Boolean> successCallback) {
+        playerService().connectPlayer(
+                this,
+                server,
+                successCallback
+        );
     }
 
     @Override

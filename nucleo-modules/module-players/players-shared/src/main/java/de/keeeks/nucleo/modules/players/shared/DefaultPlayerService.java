@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -231,6 +232,33 @@ public class DefaultPlayerService implements PlayerService {
                         messageType
                 )
         );
+    }
+
+    @Override
+    public void connectPlayer(
+            NucleoOnlinePlayer nucleoOnlinePlayer,
+            String server,
+            Consumer<Boolean> successCallback
+    ) {
+        natsConnection.request(
+                CHANNEL,
+                new NucleoOnlinePlayerConnectRequestPacket(
+                        nucleoOnlinePlayer,
+                        server
+                ),
+                NucleoOnlinePlayerConnectResponsePacket.class
+        ).whenCompleteAsync((nucleoOnlinePlayerConnectResponsePacket, throwable) -> {
+            if (throwable != null) {
+                logger.log(
+                        Level.SEVERE,
+                        "Failed to connect player " + nucleoOnlinePlayer.name() + " to server " + server,
+                        throwable
+                );
+                successCallback.accept(false);
+                return;
+            }
+            successCallback.accept(nucleoOnlinePlayerConnectResponsePacket.success());
+        });
     }
 
     public static DefaultPlayerService create() {

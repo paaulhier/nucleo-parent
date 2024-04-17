@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public interface PlayerService {
 
@@ -186,6 +187,19 @@ public interface PlayerService {
             NucleoMessageSender.MessageType messageType
     ) {
         send(nucleoOnlinePlayer.uuid(), component, messageType);
+    }
+
+    void connectPlayer(
+            NucleoOnlinePlayer nucleoOnlinePlayer,
+            String server,
+            Consumer<Boolean> callback
+    );
+
+    default void connectPlayer(
+            NucleoOnlinePlayer nucleoOnlinePlayer,
+            String server
+    ) {
+        connectPlayer(nucleoOnlinePlayer, server, success -> {});
     }
 
     /**
