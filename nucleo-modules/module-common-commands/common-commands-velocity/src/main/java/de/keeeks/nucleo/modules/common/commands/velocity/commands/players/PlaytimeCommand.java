@@ -11,6 +11,7 @@ import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
+import revxrsal.commands.annotation.AutoComplete;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Optional;
@@ -23,13 +24,14 @@ public class PlaytimeCommand {
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
     private final PermissionApi permissionApi = PermissionApi.instance();
 
+    @AutoComplete("@players")
     @DefaultFor({"playtime", "pt"})
     public void commandUsage(
             Player player,
             @Optional String otherPlayerName
     ) {
         Scheduler.runAsync(() -> {
-            if (otherPlayerName == null) {
+            if (otherPlayerName == null || otherPlayerName.equalsIgnoreCase(player.getUsername())) {
                 Long playTime = playerService.onlinePlayer(player.getUniqueId()).map(
                         NucleoPlayer::onlineTime
                 ).orElse(0L);
