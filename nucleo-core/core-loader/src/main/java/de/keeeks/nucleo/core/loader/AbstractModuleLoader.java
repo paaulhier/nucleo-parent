@@ -95,6 +95,7 @@ public abstract class AbstractModuleLoader {
         Module module = moduleContainer.module();
         try {
             moduleOutput("Disabling", moduleContainer);
+            module.preDisable();
             module.disable();
             module.updateState(ModuleState.DISABLED);
         } catch (Throwable throwable) {
