@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class NatsConnection {
+    private static final List<NatsConnection> connections = new ArrayList<>();
+
     private final List<PacketBacklogMeta> packetBacklog = new ArrayList<>();
     @Getter
     private final Map<String, List<PacketListener<?>>> packetListeners = new HashMap<>();
@@ -26,8 +28,32 @@ public class NatsConnection {
     public NatsConnection(Logger logger, NatsCredentials credentials) {
         this.logger = logger;
         tryConnect(credentials);
+        connections.add(this);
     }
 
+    public void close() {
+        connection().ifPresent(openConnection -> {
+            for (Dispatcher dispatcher : dispatcherMap.values()) {
+                openConnection.closeDispatcher(dispatcher);
+            }
+            try {
+                openConnection.close();
+                logger.info("Closed connection %s".formatted(
+                        openConnection.getServerInfo().getClientId()
+                ));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public Optional<Connection> connection() {
+        return Optional.ofNullable(connection).filter(
+                connection1 -> connection1.getStatus().equals(Connection.Status.CONNECTED)
+        );
+    }
+
+    @Deprecated
     public Optional<Connection> getConnection() {
         return Optional.ofNullable(connection);
     }
@@ -115,7 +141,7 @@ public class NatsConnection {
      * @param packet  The packet which should be sent.
      */
     public void publishPacket(String channel, Packet packet) {
-        getConnection().ifPresentOrElse(
+        connection().ifPresentOrElse(
                 connection -> {
                     try {
                         connection.publish(channel, packet.packetMeta().toBytes());
@@ -141,7 +167,7 @@ public class NatsConnection {
      * @param packet  The packet which should be sent.
      */
     public void forcePublishPacket(String channel, Packet packet) {
-        getConnection().ifPresent(
+        connection().ifPresent(
                 connection -> connection.publish(channel, packet.packetMeta().toBytes())
         );
     }
@@ -171,6 +197,16 @@ public class NatsConnection {
 
     private Packet parsePacketFromMessage(Message message) {
         return PacketMeta.fromJson(new String(message.getData())).packet();
+    }
+
+    public static void closeAllConnections() {
+        for (NatsConnection connection : connections()) {
+            connection.close();
+        }
+    }
+
+    public static List<NatsConnection> connections() {
+        return List.copyOf(connections);
     }
 
     public static NatsConnection create(Logger logger, NatsCredentials credentials) {

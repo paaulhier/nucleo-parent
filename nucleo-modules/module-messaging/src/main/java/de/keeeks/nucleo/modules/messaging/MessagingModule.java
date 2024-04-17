@@ -26,4 +26,9 @@ public class MessagingModule extends Module {
         );
         ServiceRegistry.registerService(NatsConnection.class, defaultNatsConnection);
     }
+
+    @Override
+    public void disable() {
+        NatsConnection.closeAllConnections();
+    }
 }
