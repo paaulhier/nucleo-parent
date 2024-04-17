@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
+import org.jgrapht.graph.EdgeReversedGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +25,7 @@ public abstract class AbstractModuleLoader {
     protected final Logger logger;
 
     public void enableModules() {
-        sortedModules().forEachRemaining(this::enableModule);
+        sortedModules(false).forEachRemaining(this::enableModule);
     }
 
     protected void initializeModule(Class<?> clazz) throws
@@ -67,7 +68,7 @@ public abstract class AbstractModuleLoader {
     }
 
     public void loadModules() {
-        sortedModules().forEachRemaining(this::loadModule);
+        sortedModules(false).forEachRemaining(this::loadModule);
     }
 
     private void loadModule(ModuleContainer moduleContainer) {
@@ -88,14 +89,13 @@ public abstract class AbstractModuleLoader {
     }
 
     public void disableModules() {
-        sortedModules().forEachRemaining(this::disableModule);
+        sortedModules(true).forEachRemaining(this::disableModule);
     }
 
     private void disableModule(ModuleContainer moduleContainer) {
         Module module = moduleContainer.module();
         try {
             moduleOutput("Disabling", moduleContainer);
-            module.preDisable();
             module.disable();
             module.updateState(ModuleState.DISABLED);
         } catch (Throwable throwable) {
@@ -109,7 +109,7 @@ public abstract class AbstractModuleLoader {
         }
     }
 
-    protected TopologicalOrderIterator<ModuleContainer, DefaultEdge> sortedModules() {
+    protected TopologicalOrderIterator<ModuleContainer, DefaultEdge> sortedModules(boolean reversed) {
         Graph<ModuleContainer, DefaultEdge> graph = new DirectedAcyclicGraph<>(DefaultEdge.class);
 
         moduleContainers.stream().filter(
@@ -127,7 +127,9 @@ public abstract class AbstractModuleLoader {
             }
         });
 
-        return new TopologicalOrderIterator<>(graph);
+        return new TopologicalOrderIterator<>(
+                reversed ? new EdgeReversedGraph<>(graph) : graph
+        );
     }
 
     private void handleDependency(

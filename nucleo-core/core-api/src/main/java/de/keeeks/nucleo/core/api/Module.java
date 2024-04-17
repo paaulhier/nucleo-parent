@@ -70,9 +70,6 @@ public abstract class Module {
         //Does not have any function yet. Do a "module-override" to implement stuff for modules
     }
 
-    public void preDisable() {
-    }
-
     @SneakyThrows
     public void updateState(ModuleState moduleState) {
         Class<?> callerClass = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass();
