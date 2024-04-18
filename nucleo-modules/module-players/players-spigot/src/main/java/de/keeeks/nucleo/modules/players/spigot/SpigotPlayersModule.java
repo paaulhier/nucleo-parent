@@ -3,6 +3,8 @@ package de.keeeks.nucleo.modules.players.spigot;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
+import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
+import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
 
@@ -12,13 +14,31 @@ import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
         depends = {"messaging"}
 )
 public class SpigotPlayersModule extends SpigotModule {
+    private PlayerService playerService;
+
     @Override
     public void load() {
-        ServiceRegistry.registerService(
+        playerService = ServiceRegistry.registerService(
                 PlayerService.class,
                 DefaultPlayerService.create()
         );
+    }
 
-        //your verification has been revoked,
+    @Override
+    public void enable() {
+        commandHandler().registerValueResolver(
+                NucleoOnlinePlayer.class,
+                valueResolverContext -> {
+                    String playerName = valueResolverContext.pop();
+                    return playerService.onlinePlayer(playerName).orElse(null);
+                }
+        );
+        commandHandler().registerValueResolver(
+                NucleoPlayer.class,
+                valueResolverContext -> {
+                    String playerName = valueResolverContext.pop();
+                    return playerService.player(playerName).orElse(null);
+                }
+        );
     }
 }
