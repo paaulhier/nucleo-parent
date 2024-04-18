@@ -4,6 +4,7 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
+import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
@@ -19,9 +20,11 @@ import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePla
         depends = {"messaging"}
 )
 public class PlayersVelocityModule extends VelocityModule {
+    private PlayerService playerService;
+
     @Override
     public void load() {
-        PlayerService playerService = ServiceRegistry.registerService(
+        playerService = ServiceRegistry.registerService(
                 PlayerService.class,
                 DefaultPlayerService.create()
         );
@@ -40,6 +43,21 @@ public class PlayersVelocityModule extends VelocityModule {
                 new LoginListener(),
                 new ServerConnectedListener(),
                 new PlayerDisconnectListener()
+        );
+
+        commandHandler().registerValueResolver(
+                NucleoOnlinePlayer.class,
+                valueResolverContext -> {
+                    String playerName = valueResolverContext.pop();
+                    return playerService.onlinePlayer(playerName).orElse(null);
+                }
+        );
+        commandHandler().registerValueResolver(
+                NucleoPlayer.class,
+                valueResolverContext -> {
+                    String playerName = valueResolverContext.pop();
+                    return playerService.player(playerName).orElse(null);
+                }
         );
 
         ServiceRegistry.service(NatsConnection.class).registerPacketListener(
