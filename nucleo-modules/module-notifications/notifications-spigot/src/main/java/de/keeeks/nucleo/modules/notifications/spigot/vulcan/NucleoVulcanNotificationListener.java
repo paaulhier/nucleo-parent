@@ -17,9 +17,9 @@ public class NucleoVulcanNotificationListener implements Listener {
     private final NotificationApi notificationApi = ServiceRegistry.service(NotificationApi.class);
     private final Notification vulcanNotification = notificationApi.createNotification(
             "anticheat",
-            "A notification from Vulcan if a player might be cheating"
+            "A notification from Vulcan if a player might be cheating",
+            "keeeks.notification.anticheat"
     );
-
 
     @EventHandler
     public void handleFlag(VulcanFlagEvent event) {
@@ -27,20 +27,24 @@ public class NucleoVulcanNotificationListener implements Listener {
         Check check = event.getCheck();
 
         for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
-            if (!otherPlayer.hasPermission("nucleo.notifications.vulcan")) continue;
-            if (!notificationApi.notificationActive(vulcanNotification, otherPlayer.getUniqueId())) continue;
+            vulcanNotification.checkPermission(
+                    otherPlayer::hasPermission,
+                    () -> {
+                        if (!notificationApi.notificationActive(vulcanNotification, otherPlayer.getUniqueId())) return;
 
-            otherPlayer.sendMessage(translatable(
-                    "nucleo.notifications.vulcan.flag",
-                    text(player.getName()),
-                    text(check.getName()),
-                    text(check.getVl()),
-                    text(check.getMaxVl()),
-                    text(check.getCategory()),
-                    text(check.getDisplayName()),
-                    text(event.getInfo()),
-                    text(String.valueOf(check.getType()).toUpperCase())
-            ));
+                        otherPlayer.sendMessage(translatable(
+                                "nucleo.notifications.vulcan.flag",
+                                text(player.getName()),
+                                text(check.getName()),
+                                text(check.getVl()),
+                                text(check.getMaxVl()),
+                                text(check.getCategory()),
+                                text(check.getDisplayName()),
+                                text(event.getInfo()),
+                                text(String.valueOf(check.getType()).toUpperCase())
+                        ));
+                    }
+            );
         }
     }
 }
