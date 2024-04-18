@@ -10,6 +10,8 @@ public interface Notification {
 
     String description();
 
+    String requiredPermission();
+
     Instant createdAt();
 
     Instant updatedAt();

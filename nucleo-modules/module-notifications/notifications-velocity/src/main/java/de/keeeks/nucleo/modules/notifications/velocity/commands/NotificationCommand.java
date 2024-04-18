@@ -5,16 +5,19 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.notifications.api.Notification;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
+import revxrsal.commands.CommandHandler;
+import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Command({"notify", "notification", "notifications"})
 @CommandPermission("nucleo.commands.notifications")
-public final class
-NotificationCommand {
+public final class NotificationCommand implements CommandHandlerVisitor {
     private final NotificationApi notificationApi = ServiceRegistry.service(NotificationApi.class);
 
     @DefaultFor({"notify", "notification", "notifications"})
@@ -32,25 +35,31 @@ NotificationCommand {
             Player player,
             @Optional @Default("all") NotificationStateType notificationStateType
     ) {
-        List<Notification> notifications = notificationApi.notifications();
+        Stream<Notification> notifications = notificationApi.notifications().stream().filter(
+                notification -> {
+                    if (notification.requiredPermission() == null) return true;
+                    return player.hasPermission(notification.requiredPermission());
+                }
+        );
 
         if (notificationStateType == NotificationStateType.DISABLED) {
-            notifications = List.copyOf(notifications).stream().filter(
+            notifications = notifications.filter(
                     notification -> !notificationApi.notificationActive(notification, player.getUniqueId())
-            ).toList();
+            );
         } else if (notificationStateType == NotificationStateType.ENABLED) {
-            notifications = List.copyOf(notifications).stream().filter(
+            notifications = notifications.filter(
                     notification -> notificationApi.notificationActive(notification, player.getUniqueId())
-            ).toList();
+            );
         }
 
-        if (notifications.isEmpty()) {
+        List<Notification> filteredNotifications = notifications.toList();
+        if (filteredNotifications.isEmpty()) {
             player.sendMessage(Component.translatable("nucleo.notifications.command.list.empty"));
             return;
         }
 
         player.sendMessage(Component.translatable("nucleo.notifications.command.list.header"));
-        for (Notification notification : notifications) {
+        for (Notification notification : filteredNotifications) {
             player.sendMessage(Component.translatable(
                     "nucleo.notifications.command.list.entry",
                     Component.text(notification.id()),
@@ -60,58 +69,124 @@ NotificationCommand {
         }
     }
 
-    @AutoComplete("@notifications")
-    @Usage("notifications toggle <Name|all>")
-    @Subcommand("toggle")
-    public void toggleCommand(Player player, String name) {
-        notificationApi.notification(name).ifPresentOrElse(
-                notification -> toggleNotification(player, notification),
-                () -> player.sendMessage(Component.translatable(
-                        "nucleo.notifications.command.toggle.notFound",
-                        Component.text(name)
-                ))
+    @Override
+    public void visit(@NotNull CommandHandler commandHandler) {
+        commandHandler.register(
+                new DisableCommand(),
+                new EnableCommand(),
+                new ToggleCommand()
         );
     }
 
-    @Usage("notifications enable <Name|all>")
-    @AutoComplete("@notifications")
-    @Subcommand("enable")
-    public void enableCommand(Player player, String name) {
-        if (name.equalsIgnoreCase("all")) {
-            List<Notification> notifications = notificationApi.notifications();
-            for (Notification notification : notifications) {
-                enableNotification(player, notification);
+    @Command({"notify disable", "notification disable", "notifications disable"})
+    public class DisableCommand {
+
+        @AutoComplete("@notifications")
+        @DefaultFor("~")
+        public void disableCommand(Player player, Notification notification) {
+            if (!checkPermission(player, notification)) {
+                player.sendMessage(Component.translatable(
+                        "nucleo.notifications.command.toggle.noPermission",
+                        Component.text(notification.name())
+                ));
+                return;
             }
-            return;
+
+            if (notificationApi.notificationActive(notification, player.getUniqueId())) {
+                disableNotification(player, notification);
+            } else {
+                player.sendMessage(Component.translatable(
+                        "nucleo.notifications.command.disable.alreadyDisabled",
+                        Component.text(notification.name())
+                ));
+            }
         }
 
-        notificationApi.notification(name).ifPresentOrElse(
-                notification -> enableNotification(player, notification),
-                () -> player.sendMessage(Component.translatable(
-                        "nucleo.notifications.command.toggle.notFound",
-                        Component.text(name)
-                ))
-        );
-    }
-
-    @Usage("notifications disable <Name|all>")
-    @AutoComplete("@notifications")
-    @Subcommand("disable")
-    public void disableCommand(Player player, String name) {
-        if (name.equalsIgnoreCase("all")) {
-            List<Notification> notifications = notificationApi.notifications();
+        @Subcommand("all")
+        public void disableAllCommand(Player player) {
+            List<Notification> notifications = notificationApi.notifications().stream().filter(
+                    notification -> checkPermission(player, notification)
+            ).toList();
             for (Notification notification : notifications) {
                 disableNotification(player, notification);
             }
-            return;
         }
-        notificationApi.notification(name).ifPresentOrElse(
-                notification -> disableNotification(player, notification),
-                () -> player.sendMessage(Component.translatable(
-                        "nucleo.notifications.command.toggle.notFound",
-                        Component.text(name)
-                ))
-        );
+    }
+
+    @Command({"notify enable", "notification enable", "notifications enable"})
+    public class EnableCommand {
+
+        @AutoComplete("@notifications")
+        @DefaultFor("~")
+        public void disableCommand(Player player, Notification notification) {
+            if (!checkPermission(player, notification)) {
+                player.sendMessage(Component.translatable(
+                        "nucleo.notifications.command.toggle.noPermission",
+                        Component.text(notification.name())
+                ));
+                return;
+            }
+
+            if (!notificationApi.notificationActive(notification, player.getUniqueId())) {
+                enableNotification(player, notification);
+            } else {
+                player.sendMessage(Component.translatable(
+                        "nucleo.notifications.command.enable.alreadyEnabled",
+                        Component.text(notification.name())
+                ));
+            }
+        }
+
+        @Subcommand("all")
+        public void disableAllCommand(Player player) {
+            List<Notification> notifications = notificationApi.notifications().stream().filter(
+                    notification -> checkPermission(player, notification)
+            ).toList();
+            for (Notification notification : notifications) {
+                disableNotification(player, notification);
+            }
+        }
+    }
+
+    @Command({"notify toggle", "notification toggle", "notifications toggle"})
+    public class ToggleCommand {
+
+        @AutoComplete("@notifications")
+        @DefaultFor("~")
+        public void toggleCommand(Player player, Notification notification) {
+            if (!checkPermission(player, notification)) {
+                player.sendMessage(Component.translatable(
+                        "nucleo.notifications.command.toggle.noPermission",
+                        Component.text(notification.name())
+                ));
+                return;
+            }
+
+            toggleNotification(player, notification);
+        }
+
+        @Subcommand("all")
+        public void toggleAllCommand(Player player) {
+            List<Notification> notifications = notificationApi.notifications().stream().filter(
+                    notification -> checkPermission(player, notification)
+            ).toList();
+            for (Notification notification : notifications) {
+                toggleNotification(player, notification);
+            }
+        }
+
+        private void toggleNotification(Player player, Notification notification) {
+            if (!notificationApi.notificationActive(notification, player.getUniqueId())) {
+                enableNotification(player, notification);
+            } else {
+                disableNotification(player, notification);
+            }
+        }
+    }
+
+    private static boolean checkPermission(Player player, Notification notification) {
+        return notification.requiredPermission() != null &&
+                player.hasPermission(notification.requiredPermission());
     }
 
     private void enableNotification(Player player, Notification notification) {
@@ -123,11 +198,13 @@ NotificationCommand {
             ));
             return;
         }
-        notificationApi.notificationActive(notification, uuid, true);
-        player.sendMessage(Component.translatable(
-                "nucleo.notifications.command.enable",
-                Component.text(notification.name())
-        ));
+        changeStateWithoutCheck(
+                notification,
+                uuid,
+                true,
+                player,
+                "nucleo.notifications.command.enable"
+        );
     }
 
     private void disableNotification(Player player, Notification notification) {
@@ -139,21 +216,27 @@ NotificationCommand {
             ));
             return;
         }
-        notificationApi.notificationActive(notification, uuid, false);
-        player.sendMessage(Component.translatable(
-                "nucleo.notifications.command.disable",
-                Component.text(notification.name())
-        ));
+        changeStateWithoutCheck(
+                notification,
+                uuid,
+                false,
+                player,
+                "nucleo.notifications.command.disable"
+        );
     }
 
-    private void toggleNotification(Player player, Notification notification) {
-        UUID uuid = player.getUniqueId();
-        boolean active = notificationApi.notificationActive(notification, uuid);
-        if (active) {
-            disableNotification(player, notification);
-        } else {
-            enableNotification(player, notification);
-        }
+    private void changeStateWithoutCheck(
+            Notification notification,
+            UUID uuid,
+            boolean active,
+            Player player,
+            String key
+    ) {
+        notificationApi.notificationActive(notification, uuid, active);
+        player.sendMessage(Component.translatable(
+                key,
+                Component.text(notification.name())
+        ));
     }
 
     private static void sendHelpMessage(Player player) {

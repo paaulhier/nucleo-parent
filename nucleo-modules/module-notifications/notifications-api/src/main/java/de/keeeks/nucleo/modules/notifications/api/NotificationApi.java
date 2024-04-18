@@ -10,8 +10,16 @@ public interface NotificationApi {
 
     Notification createNotification(
             String name,
-            String description
+            String description,
+            String requiredPermission
     );
+
+    default Notification createNotification(
+            String name,
+            String description
+    ) {
+        return createNotification(name, description, null);
+    }
 
     List<Notification> notifications();
 

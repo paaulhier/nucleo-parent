@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.notifications.velocity;
 
+import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -10,6 +11,7 @@ import de.keeeks.nucleo.modules.notifications.shared.translation.NotificationsTr
 import de.keeeks.nucleo.modules.notifications.velocity.commands.NotificationCommand;
 import de.keeeks.nucleo.modules.notifications.velocity.commands.NotificationStateType;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
+import revxrsal.commands.velocity.VelocityCommandActor;
 
 @ModuleDescription(
         name = "notifications",
@@ -32,7 +34,18 @@ public class NotificationsVelocityModule extends VelocityModule {
     public void enable() {
         autoCompleter().registerSuggestion(
                 "notifications",
-                (list, commandActor, executableCommand) -> notificationApi.notifications().stream().map(
+                (list, commandActor, executableCommand) -> notificationApi.notifications().stream().filter(
+                        notification -> {
+                            if (commandActor instanceof VelocityCommandActor velocityCommandActor) {
+                                String requiredPermission = notification.requiredPermission();
+                                if (requiredPermission == null) return true;
+                                Player player = velocityCommandActor.getAsPlayer();
+                                if (player == null) return false;
+                                return player.hasPermission(requiredPermission);
+                            }
+                            return false;
+                        }
+                ).map(
                         Notification::name
                 ).toList()
         );
@@ -41,6 +54,14 @@ public class NotificationsVelocityModule extends VelocityModule {
                 valueResolverContext -> {
                     String typeName = valueResolverContext.pop();
                     return NotificationStateType.byName(typeName);
+                }
+        );
+
+        commandHandler().registerValueResolver(
+                Notification.class,
+                valueResolverContext -> {
+                    String notificationName = valueResolverContext.pop();
+                    return notificationApi.notification(notificationName).orElse(null);
                 }
         );
 

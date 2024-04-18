@@ -14,6 +14,7 @@ public final class NotificationResultSetTransformer implements ResultSetTransfor
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
                 resultSet.getString("description"),
+                resultSet.getString("requiredPermission"),
                 resultSet.getTimestamp("createdAt").toInstant(),
                 resultSet.getTimestamp("updatedAt").toInstant()
         );

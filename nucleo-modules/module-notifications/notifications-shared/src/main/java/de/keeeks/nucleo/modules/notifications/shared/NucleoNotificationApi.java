@@ -70,7 +70,8 @@ public class NucleoNotificationApi implements NotificationApi {
     @Override
     public Notification createNotification(
             String name,
-            String description
+            String description,
+            String requiredPermission
     ) {
         return notification(name).or(() -> {
             int notificationId = notificationRepository.createNotification(
@@ -81,7 +82,8 @@ public class NucleoNotificationApi implements NotificationApi {
             Notification notification = new NucleoNotification(
                     notificationId,
                     name,
-                    description
+                    description,
+                    requiredPermission
             );
             notificationStateCaches.put(
                     notification.id(),

@@ -13,11 +13,16 @@ public class NucleoNotification implements Notification {
     private final int id;
     private final String name;
     private final String description;
+    private final String requiredPermission;
     private final Instant createdAt;
     private final Instant updatedAt;
 
     public NucleoNotification(int id, String name, String description) {
-        this(id, name, description, Instant.now(), Instant.now());
+        this(id, name, description, null, Instant.now(), Instant.now());
+    }
+
+    public NucleoNotification(int id, String name, String description, String requiredPermission) {
+        this(id, name, description, requiredPermission, Instant.now(), Instant.now());
     }
 
     @Override
