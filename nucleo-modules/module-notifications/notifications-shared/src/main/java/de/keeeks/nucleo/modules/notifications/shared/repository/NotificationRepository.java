@@ -13,12 +13,13 @@ public final class NotificationRepository {
 
     private final MysqlConnection mysqlConnection;
 
-    public int createNotification(String name, String description) {
+    public int createNotification(String name, String description, String requiredPermission) {
         return mysqlConnection.keyInsert(
-                "insert into notifications (name, description) values (?, ?)",
+                "insert into notifications (name, description, requiredPermission) values (?, ?, ?)",
                 statement -> {
                     statement.setString(1, name);
                     statement.setString(2, description);
+                    statement.setString(3, requiredPermission);
                 }
         );
     }

@@ -76,7 +76,8 @@ public class NucleoNotificationApi implements NotificationApi {
         return notification(name).or(() -> {
             int notificationId = notificationRepository.createNotification(
                     name,
-                    description
+                    description,
+                    requiredPermission
             );
 
             Notification notification = new NucleoNotification(
