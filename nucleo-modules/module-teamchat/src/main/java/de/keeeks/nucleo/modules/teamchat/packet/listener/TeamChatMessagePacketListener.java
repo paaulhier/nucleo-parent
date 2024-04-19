@@ -50,12 +50,13 @@ public class TeamChatMessagePacketListener extends PacketListener<TeamChatMessag
     }
 
     private boolean canReceiveTeamMessages(Player player) {
-        if (!notificationApi.notificationActive(
-                notification,
-                player.getUniqueId()
-        )) {
+        if (!player.hasPermission(notification.requiredPermission())) {
             return false;
         }
-        return player.hasPermission("nucleo.teamchat.receive");
+
+        return notificationApi.notificationActive(
+                notification,
+                player.getUniqueId()
+        );
     }
 }
