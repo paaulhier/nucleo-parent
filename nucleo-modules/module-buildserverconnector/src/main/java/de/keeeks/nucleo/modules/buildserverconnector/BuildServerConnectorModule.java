@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.buildserverconnector;
 
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
+import de.keeeks.nucleo.modules.buildserverconnector.commands.BuildServerCommand;
 import de.keeeks.nucleo.modules.buildserverconnector.config.BuildServerConnectorConfiguration;
 import de.keeeks.nucleo.modules.buildserverconnector.listener.ForcedHostJoinListener;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
@@ -20,5 +21,6 @@ public class BuildServerConnectorModule extends VelocityModule {
         );
         if (!buildServerConnectorConfiguration.enabled()) return;
         registerListener(new ForcedHostJoinListener(buildServerConnectorConfiguration, proxyServer));
+        registerCommands(new BuildServerCommand(buildServerConnectorConfiguration, proxyServer));
     }
 }

@@ -9,12 +9,14 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import de.keeeks.nucleo.modules.buildserverconnector.config.BuildServerConnectorConfiguration;
 import lombok.RequiredArgsConstructor;
 
+import java.net.InetSocketAddress;
+
 @RequiredArgsConstructor
 public class ForcedHostJoinListener {
     private final BuildServerConnectorConfiguration configuration;
     private final ProxyServer proxyServer;
 
-    @Subscribe(order = PostOrder.FIRST)
+    @Subscribe(order = PostOrder.LAST)
     public EventTask onPlayerJoin(PlayerChooseInitialServerEvent event) {
         Player player = event.getPlayer();
         return EventTask.async(() -> {
