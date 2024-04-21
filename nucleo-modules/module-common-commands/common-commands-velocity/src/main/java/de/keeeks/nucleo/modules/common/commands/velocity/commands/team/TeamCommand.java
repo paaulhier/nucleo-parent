@@ -10,6 +10,7 @@ import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.annotation.Command;
@@ -50,7 +51,9 @@ public class TeamCommand {
                     miniMessage.deserialize(highestPermissionGroup.map(
                             PermissionGroup::color
                     ).orElse("#ffffff") + onlinePlayer.name()),
-                    Component.text(onlinePlayer.server()),
+                    Component.text(onlinePlayer.server()).clickEvent(ClickEvent.runCommand(
+                            "/jumpto %s".formatted(onlinePlayer.name())
+                    )),
                     Component.text(onlinePlayer.proxy()),
                     Component.text(Formatter.formatLongTime(Duration.between(
                             onlinePlayer.lastLogin(),
