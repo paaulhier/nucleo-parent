@@ -11,13 +11,13 @@ import java.util.function.Consumer;
 public final class ItemLoader {
     private final InventoryModule module = Module.module(InventoryModule.class);
 
-    public void loadItemProvider(Item item, Consumer<ItemProvider> consumer) {
+    public void loadItemProvider(HotBarItem item, Consumer<ItemProvider> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(
                 module.plugin(),
                 () -> {
                     ItemProvider itemProvider;
 
-                    while ((itemProvider = item.getItemProvider()) == null) {
+                    while ((itemProvider = item.itemProvider()) == null) {
                         //do nothing, just waiting til the item provider is loaded
                     }
 
