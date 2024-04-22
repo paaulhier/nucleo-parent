@@ -30,6 +30,7 @@
         <module>module-economy</module>
         <module>module-scoreboard</module>
         <module>module-buildserverconnector</module>
+        <module>module-privacy</module>
     </modules>
 
     <properties>
