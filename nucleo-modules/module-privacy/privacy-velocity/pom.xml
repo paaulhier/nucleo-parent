@@ -26,7 +26,16 @@
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>translation-global</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>module-messaging</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
             <artifactId>privacy-shared</artifactId>
