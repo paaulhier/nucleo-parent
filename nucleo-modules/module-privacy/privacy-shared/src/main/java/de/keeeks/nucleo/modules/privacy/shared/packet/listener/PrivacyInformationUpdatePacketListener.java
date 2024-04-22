@@ -3,8 +3,8 @@ package de.keeeks.nucleo.modules.privacy.shared.packet.listener;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
 import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
-import de.keeeks.nucleo.modules.privacy.shared.NucleoPrivacyApi;
 import de.keeeks.nucleo.modules.privacy.api.packet.PrivacyInformationUpdatePacket;
+import de.keeeks.nucleo.modules.privacy.shared.NucleoPrivacyApi;
 import io.nats.client.Message;
 
 @ListenerChannel(PrivacyApi.CHANNEL)

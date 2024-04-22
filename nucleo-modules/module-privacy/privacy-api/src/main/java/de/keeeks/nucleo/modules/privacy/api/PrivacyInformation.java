@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.privacy.api;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PrivacyInformation {
@@ -9,9 +10,16 @@ public interface PrivacyInformation {
 
     UUID playerId();
 
+    String playerName();
+
     boolean accepted();
 
-    PrivacyInformation accept();
+    PrivacyInformation accept(
+            String playerName,
+            String ipAddress
+    );
+
+    Optional<String> ipAddress();
 
     Instant createdAt();
 

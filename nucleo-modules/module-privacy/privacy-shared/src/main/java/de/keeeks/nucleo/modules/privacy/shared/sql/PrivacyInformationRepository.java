@@ -47,11 +47,13 @@ public class PrivacyInformationRepository {
 
     public void accept(PrivacyInformation privacyInformation) {
         mysqlConnection.prepare(
-                "update privacy set accepted = ?, acceptedAt = ? where id = ?",
+                "update privacy set accepted = ?, acceptedAt = ?, playerName = ?, ipAddress = ? where id = ?",
                 statement -> {
                     statement.setBoolean(1, true);
                     statement.setTimestamp(2, Timestamp.from(Instant.now()));
-                    statement.setInt(3, privacyInformation.id());
+                    statement.setString(3, privacyInformation.playerName());
+                    statement.setString(4, privacyInformation.ipAddress().orElse(null));
+                    statement.setInt(5, privacyInformation.id());
                 }
         );
     }

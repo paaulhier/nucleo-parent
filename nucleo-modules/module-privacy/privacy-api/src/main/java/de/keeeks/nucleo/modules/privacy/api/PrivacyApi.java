@@ -11,7 +11,13 @@ public interface PrivacyApi {
 
     PrivacyInformation createPrivacyInformation(UUID playerId);
 
-    PrivacyInformation accept(PrivacyInformation privacyInformation);
+    void invalidatePrivacyInformation(UUID playerId);
+
+    PrivacyInformation accept(
+            PrivacyInformation privacyInformation,
+            String playerName,
+            String ipAddress
+    );
 
     PrivacyInformation decline(PrivacyInformation privacyInformation);
 

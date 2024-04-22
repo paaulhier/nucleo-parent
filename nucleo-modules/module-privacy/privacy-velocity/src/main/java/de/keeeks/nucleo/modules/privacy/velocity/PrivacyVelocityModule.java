@@ -6,6 +6,7 @@ import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
 import de.keeeks.nucleo.modules.privacy.shared.NucleoPrivacyApi;
 import de.keeeks.nucleo.modules.privacy.shared.translation.PrivacyTranslationRegistry;
+import de.keeeks.nucleo.modules.privacy.velocity.listener.PrivacyDisconnectListener;
 import de.keeeks.nucleo.modules.privacy.velocity.listener.PrivacyLoginListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
@@ -20,13 +21,16 @@ public class PrivacyVelocityModule extends VelocityModule {
     public void load() {
         this.privacyApi = ServiceRegistry.registerService(
                 PrivacyApi.class,
-                privacyApi = new NucleoPrivacyApi(this)
+                new NucleoPrivacyApi(this)
         );
         TranslationRegistry.initializeRegistry(new PrivacyTranslationRegistry(this));
     }
 
     @Override
     public void enable() {
-        registerListener(new PrivacyLoginListener(privacyApi));
+        registerListener(
+                new PrivacyLoginListener(privacyApi),
+                new PrivacyDisconnectListener()
+        );
     }
 }

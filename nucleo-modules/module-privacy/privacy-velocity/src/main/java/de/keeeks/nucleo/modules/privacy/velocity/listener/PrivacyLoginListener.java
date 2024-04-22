@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.privacy.velocity.listener;
 
+import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;
@@ -16,19 +17,15 @@ public class PrivacyLoginListener {
     private final PrivacyApi privacyApi;
 
     @Subscribe
-    public void handleLogin(LoginEvent event) {
+    public EventTask handleLogin(LoginEvent event) {
         Player player = event.getPlayer();
 
-        privacyApi.privacyInformation(player.getUniqueId()).or(
-                () -> {
-                    System.out.println("Privacy information not found for " + player.getUsername());
-                    return Optional.of(privacyApi.createPrivacyInformation(player.getUniqueId()));
-                }
+        return EventTask.async(() -> privacyApi.privacyInformation(player.getUniqueId()).or(
+                () -> Optional.of(privacyApi.createPrivacyInformation(player.getUniqueId()))
         ).ifPresent(privacyInformation -> {
-            System.out.println("Privacy information found for " + player.getUsername() + " with id " + privacyInformation.id());
             if (!privacyInformation.accepted()) {
                 player.sendMessage(translatable("privacy.information"));
             }
-        });
+        }));
     }
 }

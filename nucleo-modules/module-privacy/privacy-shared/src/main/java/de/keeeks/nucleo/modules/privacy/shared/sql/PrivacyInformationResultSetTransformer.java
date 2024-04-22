@@ -15,7 +15,9 @@ public class PrivacyInformationResultSetTransformer implements ResultSetTransfor
                 resultSet.getInt("id"),
                 UUID.fromString(resultSet.getString("playerId")),
                 timestampOrNull(resultSet, "createdAt"),
+                resultSet.getString("playerName"),
                 resultSet.getBoolean("accepted"),
+                resultSet.getString("ipAddress"),
                 timestampOrNull(resultSet, "acceptedAt")
         );
     }

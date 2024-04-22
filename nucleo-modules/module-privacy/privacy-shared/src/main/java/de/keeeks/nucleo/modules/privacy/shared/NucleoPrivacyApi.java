@@ -9,10 +9,10 @@ import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
 import de.keeeks.nucleo.modules.privacy.api.PrivacyInformation;
-import de.keeeks.nucleo.modules.privacy.api.packet.PrivacyInformationDeclinedPacket;
-import de.keeeks.nucleo.modules.privacy.shared.json.PrivacyInformationSerializer;
 import de.keeeks.nucleo.modules.privacy.api.packet.PrivacyInformationCreatePacket;
+import de.keeeks.nucleo.modules.privacy.api.packet.PrivacyInformationDeclinedPacket;
 import de.keeeks.nucleo.modules.privacy.api.packet.PrivacyInformationUpdatePacket;
+import de.keeeks.nucleo.modules.privacy.shared.json.PrivacyInformationSerializer;
 import de.keeeks.nucleo.modules.privacy.shared.packet.listener.PrivacyInformationUpdatePacketListener;
 import de.keeeks.nucleo.modules.privacy.shared.sql.PrivacyInformationRepository;
 
@@ -72,7 +72,17 @@ public class NucleoPrivacyApi implements PrivacyApi {
     }
 
     @Override
-    public PrivacyInformation accept(PrivacyInformation privacyInformation) {
+    public void invalidatePrivacyInformation(UUID playerId) {
+        cache.invalidate(playerId);
+        cache.invalidateAll();
+    }
+
+    @Override
+    public PrivacyInformation accept(
+            PrivacyInformation privacyInformation,
+            String playerName,
+            String ipAddress
+    ) {
         Scheduler.runAsync(() -> {
             privacyInformationRepository.accept(privacyInformation);
             cache.put(privacyInformation.playerId(), privacyInformation);
@@ -82,7 +92,10 @@ public class NucleoPrivacyApi implements PrivacyApi {
             );
         });
 
-        return privacyInformation.accept();
+        return privacyInformation.accept(
+                playerName,
+                ipAddress
+        );
     }
 
     @Override

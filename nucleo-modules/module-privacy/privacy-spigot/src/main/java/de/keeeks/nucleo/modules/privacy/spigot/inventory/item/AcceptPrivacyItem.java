@@ -29,9 +29,13 @@ public class AcceptPrivacyItem extends AsyncItem {
     @Override
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
         privacyApi.privacyInformation(player.getUniqueId()).ifPresent(privacyInformation -> {
-            privacyApi.accept(privacyInformation);
             player.sendMessage(translatable("inventory.privacy.accepted"));
             player.closeInventory();
+            privacyApi.accept(
+                    privacyInformation,
+                    player.getName(),
+                    player.getAddress().getHostString()
+            );
         });
     }
 }

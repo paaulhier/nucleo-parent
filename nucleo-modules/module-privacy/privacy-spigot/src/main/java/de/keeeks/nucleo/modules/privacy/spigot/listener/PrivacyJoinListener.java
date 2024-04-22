@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.privacy.spigot.listener;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
 import de.keeeks.nucleo.modules.privacy.spigot.inventory.PrivacyInventory;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

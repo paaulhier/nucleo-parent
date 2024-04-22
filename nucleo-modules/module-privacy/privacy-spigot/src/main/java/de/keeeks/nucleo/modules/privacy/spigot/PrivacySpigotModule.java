@@ -7,6 +7,7 @@ import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
 import de.keeeks.nucleo.modules.privacy.shared.NucleoPrivacyApi;
 import de.keeeks.nucleo.modules.privacy.shared.translation.PrivacyTranslationRegistry;
 import de.keeeks.nucleo.modules.privacy.spigot.listener.PrivacyJoinListener;
+import de.keeeks.nucleo.modules.privacy.spigot.listener.PrivacyQuitListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(
@@ -18,7 +19,7 @@ public class PrivacySpigotModule extends SpigotModule {
 
     @Override
     public void load() {
-        privacyApi = ServiceRegistry.registerService(
+        this.privacyApi = ServiceRegistry.registerService(
                 PrivacyApi.class,
                 new NucleoPrivacyApi(this)
         );
@@ -27,6 +28,9 @@ public class PrivacySpigotModule extends SpigotModule {
 
     @Override
     public void enable() {
-        registerListener(new PrivacyJoinListener());
+        registerListener(
+                new PrivacyJoinListener(),
+                new PrivacyQuitListener()
+        );
     }
 }
