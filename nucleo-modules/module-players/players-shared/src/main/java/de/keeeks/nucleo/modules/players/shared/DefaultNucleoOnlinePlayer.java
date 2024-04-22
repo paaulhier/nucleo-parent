@@ -96,6 +96,15 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     }
 
     @Override
+    public void kick(Component reason, boolean raw) {
+        playerService().kickPlayer(
+                this,
+                reason,
+                raw
+        );
+    }
+
+    @Override
     public void update() {
         Module.module("players").logger().info("Network wide update for " + name() + " (UUID: " + uuid() + ")");
         playerService().updateNetworkWide(this);

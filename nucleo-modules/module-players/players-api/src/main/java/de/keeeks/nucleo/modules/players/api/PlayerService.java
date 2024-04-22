@@ -202,6 +202,12 @@ public interface PlayerService {
         connectPlayer(nucleoOnlinePlayer, server, success -> {});
     }
 
+    void kickPlayer(NucleoOnlinePlayer nucleoOnlinePlayer, Component reason, boolean raw);
+
+    default void kickPlayer(NucleoOnlinePlayer nucleoOnlinePlayer, Component reason) {
+        kickPlayer(nucleoOnlinePlayer, reason, false);
+    }
+
     /**
      * Returns whether the player with the given UUID is online.
      *

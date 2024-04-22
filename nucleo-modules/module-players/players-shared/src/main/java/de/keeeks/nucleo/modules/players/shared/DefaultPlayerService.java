@@ -261,6 +261,18 @@ public class DefaultPlayerService implements PlayerService {
         });
     }
 
+    @Override
+    public void kickPlayer(NucleoOnlinePlayer nucleoOnlinePlayer, Component reason, boolean raw) {
+        natsConnection.publishPacket(
+                CHANNEL,
+                new NucleoOnlinePlayerKickPacket(
+                        nucleoOnlinePlayer,
+                        reason,
+                        raw
+                )
+        );
+    }
+
     public static DefaultPlayerService create() {
         return new DefaultPlayerService();
     }
