@@ -1,10 +1,13 @@
 package de.keeeks.nucleo.modules.privacy.spigot.inventory;
 
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
+import de.keeeks.nucleo.modules.privacy.spigot.PrivacySpigotModule;
 import de.keeeks.nucleo.modules.privacy.spigot.inventory.item.AcceptPrivacyItem;
 import de.keeeks.nucleo.modules.privacy.spigot.inventory.item.DeclinePrivacyItem;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
@@ -55,10 +58,15 @@ public class PrivacyInventory {
                 )))
                 .addCloseHandler(() -> privacyApi.privacyInformation(player.getUniqueId()).ifPresent(
                         privacyInformation -> {
-                            if (!privacyInformation.accepted()) open(player);
+                            if (!privacyInformation.accepted()) {
+                                Bukkit.getScheduler().runTaskLater(
+                                        Module.module(PrivacySpigotModule.class).plugin(),
+                                        () -> open(player),
+                                        2L
+                                );
+                            }
                         }
                 ))
-                .setCloseable(false)
                 .build(player)
                 .open();
     }
