@@ -39,6 +39,12 @@ public interface PlayerService {
     );
 
     /**
+     * Deletes the player with the given UUID.
+     * @param uuid the UUID of the player to delete
+     */
+    void deletePlayer(UUID uuid);
+
+    /**
      * Publishes the creation of the given online player.
      *
      * @param nucleoOnlinePlayer the online player to publish the creation is of

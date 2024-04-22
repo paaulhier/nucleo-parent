@@ -153,4 +153,19 @@ public final class PlayerRepository {
         );
         return propertyHolder;
     }
+
+    public void deletePlayer(UUID uuid) {
+        mysqlConnection.prepare(
+                "delete from skins where playerId = ?;",
+                statement -> statement.setString(1, uuid.toString())
+        );
+        mysqlConnection.prepare(
+                "delete from playerProperties where playerId = ?;",
+                statement -> statement.setString(1, uuid.toString())
+        );
+        mysqlConnection.prepare(
+                "delete from players where uuid = ?;",
+                statement -> statement.setString(1, uuid.toString())
+        );
+    }
 }

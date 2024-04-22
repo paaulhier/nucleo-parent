@@ -110,6 +110,11 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
+    public void deletePlayer(UUID uuid) {
+        playerRepository.deletePlayer(uuid);
+    }
+
+    @Override
     public void publishOnlinePlayerCreation(NucleoOnlinePlayer nucleoOnlinePlayer) {
         natsConnection.publishPacket(
                 CHANNEL,
