@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.inventory.hotbar.component;
 
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.translation.GlobalTranslator;
@@ -10,6 +9,7 @@ import xyz.xenondevs.inventoryaccess.util.AdventureComponentUtils;
 
 import java.util.Locale;
 
+@Deprecated
 public record AdventureComponentWrapper(Component component) implements ComponentWrapper {
     private static final GsonComponentSerializer gsonComponentSerializer = GsonComponentSerializer.gson();
 

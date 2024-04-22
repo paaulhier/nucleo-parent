@@ -49,6 +49,10 @@
         </dependency>
 
         <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>config-json</artifactId>
+        </dependency>
+        <dependency>
             <groupId>xyz.xenondevs.invui</groupId>
             <artifactId>invui</artifactId>
             <version>${invui.version}</version>
