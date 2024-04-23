@@ -1,15 +1,13 @@
 package de.keeeks.nucleo.core.api.json;
 
 import com.google.gson.Gson;
-import de.keeeks.nucleo.core.api.json.serializer.ComponentSerializer;
-import de.keeeks.nucleo.core.api.json.serializer.InstantSerializer;
-import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
-import de.keeeks.nucleo.core.api.json.serializer.LocaleSerializer;
+import de.keeeks.nucleo.core.api.json.serializer.*;
 import de.keeeks.nucleo.core.api.utils.UpdateListener;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,7 @@ public final class GsonBuilder {
             .registerTypeAdapter(Instant.class, new InstantSerializer())
             .registerTypeAdapter(Locale.class, new LocaleSerializer())
             .registerTypeAdapter(Component.class, new ComponentSerializer())
+            .registerTypeAdapter(Duration.class, new DurationSerializer())
             .setPrettyPrinting()
             .create();
 
