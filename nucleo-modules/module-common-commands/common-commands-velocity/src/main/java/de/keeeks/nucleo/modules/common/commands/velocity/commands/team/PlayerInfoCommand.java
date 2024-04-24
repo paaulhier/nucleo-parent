@@ -77,13 +77,13 @@ public final class PlayerInfoCommand {
                             )),
                             nucleoPlayer.lastLogin() == null
                                     ? translatable("commands.playerinfo.neverConnected")
-                                    : text(Formatter.formatDateTime(nucleoPlayer.lastLogin())
+                                    : text(Formatter.formatShortDateTime(nucleoPlayer.lastLogin())
                             ),
                             nucleoPlayer.lastLogout() == null
                                     ? translatable("commands.playerinfo.neverConnected")
-                                    : text(Formatter.formatDateTime(nucleoPlayer.lastLogout())
+                                    : text(Formatter.formatShortDateTime(nucleoPlayer.lastLogout())
                             ),
-                            text(Formatter.formatDateTime(
+                            text(Formatter.formatShortDateTime(
                                     nucleoPlayer.updatedAt()
                             )),
                             text(Formatter.formatLongTime(
