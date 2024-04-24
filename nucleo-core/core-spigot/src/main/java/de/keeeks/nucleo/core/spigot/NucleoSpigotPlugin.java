@@ -67,7 +67,7 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         bukkitCommandHandler.enableAdventure();
         bukkitCommandHandler.register(commandRegistrations.toArray());
         bukkitCommandHandler.registerBrigadier();
-        bukkitCommandHandler.setExceptionHandler(new NucleoSpigotExceptionHandler());
+        bukkitCommandHandler.setExceptionHandler(new NucleoSpigotExceptionHandler(getLogger()));
 
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(
                 this,

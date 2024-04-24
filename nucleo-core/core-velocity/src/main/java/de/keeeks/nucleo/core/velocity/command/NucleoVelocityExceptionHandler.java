@@ -12,12 +12,15 @@ import revxrsal.commands.exception.NoPermissionException;
 import revxrsal.commands.exception.SendableException;
 import revxrsal.commands.velocity.VelocityCommandActor;
 
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.Component.translatable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static net.kyori.adventure.text.Component.*;
 
 @RequiredArgsConstructor
 public class NucleoVelocityExceptionHandler extends DefaultExceptionHandler {
     private final ProxyServer proxyServer;
+    private final Logger logger;
 
     @Override
     public void missingArgument(@NotNull CommandActor actor, @NotNull MissingArgumentException exception) {
@@ -46,8 +49,13 @@ public class NucleoVelocityExceptionHandler extends DefaultExceptionHandler {
     public void onUnhandledException(@NotNull CommandActor actor, @NotNull Throwable throwable) {
         actor.as(VelocityCommandActor.class).requirePlayer().sendMessage(translatable(
                 "error",
-                text(throwable.getMessage())
+                throwable.getMessage() == null ? empty() : text(throwable.getMessage())
         ));
+        logger.log(
+                Level.SEVERE,
+                "An error occurred while executing a command",
+                throwable
+        );
     }
 
     @Override

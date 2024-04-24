@@ -11,11 +11,16 @@ import revxrsal.commands.exception.MissingArgumentException;
 import revxrsal.commands.exception.NoPermissionException;
 import revxrsal.commands.exception.SendableException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
 @RequiredArgsConstructor
 public class NucleoSpigotExceptionHandler extends DefaultExceptionHandler {
+    private final Logger logger;
+
     @Override
     public void missingArgument(@NotNull CommandActor actor, @NotNull MissingArgumentException exception) {
 
@@ -44,6 +49,11 @@ public class NucleoSpigotExceptionHandler extends DefaultExceptionHandler {
                 "error",
                 text(throwable.getMessage())
         ));
+        logger.log(
+                Level.SEVERE,
+                "An error occurred while executing a command",
+                throwable
+        );
     }
 
     @Override

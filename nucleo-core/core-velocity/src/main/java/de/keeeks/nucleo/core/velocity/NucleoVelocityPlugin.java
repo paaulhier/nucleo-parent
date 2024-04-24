@@ -94,7 +94,7 @@ public class NucleoVelocityPlugin {
                 this,
                 proxyServer
         );
-        this.commandHandler.setExceptionHandler(new NucleoVelocityExceptionHandler(proxyServer));
+        this.commandHandler.setExceptionHandler(new NucleoVelocityExceptionHandler(proxyServer, logger));
 
         moduleLoader = initializeModuleLoaderAndLoadModules(logger);
 
