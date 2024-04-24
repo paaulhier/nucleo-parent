@@ -135,6 +135,11 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
+    public List<NucleoPlayer> players(String ipAddress) {
+        return List.copyOf(playerRepository.players(ipAddress));
+    }
+
+    @Override
     public void deletePlayer(UUID uuid) {
         playerRepository.deletePlayer(uuid);
     }
