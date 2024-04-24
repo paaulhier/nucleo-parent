@@ -1,12 +1,16 @@
 package de.keeeks.nucleo.core.api.utils;
 
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+
+import static net.kyori.adventure.text.Component.*;
 
 public class Formatter {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(
@@ -177,5 +181,169 @@ public class Formatter {
         return stringBuilder.append(seconds)
                 .append("s")
                 .toString();
+    }
+
+    public static Component shortenedDuration(Duration duration) {
+        return duration(duration, true);
+    }
+
+    public static Component duration(Duration duration) {
+        return duration(duration, false);
+    }
+
+    public static Component duration(Duration duration, boolean shortened) {
+        if (duration.isNegative() || duration.isZero()) {
+            return translatable("duration.permanent");
+        }
+
+        long millis = duration.toMillis();
+        long seconds = 0;
+        long minutes = 0;
+        long hours = 0;
+        long days = 0;
+        long years = 0;
+
+        while (millis >= 1000) {
+            seconds++;
+            millis -= 1000;
+        }
+
+        while (seconds >= 60) {
+            seconds -= 60;
+            minutes++;
+        }
+
+        while (minutes >= 60) {
+            minutes -= 60;
+            hours++;
+        }
+
+        while (hours >= 24) {
+            days++;
+            hours -= 24;
+        }
+
+        while (days >= 365) {
+            years++;
+            days -= 365;
+        }
+
+        Component component = empty();
+
+        if (shortened) return buildShortenedDuration(
+                component,
+                years,
+                days,
+                hours,
+                minutes,
+                seconds
+        );
+
+        return buildLongDuration(
+                component,
+                years,
+                days,
+                hours,
+                minutes,
+                seconds
+        );
+    }
+
+    private static Component buildLongDuration(
+            Component component,
+            long years,
+            long days,
+            long hours,
+            long minutes,
+            long seconds
+    ) {
+        if (years > 0) {
+            component = component.append(text(years)).append(
+                    text("y")
+            ).append(space());
+        }
+
+        if (days > 0) {
+            component = component.append(text(days)).append(
+                    text("d")
+            ).append(space());
+        }
+
+        if (hours > 0) {
+            component = component.append(text(hours)).append(
+                    text("h")
+            ).append(space());
+        }
+
+        if (minutes > 0) {
+            component = component.append(text(minutes)).append(
+                    text("m")
+            ).append(space());
+        }
+
+        if (seconds > 0) {
+            component = component.append(text(seconds)).append(
+                    text("s")
+            ).append(space());
+        }
+
+        if (component.equals(empty())) {
+            component = component.append(text(0)).append(
+                    text("s")
+            ).append(space());
+        }
+        return component;
+    }
+
+    private static Component buildShortenedDuration(
+            Component component,
+            long years,
+            long days,
+            long hours,
+            long minutes,
+            long seconds
+    ) {
+        if (years > 0) {
+            component = component.append(text(years)).append(
+                    text("y")
+            ).append(space());
+            return component;
+        }
+
+        if (days > 0) {
+            component = component.append(text(days)).append(
+                    text("d")
+            ).append(space());
+            return component;
+        }
+
+        if (hours > 0) {
+            component = component.append(text(hours)).append(
+                    text("h")
+            ).append(space());
+            return component;
+        }
+
+        if (minutes > 0) {
+            component = component.append(text(minutes)).append(
+                    text("m")
+            ).append(space());
+            return component;
+        }
+
+        if (seconds > 0) {
+            component = component.append(text(seconds)).append(
+                    text("s")
+            ).append(space());
+            return component;
+        }
+
+        if (component.equals(empty())) {
+            component = component.append(text(0)).append(
+                    text("s")
+            ).append(space());
+            return component;
+        }
+        return component;
     }
 }
