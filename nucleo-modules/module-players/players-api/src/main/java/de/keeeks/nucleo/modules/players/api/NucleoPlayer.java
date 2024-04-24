@@ -1,7 +1,6 @@
 package de.keeeks.nucleo.modules.players.api;
 
 import java.time.Instant;
-import java.util.Locale;
 import java.util.UUID;
 
 public interface NucleoPlayer {
@@ -12,13 +11,13 @@ public interface NucleoPlayer {
 
     NucleoPlayer updateName(String name);
 
-    Locale locale();
-
-    NucleoPlayer updateLocale(Locale locale);
-
     Skin skin();
 
     NucleoPlayer updateSkin(String value, String signature);
+
+    String lastIpAddress();
+
+    NucleoPlayer updateLastIpAddress(String lastIpAddress);
 
     default NucleoPlayer updateSkin(String value) {
         return updateSkin(

@@ -38,8 +38,11 @@ public interface PlayerService {
             Version version
     );
 
+    List<NucleoPlayer> players(String ipAddress);
+
     /**
      * Deletes the player with the given UUID.
+     *
      * @param uuid the UUID of the player to delete
      */
     void deletePlayer(UUID uuid);
@@ -205,7 +208,8 @@ public interface PlayerService {
             NucleoOnlinePlayer nucleoOnlinePlayer,
             String server
     ) {
-        connectPlayer(nucleoOnlinePlayer, server, success -> {});
+        connectPlayer(nucleoOnlinePlayer, server, success -> {
+        });
     }
 
     void kickPlayer(NucleoOnlinePlayer nucleoOnlinePlayer, Component reason, boolean raw);

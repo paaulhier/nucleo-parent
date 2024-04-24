@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  */
 
 public final class PlayerRepository {
-    private static final NucleoPlayerWithSkinResultSetTransformer nucleoPlayerResultSetTransformer = new NucleoPlayerWithSkinResultSetTransformer();
+    private static final NucleoPlayerWithSkinResultSetTransformer playerTransformer = new NucleoPlayerWithSkinResultSetTransformer();
 
     private final Supplier<Gson> gsonSupplier = GsonBuilder::globalGson;
     private final MysqlConnection mysqlConnection;
@@ -51,10 +51,10 @@ public final class PlayerRepository {
 
     public void updatePlayerData(NucleoPlayer player) {
         mysqlConnection.prepare(
-                "update players set name = ?, locale = ?, onlineTime = ?, lastLogin = ?, lastLogout = ? where uuid = ?;",
+                "update players set name = ?, lastIpAddress = ?, onlineTime = ?, lastLogin = ?, lastLogout = ? where uuid = ?;",
                 statement -> {
                     statement.setString(1, player.name());
-                    statement.setString(2, player.locale() == null ? "de_DE" : player.locale().toString());
+                    statement.setString(2, player.lastIpAddress());
                     statement.setLong(3, player.onlineTime());
                     statement.setTimestamp(
                             4,
@@ -128,7 +128,7 @@ public final class PlayerRepository {
         NucleoPlayer nucleoPlayer = mysqlConnection.query(
                 sql,
                 preparedStatementFiller,
-                nucleoPlayerResultSetTransformer
+                playerTransformer
         );
 
         if (nucleoPlayer != null) {
@@ -166,6 +166,14 @@ public final class PlayerRepository {
         mysqlConnection.prepare(
                 "delete from players where uuid = ?;",
                 statement -> statement.setString(1, uuid.toString())
+        );
+    }
+
+    public Collection<? extends NucleoPlayer> players(String ipAddress) {
+        return mysqlConnection.queryList(
+                "select uuid from players where lastIpAddress = ?;",
+                statement -> statement.setString(1, ipAddress),
+                resultSet -> player(UUID.fromString(resultSet.getString("uuid")))
         );
     }
 }

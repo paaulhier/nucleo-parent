@@ -40,14 +40,15 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
         super(
                 nucleoPlayer.uuid(),
                 nucleoPlayer.name(),
-                nucleoPlayer.locale(),
                 nucleoPlayer.skin(),
+                nucleoPlayer.lastIpAddress(),
                 nucleoPlayer.onlineTime(),
                 nucleoPlayer.lastLogin(),
                 nucleoPlayer.lastLogout(),
                 nucleoPlayer.createdAt(),
                 nucleoPlayer.updatedAt()
         );
+        this.lastIpAddress = ipAddress;
         this.proxy = proxy;
         this.server = server;
         this.ipAddress = ipAddress;
@@ -106,7 +107,6 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
 
     @Override
     public void update() {
-        Module.module("players").logger().info("Network wide update for " + name() + " (UUID: " + uuid() + ")");
         playerService().updateNetworkWide(this);
     }
 

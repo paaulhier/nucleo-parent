@@ -19,7 +19,8 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
     NucleoOnlinePlayer updateProxy(String proxy);
 
     default void connect(String server) {
-        connect(server, success -> {});
+        connect(server, success -> {
+        });
     }
 
     void connect(String server, Consumer<Boolean> successCallback);

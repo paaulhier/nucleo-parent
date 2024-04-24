@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
-import java.util.Locale;
 import java.util.UUID;
 
 @Getter
@@ -19,20 +18,20 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
             PlayerService.class
     );
 
-    private final PropertyHolder propertyHolder = new DefaultPropertyHolder();
+    protected final PropertyHolder propertyHolder = new DefaultPropertyHolder();
 
-    private final UUID uuid;
+    protected final UUID uuid;
 
-    private String name;
-    private Locale locale;
-    private Skin skin;
+    protected String name;
+    protected Skin skin;
+    protected String lastIpAddress;
 
-    private long onlineTime;
+    protected long onlineTime;
 
-    private Instant lastLogin;
-    private Instant lastLogout;
-    private Instant createdAt;
-    private Instant updatedAt;
+    protected Instant lastLogin;
+    protected Instant lastLogout;
+    protected Instant createdAt;
+    protected Instant updatedAt;
 
     public DefaultNucleoPlayer(UUID uuid, String name) {
         Instant now = Instant.now();
@@ -45,8 +44,8 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     public DefaultNucleoPlayer(
             UUID uuid,
             String name,
-            Locale locale,
             Skin skin,
+            String lastIpAddress,
             long onlineTime,
             Instant lastLogin,
             Instant lastLogout,
@@ -55,8 +54,8 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     ) {
         this.uuid = uuid;
         this.name = name;
-        this.locale = locale;
         this.skin = skin;
+        this.lastIpAddress = lastIpAddress;
         this.onlineTime = onlineTime;
         this.lastLogin = lastLogin;
         this.lastLogout = lastLogout;
@@ -72,15 +71,15 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     }
 
     @Override
-    public NucleoPlayer updateLocale(Locale locale) {
-        this.locale = locale;
+    public NucleoPlayer updateSkin(String value, String signature) {
+        this.skin = new Skin(uuid, value, signature);
         this.updatedAt = Instant.now();
         return this;
     }
 
     @Override
-    public NucleoPlayer updateSkin(String value, String signature) {
-        this.skin = new Skin(uuid, value, signature);
+    public NucleoPlayer updateLastIpAddress(String lastIpAddress) {
+        this.lastIpAddress = lastIpAddress;
         this.updatedAt = Instant.now();
         return this;
     }

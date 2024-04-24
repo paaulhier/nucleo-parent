@@ -9,7 +9,6 @@ import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
-import java.util.Locale;
 import java.util.UUID;
 
 public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
@@ -36,14 +35,14 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
                         "name",
                         JsonElement::getAsString
                 ),
-                readOrNull(
-                        jsonObject,
-                        "locale",
-                        jsonElement1 -> jsonDeserializationContext.deserialize(jsonElement1, Locale.class)
-                ),
                 jsonDeserializationContext.deserialize(
                         jsonObject.get("skin"),
                         Skin.class
+                ),
+                readOrNull(
+                        jsonObject,
+                        "lastIpAddress",
+                        JsonElement::getAsString
                 ),
                 readOrNull(
                         jsonObject,
@@ -92,7 +91,7 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
         jsonObject.addProperty("uuid", nucleoPlayer.uuid().toString());
         jsonObject.addProperty("name", nucleoPlayer.name());
         jsonObject.add("skin", jsonSerializationContext.serialize(nucleoPlayer.skin()));
-        jsonObject.add("locale", jsonSerializationContext.serialize(nucleoPlayer.locale()));
+        jsonObject.add("lastIpAddress", new JsonPrimitive(nucleoPlayer.lastIpAddress()));
         jsonObject.addProperty("onlineTime", nucleoPlayer.onlineTime());
         jsonObject.add("properties", jsonSerializationContext.serialize(
                 nucleoPlayer.properties(),
