@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.core.velocity.command;
 
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,13 @@ public class NucleoVelocityExceptionHandler extends DefaultExceptionHandler {
     @Override
     public void missingArgument(@NotNull CommandActor actor, @NotNull MissingArgumentException exception) {
         String usage = exception.getCommand().getUsage();
+
+        if (usage.contains(".")) {
+            CommandSource commandSource = ((VelocityCommandActor) actor).getSource();
+            commandSource.sendMessage(Component.translatable(usage));
+            return;
+        }
+
         proxyServer.getPlayer(actor.getUniqueId()).ifPresent(
                 player -> player.sendMessage(Component.translatable(
                         "nucleo.command.missing-argument",

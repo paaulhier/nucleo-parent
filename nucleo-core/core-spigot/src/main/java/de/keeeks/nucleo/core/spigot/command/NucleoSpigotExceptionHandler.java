@@ -2,6 +2,7 @@ package de.keeeks.nucleo.core.spigot.command;
 
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.bukkit.BukkitCommandActor;
 import revxrsal.commands.command.CommandActor;
@@ -17,8 +18,16 @@ import static net.kyori.adventure.text.Component.translatable;
 public class NucleoSpigotExceptionHandler extends DefaultExceptionHandler {
     @Override
     public void missingArgument(@NotNull CommandActor actor, @NotNull MissingArgumentException exception) {
+
         String usage = exception.getCommand().getUsage();
-        actor.as(BukkitCommandActor.class).requirePlayer().sendMessage(translatable(
+
+        CommandSender commandSource = ((BukkitCommandActor) actor).getSender();
+        if (usage.contains(".")) {
+            commandSource.sendMessage(Component.translatable(usage));
+            return;
+        }
+
+        commandSource.sendMessage(translatable(
                 "nucleo.command.missing-argument",
                 Component.text(usage)
         ));
