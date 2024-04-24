@@ -16,6 +16,7 @@ import de.keeeks.nucleo.modules.players.api.Version;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.InetSocketAddress;
 
@@ -53,38 +54,61 @@ public class LoginListener {
         GameProfile.Property property = player.getGameProfileProperties().getFirst();
         Version version = Version.byProtocol(player.getProtocolVersion().getProtocol());
 
-        return EventTask.async(() -> playerService.player(player.getUniqueId()).ifPresentOrElse(
-                nucleoPlayer -> {
-                    handleSkinUpdate(
-                            nucleoPlayer,
-                            property
-                    );
-                    if (!nucleoPlayer.name().equals(player.getUsername())) {
-                        playerService.updatePlayerName(
-                                nucleoPlayer.uuid(),
-                                player.getUsername()
-                        );
-                    }
-                    handleOnlinePlayerCreation(nucleoPlayer.updateName(
-                            player.getUsername()
-                    ), address.toString(), version);
-                },
-                () -> {
-                    NucleoPlayer nucleoPlayer = playerService.createPlayer(
-                            player.getUniqueId(),
-                            player.getUsername()
-                    );
-                    handleSkinUpdate(
-                            nucleoPlayer,
-                            property
-                    );
-                    handleOnlinePlayerCreation(
-                            nucleoPlayer,
-                            address.toString(),
-                            version
-                    );
-                }
-        ));
+        return EventTask.async(() -> {
+            String ipAddress = address.getHostString();
+            playerService.onlinePlayer(player.getUniqueId()).ifPresentOrElse(
+                    onlinePlayer -> event.setResult(alreadyOnlineDisconnect()),
+                    () -> playerService.player(player.getUniqueId()).ifPresentOrElse(nucleoPlayer -> handlePlayerJoin(
+                                    nucleoPlayer,
+                                    property,
+                                    player,
+                                    ipAddress,
+                                    version
+                            ), () -> handlePlayerFirstJoin(
+                                    player,
+                                    property,
+                                    ipAddress,
+                                    version
+                            )
+                    )
+            );
+        });
+    }
+
+    private static ResultedEvent.@NotNull ComponentResult alreadyOnlineDisconnect() {
+        return ResultedEvent.ComponentResult.denied(
+                text("You are already connected to the server.", Style.style(NamedTextColor.RED))
+        );
+    }
+
+    private void handlePlayerFirstJoin(Player player, GameProfile.Property property, String ipAddress, Version version) {
+        NucleoPlayer nucleoPlayer = playerService.createPlayer(
+                player.getUniqueId(),
+                player.getUsername()
+        );
+        handlePlayerJoin(
+                nucleoPlayer,
+                property,
+                player,
+                ipAddress,
+                version
+        );
+    }
+
+    private void handlePlayerJoin(NucleoPlayer nucleoPlayer, GameProfile.Property property, Player player, String ipAddress, Version version) {
+        handleSkinUpdate(
+                nucleoPlayer,
+                property
+        );
+        if (!nucleoPlayer.name().equals(player.getUsername())) {
+            playerService.updatePlayerName(
+                    nucleoPlayer.uuid(),
+                    player.getUsername()
+            );
+        }
+        handleOnlinePlayerCreation(nucleoPlayer.updateName(
+                player.getUsername()
+        ), ipAddress, version);
     }
 
     private void handleSkinUpdate(NucleoPlayer onlinePlayer, GameProfile.Property property) {
@@ -105,12 +129,11 @@ public class LoginListener {
                 nucleoPlayer,
                 "",
                 Module.serviceName(),
-                address.substring(1).split(":")[0],
+                address,
                 version
         );
         onlinePlayer.updateLastLogin();
-        playerService.publishOnlinePlayerCreation(
-                onlinePlayer
-        );
+        playerService.savePlayerToDatabase(onlinePlayer);
+        playerService.publishOnlinePlayerCreation(onlinePlayer);
     }
 }

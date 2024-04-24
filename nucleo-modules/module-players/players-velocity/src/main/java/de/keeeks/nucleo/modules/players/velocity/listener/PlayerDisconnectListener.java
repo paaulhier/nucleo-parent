@@ -22,17 +22,11 @@ public class PlayerDisconnectListener {
             PlayerService.class
     );
     private final NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
-    private final Logger logger = Module.module(PlayersVelocityModule.class).logger();
 
     @Subscribe(order = PostOrder.FIRST)
     public EventTask handleDisconnect(DisconnectEvent event) {
         Player player = event.getPlayer();
         return EventTask.async(() -> {
-            logger.info("Player %s disconnected due to %s".formatted(
-                    player.getUsername(),
-                    event.getLoginStatus().name())
-            );
-
             playerService.onlinePlayer(player.getUniqueId()).ifPresent(
                     nucleoOnlinePlayer -> {
                         natsConnection.publishPacket(
