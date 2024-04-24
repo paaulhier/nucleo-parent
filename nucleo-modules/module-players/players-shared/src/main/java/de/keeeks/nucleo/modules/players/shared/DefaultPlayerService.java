@@ -1,10 +1,11 @@
 package de.keeeks.nucleo.modules.players.shared;
 
 import de.keeeks.nucleo.core.api.Module;
+import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
+import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
-import de.keeeks.nucleo.modules.messaging.MessagingModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.*;
 import de.keeeks.nucleo.modules.players.api.packet.*;
@@ -20,13 +21,16 @@ import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerUpdat
 import de.keeeks.nucleo.modules.players.shared.sql.PlayerRepository;
 import net.kyori.adventure.text.Component;
 
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class DefaultPlayerService implements PlayerService {
     private static final Module playersModule = Module.module("players");
@@ -34,7 +38,7 @@ public class DefaultPlayerService implements PlayerService {
             playersModule.dataFolder(),
             "mysql"
     );
-    private final List<NucleoPlayer> players = new LinkedList<>();
+    private final List<PlayerCacheElement<? extends NucleoPlayer>> playersCache = new LinkedList<>();
     private final Logger logger = playersModule.logger();
 
     private final PlayerRepository playerRepository;
@@ -45,7 +49,7 @@ public class DefaultPlayerService implements PlayerService {
                 MysqlCredentials.class,
                 MysqlCredentials.defaultCredentials()
         ));
-        this.natsConnection = Module.module(MessagingModule.class).defaultNatsConnection();
+        this.natsConnection = ServiceRegistry.service(NatsConnection.class);
         GsonBuilder.registerSerializer(
                 new SkinSerializer(),
                 new NucleoPlayerSerializer(),
@@ -58,15 +62,15 @@ public class DefaultPlayerService implements PlayerService {
                 new NucleoOnlinePlayersRequestPacket(),
                 NucleoOnlinePlayersResponsePacket.class
         ).whenComplete((nucleoOnlinePlayersResponsePacket, throwable) -> {
-            if (throwable != null) {
-                logger.log(
-                        Level.SEVERE,
-                        "Failed to request online players from the network",
-                        throwable
+            if (throwable != null) return;
+
+            for (NucleoOnlinePlayer nucleoOnlinePlayer : nucleoOnlinePlayersResponsePacket.onlinePlayers()) {
+                PlayerCacheElement<NucleoOnlinePlayer> cacheElement = PlayerCacheElement.create(
+                        nucleoOnlinePlayer,
+                        false
                 );
-                return;
+                playersCache.add(cacheElement);
             }
-            players.addAll(nucleoOnlinePlayersResponsePacket.onlinePlayers());
             logger.info("Received online players from the network (Count: %s)".formatted(
                     nucleoOnlinePlayersResponsePacket.onlinePlayers().size()
             ));
@@ -78,6 +82,27 @@ public class DefaultPlayerService implements PlayerService {
                 new NucleoOnlinePlayerUpdatePacketListener(this),
                 new NucleoOnlinePlayersRequestPacketListener(this)
         );
+
+        Scheduler.runAsyncTimer(
+                () -> List.copyOf(playersCache).stream().filter(
+                        cacheElement -> cacheElement.expired(Duration.ofMinutes(30))
+                ).forEach(cacheElement -> {
+                    invalidateCacheNetworkWide(cacheElement.player().uuid());
+                    logger.info("Invalidated player %s with UUID %s. Reason: Expired".formatted(
+                            cacheElement.player().name(),
+                            cacheElement.player().uuid()
+                    ));
+                }),
+                0,
+                1,
+                TimeUnit.SECONDS
+        );
+    }
+
+    private List<NucleoPlayer> players() {
+        return List.copyOf(playersCache).stream().map(
+                PlayerCacheElement::player
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -124,27 +149,35 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public Optional<NucleoPlayer> player(UUID uuid) {
-        return players.stream().filter(
+        return players().stream().filter(
                 player -> player.uuid().equals(uuid)
-        ).findFirst().or(
-                () -> Optional.ofNullable(playerRepository.player(uuid))
-        );
+        ).findFirst().or(() -> Optional.ofNullable(playerRepository.player(uuid)).map(nucleoPlayer -> {
+            natsConnection.publishPacket(
+                    CHANNEL,
+                    new NucleoPlayerUpdatePacket(nucleoPlayer)
+            );
+            return nucleoPlayer;
+        }));
     }
 
     @Override
     public Optional<NucleoPlayer> player(String name) {
-        return players.stream().filter(
+        return players().stream().filter(
                 player -> player.name().equals(name)
-        ).findFirst().or(
-                () -> Optional.ofNullable(playerRepository.player(name))
-        );
+        ).findFirst().or(() -> Optional.ofNullable(playerRepository.player(name)).map(nucleoPlayer -> {
+            natsConnection.publishPacket(
+                    CHANNEL,
+                    new NucleoPlayerUpdatePacket(nucleoPlayer)
+            );
+            return nucleoPlayer;
+        }));
     }
 
     @Override
     public List<NucleoOnlinePlayer> onlinePlayers() {
-        return List.copyOf(players.stream().filter(
+        return players().stream().filter(
                 player -> player instanceof NucleoOnlinePlayer
-        ).map(player -> (NucleoOnlinePlayer) player).toList());
+        ).map(player -> (NucleoOnlinePlayer) player).toList();
     }
 
     @Override
@@ -184,26 +217,31 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public void updateCache(NucleoPlayer nucleoPlayer) {
-        this.players.removeIf(
-                player -> player.uuid().equals(nucleoPlayer.uuid())
+        this.playersCache.removeIf(
+                cacheElement -> cacheElement.player().uuid().equals(nucleoPlayer.uuid())
         );
-        this.players.add(nucleoPlayer);
+        this.playersCache.add(PlayerCacheElement.create(
+                nucleoPlayer
+        ));
         logger.info("Updated player " + nucleoPlayer.name() + " with UUID " + nucleoPlayer.uuid());
     }
 
     @Override
     public void updateCache(NucleoOnlinePlayer nucleoOnlinePlayer) {
-        this.players.removeIf(
-                player -> player.uuid().equals(nucleoOnlinePlayer.uuid())
+        this.playersCache.removeIf(
+                cacheElement -> cacheElement.player().uuid().equals(nucleoOnlinePlayer.uuid())
         );
-        this.players.add(nucleoOnlinePlayer);
+        this.playersCache.add(PlayerCacheElement.create(
+                nucleoOnlinePlayer,
+                false
+        ));
         logger.info("Updated online player " + nucleoOnlinePlayer.name() + " with UUID " + nucleoOnlinePlayer.uuid());
     }
 
     @Override
     public void invalidateCache(UUID uuid) {
-        if (this.players.removeIf(
-                player -> player.uuid().equals(uuid)
+        if (playersCache.removeIf(
+                cacheElement -> cacheElement.player().uuid().equals(uuid)
         )) {
             logger.info("Invalidated player with UUID " + uuid);
         }
