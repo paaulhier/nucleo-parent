@@ -41,6 +41,7 @@ public record PaginationResult<T>(
 
     private static <T> @NotNull List<T> processListSplitting(List<T> fullList, int page, int pageSize) {
         int fromIndex = (page - 1) * pageSize;
+        if (fromIndex < 0) return List.of();
         return fullList.stream().skip(
                 fromIndex
         ).limit(pageSize).toList();
