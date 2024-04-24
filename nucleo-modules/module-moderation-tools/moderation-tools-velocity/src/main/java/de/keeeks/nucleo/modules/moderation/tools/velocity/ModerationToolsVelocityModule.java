@@ -8,6 +8,7 @@ import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.NucleoClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.translation.ModerationToolsTranslationRegistry;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSecondCommand;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.listener.ModerationToolsPlayerDisconnectListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
@@ -28,7 +29,10 @@ public class ModerationToolsVelocityModule extends VelocityModule {
 
     @Override
     public void enable() {
-        registerCommands(new ClicksPerSecondCommand());
+        registerCommands(
+                new ClicksPerSecondCommand(),
+                new AltsCommand()
+        );
         registerListener(new ModerationToolsPlayerDisconnectListener());
     }
 }
