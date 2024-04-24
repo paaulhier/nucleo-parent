@@ -5,7 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 import java.util.List;
 
-public record PaginationResult<T>(List<T> list, int page, int totalPages) implements Iterable<T> {
+public record PaginationResult<T>(
+        List<T> list,
+        int totalAmount,
+        int page,
+        int totalPages
+) implements Iterable<T> {
     public static <T> PaginationResult<T> create(List<T> fullList, int page, int pageSize) {
         List<T> subList = processListSplitting(fullList, page, pageSize);
         int totalPages = (int) Math.ceil((double) fullList.size() / pageSize);
@@ -13,12 +18,14 @@ public record PaginationResult<T>(List<T> list, int page, int totalPages) implem
         if (page > totalPages) {
             return new PaginationResult<>(
                     processListSplitting(fullList, totalPages, pageSize),
+                    fullList.size(),
                     totalPages,
                     totalPages
             );
         }
         return new PaginationResult<>(
                 subList,
+                fullList.size(),
                 page,
                 totalPages
         );
