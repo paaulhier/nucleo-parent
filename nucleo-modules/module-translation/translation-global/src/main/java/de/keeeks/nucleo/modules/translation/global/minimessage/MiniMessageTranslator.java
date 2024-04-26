@@ -3,6 +3,7 @@ package de.keeeks.nucleo.modules.translation.global.minimessage;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.Translator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,7 +54,7 @@ public abstract class MiniMessageTranslator implements Translator {
                         Component argComponent = arg.asComponent();
 
                         if (argComponent instanceof TranslatableComponent translatableComponent) {
-                            return translate(translatableComponent, locale);
+                            return GlobalTranslator.render(translatableComponent, locale);
                         }
                         return argComponent;
                     })
