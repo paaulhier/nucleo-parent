@@ -184,14 +184,18 @@ public class Formatter {
     }
 
     public static Component shortenedDuration(Duration duration) {
-        return duration(duration, true);
+        return duration(duration, true, true);
     }
 
     public static Component duration(Duration duration) {
-        return duration(duration, false);
+        return duration(duration, false, true);
     }
 
     public static Component duration(Duration duration, boolean shortened) {
+        return duration(duration, shortened, true);
+    }
+
+    public static Component duration(Duration duration, boolean shortened, boolean shortenedUnits) {
         if (duration.isNegative() || duration.isZero()) {
             return translatable("duration.permanent");
         }
@@ -236,7 +240,8 @@ public class Formatter {
                 days,
                 hours,
                 minutes,
-                seconds
+                seconds,
+                shortenedUnits
         );
 
         return buildLongDuration(
@@ -245,7 +250,8 @@ public class Formatter {
                 days,
                 hours,
                 minutes,
-                seconds
+                seconds,
+                shortenedUnits
         );
     }
 
@@ -255,41 +261,42 @@ public class Formatter {
             long days,
             long hours,
             long minutes,
-            long seconds
+            long seconds,
+            boolean shortenedUnits
     ) {
         if (years > 0) {
             component = component.append(text(years)).append(
-                    text("y")
+                    shortenedUnits ? text("y") : text("Years")
             ).append(space());
         }
 
         if (days > 0) {
             component = component.append(text(days)).append(
-                    text("d")
+                    shortenedUnits ? text("d") : text("Days")
             ).append(space());
         }
 
         if (hours > 0) {
             component = component.append(text(hours)).append(
-                    text("h")
+                    shortenedUnits ? text("h") : text("Hours")
             ).append(space());
         }
 
         if (minutes > 0) {
             component = component.append(text(minutes)).append(
-                    text("m")
+                    shortenedUnits ? text("m") : text("Minutes")
             ).append(space());
         }
 
         if (seconds > 0) {
             component = component.append(text(seconds)).append(
-                    text("s")
+                    shortenedUnits ? text("s") : text("Seconds")
             ).append(space());
         }
 
         if (component.equals(empty())) {
             component = component.append(text(0)).append(
-                    text("s")
+                    shortenedUnits ? text("s") : text("Seconds")
             ).append(space());
         }
         return component;
@@ -301,46 +308,47 @@ public class Formatter {
             long days,
             long hours,
             long minutes,
-            long seconds
+            long seconds,
+            boolean shortenedUnits
     ) {
         if (years > 0) {
             component = component.append(text(years)).append(
-                    text("y")
+                    shortenedUnits ? text("y") : text("Years")
             ).append(space());
             return component;
         }
 
         if (days > 0) {
             component = component.append(text(days)).append(
-                    text("d")
+                    shortenedUnits ? text("d") : text("Days")
             ).append(space());
             return component;
         }
 
         if (hours > 0) {
             component = component.append(text(hours)).append(
-                    text("h")
+                    shortenedUnits ? text("h") : text("Hours")
             ).append(space());
             return component;
         }
 
         if (minutes > 0) {
             component = component.append(text(minutes)).append(
-                    text("m")
+                    shortenedUnits ? text("m") : text("Minutes")
             ).append(space());
             return component;
         }
 
         if (seconds > 0) {
             component = component.append(text(seconds)).append(
-                    text("s")
+                    shortenedUnits ? text("s") : text("Seconds")
             ).append(space());
             return component;
         }
 
         if (component.equals(empty())) {
             component = component.append(text(0)).append(
-                    text("s")
+                    shortenedUnits ? text("s") : text("Seconds")
             ).append(space());
             return component;
         }
