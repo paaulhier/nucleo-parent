@@ -11,6 +11,7 @@ import net.kyori.adventure.text.Component;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -124,5 +125,10 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
                 component,
                 messageType
         );
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        return super.equals(object);
     }
 }

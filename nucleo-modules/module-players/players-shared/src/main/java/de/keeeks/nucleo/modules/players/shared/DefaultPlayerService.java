@@ -22,10 +22,7 @@ import de.keeeks.nucleo.modules.players.shared.sql.PlayerRepository;
 import net.kyori.adventure.text.Component;
 
 import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -136,7 +133,16 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public List<NucleoPlayer> players(String ipAddress) {
-        return List.copyOf(playerRepository.players(ipAddress));
+        List<NucleoPlayer> players = new ArrayList<>(onlinePlayers().stream().filter(
+                onlinePlayer -> onlinePlayer.ipAddress().equals(ipAddress)
+        ).toList());
+
+        for (NucleoPlayer player : playerRepository.players(ipAddress)) {
+            if (players.stream().anyMatch(nucleoPlayer -> nucleoPlayer.uuid().equals(player.uuid()))) continue;
+            players.add(player);
+        }
+
+        return List.copyOf(players);
     }
 
     @Override
