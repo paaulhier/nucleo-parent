@@ -143,7 +143,7 @@ public final class NotificationCommand implements CommandHandlerVisitor {
                     notification -> checkPermission(player, notification)
             ).toList();
             for (Notification notification : notifications) {
-                disableNotification(player, notification);
+                enableNotification(player, notification);
             }
         }
     }
@@ -185,8 +185,8 @@ public final class NotificationCommand implements CommandHandlerVisitor {
     }
 
     private static boolean checkPermission(Player player, Notification notification) {
-        return notification.requiredPermission() != null &&
-                player.hasPermission(notification.requiredPermission());
+        if (notification.requiredPermission() == null) return true;
+        return player.hasPermission(notification.requiredPermission());
     }
 
     private void enableNotification(Player player, Notification notification) {
