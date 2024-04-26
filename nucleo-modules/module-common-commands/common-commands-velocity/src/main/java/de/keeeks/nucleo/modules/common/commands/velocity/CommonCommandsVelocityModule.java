@@ -11,11 +11,6 @@ import de.keeeks.nucleo.modules.common.commands.velocity.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.economy.CookiesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.PingCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.PlaytimeCommand;
-import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.JumpToCommand;
-import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.PlayerInfoCommand;
-import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.TeamCommand;
-import de.keeeks.nucleo.modules.common.commands.velocity.commands.team.administration.PushCommand;
-import de.keeeks.nucleo.modules.common.commands.velocity.configuration.PushConfiguration;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.ping.PlayerPingRequestPacketListener;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoin.StaffMemberNetworkDisconnectPacketListener;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoin.StaffMemberNetworkJoinPacketListener;
@@ -48,38 +43,19 @@ public class CommonCommandsVelocityModule extends VelocityModule {
         boolean playersModuleEnabled = Module.isAvailable("players");
         boolean messagingModuleEnabled = Module.isAvailable("messaging");
         boolean lejetModuleEnabled = Module.isAvailable("lejet");
-        boolean verificaModuleEnabled = Module.isAvailable("verifica");
-        boolean configModuleEnabled = Module.isAvailable("config");
         boolean economyModuleEnabled = Module.isAvailable("economy");
         boolean notificationsModuleEnabled = Module.isAvailable("notifications");
 
-        if (configModuleEnabled) {
-            registerCommands(new PushCommand(pushConfiguration()));
-        }
-
         if (playersModuleEnabled) {
-            registerCommands(
-                    new PingCommand(),
-                    new JumpToCommand()
-            );
-            if (lejetModuleEnabled && verificaModuleEnabled) {
-                registerCommands(new PlayerInfoCommand());
-            }
+            registerCommands(new PingCommand());
             if (lejetModuleEnabled) {
-                registerCommands(
-                        new TeamCommand(),
-                        new PlaytimeCommand()
-                );
+                registerCommands(new PlaytimeCommand());
             }
         }
 
         if (messagingModuleEnabled) {
-            NatsConnection natsConnection = ServiceRegistry.service(
-                    NatsConnection.class
-            );
-            natsConnection.registerPacketListener(
-                    new PlayerPingRequestPacketListener(this)
-            );
+            NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
+            natsConnection.registerPacketListener(new PlayerPingRequestPacketListener(this));
 
             if (notificationsModuleEnabled && playersModuleEnabled && lejetModuleEnabled) {
                 natsConnection.registerPacketListener(
@@ -95,16 +71,6 @@ public class CommonCommandsVelocityModule extends VelocityModule {
 
         InjectionLayer.ext().instance(EventManager.class).registerListener(
                 new CloudNetServiceEventListener(proxyServer)
-        );
-    }
-
-    private PushConfiguration pushConfiguration() {
-        return JsonConfiguration.create(
-                dataFolder(),
-                "push"
-        ).loadObject(
-                PushConfiguration.class,
-                PushConfiguration.createDefault()
         );
     }
 }

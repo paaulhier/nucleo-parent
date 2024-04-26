@@ -2,11 +2,14 @@ package de.keeeks.nucleo.core.velocity.module;
 
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.proxy.ProxyServer;
+import de.keeeks.nucleo.core.api.ConditionTester;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.velocity.NucleoVelocityPlugin;
 import lombok.Getter;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.velocity.VelocityCommandHandler;
+
+import java.util.function.Predicate;
 
 @Getter
 public abstract class VelocityModule extends Module {
@@ -15,6 +18,12 @@ public abstract class VelocityModule extends Module {
 
     public void registerCommands(Object... commands) {
         plugin.registerCommands(commands);
+    }
+
+    public <T> void registerConditionally(ConditionTester conditionTester, Object... objects) {
+        if (conditionTester.test()) {
+            registerCommands(objects);
+        }
     }
 
     public AutoCompleter autoCompleter() {

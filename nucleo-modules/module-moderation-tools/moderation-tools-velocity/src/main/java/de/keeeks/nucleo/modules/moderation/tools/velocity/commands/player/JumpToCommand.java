@@ -1,10 +1,11 @@
-package de.keeeks.nucleo.modules.common.commands.velocity.commands.team;
+package de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player;
 
 import com.velocitypowered.api.proxy.Player;
 import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
-import de.keeeks.nucleo.modules.common.commands.velocity.CommonCommandsVelocityModule;
+import de.keeeks.nucleo.core.velocity.module.VelocityModule;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.ModerationToolsVelocityModule;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JumpToCommand {
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
-    private final CommonCommandsVelocityModule module = Module.module(
-            CommonCommandsVelocityModule.class
-    );
+    private final VelocityModule module = Module.module(ModerationToolsVelocityModule.class);
 
     @AutoComplete("players")
     @Usage("jumpto <player>")

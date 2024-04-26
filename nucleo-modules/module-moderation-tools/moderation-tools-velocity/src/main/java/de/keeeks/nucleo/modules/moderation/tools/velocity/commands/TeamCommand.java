@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.common.commands.velocity.commands.team;
+package de.keeeks.nucleo.modules.moderation.tools.velocity.commands;
 
 import com.velocitypowered.api.proxy.Player;
 import de.keeeks.lejet.api.permission.PermissionApi;

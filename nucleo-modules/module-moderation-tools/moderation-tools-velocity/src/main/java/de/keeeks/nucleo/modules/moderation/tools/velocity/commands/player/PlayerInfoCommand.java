@@ -1,7 +1,6 @@
-package de.keeeks.nucleo.modules.common.commands.velocity.commands.team;
+package de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player;
 
 import com.velocitypowered.api.proxy.Player;
-import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PermissionGroup;
 import de.keeeks.lejet.api.permission.PrefixType;
@@ -98,7 +97,7 @@ public final class PlayerInfoCommand {
                                     nucleoPlayer,
                                     Platform.TEAMSPEAK
                             ),
-                            text(economy.balance(player.getUniqueId()))
+                            Component.text(economy.balance(player.getUniqueId()))
                     ));
 
                     if (nucleoPlayer instanceof NucleoOnlinePlayer nucleoOnlinePlayer) {
@@ -141,7 +140,7 @@ public final class PlayerInfoCommand {
             if (verificationState == VerificationState.PENDING) {
                 return translatable("commands.playerinfo.pendingVerification");
             }
-            return text(verification.userId()).clickEvent(ClickEvent.copyToClipboard(verification.userId()));
+            return Component.text(verification.userId()).clickEvent(ClickEvent.copyToClipboard(verification.userId()));
         }).orElse(translatable("commands.playerinfo.noVerification"));
     }
 

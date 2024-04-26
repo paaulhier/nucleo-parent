@@ -64,6 +64,19 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>economy-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.keeeks.verifica</groupId>
+            <artifactId>verifica-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
             <groupId>de.keeeks.lejet</groupId>
             <artifactId>lejet-api</artifactId>
         </dependency>

@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.common.commands.velocity.commands.team.administration;
+package de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration;
 
 import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.Module;
@@ -6,8 +6,8 @@ import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.api.utils.discord.DiscordWebhook;
 import de.keeeks.nucleo.core.api.utils.expiringmap.ExpirationListener;
 import de.keeeks.nucleo.core.api.utils.expiringmap.ExpiringMap;
-import de.keeeks.nucleo.modules.common.commands.velocity.CommonCommandsVelocityModule;
-import de.keeeks.nucleo.modules.common.commands.velocity.configuration.PushConfiguration;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.ModerationToolsVelocityModule;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.configuration.PushConfiguration;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ import static net.kyori.adventure.text.Component.translatable;
 @CommandPermission("nucleo.team.administration.push")
 @RequiredArgsConstructor
 public class PushCommand {
-    private static final CommonCommandsVelocityModule module = Module.module(CommonCommandsVelocityModule.class);
+    private static final ModerationToolsVelocityModule module = Module.module(ModerationToolsVelocityModule.class);
     private final ExpiringMap<UUID, PushDetails> pushMap = ExpiringMap.builder()
             .expiration(30, TimeUnit.SECONDS)
             .asyncExpirationListener(expirationListener())

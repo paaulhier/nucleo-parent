@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.common.commands.velocity.configuration;
+package de.keeeks.nucleo.modules.moderation.tools.velocity.configuration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
