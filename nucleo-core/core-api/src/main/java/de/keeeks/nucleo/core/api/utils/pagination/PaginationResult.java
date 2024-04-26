@@ -11,6 +11,23 @@ public record PaginationResult<T>(
         int page,
         int totalPages
 ) implements Iterable<T> {
+
+    public boolean hasNext() {
+        return page < totalPages;
+    }
+
+    public boolean hasPrevious() {
+        return page > 1;
+    }
+
+    public int nextPage() {
+        return page + 1;
+    }
+
+    public int previousPage() {
+        return page - 1;
+    }
+
     public static <T> PaginationResult<T> create(List<T> fullList, int page, int pageSize) {
         List<T> subList = processListSplitting(fullList, page, pageSize);
         int totalPages = (int) Math.ceil((double) fullList.size() / pageSize);
