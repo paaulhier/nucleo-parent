@@ -266,37 +266,37 @@ public class Formatter {
     ) {
         if (years > 0) {
             component = component.append(text(years)).append(
-                    shortenedUnits ? text("y") : text("Years")
+                    shortenedUnits ? text("y") : space().append(text("Years"))
             ).append(space());
         }
 
         if (days > 0) {
             component = component.append(text(days)).append(
-                    shortenedUnits ? text("d") : text("Days")
+                    shortenedUnits ? text("d") : space().append(text("Days"))
             ).append(space());
         }
 
         if (hours > 0) {
             component = component.append(text(hours)).append(
-                    shortenedUnits ? text("h") : text("Hours")
+                    shortenedUnits ? text("h") : space().append(text("Hours"))
             ).append(space());
         }
 
         if (minutes > 0) {
             component = component.append(text(minutes)).append(
-                    shortenedUnits ? text("m") : text("Minutes")
+                    shortenedUnits ? text("m") : space().append(text("Minutes"))
             ).append(space());
         }
 
         if (seconds > 0) {
             component = component.append(text(seconds)).append(
-                    shortenedUnits ? text("s") : text("Seconds")
+                    shortenedUnits ? text("s") : space().append(text("Seconds"))
             ).append(space());
         }
 
         if (component.equals(empty())) {
             component = component.append(text(0)).append(
-                    shortenedUnits ? text("s") : text("Seconds")
+                    shortenedUnits ? text("s") : space().append(text("Seconds"))
             ).append(space());
         }
         return component;
@@ -313,42 +313,42 @@ public class Formatter {
     ) {
         if (years > 0) {
             component = component.append(text(years)).append(
-                    shortenedUnits ? text("y") : text("Years")
+                    shortenedUnits ? text("y") : space().append(text("Years"))
             ).append(space());
             return component;
         }
 
         if (days > 0) {
             component = component.append(text(days)).append(
-                    shortenedUnits ? text("d") : text("Days")
+                    shortenedUnits ? text("d") : space().append(text("Days"))
             ).append(space());
             return component;
         }
 
         if (hours > 0) {
             component = component.append(text(hours)).append(
-                    shortenedUnits ? text("h") : text("Hours")
+                    shortenedUnits ? text("h") : space().append(text("Hours"))
             ).append(space());
             return component;
         }
 
         if (minutes > 0) {
             component = component.append(text(minutes)).append(
-                    shortenedUnits ? text("m") : text("Minutes")
+                    shortenedUnits ? text("m") : space().append(text("Minutes"))
             ).append(space());
             return component;
         }
 
         if (seconds > 0) {
             component = component.append(text(seconds)).append(
-                    shortenedUnits ? text("s") : text("Seconds")
+                    shortenedUnits ? text("s") : space().append(text("Seconds"))
             ).append(space());
             return component;
         }
 
         if (component.equals(empty())) {
             component = component.append(text(0)).append(
-                    shortenedUnits ? text("s") : text("Seconds")
+                    shortenedUnits ? text("s") : space().append(text("Seconds"))
             ).append(space());
             return component;
         }
