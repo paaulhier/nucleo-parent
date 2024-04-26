@@ -7,6 +7,7 @@ import de.keeeks.karistus.api.PunishmentType;
 import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.utils.pagination.PaginationResult;
+import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import net.kyori.adventure.text.Component;
@@ -87,6 +88,9 @@ public class AltsCommand {
                             "/pi " + alternativeAccount.name()
                     )),
                     text(alternativeAccount.name()),
+                    alternativeAccount instanceof NucleoOnlinePlayer
+                            ? translatable("nucleo.commands.alts.online")
+                            : translatable("nucleo.commands.alts.offline"),
                     banReason,
                     muteReason,
                     translatable("nucleo.commands.alts.punishForBanBypass").clickEvent(ClickEvent.runCommand(
