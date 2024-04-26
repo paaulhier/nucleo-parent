@@ -10,6 +10,7 @@ import de.keeeks.nucleo.core.api.utils.pagination.PaginationResult;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Default;
 import revxrsal.commands.annotation.DefaultFor;
@@ -82,10 +83,21 @@ public class AltsCommand {
 
             player.sendMessage(translatable(
                     "nucleo.commands.alts.entry",
-                    NameColorizer.coloredName(alternativeAccount.uuid()),
+                    NameColorizer.coloredName(alternativeAccount.uuid()).clickEvent(ClickEvent.runCommand(
+                            "/pi " + alternativeAccount.name()
+                    )),
                     text(alternativeAccount.name()),
                     banReason,
-                    muteReason
+                    muteReason,
+                    translatable("nucleo.commands.alts.punishForBanBypass").clickEvent(ClickEvent.runCommand(
+                            "/ban " + alternativeAccount.name() + " banbypass"
+                    )),
+                    translatable("nucleo.commands.alts.punishForMuteBypass").clickEvent(ClickEvent.runCommand(
+                            "/ban " + alternativeAccount.name() + " mutebypass"
+                    )),
+                    translatable("nucleo.commands.alts.punishForAltAccount").clickEvent(ClickEvent.runCommand(
+                            "/ban " + alternativeAccount.name() + " altaccount"
+                    ))
             ));
         }
     }
