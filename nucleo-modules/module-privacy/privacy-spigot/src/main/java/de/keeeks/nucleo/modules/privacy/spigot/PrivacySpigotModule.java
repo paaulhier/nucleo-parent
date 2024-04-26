@@ -1,5 +1,7 @@
 package de.keeeks.nucleo.modules.privacy.spigot;
 
+import de.keeeks.karistus.api.PunishmentApi;
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
@@ -10,9 +12,11 @@ import de.keeeks.nucleo.modules.privacy.spigot.listener.PrivacyJoinListener;
 import de.keeeks.nucleo.modules.privacy.spigot.listener.PrivacyQuitListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
+import java.util.UUID;
+
 @ModuleDescription(
         name = "privacy",
-        depends = {"config", "database-mysql", "messaging"}
+        depends = {"config", "database-mysql", "messaging", "karistus"}
 )
 public class PrivacySpigotModule extends SpigotModule {
     private PrivacyApi privacyApi;

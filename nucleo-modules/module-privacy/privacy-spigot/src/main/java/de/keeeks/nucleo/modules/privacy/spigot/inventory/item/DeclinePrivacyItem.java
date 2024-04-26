@@ -1,8 +1,12 @@
 package de.keeeks.nucleo.modules.privacy.spigot.inventory.item;
 
+import de.keeeks.karistus.api.PunishmentApi;
+import de.keeeks.karistus.api.PunishmentType;
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
+import de.keeeks.nucleo.modules.privacy.spigot.PrivacySpigotModule;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -16,7 +20,7 @@ import static net.kyori.adventure.text.Component.translatable;
 
 public class DeclinePrivacyItem extends AsyncItem {
     private static final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
-    private static final PrivacyApi privacyApi = ServiceRegistry.service(PrivacyApi.class);
+    private static final PunishmentApi punishmentApi = ServiceRegistry.service(PunishmentApi.class);
 
     public DeclinePrivacyItem() {
         super(new ItemBuilder(Material.CLOCK).setDisplayName(new AdventureComponentWrapper(
@@ -37,5 +41,13 @@ public class DeclinePrivacyItem extends AsyncItem {
         playerService.onlinePlayer(player.getUniqueId()).ifPresent(
                 onlinePlayer -> onlinePlayer.kick(translatable("privacy.declined"), true)
         );
+        punishmentApi.template(
+                "privacy",
+                PunishmentType.BAN
+        ).ifPresent(punishmentTemplate -> punishmentApi.ban(
+                player.getUniqueId(),
+                PunishmentApi.consoleId,
+                punishmentTemplate
+        ));
     }
 }
