@@ -47,14 +47,16 @@ public abstract class MiniMessageTranslator implements Translator {
                             Component.translatable("prefix"),
                             locale
                     ))
-            );
+            ).clickEvent(component.clickEvent()).hoverEvent(component.hoverEvent());
         } else {
             var translatedArgs = component.arguments().stream()
                     .map(arg -> {
                         Component argComponent = arg.asComponent();
 
                         if (argComponent instanceof TranslatableComponent translatableComponent) {
-                            return GlobalTranslator.render(translatableComponent, locale);
+                            return GlobalTranslator.render(translatableComponent, locale).clickEvent(
+                                    argComponent.clickEvent()
+                            ).hoverEvent(argComponent.hoverEvent());
                         }
                         return argComponent;
                     })
@@ -67,7 +69,7 @@ public abstract class MiniMessageTranslator implements Translator {
                             Component.translatable("prefix"),
                             locale
                     ))
-            );
+            ).clickEvent(component.clickEvent()).hoverEvent(component.hoverEvent());
         }
 
         if (component.children().isEmpty()) {
