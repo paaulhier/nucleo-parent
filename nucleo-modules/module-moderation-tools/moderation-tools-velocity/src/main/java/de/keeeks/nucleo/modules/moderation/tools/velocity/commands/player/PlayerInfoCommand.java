@@ -1,6 +1,8 @@
 package de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player;
 
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.karistus.api.PunishmentApi;
+import de.keeeks.karistus.api.PunishmentType;
 import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PermissionGroup;
 import de.keeeks.lejet.api.permission.PrefixType;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.annotation.AutoComplete;
 import revxrsal.commands.annotation.Command;
@@ -39,6 +42,7 @@ import static net.kyori.adventure.text.Component.translatable;
 public final class PlayerInfoCommand {
     private final Economy economy = ServiceRegistry.service(EconomyApi.class).create("cookies");
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
+    private final PunishmentApi punishmentApi = ServiceRegistry.service(PunishmentApi.class);
     private final VerificaApi verificaApi = ServiceRegistry.service(VerificaApi.class);
     private final PermissionApi permissionApi = PermissionApi.instance();
 
@@ -63,6 +67,8 @@ public final class PlayerInfoCommand {
                                     permissionGroup -> permissionGroup.prefix(PrefixType.DISPLAY)
                             ).toList()
                     );
+                    Component banPunishmentId = punishmentId(nucleoPlayer, PunishmentType.BAN);
+                    Component mutePunishmentId = punishmentId(nucleoPlayer, PunishmentType.MUTE);
 
                     List<Component> arguments = new ArrayList<>(List.of(
                             coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.copyToClipboard(
@@ -97,7 +103,9 @@ public final class PlayerInfoCommand {
                                     nucleoPlayer,
                                     Platform.TEAMSPEAK
                             ),
-                            Component.text(economy.balance(player.getUniqueId()))
+                            Component.text(economy.balance(player.getUniqueId())),
+                            banPunishmentId,
+                            mutePunishmentId
                     ));
 
                     if (nucleoPlayer instanceof NucleoOnlinePlayer nucleoOnlinePlayer) {
@@ -125,6 +133,21 @@ public final class PlayerInfoCommand {
                 () -> player.sendMessage(translatable(
                         "playerNotFound",
                         text(targetName)
+                ))
+        );
+    }
+
+    private @NotNull Component punishmentId(NucleoPlayer nucleoPlayer, PunishmentType type) {
+        return punishmentApi.activePunishment(
+                nucleoPlayer.uuid(),
+                type
+        ).map(punishment -> (Component) text(punishment.id()).clickEvent(ClickEvent.runCommand(
+                "/punishinfo %s".formatted(punishment.id()
+        ))).hoverEvent(HoverEvent.showText(translatable("commands.playerinfo.show%sDetails".formatted(
+                type == PunishmentType.BAN ? "Ban" : "Mute"
+        ))))).orElseGet(
+                () -> translatable("commands.playerinfo.%s".formatted(
+                        type == PunishmentType.BAN ? "notBanned" : "notMuted"
                 ))
         );
     }
