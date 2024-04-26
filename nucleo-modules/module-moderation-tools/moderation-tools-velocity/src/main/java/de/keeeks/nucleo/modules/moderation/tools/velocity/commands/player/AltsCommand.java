@@ -18,7 +18,8 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 
 import java.util.List;
 
-import static net.kyori.adventure.text.Component.*;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.translatable;
 
 @Command({"alts"})
 @CommandPermission("nucleo.commands.alts")
@@ -56,7 +57,8 @@ public class AltsCommand {
 
         PaginationResult<NucleoPlayer> paginatedPlayers = PaginationResult.create(
                 players,
-                page
+                page,
+                5
         );
 
         player.sendMessage(translatable(
@@ -71,10 +73,7 @@ public class AltsCommand {
             Component banReason = punishmentApi.activePunishment(
                     alternativeAccount.uuid(),
                     PunishmentType.BAN
-            ).map(punishment -> {
-                System.out.println("Punishment: " + punishment.reason());
-                return punishment.reason();
-            }).orElse(translatable("nucleo.commands.alts.notBanned"));
+            ).map(Punishment::reason).orElse(translatable("nucleo.commands.alts.notBanned"));
 
             Component muteReason = punishmentApi.activePunishment(
                     alternativeAccount.uuid(),
