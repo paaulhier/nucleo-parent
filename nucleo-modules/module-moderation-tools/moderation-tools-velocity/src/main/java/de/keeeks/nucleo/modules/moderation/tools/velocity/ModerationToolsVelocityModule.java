@@ -13,6 +13,7 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSeco
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PushCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.PlayerInfoCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.configuration.PushConfiguration;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.listener.ModerationToolsPlayerDisconnectListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
@@ -47,7 +48,7 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         registerConditionally(() -> configModuleEnabled, new PushCommand(pushConfiguration()));
         registerConditionally(
                 () -> playersModuleEnabled && lejetModuleEnabled && verificaModuleEnabled,
-                new PushCommand(pushConfiguration())
+                new PlayerInfoCommand()
         );
         registerConditionally(
                 () -> lejetModuleEnabled,
