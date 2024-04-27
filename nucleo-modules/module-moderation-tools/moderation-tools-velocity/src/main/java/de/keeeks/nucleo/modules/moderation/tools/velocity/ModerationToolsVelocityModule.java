@@ -13,6 +13,7 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSeco
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PushCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.JumpToCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.PlayerInfoCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.configuration.PushConfiguration;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.listener.ModerationToolsPlayerDisconnectListener;
@@ -36,8 +37,6 @@ public class ModerationToolsVelocityModule extends VelocityModule {
 
     @Override
     public void enable() {
-        registerCommands(new ClicksPerSecondCommand());
-
         boolean configModuleEnabled = Module.isAvailable("config");
         boolean playersModuleEnabled = Module.isAvailable("players");
         boolean lejetModuleEnabled = Module.isAvailable("lejet");
@@ -60,6 +59,10 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         registerConditionally(
                 () -> playersModuleEnabled && karistusModuleEnabled,
                 new AltsCommand()
+        );
+        registerConditionally(
+                () -> playersModuleEnabled,
+                new JumpToCommand()
         );
 
         registerListener(new ModerationToolsPlayerDisconnectListener());
