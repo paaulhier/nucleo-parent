@@ -20,7 +20,7 @@ public class AcceptPrivacyItem extends AsyncItem {
         super(new ItemBuilder(Material.CLOCK).setDisplayName(new AdventureComponentWrapper(
                 translatable("inventory.privacy.loading")
         )), () -> new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).setDisplayName(
-                new de.keeeks.nucleo.modules.inventory.hotbar.component.AdventureComponentWrapper(
+                new AdventureComponentWrapper(
                         translatable("inventory.privacy.accept")
                 )
         ));

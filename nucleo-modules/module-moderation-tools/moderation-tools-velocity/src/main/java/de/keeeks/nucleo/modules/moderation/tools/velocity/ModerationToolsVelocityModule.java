@@ -21,7 +21,8 @@ import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 @ModuleDescription(
         name = "moderation-tools",
         description = "A module for moderation tools like e.g. click checks",
-        depends = {"players", "messaging"}
+        depends = {"players", "messaging"},
+        softDepends = {"karistus"}
 )
 public class ModerationToolsVelocityModule extends VelocityModule {
     @Override
@@ -35,15 +36,13 @@ public class ModerationToolsVelocityModule extends VelocityModule {
 
     @Override
     public void enable() {
-        registerCommands(
-                new ClicksPerSecondCommand(),
-                new AltsCommand()
-        );
+        registerCommands(new ClicksPerSecondCommand());
 
         boolean configModuleEnabled = Module.isAvailable("config");
         boolean playersModuleEnabled = Module.isAvailable("players");
         boolean lejetModuleEnabled = Module.isAvailable("lejet");
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
+        boolean karistusModuleEnabled = Module.isAvailable("karistus");
 
         registerConditionally(() -> configModuleEnabled, new PushCommand(pushConfiguration()));
         registerConditionally(
@@ -51,8 +50,16 @@ public class ModerationToolsVelocityModule extends VelocityModule {
                 new PlayerInfoCommand()
         );
         registerConditionally(
+                () -> playersModuleEnabled && lejetModuleEnabled,
+                new ClicksPerSecondCommand()
+        );
+        registerConditionally(
                 () -> lejetModuleEnabled,
                 new TeamCommand()
+        );
+        registerConditionally(
+                () -> playersModuleEnabled && karistusModuleEnabled,
+                new AltsCommand()
         );
 
         registerListener(new ModerationToolsPlayerDisconnectListener());
