@@ -17,7 +17,8 @@ public enum Version {
             "1.20.3",
             "1.20.4",
             765
-    );
+    ),
+    VERSION_1_20_5("1.20.5", 766);
 
     private final String version;
     private final String lowestIncludedVersion;
@@ -33,8 +34,8 @@ public enum Version {
 
     Version(String version, int protocol) {
         this.version = version;
-        this.lowestIncludedVersion = null;
-        this.highestIncludedVersion = null;
+        this.lowestIncludedVersion = version;
+        this.highestIncludedVersion = version;
         this.protocol = protocol;
     }
 
