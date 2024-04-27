@@ -9,6 +9,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.kyori.adventure.text.Component.*;
 
@@ -22,6 +24,12 @@ public class Formatter {
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(
             "HH:mm:ss.SSS"
     ).withZone(ZoneId.systemDefault());
+    private static final Pattern durationPattern = Pattern.compile(
+            "(\\d+)([smhdy])"
+    );
+    private static final Pattern permanentPattern = Pattern.compile(
+            "perm|perma|permanent|forever|-1"
+    );
 
     public static String formatInstant(Instant instant) {
         return dateTimeFormatter.format(instant);
@@ -181,6 +189,31 @@ public class Formatter {
         return stringBuilder.append(seconds)
                 .append("s")
                 .toString();
+    }
+
+    public static Duration parseDuration(String time) {
+        Matcher permanentMatcher = permanentPattern.matcher(time);
+        Matcher durationMatcher = durationPattern.matcher(time);
+
+        if (permanentMatcher.find()) {
+            return Duration.ZERO;
+        }
+
+        if (!durationMatcher.find()) {
+            return Duration.ZERO;
+        }
+
+        int amount = Integer.parseInt(durationMatcher.group(1));
+        String durationUnit = durationMatcher.group(2);
+
+        return switch (durationUnit) {
+            case "s" -> Duration.ofSeconds(amount);
+            case "m" -> Duration.ofMinutes(amount);
+            case "h" -> Duration.ofHours(amount);
+            case "d" -> Duration.ofDays(amount);
+            case "y" -> Duration.ofDays(amount * 365L);
+            default -> Duration.ZERO;
+        };
     }
 
     public static Component shortenedDuration(Duration duration) {
