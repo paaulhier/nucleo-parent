@@ -119,7 +119,8 @@ public final class PlayerInfoCommand {
                                 text(nucleoOnlinePlayer.server()).clickEvent(ClickEvent.runCommand(
                                         "/jumpto %s".formatted(nucleoOnlinePlayer.name())
                                 )),
-                                text(nucleoOnlinePlayer.version().version())
+                                text(nucleoOnlinePlayer.version().version()),
+                                nucleoOnlinePlayer.onlineState().displayName()
                         ));
                         player.sendMessage(translatable(
                                 "commands.playerinfo.playerInfo"

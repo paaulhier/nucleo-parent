@@ -1,17 +1,12 @@
 package de.keeeks.nucleo.modules.players.shared;
 
-import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
-import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
-import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
-import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.players.api.Version;
+import de.keeeks.nucleo.modules.players.api.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -21,6 +16,8 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
 
     private final String ipAddress;
     private final Version version;
+
+    private OnlineState onlineState = OnlineState.ONLINE;
 
     private String proxy;
     private String server;
@@ -74,6 +71,12 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     @Override
     public NucleoPlayer addOnlineTime(long onlineTime) {
         return super.addOnlineTime(onlineTime);
+    }
+
+    @Override
+    public NucleoOnlinePlayer updateOnlineState(OnlineState onlineState) {
+        this.onlineState = onlineState;
+        return this;
     }
 
     @Override

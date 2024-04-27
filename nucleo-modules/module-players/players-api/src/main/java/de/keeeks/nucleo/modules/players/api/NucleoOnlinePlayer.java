@@ -14,6 +14,10 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
 
     Version version();
 
+    OnlineState onlineState();
+
+    NucleoOnlinePlayer updateOnlineState(OnlineState onlineState);
+
     NucleoOnlinePlayer updateServer(String server);
 
     NucleoOnlinePlayer updateProxy(String proxy);
