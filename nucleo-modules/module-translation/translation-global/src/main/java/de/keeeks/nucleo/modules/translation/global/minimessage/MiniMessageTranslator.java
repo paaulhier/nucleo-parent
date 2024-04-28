@@ -75,7 +75,20 @@ public abstract class MiniMessageTranslator implements Translator {
         if (component.children().isEmpty()) {
             return resultingComponent;
         } else {
-            return resultingComponent.children(component.children());
+            var translatedChildren = component.children().stream()
+                    .map(child -> {
+                        Component childComponent = child.asComponent();
+
+                        if (childComponent instanceof TranslatableComponent translatableComponent) {
+                            return GlobalTranslator.render(translatableComponent, locale).clickEvent(
+                                    childComponent.clickEvent()
+                            ).hoverEvent(childComponent.hoverEvent());
+                        }
+                        return childComponent;
+                    })
+                    .toList();
+
+            return resultingComponent.children(translatedChildren);
         }
     }
 }
