@@ -16,8 +16,9 @@ public class AFKPlayerListener implements Listener {
         afkService.remove(event.getPlayer().getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void handleJoin(PlayerJoinEvent event) {
+        event.getPlayer().clearActivePotionEffects();
         afkService.updateActivity(event.getPlayer().getUniqueId());
     }
 
