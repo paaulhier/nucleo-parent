@@ -1,10 +1,10 @@
-package de.keeeks.nucleo.modules.moderation.tools.shared.packet.listener;
+package de.keeeks.nucleo.modules.moderation.tools.shared.packetlistener;
 
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
-import de.keeeks.nucleo.modules.moderation.tools.shared.NucleoClickCheckApi;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.ClickCheckInformationDeletePacket;
+import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
+import de.keeeks.nucleo.modules.moderation.tools.cps.packet.ClickCheckInformationDeletePacket;
 import io.nats.client.Message;
 
 @ListenerChannel(ClickCheckApi.CHANNEL)

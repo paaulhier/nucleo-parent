@@ -1,15 +1,15 @@
-package de.keeeks.nucleo.modules.moderation.tools.shared;
+package de.keeeks.nucleo.modules.moderation.tools.shared.cps;
 
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckInformation;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.ClickCheckInformationCreatePacket;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.ClickCheckInformationDeletePacket;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.ClickCheckInformationRequestPacket;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.ClickCheckInformationResponsePacket;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.listener.ClickCheckInformationCreatePacketListener;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.listener.ClickCheckInformationDeletePacketListener;
-import de.keeeks.nucleo.modules.moderation.tools.shared.packet.listener.ClickCheckInformationRequestPacketListener;
+import de.keeeks.nucleo.modules.moderation.tools.cps.packet.ClickCheckInformationCreatePacket;
+import de.keeeks.nucleo.modules.moderation.tools.cps.packet.ClickCheckInformationDeletePacket;
+import de.keeeks.nucleo.modules.moderation.tools.cps.packet.ClickCheckInformationRequestPacket;
+import de.keeeks.nucleo.modules.moderation.tools.cps.packet.ClickCheckInformationResponsePacket;
+import de.keeeks.nucleo.modules.moderation.tools.shared.packetlistener.ClickCheckInformationCreatePacketListener;
+import de.keeeks.nucleo.modules.moderation.tools.shared.packetlistener.ClickCheckInformationDeletePacketListener;
+import de.keeeks.nucleo.modules.moderation.tools.shared.packetlistener.ClickCheckInformationRequestPacketListener;
 
 import java.util.LinkedList;
 import java.util.List;

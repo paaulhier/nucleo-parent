@@ -6,9 +6,12 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
+import de.keeeks.nucleo.modules.moderation.tools.chatclear.ChatClearApi;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
-import de.keeeks.nucleo.modules.moderation.tools.shared.NucleoClickCheckApi;
+import de.keeeks.nucleo.modules.moderation.tools.shared.chatclear.NucleoChatClearApi;
+import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.translation.ModerationToolsTranslationRegistry;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ChatClearCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSecondCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PushCommand;
@@ -18,6 +21,9 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.JumpTo
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.PlayerInfoCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.configuration.PushConfiguration;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.listener.ModerationToolsPlayerDisconnectListener;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearGlobalChatPacketListener;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearPlayerChatPacketListener;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearServerChatPacketListener;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(
@@ -27,12 +33,25 @@ import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
         softDepends = {"karistus"}
 )
 public class ModerationToolsVelocityModule extends VelocityModule {
+
     @Override
     public void load() {
+        NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
         ServiceRegistry.registerService(
                 ClickCheckApi.class,
-                new NucleoClickCheckApi(ServiceRegistry.service(NatsConnection.class))
+                new NucleoClickCheckApi(natsConnection)
         );
+        ServiceRegistry.registerService(
+                ChatClearApi.class,
+                new NucleoChatClearApi()
+        );
+
+        natsConnection.registerPacketListener(
+                new ClearGlobalChatPacketListener(proxyServer),
+                new ClearPlayerChatPacketListener(proxyServer),
+                new ClearServerChatPacketListener(proxyServer)
+        );
+
         TranslationRegistry.initializeRegistry(new ModerationToolsTranslationRegistry(this));
     }
 
@@ -63,7 +82,7 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         );
         registerConditionally(
                 () -> playersModuleEnabled,
-                new JumpToCommand()
+                new JumpToCommand(), new ChatClearCommand(proxyServer)
         );
 
         registerListener(new ModerationToolsPlayerDisconnectListener());

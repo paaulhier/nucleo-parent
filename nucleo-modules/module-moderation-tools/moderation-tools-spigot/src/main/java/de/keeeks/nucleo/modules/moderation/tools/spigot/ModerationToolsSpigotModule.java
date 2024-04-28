@@ -5,7 +5,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
-import de.keeeks.nucleo.modules.moderation.tools.shared.NucleoClickCheckApi;
+import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.translation.ModerationToolsTranslationRegistry;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondProvider;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.clickcheck.ClickCheckMessage;

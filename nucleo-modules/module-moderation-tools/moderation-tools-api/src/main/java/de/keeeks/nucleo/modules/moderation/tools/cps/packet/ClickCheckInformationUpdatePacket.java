@@ -1,4 +1,4 @@
-package de.keeeks.nucleo.modules.moderation.tools.shared.packet;
+package de.keeeks.nucleo.modules.moderation.tools.cps.packet;
 
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckInformation;
 
