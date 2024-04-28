@@ -71,11 +71,6 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     }
 
     @Override
-    public NucleoPlayer addOnlineTime(long onlineTime) {
-        return super.addOnlineTime(onlineTime);
-    }
-
-    @Override
     public NucleoOnlinePlayer updateOnlineState(OnlineState onlineState) {
         this.onlineState = onlineState;
         return this;

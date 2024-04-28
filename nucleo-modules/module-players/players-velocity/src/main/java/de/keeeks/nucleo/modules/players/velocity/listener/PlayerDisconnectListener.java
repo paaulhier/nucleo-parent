@@ -5,17 +5,13 @@ import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.proxy.Player;
-import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
-import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerDisconnectPacket;
-import de.keeeks.nucleo.modules.players.velocity.PlayersVelocityModule;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.logging.Logger;
+import java.time.Duration;
 
 public class PlayerDisconnectListener {
     private final PlayerService playerService = ServiceRegistry.service(
@@ -33,22 +29,11 @@ public class PlayerDisconnectListener {
                                 PlayerService.CHANNEL,
                                 new NucleoOnlinePlayerDisconnectPacket(nucleoOnlinePlayer)
                         );
-                        playerService.savePlayerToDatabase(
-                                nucleoOnlinePlayer.updateLastLogout().addOnlineTime(
-                                        calculatePlayedTime(nucleoOnlinePlayer)
-                                )
-                        );
+                        playerService.savePlayerToDatabase(nucleoOnlinePlayer.updateLastLogout());
                     }
             );
 
             playerService.invalidateCacheNetworkWide(player.getUniqueId());
         });
-    }
-
-    private long calculatePlayedTime(NucleoOnlinePlayer nucleoOnlinePlayer) {
-        return nucleoOnlinePlayer.lastLogin().until(
-                Instant.now(),
-                ChronoUnit.MILLIS
-        );
     }
 }
