@@ -105,7 +105,22 @@ public final class PlayerInfoCommand {
                             ),
                             Component.text(economy.balance(player.getUniqueId())),
                             banPunishmentId,
-                            mutePunishmentId
+                            mutePunishmentId,
+                            text(punishmentApi.punishments(
+                                    nucleoPlayer.uuid(),
+                                    PunishmentType.BAN
+                            ).size()).clickEvent(ClickEvent.runCommand(
+                                    "/banhistory " + nucleoPlayer.name()
+                            )),
+                            text(punishmentApi.punishments(
+                                    nucleoPlayer.uuid(),
+                                    PunishmentType.MUTE
+                            ).size()).clickEvent(ClickEvent.runCommand(
+                                    "/mutehistory " + nucleoPlayer.name()
+                            )),
+                            text(playerService.players(nucleoPlayer.lastIpAddress()).size()).clickEvent(ClickEvent.runCommand(
+                                    "/alts " + nucleoPlayer.name()
+                            ))
                     ));
 
                     if (nucleoPlayer instanceof NucleoOnlinePlayer nucleoOnlinePlayer) {
@@ -144,7 +159,7 @@ public final class PlayerInfoCommand {
                 type
         ).map(punishment -> (Component) text(punishment.id()).clickEvent(ClickEvent.runCommand(
                 "/punishinfo %s".formatted(punishment.id()
-        ))).hoverEvent(HoverEvent.showText(translatable("commands.playerinfo.show%sDetails".formatted(
+                ))).hoverEvent(HoverEvent.showText(translatable("commands.playerinfo.show%sDetails".formatted(
                 type == PunishmentType.BAN ? "Ban" : "Mute"
         ))))).orElseGet(
                 () -> translatable("commands.playerinfo.%s".formatted(
