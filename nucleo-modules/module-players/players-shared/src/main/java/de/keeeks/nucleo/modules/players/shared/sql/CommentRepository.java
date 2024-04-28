@@ -22,8 +22,8 @@ public class CommentRepository {
         );
     }
 
-    public int createComment(Comment comment) {
-        return mysqlConnection.keyInsert(
+    public void createComment(Comment comment) {
+        mysqlConnection.prepare(
                 "insert into comments (id, playerId, creatorId, comment) values (?, ?, ?, ?)",
                 statement -> {
                     statement.setString(1, comment.id());

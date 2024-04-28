@@ -100,7 +100,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
 
     @Override
     public List<Comment> comments() {
-        return List.of();
+        return List.copyOf(comments);
     }
 
     @Override
@@ -120,13 +120,15 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     @Override
     public void deleteComment(Comment comment) {
         commentRepository.deleteComment(comment);
-        playerService.updateNetworkWide(this);
         comments.remove(comment);
+        playerService.updateNetworkWide(this);
     }
 
     @Override
     public void updateComment(Comment comment, String content) {
         commentRepository.updateComment(comment.content(content));
+        comments.remove(comment);
+        comments.add(comment);
         playerService.updateNetworkWide(this);
     }
 

@@ -4,6 +4,7 @@ import de.keeeks.nucleo.modules.players.api.comment.Comment;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface NucleoPlayer {
@@ -32,6 +33,12 @@ public interface NucleoPlayer {
     List<Comment> comments();
 
     Comment createComment(UUID creatorId, String content);
+
+    default Optional<Comment> comment(String commentId) {
+        return comments().stream().filter(
+                comment -> comment.id().equals(commentId)
+        ).findFirst();
+    }
 
     void deleteComment(Comment comment);
 

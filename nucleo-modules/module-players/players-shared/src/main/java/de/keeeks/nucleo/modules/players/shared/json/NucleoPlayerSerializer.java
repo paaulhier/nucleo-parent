@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.players.shared.json;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
 import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
+    private final Type commentType = new TypeToken<List<Comment>>() {}.getType();
 
     public NucleoPlayerSerializer() {
         super(NucleoPlayer.class, DefaultNucleoPlayer.class);
@@ -51,7 +53,7 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
                         "onlineTime",
                         JsonElement::getAsLong
                 ),
-                jsonDeserializationContext.deserialize(jsonObject.get("comments"), List.class),
+                jsonDeserializationContext.deserialize(jsonObject.get("comments"), commentType),
                 readOrNull(
                         jsonObject,
                         "lastLogin",
@@ -96,7 +98,7 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
         jsonObject.add("skin", jsonSerializationContext.serialize(nucleoPlayer.skin()));
         jsonObject.add("lastIpAddress", new JsonPrimitive(nucleoPlayer.lastIpAddress()));
         jsonObject.addProperty("onlineTime", nucleoPlayer.onlineTime());
-        jsonObject.add("comments", jsonSerializationContext.serialize(nucleoPlayer.comments()));
+        jsonObject.add("comments", jsonSerializationContext.serialize(nucleoPlayer.comments(), commentType));
         jsonObject.add("properties", jsonSerializationContext.serialize(
                 nucleoPlayer.properties(),
                 PropertyHolder.class
