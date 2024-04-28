@@ -31,13 +31,14 @@ public final class PlayerRepository {
     public PlayerRepository(
             MysqlConnection mysqlConnection,
             SkinRepository skinRepository,
+            CommentRepository commentRepository,
             PropertiesRepository propertiesRepository
     ) {
         this.mysqlConnection = mysqlConnection;
         this.skinRepository = skinRepository;
         this.propertiesRepository = propertiesRepository;
 
-        this.playerTransformer = new NucleoPlayerResultSetTransformer(skinRepository);
+        this.playerTransformer = new NucleoPlayerResultSetTransformer(commentRepository, skinRepository);
     }
 
     public NucleoPlayer createPlayer(

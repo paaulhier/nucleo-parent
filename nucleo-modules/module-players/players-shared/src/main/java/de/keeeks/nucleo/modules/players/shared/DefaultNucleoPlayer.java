@@ -5,21 +5,32 @@ import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.PropertyHolder;
 import de.keeeks.nucleo.modules.players.api.Skin;
+import de.keeeks.nucleo.modules.players.api.comment.Comment;
+import de.keeeks.nucleo.modules.players.shared.comment.NucleoComment;
+import de.keeeks.nucleo.modules.players.shared.sql.CommentRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
 public class DefaultNucleoPlayer implements NucleoPlayer {
-    private static final PlayerService playerService = ServiceRegistry.service(
+    protected static final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
+    );
+    protected final CommentRepository commentRepository = ServiceRegistry.service(
+            CommentRepository.class
     );
 
     protected final PropertyHolder propertyHolder = new DefaultPropertyHolder();
+
+    private final List<Comment> comments = new ArrayList<>();
 
     protected final UUID uuid;
 
@@ -48,6 +59,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
             Skin skin,
             String lastIpAddress,
             long onlineTime,
+            List<Comment> comments,
             Instant lastLogin,
             Instant lastLogout,
             Instant createdAt,
@@ -58,6 +70,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
         this.skin = skin;
         this.lastIpAddress = lastIpAddress;
         this.onlineTime = onlineTime;
+        this.comments.addAll(comments);
         this.lastLogin = lastLogin;
         this.lastLogout = lastLogout;
         this.createdAt = createdAt;
@@ -83,6 +96,38 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
         this.lastIpAddress = lastIpAddress;
         this.updatedAt = Instant.now();
         return this;
+    }
+
+    @Override
+    public List<Comment> comments() {
+        return List.of();
+    }
+
+    @Override
+    public Comment createComment(UUID creatorId, String content) {
+        NucleoComment nucleoComment = new NucleoComment(
+                RandomStringUtils.randomAlphanumeric(16),
+                uuid,
+                creatorId,
+                content
+        );
+        comments.add(nucleoComment);
+        commentRepository.createComment(nucleoComment);
+        playerService.updateNetworkWide(this);
+        return nucleoComment;
+    }
+
+    @Override
+    public void deleteComment(Comment comment) {
+        commentRepository.deleteComment(comment);
+        playerService.updateNetworkWide(this);
+        comments.remove(comment);
+    }
+
+    @Override
+    public void updateComment(Comment comment, String content) {
+        commentRepository.updateComment(comment.content(content));
+        playerService.updateNetworkWide(this);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package de.keeeks.nucleo.modules.players.api;
 
+import de.keeeks.nucleo.modules.players.api.comment.Comment;
+
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public interface NucleoPlayer {
@@ -25,6 +28,14 @@ public interface NucleoPlayer {
                 null
         );
     }
+
+    List<Comment> comments();
+
+    Comment createComment(UUID creatorId, String content);
+
+    void deleteComment(Comment comment);
+
+    void updateComment(Comment comment, String content);
 
     long onlineTime();
 

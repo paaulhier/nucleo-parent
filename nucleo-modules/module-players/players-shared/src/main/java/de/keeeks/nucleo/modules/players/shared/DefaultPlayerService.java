@@ -9,16 +9,15 @@ import de.keeeks.nucleo.modules.database.sql.MysqlConnection;
 import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.*;
+import de.keeeks.nucleo.modules.players.api.comment.Comment;
 import de.keeeks.nucleo.modules.players.api.packet.*;
 import de.keeeks.nucleo.modules.players.api.packet.message.NucleoOnlinePlayerMessagePacket;
-import de.keeeks.nucleo.modules.players.shared.json.NucleoOnlinePlayerSerializer;
-import de.keeeks.nucleo.modules.players.shared.json.NucleoPlayerSerializer;
-import de.keeeks.nucleo.modules.players.shared.json.PropertyHolderSerializer;
-import de.keeeks.nucleo.modules.players.shared.json.SkinSerializer;
+import de.keeeks.nucleo.modules.players.shared.json.*;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlayerUpdatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlayersRequestPacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerInvalidatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerUpdatePacketListener;
+import de.keeeks.nucleo.modules.players.shared.sql.CommentRepository;
 import de.keeeks.nucleo.modules.players.shared.sql.PlayerRepository;
 import de.keeeks.nucleo.modules.players.shared.sql.PropertiesRepository;
 import de.keeeks.nucleo.modules.players.shared.sql.SkinRepository;
@@ -42,6 +41,7 @@ public class DefaultPlayerService implements PlayerService {
     private final Logger logger = playersModule.logger();
 
     private final PropertiesRepository propertiesRepository;
+    private final CommentRepository commentRepository;
     private final PlayerRepository playerRepository;
     private final SkinRepository skinRepository;
     private final NatsConnection natsConnection;
@@ -53,16 +53,22 @@ public class DefaultPlayerService implements PlayerService {
         ));
 
         this.propertiesRepository = new PropertiesRepository(mysqlConnection);
+        this.commentRepository = ServiceRegistry.registerService(
+                CommentRepository.class,
+                new CommentRepository(mysqlConnection)
+        );
         this.skinRepository = new SkinRepository(mysqlConnection);
         this.playerRepository = new PlayerRepository(
                 mysqlConnection,
                 skinRepository,
+                commentRepository,
                 propertiesRepository
         );
 
         this.natsConnection = ServiceRegistry.service(NatsConnection.class);
         GsonBuilder.registerSerializer(
                 new SkinSerializer(),
+                new CommentSerializer(),
                 new NucleoPlayerSerializer(),
                 new PropertyHolderSerializer(),
                 new NucleoOnlinePlayerSerializer()

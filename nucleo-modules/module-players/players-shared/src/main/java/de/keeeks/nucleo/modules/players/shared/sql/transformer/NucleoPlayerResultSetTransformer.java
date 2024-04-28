@@ -4,6 +4,7 @@ import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.Skin;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
+import de.keeeks.nucleo.modules.players.shared.sql.CommentRepository;
 import de.keeeks.nucleo.modules.players.shared.sql.SkinRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 public class NucleoPlayerResultSetTransformer implements ResultSetTransformer<NucleoPlayer> {
+    private final CommentRepository commentRepository;
     private final SkinRepository skinRepository;
 
     @Override
@@ -27,6 +29,7 @@ public class NucleoPlayerResultSetTransformer implements ResultSetTransformer<Nu
                 skinRepository.skin(playerId),
                 resultSet.getString("lastIpAddress"),
                 resultSet.getLong("onlineTime"),
+                commentRepository.comments(playerId),
                 lastLogin == null ? null : lastLogin.toInstant(),
                 lastLogout == null ? null : lastLogout.toInstant(),
                 resultSet.getTimestamp("createdAt").toInstant(),

@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -42,6 +43,7 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
                 nucleoPlayer.skin(),
                 nucleoPlayer.lastIpAddress(),
                 nucleoPlayer.onlineTime(),
+                List.of(),
                 nucleoPlayer.lastLogin(),
                 nucleoPlayer.lastLogout(),
                 nucleoPlayer.createdAt(),

@@ -5,10 +5,12 @@ import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PropertyHolder;
 import de.keeeks.nucleo.modules.players.api.Skin;
+import de.keeeks.nucleo.modules.players.api.comment.Comment;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
@@ -49,6 +51,7 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
                         "onlineTime",
                         JsonElement::getAsLong
                 ),
+                jsonDeserializationContext.deserialize(jsonObject.get("comments"), List.class),
                 readOrNull(
                         jsonObject,
                         "lastLogin",
@@ -93,6 +96,7 @@ public class NucleoPlayerSerializer extends JsonSerializer<NucleoPlayer> {
         jsonObject.add("skin", jsonSerializationContext.serialize(nucleoPlayer.skin()));
         jsonObject.add("lastIpAddress", new JsonPrimitive(nucleoPlayer.lastIpAddress()));
         jsonObject.addProperty("onlineTime", nucleoPlayer.onlineTime());
+        jsonObject.add("comments", jsonSerializationContext.serialize(nucleoPlayer.comments()));
         jsonObject.add("properties", jsonSerializationContext.serialize(
                 nucleoPlayer.properties(),
                 PropertyHolder.class
