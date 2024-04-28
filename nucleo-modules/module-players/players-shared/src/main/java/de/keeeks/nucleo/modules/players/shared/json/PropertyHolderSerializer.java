@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 public class PropertyHolderSerializer extends JsonSerializer<PropertyHolder> {
 
     public PropertyHolderSerializer() {
-        super(PropertyHolder.class, DefaultPropertyHolder.class);
+        super(PropertyHolder.class);
     }
 
     @SneakyThrows
@@ -21,21 +21,10 @@ public class PropertyHolderSerializer extends JsonSerializer<PropertyHolder> {
             Type type,
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
-        JsonArray jsonArray = jsonElement.getAsJsonArray();
-
-        DefaultPropertyHolder propertyHolder = new DefaultPropertyHolder();
-
-        for (JsonElement element : jsonArray) {
-            JsonObject jsonObject = element.getAsJsonObject();
-            String key = jsonObject.get("key").getAsString();
-            JsonElement value = jsonObject.get("value");
-            Class<?> typeClass = Class.forName(
-                    jsonObject.get("type").getAsString()
-            );
-            propertyHolder.setProperty(key, jsonDeserializationContext.deserialize(value, typeClass));
-        }
-
-        return propertyHolder;
+        return jsonDeserializationContext.deserialize(
+                jsonElement,
+                DefaultPropertyHolder.class
+        );
     }
 
     @Override
@@ -44,18 +33,9 @@ public class PropertyHolderSerializer extends JsonSerializer<PropertyHolder> {
             Type type,
             JsonSerializationContext jsonSerializationContext
     ) {
-        JsonArray jsonArray = new JsonArray();
-
-        for (String key : propertyHolder.keys()) {
-            propertyHolder.optionalProperty(key).ifPresent(property -> {
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("key", key);
-                jsonObject.add("value", jsonSerializationContext.serialize(property));
-                jsonObject.addProperty("type", property.getClass().getName());
-                jsonArray.add(jsonObject);
-            });
-        }
-
-        return jsonArray;
+        return jsonSerializationContext.serialize(
+                propertyHolder,
+                DefaultPropertyHolder.class
+        );
     }
 }

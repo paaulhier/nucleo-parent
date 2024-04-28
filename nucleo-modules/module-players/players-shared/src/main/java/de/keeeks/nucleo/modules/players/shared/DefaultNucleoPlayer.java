@@ -24,7 +24,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     protected static final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
-    protected final CommentRepository commentRepository = ServiceRegistry.service(
+    protected static final CommentRepository commentRepository = ServiceRegistry.service(
             CommentRepository.class
     );
 
