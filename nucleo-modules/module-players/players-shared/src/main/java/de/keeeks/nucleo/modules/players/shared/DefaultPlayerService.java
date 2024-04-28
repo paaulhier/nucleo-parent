@@ -141,7 +141,8 @@ public class DefaultPlayerService implements PlayerService {
                 proxy,
                 server,
                 address,
-                version
+                version,
+                OnlineState.ONLINE
         );
     }
 

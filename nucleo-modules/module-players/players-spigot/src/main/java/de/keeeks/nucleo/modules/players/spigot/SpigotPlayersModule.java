@@ -7,6 +7,9 @@ import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
+import de.keeeks.nucleo.modules.players.spigot.afk.AFKService;
+import de.keeeks.nucleo.modules.players.spigot.command.AFKCommand;
+import de.keeeks.nucleo.modules.players.spigot.listener.AFKPlayerListener;
 
 @ModuleDescription(
         name = "players",
@@ -26,6 +29,12 @@ public class SpigotPlayersModule extends SpigotModule {
 
     @Override
     public void enable() {
+        ServiceRegistry.registerService(
+                AFKService.class,
+                new AFKService(this)
+        );
+        registerListener(new AFKPlayerListener());
+        registerCommands(new AFKCommand());
         commandHandler().registerValueResolver(
                 NucleoOnlinePlayer.class,
                 valueResolverContext -> {

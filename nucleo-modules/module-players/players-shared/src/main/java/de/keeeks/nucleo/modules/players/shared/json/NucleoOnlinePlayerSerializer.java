@@ -4,6 +4,7 @@ package de.keeeks.nucleo.modules.players.shared.json;
 import com.google.gson.*;
 import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
+import de.keeeks.nucleo.modules.players.api.OnlineState;
 import de.keeeks.nucleo.modules.players.api.Version;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
@@ -30,6 +31,7 @@ public class NucleoOnlinePlayerSerializer extends JsonSerializer<NucleoOnlinePla
         jsonObject.addProperty("proxy", nucleoOnlinePlayer.proxy());
         jsonObject.addProperty("server", nucleoOnlinePlayer.server());
         jsonObject.addProperty("version", nucleoOnlinePlayer.version().protocol());
+        jsonObject.addProperty("onlineState", nucleoOnlinePlayer.onlineState().ordinal());
         return jsonObject;
     }
 
@@ -46,7 +48,8 @@ public class NucleoOnlinePlayerSerializer extends JsonSerializer<NucleoOnlinePla
                 jsonObject.get("proxy").getAsString(),
                 serverElement == null ? null : serverElement.getAsString(),
                 jsonObject.get("ipAddress").getAsString(),
-                Version.byProtocol(jsonObject.get("version").getAsInt())
+                Version.byProtocol(jsonObject.get("version").getAsInt()),
+                OnlineState.values()[jsonObject.get("onlineState").getAsInt()]
         );
     }
 }

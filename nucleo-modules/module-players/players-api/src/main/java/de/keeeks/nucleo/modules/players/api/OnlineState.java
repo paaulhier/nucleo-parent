@@ -10,6 +10,7 @@ import static net.kyori.adventure.text.Component.translatable;
 @RequiredArgsConstructor
 public enum OnlineState {
     ONLINE(translatable("onlineState.online")),
+    AWAY(translatable("onlineState.away")),
     PLAYING(translatable("onlineState.playing")),
     WAITING(translatable("onlineState.waiting")),
     SPECTATING(translatable("onlineState.spectating"));

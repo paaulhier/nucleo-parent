@@ -33,7 +33,8 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
             String proxy,
             String server,
             String ipAddress,
-            Version version
+            Version version,
+            OnlineState onlineState
     ) {
         super(
                 nucleoPlayer.uuid(),
@@ -51,6 +52,7 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
         this.server = server;
         this.ipAddress = ipAddress;
         this.version = version;
+        this.onlineState = onlineState;
         properties().setProperties(nucleoPlayer.properties());
     }
 
