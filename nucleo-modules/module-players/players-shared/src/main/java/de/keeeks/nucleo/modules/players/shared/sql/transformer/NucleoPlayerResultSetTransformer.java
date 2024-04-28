@@ -4,13 +4,18 @@ import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.Skin;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
+import de.keeeks.nucleo.modules.players.shared.sql.SkinRepository;
+import lombok.RequiredArgsConstructor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-public class NucleoPlayerWithSkinResultSetTransformer implements ResultSetTransformer<NucleoPlayer> {
+@RequiredArgsConstructor
+public class NucleoPlayerResultSetTransformer implements ResultSetTransformer<NucleoPlayer> {
+    private final SkinRepository skinRepository;
+
     @Override
     public NucleoPlayer transform(ResultSet resultSet) throws SQLException {
         UUID playerId = UUID.fromString(resultSet.getString("uuid"));
@@ -19,11 +24,7 @@ public class NucleoPlayerWithSkinResultSetTransformer implements ResultSetTransf
         return new DefaultNucleoPlayer(
                 playerId,
                 resultSet.getString("name"),
-                new Skin(
-                        playerId,
-                        resultSet.getString("value"),
-                        resultSet.getString("signature")
-                ),
+                skinRepository.skin(playerId),
                 resultSet.getString("lastIpAddress"),
                 resultSet.getLong("onlineTime"),
                 lastLogin == null ? null : lastLogin.toInstant(),

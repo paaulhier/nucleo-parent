@@ -3,13 +3,11 @@ package de.keeeks.nucleo.modules.players.shared.sql;
 import com.google.gson.Gson;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.modules.database.sql.MysqlConnection;
-import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.database.sql.statement.PreparedStatementFiller;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PropertyHolder;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
-import de.keeeks.nucleo.modules.players.shared.DefaultPropertyHolder;
-import de.keeeks.nucleo.modules.players.shared.sql.transformer.NucleoPlayerWithSkinResultSetTransformer;
+import de.keeeks.nucleo.modules.players.shared.sql.transformer.NucleoPlayerResultSetTransformer;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -23,13 +21,23 @@ import java.util.function.Supplier;
  */
 
 public final class PlayerRepository {
-    private static final NucleoPlayerWithSkinResultSetTransformer playerTransformer = new NucleoPlayerWithSkinResultSetTransformer();
-
     private final Supplier<Gson> gsonSupplier = GsonBuilder::globalGson;
-    private final MysqlConnection mysqlConnection;
 
-    public PlayerRepository(MysqlCredentials mysqlCredentials) {
-        mysqlConnection = MysqlConnection.create(mysqlCredentials);
+    private final NucleoPlayerResultSetTransformer playerTransformer;
+    private final PropertiesRepository propertiesRepository;
+    private final MysqlConnection mysqlConnection;
+    private final SkinRepository skinRepository;
+
+    public PlayerRepository(
+            MysqlConnection mysqlConnection,
+            SkinRepository skinRepository,
+            PropertiesRepository propertiesRepository
+    ) {
+        this.mysqlConnection = mysqlConnection;
+        this.skinRepository = skinRepository;
+        this.propertiesRepository = propertiesRepository;
+
+        this.playerTransformer = new NucleoPlayerResultSetTransformer(skinRepository);
     }
 
     public NucleoPlayer createPlayer(
@@ -67,59 +75,19 @@ public final class PlayerRepository {
                     statement.setString(6, player.uuid().toString());
                 }
         );
-        saveProperties(player);
-    }
-
-    public void saveProperties(NucleoPlayer player) {
-        mysqlConnection.prepare(
-                "delete from playerProperties where playerId = ?;",
-                statement -> statement.setString(1, player.uuid().toString())
-        );
-
-        StringBuilder stringBuilder = new StringBuilder("insert into playerProperties (playerId, propertyKey, propertyValue) values ");
-        Collection<String> keys = player.properties().keys();
-        if (keys.isEmpty()) return;
-        for (String ignored : keys) {
-            stringBuilder.append("(?, ?, ?),");
-        }
-
-        mysqlConnection.prepare(
-                stringBuilder.deleteCharAt(stringBuilder.length() - 1).toString(),
-                statement -> {
-                    for (String key : keys) {
-                        statement.setString(1, player.uuid().toString());
-                        statement.setString(2, key);
-                        statement.setString(
-                                3,
-                                gsonSupplier.get().toJson((Object) player.properties().property(key))
-                        );
-                        statement.addBatch();
-                    }
-                }
-        );
-    }
-
-    public void createOrUpdateSkin(UUID playerId, String value, String signature) {
-        mysqlConnection.prepare(
-                "insert into skins (playerId, value, signature) values (?,?,?) on duplicate key update value=values(value), signature=values(signature)",
-                statement -> {
-                    statement.setString(1, playerId.toString());
-                    statement.setString(2, value);
-                    statement.setString(3, signature);
-                }
-        );
+        propertiesRepository.saveProperties(player);
     }
 
     public NucleoPlayer player(UUID uuid) {
         return playerBySql(
-                "select * from players left join skins s on players.uuid = s.playerId where uuid = ?;",
+                "select * from players where uuid = ?;",
                 statement -> statement.setString(1, uuid.toString())
         );
     }
 
     public NucleoPlayer player(String name) {
         return playerBySql(
-                "select * from players left join skins s on players.uuid = s.playerId where name = ?;",
+                "select * from players where name = ?;",
                 statement -> statement.setString(1, name)
         );
     }
@@ -132,37 +100,15 @@ public final class PlayerRepository {
         );
 
         if (nucleoPlayer != null) {
-            PropertyHolder propertyHolder = loadProperties(nucleoPlayer.uuid());
+            PropertyHolder propertyHolder = propertiesRepository.loadProperties(nucleoPlayer.uuid());
             nucleoPlayer.properties().setProperties(propertyHolder);
         }
         return nucleoPlayer;
     }
 
-    private PropertyHolder loadProperties(UUID playerId) {
-        PropertyHolder propertyHolder = new DefaultPropertyHolder();
-        mysqlConnection.queryList(
-                "select * from playerProperties where playerId = ?;",
-                statement -> statement.setString(1, playerId.toString()),
-                resultSet -> propertyHolder.setProperty(
-                        resultSet.getString("propertyKey"),
-                        gsonSupplier.get().fromJson(
-                                resultSet.getString("propertyValue"),
-                                Object.class
-                        )
-                )
-        );
-        return propertyHolder;
-    }
-
     public void deletePlayer(UUID uuid) {
-        mysqlConnection.prepare(
-                "delete from skins where playerId = ?;",
-                statement -> statement.setString(1, uuid.toString())
-        );
-        mysqlConnection.prepare(
-                "delete from playerProperties where playerId = ?;",
-                statement -> statement.setString(1, uuid.toString())
-        );
+        skinRepository.deleteSkin(uuid);
+        propertiesRepository.deleteProperties(uuid);
         mysqlConnection.prepare(
                 "delete from players where uuid = ?;",
                 statement -> statement.setString(1, uuid.toString())

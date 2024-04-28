@@ -5,6 +5,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
+import de.keeeks.nucleo.modules.database.sql.MysqlConnection;
 import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.*;
@@ -19,6 +20,8 @@ import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlaye
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerInvalidatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerUpdatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.sql.PlayerRepository;
+import de.keeeks.nucleo.modules.players.shared.sql.PropertiesRepository;
+import de.keeeks.nucleo.modules.players.shared.sql.SkinRepository;
 import net.kyori.adventure.text.Component;
 
 import java.time.Duration;
@@ -38,14 +41,25 @@ public class DefaultPlayerService implements PlayerService {
     private final List<PlayerCacheElement<? extends NucleoPlayer>> playersCache = new LinkedList<>();
     private final Logger logger = playersModule.logger();
 
+    private final PropertiesRepository propertiesRepository;
     private final PlayerRepository playerRepository;
+    private final SkinRepository skinRepository;
     private final NatsConnection natsConnection;
 
     private DefaultPlayerService() {
-        this.playerRepository = new PlayerRepository(sqlConfiguration.loadObject(
+        MysqlConnection mysqlConnection = MysqlConnection.create(sqlConfiguration.loadObject(
                 MysqlCredentials.class,
                 MysqlCredentials.defaultCredentials()
         ));
+
+        this.propertiesRepository = new PropertiesRepository(mysqlConnection);
+        this.skinRepository = new SkinRepository(mysqlConnection);
+        this.playerRepository = new PlayerRepository(
+                mysqlConnection,
+                skinRepository,
+                propertiesRepository
+        );
+
         this.natsConnection = ServiceRegistry.service(NatsConnection.class);
         GsonBuilder.registerSerializer(
                 new SkinSerializer(),
@@ -269,7 +283,7 @@ public class DefaultPlayerService implements PlayerService {
     @Override
     public void savePlayerToDatabase(NucleoPlayer nucleoPlayer) {
         playerRepository.updatePlayerData(nucleoPlayer);
-        playerRepository.createOrUpdateSkin(
+        skinRepository.createOrUpdateSkin(
                 nucleoPlayer.uuid(),
                 nucleoPlayer.skin().value(),
                 nucleoPlayer.skin().signature()
