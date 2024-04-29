@@ -10,6 +10,7 @@ import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
 import de.keeeks.nucleo.modules.players.velocity.listener.LoginListener;
 import de.keeeks.nucleo.modules.players.velocity.listener.PlayerDisconnectListener;
+import de.keeeks.nucleo.modules.players.velocity.listener.PreLoginListener;
 import de.keeeks.nucleo.modules.players.velocity.listener.ServerConnectedListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerConnectRequestPacketListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerKickPacketListener;
@@ -42,6 +43,7 @@ public class PlayersVelocityModule extends VelocityModule {
     public void enable() {
         registerListener(
                 new LoginListener(),
+                new PreLoginListener(),
                 new ServerConnectedListener(),
                 new PlayerDisconnectListener()
         );
