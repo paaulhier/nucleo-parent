@@ -31,6 +31,8 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 import static de.keeeks.lejet.api.NameColorizer.coloredName;
 import static net.kyori.adventure.text.Component.text;
@@ -40,6 +42,8 @@ import static net.kyori.adventure.text.Component.translatable;
 @CommandPermission("nucleo.commands.playerinfo")
 @RequiredArgsConstructor
 public final class PlayerInfoCommand {
+    private static final Pattern uuidPattern = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+
     private final Economy economy = ServiceRegistry.service(EconomyApi.class).create("cookies");
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
     private final PunishmentApi punishmentApi = ServiceRegistry.service(PunishmentApi.class);
@@ -57,100 +61,113 @@ public final class PlayerInfoCommand {
             return;
         }
 
+        if (uuidPattern.matcher(targetName).matches()) {
+            playerService.player(UUID.fromString(targetName)).ifPresentOrElse(
+                    nucleoPlayer -> sendPlayerInfoMessage(player, nucleoPlayer),
+                    () -> player.sendMessage(translatable(
+                            "playerNotFound",
+                            text(targetName)
+                    ))
+            );
+            return;
+        }
+
         playerService.player(targetName).ifPresentOrElse(
-                nucleoPlayer -> {
-                    Component groupsAsList = Component.join(
-                            JoinConfiguration.commas(true),
-                            permissionApi.user(nucleoPlayer.uuid()).stream().flatMap(
-                                    permissionUser -> permissionUser.globalGroups().stream()
-                            ).sorted(Comparator.comparingInt(PermissionGroup::priority)).map(
-                                    permissionGroup -> permissionGroup.prefix(PrefixType.DISPLAY)
-                            ).toList()
-                    );
-                    Component banPunishmentId = punishmentId(nucleoPlayer, PunishmentType.BAN);
-                    Component mutePunishmentId = punishmentId(nucleoPlayer, PunishmentType.MUTE);
-
-                    List<Component> arguments = new ArrayList<>(List.of(
-                            coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.copyToClipboard(
-                                    nucleoPlayer.name()
-                            )),
-                            text(nucleoPlayer.uuid().toString()).clickEvent(ClickEvent.copyToClipboard(
-                                    nucleoPlayer.uuid().toString()
-                            )),
-                            text(Formatter.formatDateTime(
-                                    nucleoPlayer.createdAt()
-                            )),
-                            nucleoPlayer.lastLogin() == null
-                                    ? translatable("commands.playerinfo.neverConnected")
-                                    : text(Formatter.formatShortDateTime(nucleoPlayer.lastLogin())
-                            ),
-                            nucleoPlayer.lastLogout() == null
-                                    ? translatable("commands.playerinfo.neverConnected")
-                                    : text(Formatter.formatShortDateTime(nucleoPlayer.lastLogout())
-                            ),
-                            text(Formatter.formatShortDateTime(
-                                    nucleoPlayer.updatedAt()
-                            )),
-                            text(Formatter.formatLongTime(
-                                    nucleoPlayer.onlineTime()
-                            )),
-                            groupsAsList,
-                            verificationComponent(
-                                    nucleoPlayer,
-                                    Platform.DISCORD
-                            ),
-                            verificationComponent(
-                                    nucleoPlayer,
-                                    Platform.TEAMSPEAK
-                            ),
-                            Component.text(economy.balance(player.getUniqueId())),
-                            banPunishmentId,
-                            mutePunishmentId,
-                            text(punishmentApi.punishments(
-                                    nucleoPlayer.uuid(),
-                                    PunishmentType.BAN
-                            ).size()).clickEvent(ClickEvent.runCommand(
-                                    "/banhistory " + nucleoPlayer.name()
-                            )),
-                            text(punishmentApi.punishments(
-                                    nucleoPlayer.uuid(),
-                                    PunishmentType.MUTE
-                            ).size()).clickEvent(ClickEvent.runCommand(
-                                    "/mutehistory " + nucleoPlayer.name()
-                            )),
-                            text(playerService.players(nucleoPlayer.lastIpAddress()).size()).clickEvent(ClickEvent.runCommand(
-                                    "/alts " + nucleoPlayer.name()
-                            ))
-                    ));
-
-                    if (nucleoPlayer instanceof NucleoOnlinePlayer nucleoOnlinePlayer) {
-                        String ipAddress = blurIpAddressIfNecessary(
-                                player,
-                                nucleoOnlinePlayer.ipAddress()
-                        );
-                        arguments.addAll(List.of(
-                                text(ipAddress).clickEvent(ClickEvent.copyToClipboard(ipAddress)),
-                                text(nucleoOnlinePlayer.proxy()),
-                                text(nucleoOnlinePlayer.server()).clickEvent(ClickEvent.runCommand(
-                                        "/jumpto %s".formatted(nucleoOnlinePlayer.name())
-                                )),
-                                text(nucleoOnlinePlayer.version().version()),
-                                nucleoOnlinePlayer.onlineState().displayName()
-                        ));
-                        player.sendMessage(translatable(
-                                "commands.playerinfo.playerInfo"
-                        ).arguments(arguments));
-                    } else {
-                        player.sendMessage(translatable(
-                                "commands.playerinfo.playerInfoOffline"
-                        ).arguments(arguments));
-                    }
-                },
+                nucleoPlayer -> sendPlayerInfoMessage(player, nucleoPlayer),
                 () -> player.sendMessage(translatable(
                         "playerNotFound",
                         text(targetName)
                 ))
         );
+    }
+
+    private void sendPlayerInfoMessage(Player player, NucleoPlayer nucleoPlayer) {
+        Component groupsAsList = Component.join(
+                JoinConfiguration.commas(true),
+                permissionApi.user(nucleoPlayer.uuid()).stream().flatMap(
+                        permissionUser -> permissionUser.globalGroups().stream()
+                ).sorted(Comparator.comparingInt(PermissionGroup::priority)).map(
+                        permissionGroup -> permissionGroup.prefix(PrefixType.DISPLAY)
+                ).toList()
+        );
+        Component banPunishmentId = punishmentId(nucleoPlayer, PunishmentType.BAN);
+        Component mutePunishmentId = punishmentId(nucleoPlayer, PunishmentType.MUTE);
+
+        List<Component> arguments = new ArrayList<>(List.of(
+                coloredName(nucleoPlayer.uuid()).clickEvent(ClickEvent.copyToClipboard(
+                        nucleoPlayer.name()
+                )),
+                text(nucleoPlayer.uuid().toString()).clickEvent(ClickEvent.copyToClipboard(
+                        nucleoPlayer.uuid().toString()
+                )),
+                text(Formatter.formatDateTime(
+                        nucleoPlayer.createdAt()
+                )),
+                nucleoPlayer.lastLogin() == null
+                        ? translatable("commands.playerinfo.neverConnected")
+                        : text(Formatter.formatShortDateTime(nucleoPlayer.lastLogin())
+                ),
+                nucleoPlayer.lastLogout() == null
+                        ? translatable("commands.playerinfo.neverConnected")
+                        : text(Formatter.formatShortDateTime(nucleoPlayer.lastLogout())
+                ),
+                text(Formatter.formatShortDateTime(
+                        nucleoPlayer.updatedAt()
+                )),
+                text(Formatter.formatLongTime(
+                        nucleoPlayer.onlineTime()
+                )),
+                groupsAsList,
+                verificationComponent(
+                        nucleoPlayer,
+                        Platform.DISCORD
+                ),
+                verificationComponent(
+                        nucleoPlayer,
+                        Platform.TEAMSPEAK
+                ),
+                Component.text(economy.balance(player.getUniqueId())),
+                banPunishmentId,
+                mutePunishmentId,
+                text(punishmentApi.punishments(
+                        nucleoPlayer.uuid(),
+                        PunishmentType.BAN
+                ).size()).clickEvent(ClickEvent.runCommand(
+                        "/banhistory " + nucleoPlayer.name()
+                )),
+                text(punishmentApi.punishments(
+                        nucleoPlayer.uuid(),
+                        PunishmentType.MUTE
+                ).size()).clickEvent(ClickEvent.runCommand(
+                        "/mutehistory " + nucleoPlayer.name()
+                )),
+                text(playerService.players(nucleoPlayer.lastIpAddress()).size()).clickEvent(ClickEvent.runCommand(
+                        "/alts " + nucleoPlayer.name()
+                ))
+        ));
+
+        if (nucleoPlayer instanceof NucleoOnlinePlayer nucleoOnlinePlayer) {
+            String ipAddress = blurIpAddressIfNecessary(
+                    player,
+                    nucleoOnlinePlayer.ipAddress()
+            );
+            arguments.addAll(List.of(
+                    text(ipAddress).clickEvent(ClickEvent.copyToClipboard(ipAddress)),
+                    text(nucleoOnlinePlayer.proxy()),
+                    text(nucleoOnlinePlayer.server()).clickEvent(ClickEvent.runCommand(
+                            "/jumpto %s".formatted(nucleoOnlinePlayer.name())
+                    )),
+                    text(nucleoOnlinePlayer.version().version()),
+                    nucleoOnlinePlayer.onlineState().displayName()
+            ));
+            player.sendMessage(translatable(
+                    "commands.playerinfo.playerInfo"
+            ).arguments(arguments));
+        } else {
+            player.sendMessage(translatable(
+                    "commands.playerinfo.playerInfoOffline"
+            ).arguments(arguments));
+        }
     }
 
     private @NotNull Component punishmentId(NucleoPlayer nucleoPlayer, PunishmentType type) {
