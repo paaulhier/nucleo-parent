@@ -83,8 +83,8 @@ public class AFKService {
                         });
                     }
                 },
-                5,
-                5
+                1,
+                1
         );
     }
 
@@ -139,10 +139,9 @@ public class AFKService {
         PlayerChangeAwayStateEvent awayStateEvent = buildChangeAwayStateEvent(onlinePlayer, player, state);
         onlinePlayer.updateOnlineState(awayStateEvent.newState()).update();
         if (!afkConfiguration.sendMessage()) return;
-        player.sendMessage(translatable(
-                "afk.message",
-                translatable(awayStateEvent.away() ? "afk.message.away" : "afk.message.online")
-        ));
+        player.sendMessage(translatable("afk.message.%s".formatted(
+                awayStateEvent.newState() == OnlineState.AWAY ? "away" : "online"
+        )));
     }
 
     public void updateActivity(UUID player) {
