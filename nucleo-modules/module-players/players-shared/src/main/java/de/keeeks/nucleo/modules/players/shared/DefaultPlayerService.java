@@ -102,13 +102,13 @@ public class DefaultPlayerService implements PlayerService {
 
         Scheduler.runAsyncTimer(
                 () -> List.copyOf(playersCache).stream().filter(
-                        cacheElement -> cacheElement.expired(Duration.ofMinutes(30))
+                        cacheElement -> cacheElement.expired(Duration.ofMinutes(2))
                 ).forEach(cacheElement -> {
-                    invalidateCacheNetworkWide(cacheElement.player().uuid());
-                    logger.info("Invalidated player %s with UUID %s. Reason: Expired".formatted(
+                    logger.info("Invalidating player %s with UUID %s. Reason: Expired".formatted(
                             cacheElement.player().name(),
                             cacheElement.player().uuid()
                     ));
+                    invalidateCacheNetworkWide(cacheElement.player().uuid());
                 }),
                 0,
                 1,
@@ -214,6 +214,10 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public void updateNetworkWide(NucleoPlayer nucleoPlayer) {
+        if (nucleoPlayer instanceof NucleoOnlinePlayer) {
+            throw new IllegalArgumentException("Cannot update online player with PlayerService#updateNetworkWide(NucleoPlayer)");
+        }
+
         natsConnection.publishPacket(
                 CHANNEL,
                 new NucleoPlayerUpdatePacket(nucleoPlayer)
@@ -249,25 +253,29 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public void updateCache(NucleoPlayer nucleoPlayer) {
-        this.playersCache.removeIf(
-                cacheElement -> cacheElement.player().uuid().equals(nucleoPlayer.uuid())
-        );
-        this.playersCache.add(PlayerCacheElement.create(
-                nucleoPlayer
-        ));
-        logger.info("Updated player " + nucleoPlayer.name() + " with UUID " + nucleoPlayer.uuid());
+        if (nucleoPlayer instanceof NucleoOnlinePlayer) {
+            updateCache((NucleoOnlinePlayer) nucleoPlayer);
+            System.out.println("Tried to update cache with online player");
+            return;
+        }
+        cacheLocal(nucleoPlayer);
+        logger.info("Updated offline player " + nucleoPlayer.name() + " with UUID " + nucleoPlayer.uuid());
     }
 
     @Override
     public void updateCache(NucleoOnlinePlayer nucleoOnlinePlayer) {
+        cacheLocal(nucleoOnlinePlayer);
+        logger.info("Updated online player " + nucleoOnlinePlayer.name() + " with UUID " + nucleoOnlinePlayer.uuid());
+    }
+
+    private <T extends NucleoPlayer> void cacheLocal(T nucleoPlayer) {
         this.playersCache.removeIf(
-                cacheElement -> cacheElement.player().uuid().equals(nucleoOnlinePlayer.uuid())
+                cacheElement -> cacheElement.player().uuid().equals(nucleoPlayer.uuid())
         );
         this.playersCache.add(PlayerCacheElement.create(
-                nucleoOnlinePlayer,
-                false
+                nucleoPlayer,
+                !(nucleoPlayer instanceof NucleoOnlinePlayer)
         ));
-        logger.info("Updated online player " + nucleoOnlinePlayer.name() + " with UUID " + nucleoOnlinePlayer.uuid());
     }
 
     @Override

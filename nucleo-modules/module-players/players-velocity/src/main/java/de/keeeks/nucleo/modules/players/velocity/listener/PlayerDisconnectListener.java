@@ -5,19 +5,20 @@ import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
-import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerDisconnectPacket;
 
-import java.time.Duration;
+import java.util.logging.Logger;
 
 public class PlayerDisconnectListener {
     private final PlayerService playerService = ServiceRegistry.service(
             PlayerService.class
     );
     private final NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
+    private final Logger logger = Module.module("players").logger();
 
     @Subscribe(order = PostOrder.FIRST)
     public EventTask handleDisconnect(DisconnectEvent event) {
@@ -33,6 +34,7 @@ public class PlayerDisconnectListener {
                     }
             );
 
+            logger.info("Player %s disconnected".formatted(player.getUniqueId()));
             playerService.invalidateCacheNetworkWide(player.getUniqueId());
         });
     }
