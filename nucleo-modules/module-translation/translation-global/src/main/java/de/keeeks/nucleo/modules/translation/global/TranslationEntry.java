@@ -7,6 +7,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import java.util.Locale;
 import java.util.function.Function;
 
+@Deprecated
 public record TranslationEntry(
         String key,
         String value,

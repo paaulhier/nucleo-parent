@@ -7,8 +7,8 @@ import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.economy.api.Economy;
 import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.economy.velocity.commands.EconomyCommand;
-import de.keeeks.nucleo.modules.shared.NucleoEconomyApi;
-import de.keeeks.nucleo.modules.shared.translation.EconomyTranslationRegistry;
+import de.keeeks.nucleo.modules.translation.shared.NucleoEconomyApi;
+import de.keeeks.nucleo.modules.translation.shared.translation.EconomyTranslationRegistry;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(

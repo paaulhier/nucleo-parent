@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 @Getter
+@Deprecated
 public abstract class TranslationRegistry {
     private static final List<TranslationRegistry> translationRegistries = new LinkedList<>();
 
@@ -23,9 +24,11 @@ public abstract class TranslationRegistry {
     private final Translator translator = new ComponentTranslator(this::translationEntryAsString);
 
     private final File translationsFolder;
+    private final Module module;
     private final Logger logger;
 
     public TranslationRegistry(Module module) {
+        this.module = module;
         this.logger = module.logger();
 
         translationsFolder = new File(
@@ -109,6 +112,10 @@ public abstract class TranslationRegistry {
     public void register(TranslationEntry translationEntry) {
         logger.info("Registering %s for %s".formatted(translationEntry.key(), translationEntry.locale()));
         translationEntries.add(translationEntry);
+    }
+
+    public static List<TranslationRegistry> translationRegistries() {
+        return List.copyOf(translationRegistries);
     }
 
     public static <T extends TranslationRegistry> T initializeRegistry(T translationRegistry) {

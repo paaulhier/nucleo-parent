@@ -44,6 +44,29 @@
 
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>translation-shared</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.kyori</groupId>
+                    <artifactId>adventure-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.kyori</groupId>
+                    <artifactId>adventure-text-minimessage</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>de.keeeks.nucleo</groupId>
+                    <artifactId>module-messaging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>de.keeeks.nucleo</groupId>
+                    <artifactId>config-json</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
             <artifactId>players-api</artifactId>
             <scope>provided</scope>
         </dependency>

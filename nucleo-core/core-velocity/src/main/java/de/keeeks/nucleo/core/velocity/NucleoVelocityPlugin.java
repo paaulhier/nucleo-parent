@@ -8,6 +8,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
@@ -109,6 +110,8 @@ public class NucleoVelocityPlugin {
                 Instant.ofEpochMilli(System.currentTimeMillis())
         );
         registerListener(new PlayerAvailableCommandsListener(logger));
+
+        Module.modules().forEach(Module::postStartup);
     }
 
     @Subscribe

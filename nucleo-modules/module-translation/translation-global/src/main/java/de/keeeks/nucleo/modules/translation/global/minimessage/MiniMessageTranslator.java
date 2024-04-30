@@ -12,6 +12,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Objects;
 
+@Deprecated
 public abstract class MiniMessageTranslator implements Translator {
     private final MiniMessage miniMessage;
 

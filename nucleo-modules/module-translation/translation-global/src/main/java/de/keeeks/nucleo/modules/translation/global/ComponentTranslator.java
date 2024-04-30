@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 import java.util.function.BiFunction;
 
+@Deprecated
 public class ComponentTranslator extends MiniMessageTranslator {
     private final BiFunction<String, Locale, String> messageFormatAdapter;
 

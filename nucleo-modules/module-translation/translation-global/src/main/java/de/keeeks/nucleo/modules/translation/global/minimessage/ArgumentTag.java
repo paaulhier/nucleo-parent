@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
+@Deprecated
 public class ArgumentTag implements TagResolver {
     private static final String NAME = "argument";
     private static final String NAME_1 = "arg";

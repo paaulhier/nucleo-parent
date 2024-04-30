@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
+@Deprecated
 @RequiredArgsConstructor
 public class PrefixResolver implements TagResolver {
     private final Supplier<Component> prefixTranslator;
