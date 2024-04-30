@@ -6,6 +6,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.moderation.tools.chatclear.ChatClearApi;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import lombok.RequiredArgsConstructor;
+import revxrsal.commands.annotation.AutoComplete;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Optional;
@@ -22,6 +23,7 @@ public class ChatClearCommand {
 
     private final ProxyServer proxyServer;
 
+    @AutoComplete("@players")
     @DefaultFor({"chatclear", "cc"})
     public void chatClearCommand(Player player, @Optional String serverOrPlayer) {
         if (serverOrPlayer == null) {

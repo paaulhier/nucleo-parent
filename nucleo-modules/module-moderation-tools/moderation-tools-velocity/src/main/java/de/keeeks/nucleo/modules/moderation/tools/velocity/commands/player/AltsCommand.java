@@ -12,10 +12,7 @@ import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.Default;
-import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.annotation.Usage;
+import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
 import java.util.List;
@@ -34,6 +31,7 @@ public class AltsCommand {
     );
 
     @Usage("nucleo.commands.alts.usage")
+    @AutoComplete("@players")
     @DefaultFor("alts")
     public void altsCommand(
             Player player,
