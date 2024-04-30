@@ -18,7 +18,12 @@ public enum Version {
             "1.20.4",
             765
     ),
-    VERSION_1_20_5("1.20.5", 766);
+    VERSION_1_20_5(
+            "1.20.5/1.20.6",
+            "1.20.5",
+            "1.20.6",
+            766
+    );
 
     private final String version;
     private final String lowestIncludedVersion;
