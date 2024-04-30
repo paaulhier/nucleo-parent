@@ -25,9 +25,9 @@ public abstract class ClearChatPacketListener<P extends ClearChatPacket> extends
         super(packetClass);
     }
 
-    protected final void clearChat(Player player, UUID executor) {
+    protected final void clearChat(Player player, UUID executor, ClearChatType clearChatType, Component target) {
         if (player.hasPermission(notification.requiredPermission())) {
-            sendNotification(player, executor);
+            sendNotification(player, executor, clearChatType, target);
             return;
         }
         for (int i = 0; i < 1000; i++) player.sendMessage(Component.empty());
@@ -37,11 +37,25 @@ public abstract class ClearChatPacketListener<P extends ClearChatPacket> extends
         ));
     }
 
-    private void sendNotification(Player player, UUID executor) {
+    private void sendNotification(
+            Player player,
+            UUID executor,
+            ClearChatType clearChatType,
+            Component target
+    ) {
         if (!notificationApi.notificationActive(notification, player.getUniqueId())) return;
         player.sendMessage(translatable(
-                "nucleo.moderation.chatClear.notification",
-                NameColorizer.coloredName(executor)
+                "nucleo.moderation.chatClear.notification.%s".formatted(
+                        clearChatType.name().toLowerCase()
+                ),
+                NameColorizer.coloredName(executor),
+                target
         ));
+    }
+
+    public enum ClearChatType {
+        SERVER,
+        GLOBAL,
+        PLAYER;
     }
 }

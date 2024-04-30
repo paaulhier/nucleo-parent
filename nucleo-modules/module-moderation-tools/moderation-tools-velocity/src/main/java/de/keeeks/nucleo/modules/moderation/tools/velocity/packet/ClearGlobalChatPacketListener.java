@@ -5,6 +5,7 @@ import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.moderation.tools.chatclear.ChatClearApi;
 import de.keeeks.nucleo.modules.moderation.tools.chatclear.packet.ClearGlobalChatPacket;
 import io.nats.client.Message;
+import net.kyori.adventure.text.Component;
 
 @ListenerChannel(ChatClearApi.CHANNEL)
 public class ClearGlobalChatPacketListener extends ClearChatPacketListener<ClearGlobalChatPacket> {
@@ -24,7 +25,9 @@ public class ClearGlobalChatPacketListener extends ClearChatPacketListener<Clear
                 registeredServer -> registeredServer.getPlayersConnected().stream()
         ).forEach(player -> clearChat(
                 player,
-                clearGlobalChatPacket.executor()
+                clearGlobalChatPacket.executor(),
+                ClearChatType.GLOBAL,
+                Component.empty()
         ));
     }
 }
