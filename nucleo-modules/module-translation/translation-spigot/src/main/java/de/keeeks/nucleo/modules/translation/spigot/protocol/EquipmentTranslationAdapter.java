@@ -12,7 +12,7 @@ public class EquipmentTranslationAdapter extends PacketAdapter implements Transl
 
     @Override
     public void onPacketSending(PacketEvent event) {
-        if(event.getPacket().getItemModifier().size() == 0) return;
+        if (event.getPacket().getItemModifier().size() == 0) return;
         handleItem(event.getPlayer(), event.getPacket(), 0);
     }
 }

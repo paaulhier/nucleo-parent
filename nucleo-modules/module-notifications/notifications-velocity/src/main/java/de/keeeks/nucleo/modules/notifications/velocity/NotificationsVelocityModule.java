@@ -7,10 +7,8 @@ import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.notifications.api.Notification;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
-import de.keeeks.nucleo.modules.notifications.shared.translation.NotificationsTranslationRegistry;
 import de.keeeks.nucleo.modules.notifications.velocity.commands.NotificationCommand;
 import de.keeeks.nucleo.modules.notifications.velocity.commands.NotificationStateType;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 import revxrsal.commands.velocity.VelocityCommandActor;
 
 @ModuleDescription(
@@ -27,7 +25,6 @@ public class NotificationsVelocityModule extends VelocityModule {
                 NotificationApi.class,
                 new NucleoNotificationApi(this)
         );
-        TranslationRegistry.initializeRegistry(new NotificationsTranslationRegistry(this));
     }
 
     @Override

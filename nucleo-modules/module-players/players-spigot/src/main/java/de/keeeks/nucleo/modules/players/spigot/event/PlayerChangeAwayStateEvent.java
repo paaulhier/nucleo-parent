@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class PlayerChangeAwayStateEvent extends PlayerEvent {
-    private static final HandlerList handlerList = new HandlerList()    ;
+    private static final HandlerList handlerList = new HandlerList();
 
     private final boolean away;
     private final OnlineState oldState;

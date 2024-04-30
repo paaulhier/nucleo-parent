@@ -64,6 +64,7 @@ public class TranslationEntryRepository {
                 }
         );
     }
+
     public void deleteTranslationEntry(TranslationEntry translationEntry) {
         mysqlConnection.prepare(
                 "delete from translations where id = ?;",

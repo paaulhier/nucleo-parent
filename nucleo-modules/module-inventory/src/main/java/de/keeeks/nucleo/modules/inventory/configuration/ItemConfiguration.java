@@ -57,7 +57,7 @@ public record ItemConfiguration(
                 Material.STONE,
                 "Item",
                 false,
-                new LoreLine[] {
+                new LoreLine[]{
                         new LoreLine("First line", false),
                         new LoreLine("Second line", false)
                 },

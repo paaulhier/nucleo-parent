@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.inventory.hotbar.item;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.inventory.InventoryModule;
 import org.bukkit.Bukkit;
-import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.ItemProvider;
 
 import java.util.function.Consumer;

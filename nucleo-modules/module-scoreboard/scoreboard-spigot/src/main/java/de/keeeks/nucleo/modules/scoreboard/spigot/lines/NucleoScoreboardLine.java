@@ -5,11 +5,8 @@ import de.keeeks.nucleo.modules.scoreboard.api.lines.ScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.NucleoScoreboard;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Score;
-
-import static net.kyori.adventure.text.Component.text;
 
 @Getter
 public abstract class NucleoScoreboardLine implements ScoreboardLine {

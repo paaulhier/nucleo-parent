@@ -8,8 +8,6 @@ import de.keeeks.nucleo.modules.economy.api.Economy;
 import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.economy.shared.NucleoEconomyApi;
 import de.keeeks.nucleo.modules.economy.velocity.commands.EconomyCommand;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
-import de.keeeks.nucleo.modules.translation.shared.translation.EconomyTranslationRegistry;
 
 @ModuleDescription(
         name = "economy",
@@ -25,7 +23,6 @@ public class EconomyVelocityModule extends VelocityModule {
                 EconomyApi.class,
                 new NucleoEconomyApi(this)
         );
-        TranslationRegistry.initializeRegistry(new EconomyTranslationRegistry(this));
     }
 
     @Override

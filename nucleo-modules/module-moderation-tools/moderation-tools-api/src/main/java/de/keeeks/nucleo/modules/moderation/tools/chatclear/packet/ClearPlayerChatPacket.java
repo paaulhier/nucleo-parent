@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-public class ClearPlayerChatPacket extends ClearChatPacket{
+public class ClearPlayerChatPacket extends ClearChatPacket {
     private final UUID uuid;
     private final UUID executor;
 }

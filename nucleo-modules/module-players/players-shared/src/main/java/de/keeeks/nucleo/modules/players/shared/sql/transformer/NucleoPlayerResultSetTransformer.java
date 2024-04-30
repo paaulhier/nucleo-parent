@@ -2,7 +2,6 @@ package de.keeeks.nucleo.modules.players.shared.sql.transformer;
 
 import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
-import de.keeeks.nucleo.modules.players.api.Skin;
 import de.keeeks.nucleo.modules.players.shared.DefaultNucleoPlayer;
 import de.keeeks.nucleo.modules.players.shared.sql.CommentRepository;
 import de.keeeks.nucleo.modules.players.shared.sql.SkinRepository;

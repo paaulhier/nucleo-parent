@@ -10,8 +10,6 @@ import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.teamchat.commands.TeamChatCommand;
 import de.keeeks.nucleo.modules.teamchat.packet.listener.TeamChatMessagePacketListener;
-import de.keeeks.nucleo.modules.teamchat.translation.TeamChatTranslationRegistry;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
@@ -39,7 +37,6 @@ public class TeamChatModule extends VelocityModule {
                     Component.text(playerName)
             )).orElse(Component.text(playerName));
         }));
-        TranslationRegistry.initializeRegistry(new TeamChatTranslationRegistry(this));
     }
 
     @Override

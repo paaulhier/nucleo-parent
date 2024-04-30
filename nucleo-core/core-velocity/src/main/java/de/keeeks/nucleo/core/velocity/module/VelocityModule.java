@@ -9,8 +9,6 @@ import lombok.Getter;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.velocity.VelocityCommandHandler;
 
-import java.util.function.Predicate;
-
 @Getter
 public abstract class VelocityModule extends Module {
     protected final NucleoVelocityPlugin plugin = NucleoVelocityPlugin.plugin();

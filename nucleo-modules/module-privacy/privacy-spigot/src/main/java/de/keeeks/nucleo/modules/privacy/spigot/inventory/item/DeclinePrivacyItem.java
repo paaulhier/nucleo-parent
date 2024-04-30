@@ -2,11 +2,8 @@ package de.keeeks.nucleo.modules.privacy.spigot.inventory.item;
 
 import de.keeeks.karistus.api.PunishmentApi;
 import de.keeeks.karistus.api.PunishmentType;
-import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
-import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
-import de.keeeks.nucleo.modules.privacy.spigot.PrivacySpigotModule;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

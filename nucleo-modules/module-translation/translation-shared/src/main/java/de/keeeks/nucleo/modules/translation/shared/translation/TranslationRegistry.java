@@ -51,6 +51,7 @@ public class TranslationRegistry {
                     );
                 });
     }
+
     public static void create(Module module) {
         new TranslationRegistry(module);
     }

@@ -5,9 +5,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.automessage.api.AutomaticMessage;
 import de.keeeks.nucleo.modules.automessage.api.AutomaticMessageApi;
-import de.keeeks.nucleo.modules.automessage.shared.translation.AutoMessageTranslationRegistry;
 import de.keeeks.nucleo.modules.automessage.velocity.commands.AutoMessageCommand;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(
         name = "automessage",
@@ -26,8 +24,6 @@ public class AutoMessageVelocityModule extends VelocityModule {
 
     @Override
     public void enable() {
-        TranslationRegistry.initializeRegistry(new AutoMessageTranslationRegistry(this));
-
         autoCompleter().registerSuggestion(
                 "autoMessageIds",
                 (list, commandActor, executableCommand) -> messageApi.messages().stream().map(

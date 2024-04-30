@@ -6,11 +6,9 @@ import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
-import de.keeeks.nucleo.modules.moderation.tools.shared.translation.ModerationToolsTranslationRegistry;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondProvider;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.clickcheck.ClickCheckMessage;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.listener.ModerationToolsClickListener;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(
         name = "moderation-tools",
@@ -29,7 +27,6 @@ public class ModerationToolsSpigotModule extends SpigotModule {
                 ClicksPerSecondProvider.class,
                 new ClicksPerSecondProvider()
         );
-        TranslationRegistry.initializeRegistry(new ModerationToolsTranslationRegistry(this));
     }
 
     @Override

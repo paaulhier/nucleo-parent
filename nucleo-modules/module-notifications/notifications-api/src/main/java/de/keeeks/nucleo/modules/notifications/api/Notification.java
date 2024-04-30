@@ -37,6 +37,7 @@ public interface Notification {
             Function<String, Boolean> permissionCheckFunction,
             Runnable successRunnable
     ) {
-        checkPermission(permissionCheckFunction, successRunnable, () -> {});
+        checkPermission(permissionCheckFunction, successRunnable, () -> {
+        });
     }
 }

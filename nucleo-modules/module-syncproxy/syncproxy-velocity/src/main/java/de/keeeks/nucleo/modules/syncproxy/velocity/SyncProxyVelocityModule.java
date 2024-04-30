@@ -13,8 +13,6 @@ import de.keeeks.nucleo.modules.syncproxy.velocity.listener.ProxyPingFixListener
 import de.keeeks.nucleo.modules.syncproxy.velocity.listener.ProxyPingListener;
 import de.keeeks.nucleo.modules.syncproxy.velocity.listener.ProxyVersionPingListener;
 import de.keeeks.nucleo.modules.syncproxy.velocity.packetlistener.ProxySyncProxyConfigurationUpdatePacketListener;
-import de.keeeks.nucleo.modules.syncproxy.velocity.translation.SyncProxyTranslationRegistry;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 import de.keeeks.nucleo.syncproxy.api.SyncProxyConfiguration;
 import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 
@@ -31,7 +29,6 @@ public class SyncProxyVelocityModule extends VelocityModule {
                 SyncProxyService.class,
                 new DefaultSyncProxyService(this)
         );
-        TranslationRegistry.initializeRegistry(new SyncProxyTranslationRegistry(this));
     }
 
     @Override

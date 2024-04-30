@@ -7,8 +7,6 @@ import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.tabdecoration.listener.TabDecorationLoginListener;
 import de.keeeks.nucleo.modules.tabdecoration.packetlistener.*;
 import de.keeeks.nucleo.modules.tabdecoration.service.TabDecorationService;
-import de.keeeks.nucleo.modules.tabdecoration.translation.TabDecorationTranslationRegistry;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 
 @ModuleDescription(
         name = "tabdecoration",
@@ -21,7 +19,6 @@ public class TabDecorationModule extends VelocityModule {
                 TabDecorationService.class,
                 new TabDecorationService()
         );
-        TranslationRegistry.initializeRegistry(new TabDecorationTranslationRegistry(this));
     }
 
     @Override

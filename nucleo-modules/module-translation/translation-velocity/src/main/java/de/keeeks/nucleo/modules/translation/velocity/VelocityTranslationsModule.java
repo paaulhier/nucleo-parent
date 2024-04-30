@@ -4,8 +4,8 @@ import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 import de.keeeks.nucleo.modules.translation.shared.DefaultTranslationApi;
+import de.keeeks.nucleo.modules.translation.shared.translation.TranslationRegistry;
 import de.keeeks.nucleo.modules.translation.velocity.command.TransferTranslationsIntoDatabaseCommand;
 import de.keeeks.nucleo.modules.translations.api.ModuleDetails;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
@@ -20,17 +20,11 @@ import lombok.Getter;
 public class VelocityTranslationsModule extends VelocityModule {
     private TranslationApi translationApi;
 
-    private TranslationRegistry translationRegistry;
-
     @Override
     public void load() {
         this.translationApi = ServiceRegistry.registerService(
                 TranslationApi.class,
                 new DefaultTranslationApi(this)
-        );
-
-        this.translationRegistry = TranslationRegistry.initializeRegistry(
-                new GlobalVelocityTranslationRegistry(this)
         );
     }
 
@@ -48,7 +42,7 @@ public class VelocityTranslationsModule extends VelocityModule {
                     module.description().name()
             ));
 
-            de.keeeks.nucleo.modules.translation.shared.translation.TranslationRegistry.create(module);
+            TranslationRegistry.create(module);
             logger.info("Created translation registry for module " + module.description().name());
         }
     }

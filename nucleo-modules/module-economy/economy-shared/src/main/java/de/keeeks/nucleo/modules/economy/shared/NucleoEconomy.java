@@ -11,9 +11,9 @@ import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserDepositPacket
 import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserSetBalancePacket;
 import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserTransferPacket;
 import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserWithdrawPacket;
+import de.keeeks.nucleo.modules.economy.shared.sql.EconomyRepository;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.messaging.packet.Packet;
-import de.keeeks.nucleo.modules.economy.shared.sql.EconomyRepository;
 import lombok.Getter;
 
 import java.util.Objects;

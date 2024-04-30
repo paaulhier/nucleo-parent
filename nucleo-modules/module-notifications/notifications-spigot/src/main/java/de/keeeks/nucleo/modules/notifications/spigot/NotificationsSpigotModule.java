@@ -5,9 +5,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.notifications.api.NotificationApi;
 import de.keeeks.nucleo.modules.notifications.shared.NucleoNotificationApi;
-import de.keeeks.nucleo.modules.notifications.shared.translation.NotificationsTranslationRegistry;
 import de.keeeks.nucleo.modules.notifications.spigot.vulcan.NucleoVulcanNotificationListener;
-import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 import org.bukkit.Bukkit;
 
 @ModuleDescription(
@@ -23,7 +21,6 @@ public class NotificationsSpigotModule extends SpigotModule {
                 NotificationApi.class,
                 new NucleoNotificationApi(this)
         );
-        TranslationRegistry.initializeRegistry(new NotificationsTranslationRegistry(this));
     }
 
     @Override
