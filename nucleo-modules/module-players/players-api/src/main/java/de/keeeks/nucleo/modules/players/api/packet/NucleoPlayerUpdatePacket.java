@@ -9,4 +9,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NucleoPlayerUpdatePacket extends Packet {
     private final NucleoPlayer nucleoPlayer;
+    private final String senderServiceName;
 }
