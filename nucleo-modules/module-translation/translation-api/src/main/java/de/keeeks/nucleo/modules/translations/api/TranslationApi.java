@@ -7,6 +7,8 @@ import java.util.Optional;
 public interface TranslationApi {
     String CHANNEL = "nucleo:translation";
 
+    void reload();
+
     ModuleDetails createModule(String name);
 
     List<ModuleDetails> modules();

@@ -13,12 +13,15 @@ import de.keeeks.nucleo.modules.messaging.packet.Packet;
 import de.keeeks.nucleo.modules.translation.shared.json.ModuleDetailsSerializer;
 import de.keeeks.nucleo.modules.translation.shared.json.TranslationEntrySerializer;
 import de.keeeks.nucleo.modules.translation.shared.packetlistener.ModuleDetailsUpdatePacketListener;
+import de.keeeks.nucleo.modules.translation.shared.packetlistener.ReloadTranslationsPacketListener;
 import de.keeeks.nucleo.modules.translation.shared.packetlistener.TranslationEntryUpdatePacketListener;
 import de.keeeks.nucleo.modules.translation.shared.sql.ModuleDetailsRepository;
 import de.keeeks.nucleo.modules.translation.shared.sql.TranslationEntryRepository;
+import de.keeeks.nucleo.modules.translation.shared.translation.TranslationRegistry;
 import de.keeeks.nucleo.modules.translations.api.ModuleDetails;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import de.keeeks.nucleo.modules.translations.api.TranslationEntry;
+import de.keeeks.nucleo.modules.translations.api.packet.ReloadTranslationsPacket;
 import de.keeeks.nucleo.modules.translations.api.packet.module.ModuleDetailsCreatePacket;
 import de.keeeks.nucleo.modules.translations.api.packet.translationentry.TranslationEntryCreatePacket;
 
@@ -50,7 +53,8 @@ public class DefaultTranslationApi implements TranslationApi {
         this.moduleDetailsRepository = new ModuleDetailsRepository(mysqlConnection);
         natsConnection.registerPacketListener(
                 new ModuleDetailsUpdatePacketListener(this),
-                new TranslationEntryUpdatePacketListener(this)
+                new TranslationEntryUpdatePacketListener(this),
+                new ReloadTranslationsPacketListener(this)
         );
 
         moduleDetails.addAll(moduleDetailsRepository.moduleDetails());
@@ -63,6 +67,25 @@ public class DefaultTranslationApi implements TranslationApi {
 
     public void modifyTranslationEntries(ListModifier<TranslationEntry> modifier) {
         modifier.modify(translationEntries);
+    }
+
+    public void reloadLocal() {
+        Scheduler.runAsync(() -> {
+            moduleDetails.clear();
+            translationEntries.clear();
+
+            moduleDetails.addAll(moduleDetailsRepository.moduleDetails());
+            translationEntries.addAll(translationEntryRepository.translationEntries());
+            TranslationRegistry.translationRegistries().forEach(TranslationRegistry::reloadAsync);
+        });
+    }
+
+    @Override
+    public void reload() {
+        natsConnection.publishPacket(
+                CHANNEL,
+                new ReloadTranslationsPacket()
+        );
     }
 
     @Override

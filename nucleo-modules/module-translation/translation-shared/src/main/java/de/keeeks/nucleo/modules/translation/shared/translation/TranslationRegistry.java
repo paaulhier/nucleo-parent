@@ -7,7 +7,6 @@ import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import de.keeeks.nucleo.modules.translations.api.TranslationEntry;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.Translator;
-import org.jgrapht.alg.clustering.KSpanningTreeClustering;
 
 import java.util.LinkedList;
 import java.util.List;
