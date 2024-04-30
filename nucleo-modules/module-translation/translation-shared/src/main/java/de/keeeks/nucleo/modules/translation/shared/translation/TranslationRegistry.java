@@ -5,7 +5,9 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import de.keeeks.nucleo.modules.translations.api.TranslationEntry;
+import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.Translator;
+import org.jgrapht.alg.clustering.KSpanningTreeClustering;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,13 +18,14 @@ public class TranslationRegistry {
     private static final TranslationApi translationApi = ServiceRegistry.service(TranslationApi.class);
 
     private final List<TranslationEntry> translationEntries = new LinkedList<>();
-    private final Translator translator = new ComponentTranslator(this::translationEntryAsString);
 
     private final Module module;
 
     public TranslationRegistry(Module module) {
         this.module = module;
         translationRegistries.add(this);
+        Translator translator = new ComponentTranslator(this::translationEntryAsString);
+        GlobalTranslator.translator().addSource(translator);
         load();
     }
 
@@ -35,6 +38,7 @@ public class TranslationRegistry {
 
     private void load() {
         translationEntries.addAll(translationApi.translations(module.description().name()));
+        module.logger().info("Loaded %d translations".formatted(translationEntries.size()));
     }
 
     public String translationEntryAsString(String key, Locale locale) {
@@ -50,6 +54,10 @@ public class TranslationRegistry {
                             Locale.GERMANY
                     );
                 });
+    }
+
+    public static List<TranslationRegistry> translationRegistries() {
+        return List.copyOf(translationRegistries);
     }
 
     public static void create(Module module) {

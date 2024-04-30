@@ -28,7 +28,7 @@ public class TranslationEntryResultSetTransformer implements ResultSetTransforme
     }
 
     private Locale locale(String localeString) {
-        String[] localeParts = localeString.split("_");
+        String[] localeParts = localeString.split("-");
 
         if (localeParts.length == 1) {
             return Locale.of(localeParts[0]);

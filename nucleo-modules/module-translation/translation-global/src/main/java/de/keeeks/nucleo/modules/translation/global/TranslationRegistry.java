@@ -119,7 +119,6 @@ public abstract class TranslationRegistry {
     }
 
     public static <T extends TranslationRegistry> T initializeRegistry(T translationRegistry) {
-        translationRegistries.add(translationRegistry);
-        return translationRegistry;
+        throw new UnsupportedOperationException("The TranslationRegistry is deprecated and should not be used anymore.");
     }
 }
