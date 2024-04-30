@@ -200,7 +200,7 @@ public class Formatter {
         }
 
         if (!durationMatcher.find()) {
-            return Duration.ZERO;
+            return null;
         }
 
         int amount = Integer.parseInt(durationMatcher.group(1));
