@@ -18,6 +18,7 @@
         <module>players-spigot</module>
         <module>players-standalone</module>
         <module>players-velocity</module>
+        <module>players-server</module>
     </modules>
 
     <properties>

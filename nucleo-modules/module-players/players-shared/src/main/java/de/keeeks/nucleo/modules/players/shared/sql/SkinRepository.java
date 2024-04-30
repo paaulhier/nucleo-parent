@@ -37,7 +37,7 @@ public class SkinRepository {
 
     public void deleteSkin(UUID uuid) {
         mysqlConnection.prepare(
-                "delete from skins where uuid = ?;",
+                "delete from skins where playerId = ?;",
                 statement -> statement.setString(1, uuid.toString())
         );
     }

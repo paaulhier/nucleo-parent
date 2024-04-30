@@ -4,6 +4,7 @@ import de.keeeks.karistus.api.PunishmentApi;
 import de.keeeks.karistus.api.PunishmentType;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
+import de.keeeks.nucleo.modules.privacy.api.PrivacyApi;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -18,6 +19,7 @@ import static net.kyori.adventure.text.Component.translatable;
 public class DeclinePrivacyItem extends AsyncItem {
     private static final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
     private static final PunishmentApi punishmentApi = ServiceRegistry.service(PunishmentApi.class);
+    private static final PrivacyApi privacyApi = ServiceRegistry.service(PrivacyApi.class);
 
     public DeclinePrivacyItem() {
         super(new ItemBuilder(Material.CLOCK).setDisplayName(new AdventureComponentWrapper(
@@ -35,6 +37,9 @@ public class DeclinePrivacyItem extends AsyncItem {
             @NotNull Player player,
             @NotNull InventoryClickEvent event
     ) {
+        privacyApi.privacyInformation(player.getUniqueId()).ifPresent(
+                privacyApi::decline
+        );
         playerService.onlinePlayer(player.getUniqueId()).ifPresent(
                 onlinePlayer -> onlinePlayer.kick(translatable("privacy.declined"), true)
         );

@@ -108,6 +108,12 @@
             </dependency>
             <dependency>
                 <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>application-console</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
                 <artifactId>core-spigot</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <scope>provided</scope>
@@ -290,6 +296,28 @@
             <dependency>
                 <groupId>de.keeeks.nucleo</groupId>
                 <artifactId>players-standalone</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Privacy -->
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>privacy-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>privacy-shared</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>privacy-spigot</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>de.keeeks.nucleo</groupId>
+                <artifactId>privacy-velocity</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 

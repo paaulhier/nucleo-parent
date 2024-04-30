@@ -8,7 +8,7 @@ import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
 
 @ModuleDescription(
         name = "players",
-        description = "The PlayersProxyModule is responsible for handling player data and events.",
+        description = "The StandalonePlayersModule is responsible for handling player data and events.",
         depends = {"messaging", "database-mysql"}
 )
 public class StandalonePlayersModule extends Module {
