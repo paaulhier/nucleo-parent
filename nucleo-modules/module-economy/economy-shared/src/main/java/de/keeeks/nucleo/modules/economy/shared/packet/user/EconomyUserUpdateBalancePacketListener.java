@@ -1,11 +1,11 @@
-package de.keeeks.nucleo.modules.translation.shared.packet.user;
+package de.keeeks.nucleo.modules.economy.shared.packet.user;
 
 import de.keeeks.nucleo.modules.economy.api.Economy;
 import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.economy.api.packet.user.EconomyUserUpdateBalancePacket;
+import de.keeeks.nucleo.modules.economy.shared.NucleoEconomyApi;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
-import de.keeeks.nucleo.modules.translation.shared.NucleoEconomyApi;
 import io.nats.client.Message;
 
 @ListenerChannel(EconomyApi.CHANNEL)

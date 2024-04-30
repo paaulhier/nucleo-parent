@@ -1,8 +1,8 @@
-package de.keeeks.nucleo.modules.translation.shared.packet;
+package de.keeeks.nucleo.modules.economy.shared.packet;
 
 import de.keeeks.nucleo.modules.economy.api.packet.EconomyPacket;
+import de.keeeks.nucleo.modules.economy.shared.NucleoEconomyApi;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
-import de.keeeks.nucleo.modules.translation.shared.NucleoEconomyApi;
 
 public abstract class EconomyUpdatePacketListener<P extends EconomyPacket> extends PacketListener<P> {
     protected final NucleoEconomyApi economyApi;

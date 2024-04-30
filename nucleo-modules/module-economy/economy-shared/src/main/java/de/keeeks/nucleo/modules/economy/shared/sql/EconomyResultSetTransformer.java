@@ -1,8 +1,8 @@
-package de.keeeks.nucleo.modules.translation.shared.sql;
+package de.keeeks.nucleo.modules.economy.shared.sql;
 
 import de.keeeks.nucleo.modules.database.sql.statement.ResultSetTransformer;
 import de.keeeks.nucleo.modules.economy.api.Economy;
-import de.keeeks.nucleo.modules.translation.shared.NucleoEconomy;
+import de.keeeks.nucleo.modules.economy.shared.NucleoEconomy;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.ResultSet;
