@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static net.kyori.adventure.text.Component.translatable;
+
 @Command({"notify", "notification", "notifications"})
 @CommandPermission("nucleo.commands.notifications")
 public final class NotificationCommand implements CommandHandlerVisitor {
@@ -54,13 +56,13 @@ public final class NotificationCommand implements CommandHandlerVisitor {
 
         List<Notification> filteredNotifications = notifications.toList();
         if (filteredNotifications.isEmpty()) {
-            player.sendMessage(Component.translatable("nucleo.notifications.command.list.empty"));
+            player.sendMessage(translatable("nucleo.notifications.command.list.empty"));
             return;
         }
 
-        player.sendMessage(Component.translatable("nucleo.notifications.command.list.header"));
+        player.sendMessage(translatable("nucleo.notifications.command.list.header"));
         for (Notification notification : filteredNotifications) {
-            player.sendMessage(Component.translatable(
+            player.sendMessage(translatable(
                     "nucleo.notifications.command.list.entry",
                     Component.text(notification.id()),
                     Component.text(notification.name()),
@@ -84,8 +86,12 @@ public final class NotificationCommand implements CommandHandlerVisitor {
         @AutoComplete("@notifications")
         @DefaultFor("~")
         public void disableCommand(Player player, Notification notification) {
+            if (notification == null) {
+                player.sendMessage(translatable("nucleo.notifications.command.noNotification"));
+                return;
+            }
             if (!checkPermission(player, notification)) {
-                player.sendMessage(Component.translatable(
+                player.sendMessage(translatable(
                         "nucleo.notifications.command.toggle.noPermission",
                         Component.text(notification.name())
                 ));
@@ -95,7 +101,7 @@ public final class NotificationCommand implements CommandHandlerVisitor {
             if (notificationApi.notificationActive(notification, player.getUniqueId())) {
                 disableNotification(player, notification);
             } else {
-                player.sendMessage(Component.translatable(
+                player.sendMessage(translatable(
                         "nucleo.notifications.command.disable.alreadyDisabled",
                         Component.text(notification.name())
                 ));
@@ -118,9 +124,13 @@ public final class NotificationCommand implements CommandHandlerVisitor {
 
         @AutoComplete("@notifications")
         @DefaultFor("~")
-        public void disableCommand(Player player, Notification notification) {
+        public void enableCommand(Player player, Notification notification) {
+            if (notification == null) {
+                player.sendMessage(translatable("nucleo.notifications.command.noNotification"));
+                return;
+            }
             if (!checkPermission(player, notification)) {
-                player.sendMessage(Component.translatable(
+                player.sendMessage(translatable(
                         "nucleo.notifications.command.toggle.noPermission",
                         Component.text(notification.name())
                 ));
@@ -130,7 +140,7 @@ public final class NotificationCommand implements CommandHandlerVisitor {
             if (!notificationApi.notificationActive(notification, player.getUniqueId())) {
                 enableNotification(player, notification);
             } else {
-                player.sendMessage(Component.translatable(
+                player.sendMessage(translatable(
                         "nucleo.notifications.command.enable.alreadyEnabled",
                         Component.text(notification.name())
                 ));
@@ -154,8 +164,12 @@ public final class NotificationCommand implements CommandHandlerVisitor {
         @AutoComplete("@notifications")
         @DefaultFor("~")
         public void toggleCommand(Player player, Notification notification) {
+            if (notification == null) {
+                player.sendMessage(translatable("nucleo.notifications.command.noNotification"));
+                return;
+            }
             if (!checkPermission(player, notification)) {
-                player.sendMessage(Component.translatable(
+                player.sendMessage(translatable(
                         "nucleo.notifications.command.toggle.noPermission",
                         Component.text(notification.name())
                 ));
@@ -192,7 +206,7 @@ public final class NotificationCommand implements CommandHandlerVisitor {
     private void enableNotification(Player player, Notification notification) {
         UUID uuid = player.getUniqueId();
         if (notificationApi.notificationActive(notification, uuid)) {
-            player.sendMessage(Component.translatable(
+            player.sendMessage(translatable(
                     "nucleo.notifications.command.enable.alreadyEnabled",
                     Component.text(notification.name())
             ));
@@ -210,7 +224,7 @@ public final class NotificationCommand implements CommandHandlerVisitor {
     private void disableNotification(Player player, Notification notification) {
         UUID uuid = player.getUniqueId();
         if (!notificationApi.notificationActive(notification, uuid)) {
-            player.sendMessage(Component.translatable(
+            player.sendMessage(translatable(
                     "nucleo.notifications.command.disable.alreadyDisabled",
                     Component.text(notification.name())
             ));
@@ -233,13 +247,13 @@ public final class NotificationCommand implements CommandHandlerVisitor {
             String key
     ) {
         notificationApi.notificationActive(notification, uuid, active);
-        player.sendMessage(Component.translatable(
+        player.sendMessage(translatable(
                 key,
                 Component.text(notification.name())
         ));
     }
 
     private static void sendHelpMessage(Player player) {
-        player.sendMessage(Component.translatable("nucleo.notifications.command.usage"));
+        player.sendMessage(translatable("nucleo.notifications.command.usage"));
     }
 }
