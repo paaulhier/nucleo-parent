@@ -6,7 +6,6 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.translation.shared.DefaultTranslationApi;
 import de.keeeks.nucleo.modules.translation.shared.translation.TranslationRegistry;
-import de.keeeks.nucleo.modules.translation.velocity.command.TransferTranslationsIntoDatabaseCommand;
 import de.keeeks.nucleo.modules.translations.api.ModuleDetails;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import lombok.Getter;
@@ -26,11 +25,6 @@ public class VelocityTranslationsModule extends VelocityModule {
                 TranslationApi.class,
                 new DefaultTranslationApi(this)
         );
-    }
-
-    @Override
-    public void enable() {
-        registerCommands(new TransferTranslationsIntoDatabaseCommand());
     }
 
     @Override

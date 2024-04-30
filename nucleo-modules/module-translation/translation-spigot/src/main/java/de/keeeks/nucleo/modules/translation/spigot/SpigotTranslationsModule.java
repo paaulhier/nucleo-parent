@@ -8,7 +8,6 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.translation.global.TranslationRegistry;
 import de.keeeks.nucleo.modules.translation.shared.DefaultTranslationApi;
-import de.keeeks.nucleo.modules.translation.spigot.command.TransferTranslationIntoDatabaseCommand;
 import de.keeeks.nucleo.modules.translation.spigot.protocol.EquipmentTranslationAdapter;
 import de.keeeks.nucleo.modules.translation.spigot.protocol.OpenWindowTranslationAdapter;
 import de.keeeks.nucleo.modules.translation.spigot.protocol.SetSlotTranslationAdapter;
@@ -49,8 +48,6 @@ public class SpigotTranslationsModule extends SpigotModule {
                 new SetSlotTranslationAdapter(this),
                 new WindowItemsTranslationAdapter(this)
         ).forEach(protocolManager::addPacketListener);
-
-        registerCommands(new TransferTranslationIntoDatabaseCommand());
     }
 
     @Override
