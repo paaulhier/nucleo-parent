@@ -27,7 +27,7 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearServerChat
 @ModuleDescription(
         name = "moderation-tools",
         description = "A module for moderation tools like e.g. click checks",
-        depends = {"players", "messaging"},
+        depends = {"players", "messaging", "notifications"},
         softDepends = {"karistus"}
 )
 public class ModerationToolsVelocityModule extends VelocityModule {
