@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.web.handler;
 
+import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HandlerType;
@@ -24,7 +25,7 @@ public abstract class RequestHandler implements Handler {
         HandlerType method = context.method();
 
         if (supportedHandlerTypes.contains(method)) {
-            processRequest(context);
+            Scheduler.runAsync(() -> processRequest(context));
         } else {
             context.status(405);
         }
