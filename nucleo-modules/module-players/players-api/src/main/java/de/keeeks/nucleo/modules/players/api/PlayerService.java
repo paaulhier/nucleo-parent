@@ -93,7 +93,12 @@ public interface PlayerService {
     default Optional<NucleoOnlinePlayer> onlinePlayer(String name) {
         return onlinePlayers().stream()
                 .filter(player -> player.name().equals(name))
-                .findFirst();
+                .findFirst()
+                .or(() -> {
+                    return onlinePlayers().stream()
+                            .filter(player -> player.name().equalsIgnoreCase(name))
+                            .findFirst();
+                });
     }
 
 

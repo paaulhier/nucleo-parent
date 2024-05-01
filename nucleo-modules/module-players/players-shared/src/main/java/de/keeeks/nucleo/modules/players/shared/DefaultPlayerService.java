@@ -193,7 +193,9 @@ public class DefaultPlayerService implements PlayerService {
     public Optional<NucleoPlayer> player(String name) {
         return players().stream().filter(
                 player -> player.name().equals(name)
-        ).findFirst().or(() -> Optional.ofNullable(playerRepository.player(name)).map(nucleoPlayer -> {
+        ).findFirst().or(() -> players().stream().filter(
+                player -> player.name().equalsIgnoreCase(name)
+        ).findFirst()).or(() -> Optional.ofNullable(playerRepository.player(name)).map(nucleoPlayer -> {
             updateNetworkWide(nucleoPlayer);
             return nucleoPlayer;
         }));
