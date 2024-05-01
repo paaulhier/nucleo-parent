@@ -35,14 +35,14 @@ public abstract class SocketHandler {
 
     public abstract void onMessage(WsMessageContext messageContext);
 
-    public void onBinaryMessage(WsBinaryMessageContext binaryMessageContext) {
+    public void onBinaryMessage(WsBinaryMessageContext binaryMessageContext) throws Exception {
         logger.fine("Received binary message from %s (Id: %s)".formatted(
                 binaryMessageContext.session.getLocalAddress(),
                 binaryMessageContext.sessionId()
         ));
     }
 
-    public void onConnect(WsConnectContext connectContext) {
+    public void onConnect(WsConnectContext connectContext) throws Exception {
         logger.fine("Connection established with %s (Id: %s)".formatted(
                 connectContext.session.getLocalAddress(),
                 connectContext.sessionId()
@@ -50,7 +50,7 @@ public abstract class SocketHandler {
         activeSessions.add(connectContext);
     }
 
-    public void onClose(WsCloseContext closeContext) {
+    public void onClose(WsCloseContext closeContext) throws Exception {
         logger.fine("Connection closed with %s due to %s (Id: %s)".formatted(
                 closeContext.session.getLocalAddress(),
                 closeContext.closeStatus().name(),
@@ -58,7 +58,7 @@ public abstract class SocketHandler {
         ));
     }
 
-    public abstract void onError(WsErrorContext errorContext);
+    public abstract void onError(WsErrorContext errorContext) throws Exception;
 
     public final void broadcast(Object object) {
         var data = gson.toJson(object);

@@ -28,7 +28,7 @@ public abstract class AuthenticationHandler implements Handler {
             Context context,
             HttpServletRequest request,
             HttpServletResponse response
-    );
+    ) throws Exception;
 
     public final void unauthorized() {
         throw new UnauthorizedResponse();
