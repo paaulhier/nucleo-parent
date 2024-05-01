@@ -1,22 +1,30 @@
 package de.keeeks.nucleo.modules.web.handler;
 
+import com.google.gson.Gson;
 import de.keeeks.nucleo.core.api.Module;
+import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.web.WebModule;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HandlerType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Getter
 public abstract class RequestHandler implements Handler {
     protected final Logger logger = Module.module(WebModule.class).logger();
+
+    private final Supplier<Gson> gson = GsonBuilder::globalGson;
 
     private final List<HandlerType> supportedHandlerTypes;
     private final String path;
@@ -33,7 +41,7 @@ public abstract class RequestHandler implements Handler {
         if (supportedHandlerTypes.contains(method)) {
             Scheduler.runAsync(() -> {
                 try {
-                    processRequest(context);
+                    processRequest(context, context.req(), context.res());
                 } catch (Exception e) {
                     logger.log(
                             Level.SEVERE,
@@ -47,7 +55,39 @@ public abstract class RequestHandler implements Handler {
         }
     }
 
-    public abstract void processRequest(Context context) throws Exception;
+    protected final <T> void sendResponse(
+            HttpServletResponse response,
+            ResponseEntity<T> responseEntity
+    ) throws Exception{
+        sendResponse(
+                response,
+                responseEntity.status(),
+                responseEntity.body()
+        );
+    }
+
+    protected final void sendResponse(
+            HttpServletResponse response,
+            int status,
+            Object o
+    ) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            response.getWriter().write(gson.get().toJson(o));
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.getWriter().write("{\"error\": \"An error occurred while sending a response\"}");
+            logger.log(Level.SEVERE, "An error occurred while sending a response", e);
+        }
+    }
+
+    public abstract void processRequest(
+            Context context,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws Exception;
 
     public enum RequestMethod {
         GET,
