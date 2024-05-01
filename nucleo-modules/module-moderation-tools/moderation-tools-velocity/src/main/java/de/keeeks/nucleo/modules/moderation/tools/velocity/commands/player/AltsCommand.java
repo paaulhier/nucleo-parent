@@ -43,9 +43,7 @@ public class AltsCommand {
             return;
         }
 
-        List<NucleoPlayer> players = playerService.players(nucleoPlayer.lastIpAddress()).stream().filter(
-                alt -> !alt.uuid().equals(nucleoPlayer.uuid())
-        ).toList();
+        List<NucleoPlayer> players = playerService.players(nucleoPlayer.lastIpAddress());
 
         if (players.isEmpty()) {
             player.sendMessage(translatable(
