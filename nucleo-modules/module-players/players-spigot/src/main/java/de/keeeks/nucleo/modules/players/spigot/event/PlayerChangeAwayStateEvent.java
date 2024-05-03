@@ -2,12 +2,14 @@ package de.keeeks.nucleo.modules.players.spigot.event;
 
 import de.keeeks.nucleo.modules.players.api.OnlineState;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
+@Setter
 public class PlayerChangeAwayStateEvent extends PlayerEvent {
     private static final HandlerList handlerList = new HandlerList();
 
