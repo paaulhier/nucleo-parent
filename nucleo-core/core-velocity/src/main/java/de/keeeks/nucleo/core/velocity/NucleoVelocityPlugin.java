@@ -105,6 +105,8 @@ public class NucleoVelocityPlugin {
         moduleLoader = initializeModuleLoaderAndLoadModules(logger);
 
         moduleLoader.enableModules();
+        moduleLoader.postStartupModules();
+
         this.startupDuration = Duration.between(
                 Instant.ofEpochMilli(startupTime),
                 Instant.ofEpochMilli(System.currentTimeMillis())

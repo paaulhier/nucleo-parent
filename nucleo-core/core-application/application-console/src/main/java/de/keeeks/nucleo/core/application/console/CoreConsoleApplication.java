@@ -58,6 +58,7 @@ public final class CoreConsoleApplication {
 
     public void enable() {
         moduleLoader.enableModules();
+        moduleLoader.postStartupModules();
     }
 
     public void disable() {

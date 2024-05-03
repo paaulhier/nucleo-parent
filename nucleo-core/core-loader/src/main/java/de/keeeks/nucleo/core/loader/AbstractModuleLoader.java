@@ -28,6 +28,10 @@ public abstract class AbstractModuleLoader {
         sortedModules(false).forEachRemaining(this::enableModule);
     }
 
+    public void postStartupModules() {
+        sortedModules(false).forEachRemaining(this::postStartupModule);
+    }
+
     protected void initializeModule(Class<?> clazz) throws
             InstantiationException,
             IllegalAccessException,
@@ -47,6 +51,22 @@ public abstract class AbstractModuleLoader {
             moduleOutput("Enabling", moduleContainer);
             module.enable();
             module.updateState(ModuleState.ENABLED);
+        } catch (Throwable throwable) {
+            disableModule(moduleContainer);
+            module.updateState(ModuleState.FAILED_TO_ENABLE);
+            logger.log(
+                    Level.SEVERE,
+                    "Failed to enabled module %s".formatted(moduleContainer.description().name()),
+                    throwable
+            );
+        }
+    }
+
+    private void postStartupModule(ModuleContainer moduleContainer) {
+        Module module = moduleContainer.module();
+        if (module.moduleState().failed()) return;
+        try {
+            module.postStartup();
         } catch (Throwable throwable) {
             disableModule(moduleContainer);
             module.updateState(ModuleState.FAILED_TO_ENABLE);

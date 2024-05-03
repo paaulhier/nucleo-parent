@@ -95,6 +95,7 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         }
 
         moduleLoader.enableModules();
+        moduleLoader.postStartupModules();
 
         this.startupDuration = Duration.ofMillis(
                 System.currentTimeMillis() - startupTime
