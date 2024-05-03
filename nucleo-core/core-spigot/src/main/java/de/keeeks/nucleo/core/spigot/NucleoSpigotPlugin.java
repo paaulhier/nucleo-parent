@@ -100,8 +100,6 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         this.startupDuration = Duration.ofMillis(
                 System.currentTimeMillis() - startupTime
         );
-
-        Module.modules().forEach(Module::postStartup);
     }
 
     private void disablePluginDueToNoServerData(PluginManager pluginManager) {
