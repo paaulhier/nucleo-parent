@@ -1,13 +1,14 @@
 package de.keeeks.nucleo.core.spigot;
 
-import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.command.NucleoSpigotExceptionHandler;
 import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
+import de.keeeks.nucleo.core.spigot.json.WorldSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
+import de.keeeks.nucleo.core.spigot.listener.PlayerCommandExecutionListener;
 import eu.cloudnetservice.driver.inject.InjectionLayer;
 import eu.cloudnetservice.driver.service.ServiceInfoSnapshot;
 import eu.cloudnetservice.wrapper.holder.ServiceInfoHolder;
@@ -54,7 +55,10 @@ public class NucleoSpigotPlugin extends JavaPlugin {
     public void onLoad() {
         plugin = this;
 
-        GsonBuilder.registerSerializer(new LocationSerializer());
+        GsonBuilder.registerSerializer(
+                new LocationSerializer(),
+                new WorldSerializer()
+        );
 
         ModuleLoader.classLoader(moduleClassLoader);
         moduleLoader.loadModulesFromFolder();
@@ -68,6 +72,8 @@ public class NucleoSpigotPlugin extends JavaPlugin {
         bukkitCommandHandler.register(commandRegistrations.toArray());
         bukkitCommandHandler.registerBrigadier();
         bukkitCommandHandler.setExceptionHandler(new NucleoSpigotExceptionHandler(getLogger()));
+
+        registerListener(new PlayerCommandExecutionListener(getLogger()));
 
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(
                 this,

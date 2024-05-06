@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.core.velocity;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -22,6 +23,7 @@ import revxrsal.commands.velocity.VelocityCommandHandler;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Getter
@@ -35,6 +37,14 @@ import java.util.logging.Logger;
         }
 )
 public class NucleoVelocityPlugin {
+    private static final List<String> disabledCommands = List.of(
+            "list",
+            "server",
+            "send",
+            "glist",
+            "velocity"
+    );
+
     @Getter
     private static NucleoVelocityPlugin plugin;
 
@@ -58,6 +68,15 @@ public class NucleoVelocityPlugin {
         plugin = this;
         this.proxyServer = proxyServer;
         this.logger = logger;
+
+        for (String disabledCommand : disabledCommands) {
+            CommandMeta commandMeta = proxyServer.getCommandManager().getCommandMeta(disabledCommand);
+            if (commandMeta == null) continue;
+            proxyServer.getCommandManager().unregister(commandMeta);
+            logger.info("Disabled command %s".formatted(
+                    String.join(", ", commandMeta.getAliases())
+            ));
+        }
     }
 
     @NotNull
