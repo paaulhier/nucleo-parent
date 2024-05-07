@@ -104,6 +104,7 @@ public class NucleoScoreboard implements Scoreboard {
     @Override
     public void destroy() {
         player.removeMetadata("scoreboardId", module.plugin());
+        if (fastBoard.isDeleted()) return;
         fastBoard.delete();
     }
 

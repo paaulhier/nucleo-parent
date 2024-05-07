@@ -4,13 +4,7 @@ import de.keeeks.nucleo.core.spigot.NucleoSpigotPlugin;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.ScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.NucleoScoreboard;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scoreboard.Score;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static net.kyori.adventure.text.Component.text;
 
 @Getter
 public abstract class NucleoScoreboardLine implements ScoreboardLine {
@@ -26,6 +20,7 @@ public abstract class NucleoScoreboardLine implements ScoreboardLine {
 
     @Override
     public final void render() {
+        if (scoreboard.fastBoard().isDeleted()) return;
         scoreboard.fastBoard().updateLine(
                 index,
                 currentComponent()
