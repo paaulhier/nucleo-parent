@@ -15,17 +15,8 @@ public class NucleoScoreboardApi implements ScoreboardApi {
     private final List<Scoreboard> scoreboards = new LinkedList<>();
 
     @Override
-    public Scoreboard createScoreboard() {
-        NucleoScoreboard nucleoScoreboard = new NucleoScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        scoreboards.add(nucleoScoreboard);
-        return nucleoScoreboard;
-    }
-
-    @Override
     public Scoreboard createScoreboard(org.bukkit.scoreboard.Scoreboard legacyBoard) {
-        NucleoScoreboard nucleoScoreboard = new NucleoScoreboard(legacyBoard);
-        scoreboards.add(nucleoScoreboard);
-        return nucleoScoreboard;
+        throw new UnsupportedOperationException("This method is deprecated and will be removed in the future. Please use createScoreboard(Player player) instead.");
     }
 
     @Override
@@ -37,6 +28,11 @@ public class NucleoScoreboardApi implements ScoreboardApi {
 
     @Override
     public void destroyScoreboard(UUID uuid) {
-        scoreboards.removeIf(scoreboard -> scoreboard.uuid().equals(uuid));
+        for (Scoreboard scoreboard : List.copyOf(scoreboards)) {
+            if (scoreboard.uuid().equals(uuid)) {
+                scoreboard.destroy();
+                scoreboards.remove(scoreboard);
+            }
+        }
     }
 }

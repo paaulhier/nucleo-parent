@@ -30,9 +30,9 @@ public class NucleoAnimatedScoreboardLine extends NucleoScoreboardLine implement
     public boolean tick() {
         if (System.currentTimeMillis() - lastUpdate.get() < ticksToMilliseconds()) return false;
 
-        int currentIndex = index.getAndIncrement();
+        int currentIndex = index.incrementAndGet();
 
-        if (currentIndex >= (lines.size() - 1)) {
+        if (currentIndex >= (lines.size())) {
             index.set(0);
         }
         lastUpdate.set(System.currentTimeMillis());

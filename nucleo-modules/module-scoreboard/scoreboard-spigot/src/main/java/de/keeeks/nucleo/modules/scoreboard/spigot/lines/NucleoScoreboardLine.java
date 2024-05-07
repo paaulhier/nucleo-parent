@@ -8,6 +8,10 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Score;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static net.kyori.adventure.text.Component.text;
+
 @Getter
 public abstract class NucleoScoreboardLine implements ScoreboardLine {
     private static final Plugin plugin = NucleoSpigotPlugin.plugin();
@@ -22,11 +26,9 @@ public abstract class NucleoScoreboardLine implements ScoreboardLine {
 
     @Override
     public final void render() {
-        scoreboard.team(index).ifPresent(team -> scoreboard.objective().ifPresent(objective -> {
-            team.prefix(currentComponent());
-            Score score = objective.getScore(scoreboard.teamName(index));
-            score.customName(Component.empty());
-            score.setScore(index);
-        }));
+        scoreboard.fastBoard().updateLine(
+                index,
+                currentComponent()
+        );
     }
 }

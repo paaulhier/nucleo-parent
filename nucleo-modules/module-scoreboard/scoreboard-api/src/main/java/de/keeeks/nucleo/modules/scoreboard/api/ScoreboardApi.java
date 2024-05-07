@@ -11,8 +11,6 @@ public interface ScoreboardApi {
     List<Scoreboard> scoreboards();
 
     @Deprecated
-    Scoreboard createScoreboard();
-
     Scoreboard createScoreboard(org.bukkit.scoreboard.Scoreboard legacyBoard);
 
     Scoreboard createScoreboard(Player player);

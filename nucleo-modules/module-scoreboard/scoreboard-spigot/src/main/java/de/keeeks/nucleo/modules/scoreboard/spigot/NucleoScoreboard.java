@@ -9,48 +9,39 @@ import de.keeeks.nucleo.modules.scoreboard.api.lines.ScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoAnimatedScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoDynamicScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoStaticScoreboardLine;
+import fr.mrmicky.fastboard.adventure.FastBoard;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Criteria;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Team;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
-
-import static net.kyori.adventure.text.Component.text;
 
 @Getter
 public class NucleoScoreboard implements Scoreboard {
     private static final GsonComponentSerializer gsonComponentSerializer = GsonComponentSerializer.gson();
     private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
+    private final AtomicInteger lineCounter = new AtomicInteger(0);
     private final List<ScoreboardLine> lines = new LinkedList<>();
     private final List<UUID> viewer = new LinkedList<>();
 
-    private final org.bukkit.scoreboard.Scoreboard scoreboard;
+    private final FastBoard fastBoard;
 
     private final UUID uuid;
 
     public NucleoScoreboard(Player player) {
-        this.scoreboard = player.getScoreboard();
-        this.uuid = UUID.randomUUID();
-    }
-
-    public NucleoScoreboard(org.bukkit.scoreboard.Scoreboard legacyBoard) {
-        this.scoreboard = legacyBoard;
+        this.fastBoard = new FastBoard(player);
         this.uuid = UUID.randomUUID();
     }
 
     @Override
     public Scoreboard title(Component title) {
-        objective().ifPresent(objective -> objective.displayName(title));
+        fastBoard.updateTitle(title);
         return this;
     }
 
@@ -60,28 +51,28 @@ public class NucleoScoreboard implements Scoreboard {
     }
 
     @Override
-    public DynamicScoreboardLine dynamicLine(int index, Supplier<Component> supplier) {
+    public DynamicScoreboardLine dynamicLine(Supplier<Component> supplier) {
         return createLine(new NucleoDynamicScoreboardLine(
                 this,
-                index,
+                lineCounter.getAndIncrement(),
                 supplier
         ));
     }
 
     @Override
-    public ScoreboardLine staticLine(int index, Component component) {
+    public ScoreboardLine staticLine(Component component) {
         return createLine(new NucleoStaticScoreboardLine(
                 this,
-                index,
+                lineCounter.getAndIncrement(),
                 component
         ));
     }
 
     @Override
-    public AnimatedScoreboardLine animatedLine(int index, int tickInterval, List<Component> lines) {
+    public AnimatedScoreboardLine animatedLine(int tickInterval, List<Component> lines) {
         return createLine(new NucleoAnimatedScoreboardLine(
                 this,
-                index,
+                lineCounter.getAndIncrement(),
                 tickInterval,
                 lines
         ));
@@ -95,32 +86,12 @@ public class NucleoScoreboard implements Scoreboard {
     @Override
     public void addPlayer(Player player) {
         viewer.add(player.getUniqueId());
-        player.setScoreboard(scoreboard);
         renderAll();
     }
 
-    public final Optional<Objective> objective() {
-        return Optional.ofNullable(scoreboard.getObjective("nucleo-scoreboard")).or(() -> {
-            Objective objective = scoreboard.registerNewObjective(
-                    "nucleo-scoreboard",
-                    Criteria.DUMMY,
-                    text("nucleo-scoreboard")
-            );
-            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            return Optional.of(objective);
-        });
-    }
-
-    public final Optional<Team> team(int index) {
-        return Optional.ofNullable(scoreboard.getTeam(teamName(index))).or(() -> {
-            Team team = scoreboard.registerNewTeam(teamName(index));
-            team.addEntry(teamName(index));
-            return Optional.of(team);
-        });
-    }
-
-    public final String teamName(int index) {
-        return "nucleo-line-" + index;
+    @Override
+    public void destroy() {
+        fastBoard.delete();
     }
 
     private <T extends ScoreboardLine> T createLine(T line) {

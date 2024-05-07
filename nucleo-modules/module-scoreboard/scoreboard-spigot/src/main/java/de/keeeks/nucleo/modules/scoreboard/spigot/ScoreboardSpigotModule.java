@@ -41,11 +41,9 @@ public class ScoreboardSpigotModule extends SpigotModule {
 
         Bukkit.getAsyncScheduler().runAtFixedRate(
                 plugin(),
-                scheduledTask -> {
-                    scoreboardApi.scoreboards().forEach(
-                            scoreboard -> tickAllAnimatedLines(scoreboard, ticked)
-                    );
-                },
+                scheduledTask -> scoreboardApi.scoreboards().forEach(
+                        scoreboard -> tickAllAnimatedLines(scoreboard, ticked)
+                ),
                 0,
                 50,
                 TimeUnit.MILLISECONDS

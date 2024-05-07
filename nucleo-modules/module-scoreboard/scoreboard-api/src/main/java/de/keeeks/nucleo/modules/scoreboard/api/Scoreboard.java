@@ -22,18 +22,35 @@ public interface Scoreboard {
         return lines().stream().filter(type::isInstance).map(type::cast).toList();
     }
 
-    DynamicScoreboardLine dynamicLine(int index, Supplier<Component> supplier);
+    DynamicScoreboardLine dynamicLine(Supplier<Component> component);
 
-    ScoreboardLine staticLine(int index, Component component);
+    @Deprecated
+    default DynamicScoreboardLine dynamicLine(int index, Supplier<Component> supplier) {
+        return dynamicLine(supplier);
+    }
 
-    AnimatedScoreboardLine animatedLine(int index, int tickInterval, List<Component> lines);
+    ScoreboardLine staticLine(Component component);
 
-    default AnimatedScoreboardLine animatedLine(int index, List<Component> lines) {
+    @Deprecated
+    default ScoreboardLine staticLine(int index, Component component) {
+        return staticLine(component);
+    }
+
+    @Deprecated
+    default AnimatedScoreboardLine animatedLine(int index, int tickInterval, List<Component> lines) {
+        return animatedLine(tickInterval, lines);
+    }
+
+    AnimatedScoreboardLine animatedLine(int tickInterval, List<Component> lines);
+
+    default AnimatedScoreboardLine animatedLineWithDefaultTicking(int index, List<Component> lines) {
         return animatedLine(index, 20, lines);
     }
 
     void renderAll();
 
     void addPlayer(Player player);
+
+    void destroy();
 
 }
