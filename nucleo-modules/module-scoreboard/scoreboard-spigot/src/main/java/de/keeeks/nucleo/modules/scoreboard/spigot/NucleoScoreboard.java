@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.scoreboard.spigot;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AnimatedScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.DynamicScoreboardLine;
@@ -14,6 +15,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.function.Supplier;
 @Getter
 public class NucleoScoreboard implements Scoreboard {
     private static final GsonComponentSerializer gsonComponentSerializer = GsonComponentSerializer.gson();
+    private static final ScoreboardSpigotModule module = Module.module(ScoreboardSpigotModule.class);
     private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
     private final AtomicInteger lineCounter = new AtomicInteger(0);
@@ -31,12 +34,17 @@ public class NucleoScoreboard implements Scoreboard {
     private final List<UUID> viewer = new LinkedList<>();
 
     private final FastBoard fastBoard;
-
+    private final Player player;
     private final UUID uuid;
 
     public NucleoScoreboard(Player player) {
         this.fastBoard = new FastBoard(player);
+        this.player = player;
         this.uuid = UUID.randomUUID();
+        player.setMetadata("scoreboardId", new FixedMetadataValue(
+                module.plugin(),
+                uuid.toString()
+        ));
     }
 
     @Override
@@ -86,11 +94,16 @@ public class NucleoScoreboard implements Scoreboard {
     @Override
     public void addPlayer(Player player) {
         viewer.add(player.getUniqueId());
+        player.setMetadata("scoreboardId", new FixedMetadataValue(
+                module.plugin(),
+                uuid.toString()
+        ));
         renderAll();
     }
 
     @Override
     public void destroy() {
+        player.removeMetadata("scoreboardId", module.plugin());
         fastBoard.delete();
     }
 
