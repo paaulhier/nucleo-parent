@@ -6,12 +6,12 @@ import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.ScoreboardApi;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AnimatedScoreboardLine;
+import de.keeeks.nucleo.modules.scoreboard.spigot.listener.ScoreboardPlayerQuitListener;
 import org.bukkit.Bukkit;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @ModuleDescription(
         name = "scoreboard"
@@ -33,24 +33,21 @@ public class ScoreboardSpigotModule extends SpigotModule {
 
     @Override
     public void enable() {
+        registerListener(new ScoreboardPlayerQuitListener(scoreboardApi));
         initializeScheduler();
     }
 
     private void initializeScheduler() {
-        AtomicInteger ticked = new AtomicInteger(0);
-
         Bukkit.getAsyncScheduler().runAtFixedRate(
                 plugin(),
-                scheduledTask -> scoreboardApi.scoreboards().forEach(
-                        scoreboard -> tickAllAnimatedLines(scoreboard, ticked)
-                ),
+                scheduledTask -> scoreboardApi.scoreboards().forEach(this::tickAllAnimatedLines),
                 0,
                 50,
                 TimeUnit.MILLISECONDS
         );
     }
 
-    private void tickAllAnimatedLines(Scoreboard scoreboard, AtomicInteger ticked) {
+    private void tickAllAnimatedLines(Scoreboard scoreboard) {
         scoreboard.lines(AnimatedScoreboardLine.class).forEach(AnimatedScoreboardLine::tickAndRender);
     }
 }
