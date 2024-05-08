@@ -9,7 +9,7 @@ public interface TranslationApi {
 
     void reload();
 
-    ModuleDetails createModule(String name);
+    void createModule(String name);
 
     List<ModuleDetails> modules();
 

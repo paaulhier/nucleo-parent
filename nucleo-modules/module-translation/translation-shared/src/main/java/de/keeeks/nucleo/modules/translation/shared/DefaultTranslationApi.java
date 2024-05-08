@@ -28,6 +28,7 @@ import de.keeeks.nucleo.modules.translations.api.packet.translationentry.Transla
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 public class DefaultTranslationApi implements TranslationApi {
     private final List<ModuleDetails> moduleDetails = new ArrayList<>();
@@ -37,8 +38,11 @@ public class DefaultTranslationApi implements TranslationApi {
 
     private final TranslationEntryRepository translationEntryRepository;
     private final ModuleDetailsRepository moduleDetailsRepository;
+    private final Logger logger;
 
     public DefaultTranslationApi(Module module) {
+        this.logger = module.logger();
+
         MysqlConnection mysqlConnection = MysqlConnection.create(JsonConfiguration.create(
                 module.dataFolder(),
                 "mysql"
@@ -89,10 +93,14 @@ public class DefaultTranslationApi implements TranslationApi {
     }
 
     @Override
-    public ModuleDetails createModule(String name) {
-        return module(name).orElseGet(() -> {
+    public void createModule(String name) {
+        module(name).orElseGet(() -> {
             ModuleDetails moduleDetails = moduleDetailsRepository.createModule(name);
             publishPacket(new ModuleDetailsCreatePacket(moduleDetails));
+            logger.info("Created module details (%s) for module %s".formatted(
+                    moduleDetails.id(),
+                    moduleDetails.name()
+            ));
             return moduleDetails;
         });
     }

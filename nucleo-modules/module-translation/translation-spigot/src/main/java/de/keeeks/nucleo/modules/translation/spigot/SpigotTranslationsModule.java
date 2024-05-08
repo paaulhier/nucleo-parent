@@ -7,11 +7,11 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.translation.shared.DefaultTranslationApi;
+import de.keeeks.nucleo.modules.translation.shared.translation.TranslationRegistry;
 import de.keeeks.nucleo.modules.translation.spigot.protocol.EquipmentTranslationAdapter;
 import de.keeeks.nucleo.modules.translation.spigot.protocol.OpenWindowTranslationAdapter;
 import de.keeeks.nucleo.modules.translation.spigot.protocol.SetSlotTranslationAdapter;
 import de.keeeks.nucleo.modules.translation.spigot.protocol.WindowItemsTranslationAdapter;
-import de.keeeks.nucleo.modules.translations.api.ModuleDetails;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import lombok.Getter;
 
@@ -48,14 +48,8 @@ public class SpigotTranslationsModule extends SpigotModule {
     @Override
     public void postStartup() {
         for (Module module : Module.modules()) {
-            ModuleDetails moduleDetails = translationApi.createModule(module.description().name());
-            logger.info("Created module details (%s) for module %s".formatted(
-                    moduleDetails.id(),
-                    module.description().name()
-            ));
-
-            de.keeeks.nucleo.modules.translation.shared.translation.TranslationRegistry.create(module);
-            logger.info("Created translation registry for module " + module.description().name());
+            translationApi.createModule(module.description().name());
+            TranslationRegistry.create(module);
         }
     }
 }

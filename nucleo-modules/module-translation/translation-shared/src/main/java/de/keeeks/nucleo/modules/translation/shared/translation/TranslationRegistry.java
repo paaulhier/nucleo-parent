@@ -37,7 +37,6 @@ public class TranslationRegistry {
 
     private void load() {
         translationEntries.addAll(translationApi.translations(module.description().name()));
-        module.logger().info("Loaded %d translations".formatted(translationEntries.size()));
     }
 
     public String translationEntryAsString(String key, Locale locale) {
