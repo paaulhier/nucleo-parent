@@ -10,5 +10,31 @@ import lombok.RequiredArgsConstructor;
 public class NucleoOnlinePlayerConnectResponsePacket extends Packet {
     private final NucleoOnlinePlayer nucleoOnlinePlayer;
     private final String server;
-    private final boolean success;
+    private final State state;
+
+    public boolean success() {
+        return state == State.SUCCESS;
+    }
+
+    public enum State {
+        SUCCESS,
+        ALREADY_CONNECTED,
+        CONNECTION_IN_PROGRESS,
+        CONNECTION_CANCELLED,
+        SERVER_DISCONNECTED,
+        SERVER_NOT_FOUND;
+
+        public static State from(String name) {
+            for (State value : values()) {
+                if (value.name().equalsIgnoreCase(name)) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        public boolean successful() {
+            return this == SUCCESS;
+        }
+    }
 }

@@ -9,6 +9,7 @@ import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectRequestPacket;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import io.nats.client.Message;
 
 @ListenerChannel(PlayerService.CHANNEL)
@@ -33,7 +34,7 @@ public class NucleoOnlinePlayerConnectRequestPacketListener extends PacketListen
                     () -> reply(message, new NucleoOnlinePlayerConnectResponsePacket(
                             nucleoOnlinePlayer,
                             server,
-                            false
+                            State.SERVER_NOT_FOUND
                     ))
             );
         });
@@ -48,18 +49,19 @@ public class NucleoOnlinePlayerConnectRequestPacketListener extends PacketListen
         player.createConnectionRequest(registeredServer).connect().whenCompleteAsync(
                 (result, throwable) -> {
                     String serverName = registeredServer.getServerInfo().getName();
+                    State state = State.from(result.getStatus().name());
                     if (throwable != null) {
                         reply(message, new NucleoOnlinePlayerConnectResponsePacket(
                                 nucleoOnlinePlayer,
                                 serverName,
-                                false
+                                state
                         ));
                         return;
                     }
                     reply(message, new NucleoOnlinePlayerConnectResponsePacket(
                             nucleoOnlinePlayer,
                             serverName,
-                            true
+                            state
                     ));
                 }
         );

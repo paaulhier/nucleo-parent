@@ -10,6 +10,7 @@ import de.keeeks.nucleo.modules.database.sql.MysqlCredentials;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.*;
 import de.keeeks.nucleo.modules.players.api.packet.*;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import de.keeeks.nucleo.modules.players.api.packet.message.NucleoOnlinePlayerMessagePacket;
 import de.keeeks.nucleo.modules.players.shared.json.CommentSerializer;
 import de.keeeks.nucleo.modules.players.shared.json.NucleoOnlinePlayerSerializer;
@@ -325,7 +326,7 @@ public class DefaultPlayerService implements PlayerService {
     public void connectPlayer(
             NucleoOnlinePlayer nucleoOnlinePlayer,
             String server,
-            Consumer<Boolean> successCallback
+            Consumer<State> successCallback
     ) {
         natsConnection.request(
                 CHANNEL,
@@ -341,10 +342,8 @@ public class DefaultPlayerService implements PlayerService {
                         "Failed to connect player " + nucleoOnlinePlayer.name() + " to server " + server,
                         throwable
                 );
-                successCallback.accept(false);
-                return;
             }
-            successCallback.accept(nucleoOnlinePlayerConnectResponsePacket.success());
+            successCallback.accept(nucleoOnlinePlayerConnectResponsePacket.state());
         });
     }
 

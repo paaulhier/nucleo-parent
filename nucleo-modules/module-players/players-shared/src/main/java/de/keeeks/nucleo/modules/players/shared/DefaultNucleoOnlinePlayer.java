@@ -2,6 +2,8 @@ package de.keeeks.nucleo.modules.players.shared;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.players.api.*;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket;
+import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 
@@ -91,7 +93,7 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     }
 
     @Override
-    public void connect(String server, Consumer<Boolean> successCallback) {
+    public void connect(String server, Consumer<State> successCallback) {
         playerService().connectPlayer(
                 this,
                 server,

@@ -14,6 +14,7 @@ import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ChatClearCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSecondCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PullCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PushCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.ServerCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
@@ -104,7 +105,7 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         );
         registerConditionally(
                 () -> playersModuleEnabled,
-                new JumpToCommand(), new ChatClearCommand(proxyServer)
+                new JumpToCommand(), new ChatClearCommand(proxyServer), new PullCommand()
         );
     }
 
