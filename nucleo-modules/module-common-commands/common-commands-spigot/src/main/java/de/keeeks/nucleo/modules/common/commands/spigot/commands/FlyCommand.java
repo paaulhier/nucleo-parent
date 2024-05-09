@@ -2,20 +2,22 @@ package de.keeeks.nucleo.modules.common.commands.spigot.commands;
 
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.common.commands.spigot.CommonCommandsSpigotModule;
+import de.keeeks.nucleo.modules.common.commands.spigot.event.PlayerToggleFlyEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 
-import static de.keeeks.lejet.api.NameColorizer.coloredName;
 import static net.kyori.adventure.text.Component.translatable;
 
 @Command("fly")
 @CommandPermission("nucleo.commands.fly")
 public class FlyCommand {
+    private final PluginManager pluginManager =  Bukkit.getPluginManager();
 
     @DefaultFor("fly")
     public void flyCommand(
@@ -23,7 +25,7 @@ public class FlyCommand {
             @Optional String targetName
     ) {
         if (targetName == null || targetName.equalsIgnoreCase(player.getName())) {
-            toggleFlyForSelf(player);
+            toggleFlyFor(player, player);
             return;
         }
 
@@ -33,38 +35,30 @@ public class FlyCommand {
             return;
         }
 
-        toggleFlyForOther(player, target);
+        toggleFlyFor(player, target);
     }
 
-    private void toggleFlyForOther(Player player, Player target) {
-        if (toggleFlyFor(target)) {
-            player.sendMessage(translatable(
-                    "commands.fly.enabled.other",
-                    coloredName(target.getUniqueId())
-            ));
-        } else {
-            player.sendMessage(translatable(
-                    "commands.fly.disabled.other",
-                    coloredName(target.getUniqueId())
-            ));
+    private void toggleFlyFor(Player player, Player target) {
+        PlayerToggleFlyEvent playerToggleFlyEvent = new PlayerToggleFlyEvent(
+                target,
+                player,
+                !player.getAllowFlight()
+        );
+
+        boolean self = player.equals(target);
+
+        pluginManager.callEvent(playerToggleFlyEvent);
+        if (playerToggleFlyEvent.cancelled()) {
+            player.sendMessage(translatable("commands.fly.disabledForService"));
+            return;
         }
-    }
-
-    private void toggleFlyForSelf(Player player) {
-        if (toggleFlyFor(player)) {
-            player.sendMessage(translatable("commands.fly.enabled.self"));
-        } else {
-            player.sendMessage(translatable("commands.fly.disabled.self"));
-        }
-    }
-
-    private boolean toggleFlyFor(Player player) {
         if (player.getAllowFlight()) {
             player.setAllowFlight(false);
             player.setFlying(false);
-            return false;
+            player.sendMessage(translatable("commands.fly.disabled" + (self ? ".self" : ".other")));
         } else {
             player.setVelocity(new Vector(0, 0.0125, 0).normalize());
+            player.sendMessage(translatable("commands.fly.enabled" + (self ? ".self" : ".other")));
             Bukkit.getScheduler().runTaskLater(
                     Module.module(CommonCommandsSpigotModule.class).plugin(),
                     () -> {
@@ -73,7 +67,6 @@ public class FlyCommand {
                     },
                     2
             );
-            return true;
         }
     }
 
