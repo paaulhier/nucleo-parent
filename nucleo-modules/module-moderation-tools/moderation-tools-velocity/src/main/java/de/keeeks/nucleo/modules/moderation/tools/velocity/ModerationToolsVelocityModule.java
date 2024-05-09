@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.moderation.tools.velocity;
 
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -14,6 +15,7 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ChatClearComm
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSecondCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PushCommand;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.ServerCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.CommentCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.JumpToCommand;
@@ -53,11 +55,35 @@ public class ModerationToolsVelocityModule extends VelocityModule {
 
     @Override
     public void enable() {
+        autoCompleter().registerSuggestion(
+                "servers",
+                (list, commandActor, executableCommand) -> proxyServer.getAllServers().stream().map(
+                        registeredServer -> registeredServer.getServerInfo().getName()
+                ).toList()
+        );
+        commandHandler().registerValueResolver(
+                RegisteredServer.class,
+                valueResolverContext -> {
+                    String pop = valueResolverContext.pop();
+                    return proxyServer.getServer(pop).orElse(null);
+                }
+        );
+
+        registerCommands();
+
+        registerListener(new ModerationToolsPlayerDisconnectListener());
+    }
+
+    private void registerCommands() {
         boolean configModuleEnabled = Module.isAvailable("config");
         boolean playersModuleEnabled = Module.isAvailable("players");
         boolean lejetModuleEnabled = Module.isAvailable("lejet");
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
         boolean karistusModuleEnabled = Module.isAvailable("karistus");
+
+        registerCommands(
+                new ServerCommand(proxyServer)
+        );
 
         registerConditionally(() -> configModuleEnabled, new PushCommand(pushConfiguration()));
         registerConditionally(
@@ -80,8 +106,6 @@ public class ModerationToolsVelocityModule extends VelocityModule {
                 () -> playersModuleEnabled,
                 new JumpToCommand(), new ChatClearCommand(proxyServer)
         );
-
-        registerListener(new ModerationToolsPlayerDisconnectListener());
     }
 
     private PushConfiguration pushConfiguration() {
