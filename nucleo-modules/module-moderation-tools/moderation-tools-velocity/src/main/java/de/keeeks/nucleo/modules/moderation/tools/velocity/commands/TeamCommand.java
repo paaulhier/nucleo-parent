@@ -58,13 +58,14 @@ public class TeamCommand {
                     Component.text(Formatter.formatLongTime(Duration.between(
                             onlinePlayer.lastLogin(),
                             Instant.now()
-                    ).toMillis())))
-            );
+                    ).toMillis())),
+                    onlinePlayer.onlineState().displayName()
+            ));
         });
     }
 
     private static boolean isInTeam(NucleoPermissionUserMapping nucleoPermissionUserMapping) {
-        return nucleoPermissionUserMapping.permissionUser().hasPermission("team.team");
+        return nucleoPermissionUserMapping.permissionUser().hasPermission("keeeks.staff");
     }
 
     @NotNull
