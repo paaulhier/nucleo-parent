@@ -5,6 +5,7 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.common.commands.velocity.cloudnet.CloudNetServiceEventListener;
+import de.keeeks.nucleo.modules.common.commands.velocity.commands.ListCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.ModulesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.economy.CookiesCommand;
@@ -16,6 +17,9 @@ import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoi
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import eu.cloudnetservice.driver.event.EventManager;
 import eu.cloudnetservice.driver.inject.InjectionLayer;
+import revxrsal.commands.velocity.VelocityCommandActor;
+
+import java.util.List;
 
 @ModuleDescription(
         name = "common-commands",
@@ -36,12 +40,29 @@ public class CommonCommandsVelocityModule extends VelocityModule {
         boolean economyModuleEnabled = Module.isAvailable("economy");
         boolean notificationsModuleEnabled = Module.isAvailable("notifications");
 
-        if (playersModuleEnabled) {
-            registerCommands(new PingCommand());
-            if (lejetModuleEnabled) {
-                registerCommands(new PlaytimeCommand());
+        autoCompleter().registerSuggestion("servers", (list, commandActor, executableCommand) -> {
+            if (commandActor.as(VelocityCommandActor.class).getSource().hasPermission("nucleo.command.list.server")) {
+                return proxyServer.getAllServers().stream().map(
+                        registeredServer -> registeredServer.getServerInfo().getName()
+                ).toList();
             }
-        }
+            return List.of();
+        });
+
+        registerConditionally(
+                () -> playersModuleEnabled,
+                new PingCommand(),
+                new ListCommand(proxyServer)
+        );
+        registerConditionally(
+                () -> playersModuleEnabled && lejetModuleEnabled,
+                new PlaytimeCommand()
+        );
+        registerConditionally(
+                () -> economyModuleEnabled,
+                new CookiesCommand()
+        );
+
 
         if (messagingModuleEnabled) {
             NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
@@ -53,10 +74,6 @@ public class CommonCommandsVelocityModule extends VelocityModule {
                         new StaffMemberNetworkDisconnectPacketListener(proxyServer)
                 );
             }
-        }
-
-        if (economyModuleEnabled) {
-            registerCommands(new CookiesCommand());
         }
 
         InjectionLayer.ext().instance(EventManager.class).registerListener(
