@@ -14,10 +14,7 @@ import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResp
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.CommandHandler;
 import revxrsal.commands.CommandHandlerVisitor;
-import revxrsal.commands.annotation.AutoComplete;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.annotation.*;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
 import java.util.HashMap;
@@ -56,6 +53,7 @@ public class SendCommand implements CommandHandlerVisitor {
         this.proxyServer = proxyServer;
     }
 
+    @Usage("nucleo.command.send.usage")
     @AutoComplete("@players @servers")
     @DefaultFor("send")
     public void sendCommand(
@@ -187,6 +185,7 @@ public class SendCommand implements CommandHandlerVisitor {
         public void sendAllConfirmCommand(Player player) {
             if (!sendAllConfirmations.containsKey(player.getUniqueId())) {
                 player.sendMessage(translatable("nucleo.command.send.sendAllNoRequest"));
+                return;
             }
             RegisteredServer registeredServer = sendAllConfirmations.remove(player.getUniqueId());
 
