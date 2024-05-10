@@ -16,6 +16,7 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSeco
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PullCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PushCommand;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.SendCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.ServerCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.CommentCommand;
@@ -93,7 +94,10 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         );
         registerConditionally(
                 () -> playersModuleEnabled && lejetModuleEnabled,
-                new ClicksPerSecondCommand(), new CommentCommand()
+                new ClicksPerSecondCommand(),
+                new CommentCommand(),
+                new PullCommand(),
+                new SendCommand(proxyServer)
         );
         registerConditionally(
                 () -> lejetModuleEnabled,
@@ -105,7 +109,7 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         );
         registerConditionally(
                 () -> playersModuleEnabled,
-                new JumpToCommand(), new ChatClearCommand(proxyServer), new PullCommand()
+                new JumpToCommand(), new ChatClearCommand(proxyServer)
         );
     }
 

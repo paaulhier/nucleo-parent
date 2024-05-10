@@ -111,6 +111,18 @@ public interface PlayerService {
      */
     List<NucleoOnlinePlayer> onlinePlayers();
 
+
+    /**
+     * Returns a list of all online players on the given server.
+     * @param server the server to get the online players from
+     * @return a list of all online players on the given server
+     */
+    default List<NucleoOnlinePlayer> onlinePlayers(String server) {
+        return onlinePlayers().stream()
+                .filter(player -> player.server().equals(server))
+                .toList();
+    }
+
     /**
      * Updates the network-wide cache with the given player.
      *
