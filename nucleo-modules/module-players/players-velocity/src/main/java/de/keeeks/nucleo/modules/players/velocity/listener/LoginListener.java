@@ -38,6 +38,21 @@ public class LoginListener {
             if (version == null) {
                 event.setResult(ResultedEvent.ComponentResult.denied(versionNotSupportedText()));
             }
+
+            if (playerService.player(player.getUniqueId()).isEmpty()) {
+                NucleoPlayer nucleoPlayer = playerService.createPlayer(
+                        player.getUniqueId(),
+                        player.getUsername()
+                ).updateLastLogin().updateLastIpAddress(
+                        player.getRemoteAddress().getHostString()
+                );
+                handleSkinUpdate(
+                        nucleoPlayer,
+                        player.getGameProfileProperties().getFirst()
+                );
+                playerService.savePlayerToDatabase(nucleoPlayer);
+                nucleoPlayer.update();
+            }
         });
     }
 
@@ -47,7 +62,7 @@ public class LoginListener {
         ), Style.style(NamedTextColor.RED));
     }
 
-    @Subscribe(order = PostOrder.EARLY)
+    @Subscribe(order = PostOrder.NORMAL)
     public EventTask handlePlayerCreation(LoginEvent event) {
         Player player = event.getPlayer();
         InetSocketAddress address = player.getRemoteAddress();
@@ -55,6 +70,8 @@ public class LoginListener {
         Version version = Version.byProtocol(player.getProtocolVersion().getProtocol());
 
         return EventTask.async(() -> {
+            if (!event.getResult().isAllowed()) return;
+
             String ipAddress = address.getHostString();
             playerService.onlinePlayer(player.getUniqueId()).ifPresentOrElse(
                     onlinePlayer -> event.setResult(alreadyOnlineDisconnect()),
