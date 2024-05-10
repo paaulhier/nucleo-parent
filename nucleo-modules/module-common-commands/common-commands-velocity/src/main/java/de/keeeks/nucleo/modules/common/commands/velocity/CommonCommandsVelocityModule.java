@@ -5,6 +5,7 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.common.commands.velocity.cloudnet.CloudNetServiceEventListener;
+import de.keeeks.nucleo.modules.common.commands.velocity.commands.HelpCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.ListCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.ModulesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.UptimeCommand;
@@ -32,7 +33,8 @@ public class CommonCommandsVelocityModule extends VelocityModule {
     public void enable() {
         registerCommands(
                 new ModulesCommand(),
-                new UptimeCommand(plugin)
+                new UptimeCommand(plugin),
+                new HelpCommand()
         );
         boolean playersModuleEnabled = Module.isAvailable("players");
         boolean messagingModuleEnabled = Module.isAvailable("messaging");
