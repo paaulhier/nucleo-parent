@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.function.Supplier;
 
 /**
  * @param <H> the handle of the configuration
@@ -44,6 +45,10 @@ public abstract class Configuration<H> {
     public <T> T loadObject(Class<T> clazz, T defaultValue) {
         T object = loadObject(clazz);
         return object == null ? saveObject(defaultValue) : object;
+    }
+
+    public <T> T loadObject(Class<T> clazz, Supplier<T> defaultValue) {
+        return loadObject(clazz, defaultValue.get());
     }
 
     public abstract <T> T saveObject(T t);
