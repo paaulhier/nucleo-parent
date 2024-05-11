@@ -19,7 +19,6 @@ import static net.kyori.adventure.text.Component.*;
 @CommandPermission("nucleo.command.server")
 @RequiredArgsConstructor
 public class ServerCommand {
-    private final ProxyServer proxyServer;
 
     @Usage("nucleo.command.server.usage")
     @AutoComplete("@servers")
@@ -41,7 +40,7 @@ public class ServerCommand {
 
             player.createConnectionRequest(registeredServer).connect().whenCompleteAsync(
                     (result, connectingThrowable) -> {
-                        if (connectingThrowable == null || !result.isSuccessful()) {
+                        if (connectingThrowable == null && !result.isSuccessful()) {
                             player.sendMessage(translatable(
                                     "nucleo.command.server.failed",
                                     result.getReasonComponent().orElse(empty()),

@@ -83,9 +83,7 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
         boolean karistusModuleEnabled = Module.isAvailable("karistus");
 
-        registerCommands(
-                new ServerCommand(proxyServer)
-        );
+        registerCommands(new ServerCommand());
 
         registerConditionally(() -> configModuleEnabled, new PushCommand(pushConfiguration()));
         registerConditionally(
