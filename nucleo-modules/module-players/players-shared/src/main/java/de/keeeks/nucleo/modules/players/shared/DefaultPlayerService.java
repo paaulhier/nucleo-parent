@@ -41,6 +41,8 @@ public class DefaultPlayerService implements PlayerService {
             "mysql"
     );
     private final List<PlayerCacheElement<? extends NucleoPlayer>> playersCache = new LinkedList<>();
+    private final List<UUID> playersSortedByPlayTime = new ArrayList<>();
+
     private final Logger logger = playersModule.logger();
 
     private final PlayerRepository playerRepository;
@@ -103,7 +105,7 @@ public class DefaultPlayerService implements PlayerService {
 
         Scheduler.runAsyncTimer(
                 () -> List.copyOf(playersCache).stream().filter(
-                        cacheElement -> cacheElement.expired(Duration.ofMinutes(2))
+                        cacheElement -> cacheElement.expired(Duration.ofMinutes(30))
                 ).forEach(cacheElement -> {
                     logger.info("Invalidating player %s with UUID %s. Reason: Expired".formatted(
                             cacheElement.player().name(),
@@ -114,6 +116,16 @@ public class DefaultPlayerService implements PlayerService {
                 0,
                 1,
                 TimeUnit.SECONDS
+        );
+
+        Scheduler.runAsyncTimer(
+                () -> {
+                    playersSortedByPlayTime.clear();
+                    playersSortedByPlayTime.addAll(playerRepository.playersSortedByPlayTime());
+                },
+                0,
+                10,
+                TimeUnit.MINUTES
         );
     }
 
@@ -207,6 +219,13 @@ public class DefaultPlayerService implements PlayerService {
         return players().stream().filter(
                 player -> player instanceof NucleoOnlinePlayer
         ).map(player -> (NucleoOnlinePlayer) player).toList();
+    }
+
+    @Override
+    public List<NucleoPlayer> playersSortedByPlayTime() {
+        return List.copyOf(playersSortedByPlayTime).stream().map(uuid ->
+            player(uuid).orElse(null)
+        ).filter(Objects::nonNull).toList();
     }
 
     @Override

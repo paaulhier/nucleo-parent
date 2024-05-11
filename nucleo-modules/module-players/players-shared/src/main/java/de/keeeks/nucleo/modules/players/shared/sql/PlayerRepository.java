@@ -11,7 +11,9 @@ import de.keeeks.nucleo.modules.players.shared.sql.transformer.NucleoPlayerResul
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 
@@ -105,6 +107,13 @@ public final class PlayerRepository {
             nucleoPlayer.properties().setProperties(propertyHolder);
         }
         return nucleoPlayer;
+    }
+
+    public List<UUID> playersSortedByPlayTime() {
+        return mysqlConnection.queryList(
+                "select uuid from players order by onlineTime desc limit 10;",
+                resultSet -> UUID.fromString(resultSet.getString("uuid"))
+        );
     }
 
     public void deletePlayer(UUID uuid) {

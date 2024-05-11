@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.players.api;
 
-import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import net.kyori.adventure.text.Component;
 
@@ -111,6 +110,11 @@ public interface PlayerService {
      */
     List<NucleoOnlinePlayer> onlinePlayers();
 
+    /**
+     * Returns a sorted list of all players by play time.
+     * @return a sorted list of all players by play time
+     */
+    List<NucleoPlayer> playersSortedByPlayTime();
 
     /**
      * Returns a list of all online players on the given server.

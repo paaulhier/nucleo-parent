@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.economy.api;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface Economy {
@@ -9,6 +10,12 @@ public interface Economy {
     String name();
 
     void modify(UUID uuid, EconomyBalanceModifier modifier);
+
+    /**
+     * Returns the top 10 players of this economy.
+     * @return The top 10 players
+     */
+    List<UUID> top();
 
     double balance(UUID uuid);
 

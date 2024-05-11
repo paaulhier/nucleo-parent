@@ -40,7 +40,7 @@ public final class EconomyRepository {
 
     public double balance(int economyId, UUID uuid) {
         Double balance = mysqlConnection.query(
-                "select balance from economy_balances where economyId = ? and playerId = ?",
+                "select balance from economy_balances where economyId = ? and playerId = ? and balance > 0;",
                 statement -> {
                     statement.setInt(1, economyId);
                     statement.setString(2, uuid.toString());
@@ -49,6 +49,17 @@ public final class EconomyRepository {
         );
         if (balance == null) return 0.0;
         return balance;
+    }
+
+    public List<UUID> top(int economyId, int amount) {
+        return mysqlConnection.queryList(
+                "select playerId from economy_balances where economyId = ? order by balance desc limit ?",
+                statement -> {
+                    statement.setInt(1, economyId);
+                    statement.setInt(2, amount);
+                },
+                resultSet -> UUID.fromString(resultSet.getString("playerId"))
+        );
     }
 
     public void updateBalance(int economyId, UUID uuid, double balance) {

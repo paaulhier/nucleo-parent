@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.economy.api.Economy;
 import de.keeeks.nucleo.modules.economy.api.EconomyApi;
 import de.keeeks.nucleo.modules.economy.api.EconomyBalanceModifier;
@@ -16,12 +17,17 @@ import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.messaging.packet.Packet;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 public class NucleoEconomy implements Economy {
     private static final NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
+
+    private final transient List<UUID> tops = new ArrayList<>();
 
     private final transient EconomyRepository economyRepository;
     private final transient LoadingCache<UUID, Double> balances;
@@ -36,12 +42,27 @@ public class NucleoEconomy implements Economy {
         this.balances = CacheBuilder.newBuilder().build(
                 CacheLoader.from(uuid -> economyRepository.balance(id, uuid))
         );
+
+        Scheduler.runAsyncTimer(
+                () -> {
+                    tops.clear();
+                    tops.addAll(economyRepository.top(id, 10));
+                },
+                0,
+                30,
+                TimeUnit.MINUTES
+        );
     }
 
     @Override
     public void modify(UUID uuid, EconomyBalanceModifier modifier) {
         double newBalance = modifier.modifyBalance(balance(uuid));
         balances.put(uuid, newBalance);
+    }
+
+    @Override
+    public List<UUID> top() {
+        return List.copyOf(tops);
     }
 
     @Override

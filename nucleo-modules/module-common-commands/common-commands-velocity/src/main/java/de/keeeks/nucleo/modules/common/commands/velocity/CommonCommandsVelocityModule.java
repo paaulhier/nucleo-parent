@@ -12,6 +12,7 @@ import de.keeeks.nucleo.modules.common.commands.velocity.commands.UptimeCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.economy.CookiesCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.PingCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.PlaytimeCommand;
+import de.keeeks.nucleo.modules.common.commands.velocity.commands.players.TopCommand;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.ping.PlayerPingRequestPacketListener;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoin.StaffMemberNetworkDisconnectPacketListener;
 import de.keeeks.nucleo.modules.common.commands.velocity.packet.listener.teamjoin.StaffMemberNetworkJoinPacketListener;
@@ -59,6 +60,10 @@ public class CommonCommandsVelocityModule extends VelocityModule {
         registerConditionally(
                 () -> playersModuleEnabled && lejetModuleEnabled,
                 new PlaytimeCommand()
+        );
+        registerConditionally(
+                () -> playersModuleEnabled && lejetModuleEnabled && economyModuleEnabled,
+                new TopCommand()
         );
         registerConditionally(
                 () -> economyModuleEnabled,
