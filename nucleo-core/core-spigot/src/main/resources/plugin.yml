@@ -1,6 +1,6 @@
 name: nucleo-spigot
 version: 1.0
 main: de.keeeks.nucleo.core.spigot.NucleoSpigotPlugin
-softdepend: [ CloudNet-Bridge, ProtocolLib ]
+softdepend: [ CloudNet-Bridge, ProtocolLib, Vulcan ]
 
 api-version: 1.20
