@@ -3,6 +3,7 @@ package de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player;
 import com.velocitypowered.api.proxy.Player;
 import de.keeeks.lejet.api.NameColorizer;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
+import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.core.api.utils.pagination.PaginationResult;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.comment.Comment;
@@ -42,7 +43,8 @@ public class CommentCommand {
                     "nucleo.moderation.comment.list.header",
                     text(paginatedComments.page()),
                     text(paginatedComments.totalPages()),
-                    text(paginatedComments.totalAmount())
+                    text(paginatedComments.totalAmount()),
+                    NameColorizer.coloredName(nucleoPlayer.uuid())
             ));
             for (Comment comment : paginatedComments.list()) {
                 player.sendMessage(translatable(
@@ -50,7 +52,8 @@ public class CommentCommand {
                         text(comment.id()),
                         NameColorizer.coloredName(comment.creatorId()),
                         NameColorizer.coloredName(comment.playerId()),
-                        text(comment.content())
+                        text(comment.content()),
+                        text(Formatter.formatShortDateTime(comment.createdAt()))
                 ));
             }
         });
