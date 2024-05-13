@@ -9,6 +9,8 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import de.keeeks.nucleo.core.api.NucleoUncaughtExceptionHandler;
+import de.keeeks.nucleo.core.api.logger.NucleoLogger;
 import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
@@ -68,6 +70,8 @@ public class NucleoVelocityPlugin {
         plugin = this;
         this.proxyServer = proxyServer;
         this.logger = logger;
+        NucleoLogger.logger(NucleoLogger.create(logger));
+        Thread.setDefaultUncaughtExceptionHandler(new NucleoUncaughtExceptionHandler());
 
         for (String disabledCommand : disabledCommands) {
             CommandMeta commandMeta = proxyServer.getCommandManager().getCommandMeta(disabledCommand);

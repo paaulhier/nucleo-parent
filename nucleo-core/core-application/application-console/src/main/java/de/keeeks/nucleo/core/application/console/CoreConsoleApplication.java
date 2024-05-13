@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.core.application.console;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.core.api.logger.NucleoLogger;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.application.command.Console;
 import de.keeeks.nucleo.core.application.command.command.CommandRegistry;
@@ -35,6 +36,7 @@ public final class CoreConsoleApplication {
                 "Uncaught exception in thread " + t.getName(),
                 e
         ));
+        NucleoLogger.logger(NucleoLogger.create(logger));
         ModuleLoader.classLoader(ModuleClassLoader.create(
                 Thread.currentThread().getContextClassLoader()
         ));

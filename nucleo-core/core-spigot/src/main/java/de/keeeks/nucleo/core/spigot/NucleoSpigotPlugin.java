@@ -1,6 +1,8 @@
 package de.keeeks.nucleo.core.spigot;
 
+import de.keeeks.nucleo.core.api.NucleoUncaughtExceptionHandler;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
+import de.keeeks.nucleo.core.api.logger.NucleoLogger;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
@@ -54,6 +56,8 @@ public class NucleoSpigotPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         plugin = this;
+        NucleoLogger.logger(NucleoLogger.create(getLogger()));
+        Thread.setDefaultUncaughtExceptionHandler(new NucleoUncaughtExceptionHandler());
 
         GsonBuilder.registerSerializer(
                 new LocationSerializer(),
