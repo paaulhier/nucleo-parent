@@ -251,4 +251,8 @@ public interface PlayerService {
         return onlinePlayer(uuid).isPresent();
     }
 
+    default String playerName(UUID uuid) {
+        return player(uuid).map(NucleoPlayer::name).orElse("unknown");
+    }
+
 }
