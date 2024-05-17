@@ -1,9 +1,7 @@
 package de.keeeks.nucleo.core.loader;
 
+import de.keeeks.nucleo.core.api.*;
 import de.keeeks.nucleo.core.api.Module;
-import de.keeeks.nucleo.core.api.ModuleDescription;
-import de.keeeks.nucleo.core.api.ModuleLogger;
-import de.keeeks.nucleo.core.api.ModuleState;
 import lombok.RequiredArgsConstructor;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
@@ -142,8 +140,21 @@ public abstract class AbstractModuleLoader {
             for (String depend : description.depends()) {
                 handleDependency(moduleContainer, depend, graph, false);
             }
+            if (description.depends().length > 0) {
+                logger.severe("Module %s uses deprecated depends field. Use dependencies instead".formatted(
+                        description.name()
+                ));
+            }
+            for (Dependency dependency : description.dependencies()) {
+                handleDependency(moduleContainer, dependency.name(), graph, !dependency.required());
+            }
             for (String depend : description.softDepends()) {
                 handleDependency(moduleContainer, depend, graph, true);
+            }
+            if (description.softDepends().length > 0) {
+                logger.severe("Module %s uses deprecated depends field. Use dependencies instead".formatted(
+                        description.name()
+                ));
             }
         });
 
