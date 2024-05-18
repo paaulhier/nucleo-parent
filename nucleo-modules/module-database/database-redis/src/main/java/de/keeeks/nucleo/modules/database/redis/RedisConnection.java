@@ -20,12 +20,12 @@ public final class RedisConnection {
     private final RedisCommands<String, String> sync;
 
     public RedisConnection(RedisCredentials credentials) {
-        try (RedisClient redisClient = RedisClient.create(RedisURI.create(
-                "redis://%s:%d".formatted(
-                        credentials.host(),
-                        credentials.port()
-                )
-        ))) {
+        try (RedisClient redisClient = RedisClient.create(RedisURI.Builder.redis(
+                credentials.host(),
+                credentials.port()
+        ).withPassword(
+                credentials.password().toCharArray()
+        ).withDatabase(0).build())) {
             StatefulRedisConnection<String, String> connect = redisClient.connect();
 
             async = connect.async();
@@ -36,13 +36,6 @@ public final class RedisConnection {
                     credentials.host(),
                     credentials.port()
             ));
-
-            if (credentials.password() != null) {
-                sync.auth(credentials.password());
-                async.auth(credentials.password()).whenComplete(
-                        (s, throwable) -> logger.info("Authenticated to Redis database.")
-                );
-            }
         }
         connections.add(this);
     }
