@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.common.commands.spigot;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.common.commands.spigot.commands.BetterPasteLocationCommand;
@@ -9,7 +10,10 @@ import de.keeeks.nucleo.modules.common.commands.spigot.commands.UptimeCommand;
 
 @ModuleDescription(
         name = "common-commands",
-        depends = {"translations", "messaging"}
+        dependencies = {
+                @Dependency(name = "translations"),
+                @Dependency(name = "messaging")
+        }
 )
 public class CommonCommandsSpigotModule extends SpigotModule {
 

@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.notifications.velocity;
 
 import com.velocitypowered.api.proxy.Player;
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -13,7 +14,11 @@ import revxrsal.commands.velocity.VelocityCommandActor;
 
 @ModuleDescription(
         name = "notifications",
-        depends = {"config", "messaging", "database-mysql"},
+        dependencies = {
+                @Dependency(name = "config"),
+                @Dependency(name = "messaging"),
+                @Dependency(name = "database-mysql")
+        },
         description = "Provides notifications for various events"
 )
 public class NotificationsVelocityModule extends VelocityModule {

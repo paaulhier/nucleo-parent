@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.moderation.tools.spigot;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
@@ -13,7 +14,11 @@ import de.keeeks.nucleo.modules.moderation.tools.spigot.listener.ModerationTools
 @ModuleDescription(
         name = "moderation-tools",
         description = "A module for moderation tools like e.g. click checks",
-        depends = {"players", "messaging", "lejet"}
+        dependencies = {
+                @Dependency(name = "messaging"),
+                @Dependency(name = "players"),
+                @Dependency(name = "lejet")
+        }
 )
 public class ModerationToolsSpigotModule extends SpigotModule {
 

@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.players.velocity;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -19,7 +20,7 @@ import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePla
 @ModuleDescription(
         name = "players",
         description = "The PlayersProxyModule is responsible for handling player data and events.",
-        depends = {"messaging"}
+        dependencies = @Dependency(name = "messaging")
 )
 public class PlayersVelocityModule extends VelocityModule {
     private PlayerService playerService;

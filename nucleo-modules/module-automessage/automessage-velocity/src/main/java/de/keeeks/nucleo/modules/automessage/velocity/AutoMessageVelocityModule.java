@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.automessage.velocity;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -9,7 +10,13 @@ import de.keeeks.nucleo.modules.automessage.velocity.commands.AutoMessageCommand
 
 @ModuleDescription(
         name = "automessage",
-        depends = {"messaging", "database-mysql", "config", "translations", "players"}
+        dependencies = {
+                @Dependency(name = "messaging"),
+                @Dependency(name = "database-mysql"),
+                @Dependency(name = "config"),
+                @Dependency(name = "translations"),
+                @Dependency(name = "players")
+        }
 )
 public class AutoMessageVelocityModule extends VelocityModule {
     private AutomaticMessageApi messageApi;

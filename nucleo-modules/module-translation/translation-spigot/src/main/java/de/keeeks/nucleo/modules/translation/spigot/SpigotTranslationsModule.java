@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.translation.spigot;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -21,7 +22,11 @@ import java.util.List;
 @ModuleDescription(
         name = "translations",
         description = "The spigot translations module",
-        depends = {"config", "messaging", "database-mysql"}
+        dependencies = {
+                @Dependency(name = "config"),
+                @Dependency(name = "messaging"),
+                @Dependency(name = "database-mysql")
+        }
 )
 public class SpigotTranslationsModule extends SpigotModule {
     private TranslationApi translationApi;

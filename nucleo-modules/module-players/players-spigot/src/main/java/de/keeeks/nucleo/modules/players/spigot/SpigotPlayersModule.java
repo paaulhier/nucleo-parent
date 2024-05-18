@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.players.spigot;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
@@ -14,7 +15,7 @@ import de.keeeks.nucleo.modules.players.spigot.listener.AFKPlayerListener;
 @ModuleDescription(
         name = "players",
         description = "The PlayersSpigotModule is responsible for handling player data and events.",
-        depends = {"messaging"}
+        dependencies = @Dependency(name = "messaging")
 )
 public class SpigotPlayersModule extends SpigotModule {
     private PlayerService playerService;

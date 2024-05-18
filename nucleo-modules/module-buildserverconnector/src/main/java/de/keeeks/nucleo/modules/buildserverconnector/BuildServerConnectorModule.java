@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.buildserverconnector;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.buildserverconnector.commands.BuildServerCommand;
@@ -10,7 +11,7 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 @ModuleDescription(
         name = "buildserverconnector",
         description = "This module connects a player when connecting to a forced host.",
-        depends = "config"
+        dependencies = {@Dependency(name = "config")}
 )
 public class BuildServerConnectorModule extends VelocityModule {
     @Override

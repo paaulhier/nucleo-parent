@@ -16,8 +16,12 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static net.kyori.adventure.text.Component.join;
+import static net.kyori.adventure.text.Component.text;
 
 @Getter
 public abstract class Module {
@@ -93,11 +97,11 @@ public abstract class Module {
     }
 
     public static Component modulesAsComponent() {
-        return Component.join(
+        return join(
                 JoinConfiguration.commas(true),
                 modules.stream().map(module -> {
                     ModuleDescription moduleDescription = module.description();
-                    return Component.text(
+                    return text(
                             moduleDescription.name(),
                             colorByState(module)
                     ).hoverEvent(HoverEvent.showText(
@@ -109,27 +113,33 @@ public abstract class Module {
 
     @NotNull
     private static Component hoverComponent(Module module, ModuleDescription moduleDescription) {
-        Component nameComponent = grayComponent("Name: ").append(Component.text(
+        Component nameComponent = grayComponent("Name: ").append(text(
                 moduleDescription.name(),
                 colorByState(module)
         ));
         Component stateComponent = grayComponent(
                 "State: "
-        ).append(Component.text(
+        ).append(text(
                 module.moduleState().display(),
                 colorByState(module)
         ));
         Component dependenciesComponent = grayComponent(
                 "Dependencies: "
-        ).append(arrayAsComponent(moduleDescription.depends()));
+        ).append(join(
+                JoinConfiguration.commas(true),
+                dependencies(moduleDescription, Dependency::required)
+        ));
         Component softDependenciesComponent = grayComponent(
                 "Soft dependencies: "
-        ).append(arrayAsComponent(moduleDescription.softDepends()));
+        ).append(join(
+                JoinConfiguration.commas(true),
+                dependencies(moduleDescription, dependency -> !dependency.required())
+        ));
         Component versionComponent = grayComponent(
                 "Version: "
-        ).append(Component.text(moduleDescription.version()));
+        ).append(text(moduleDescription.version()));
 
-        return Component.join(
+        return join(
                 JoinConfiguration.newlines(),
                 Arrays.asList(
                         nameComponent,
@@ -141,19 +151,28 @@ public abstract class Module {
         );
     }
 
+    private static @NotNull List<? extends Component> dependencies(
+            ModuleDescription moduleDescription,
+            Predicate<Dependency> predicate
+    ) {
+        return Arrays.stream(moduleDescription.dependencies()).filter(
+                predicate
+        ).map(dependency -> text(dependency.name())).toList();
+    }
+
     @NotNull
     private static TextComponent grayComponent(String text) {
-        return Component.text(
+        return text(
                 text,
                 NamedTextColor.GRAY
         );
     }
 
     private static Component arrayAsComponent(String[] array) {
-        return Component.join(
+        return join(
                 JoinConfiguration.commas(true),
                 Arrays.stream(array).map(
-                        dependency -> Component.text(dependency, NamedTextColor.GRAY)
+                        dependency -> text(dependency, NamedTextColor.GRAY)
                 ).collect(Collectors.toSet())
         );
     }

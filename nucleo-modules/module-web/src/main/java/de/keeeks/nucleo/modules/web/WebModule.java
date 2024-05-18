@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.web;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
@@ -17,7 +18,9 @@ import java.io.File;
 @ModuleDescription(
         name = "web",
         description = "Provides all web related features",
-        depends = "config"
+        dependencies = {
+                @Dependency(name = "config")
+        }
 )
 public class WebModule extends Module {
     private WebConfiguration webConfiguration;

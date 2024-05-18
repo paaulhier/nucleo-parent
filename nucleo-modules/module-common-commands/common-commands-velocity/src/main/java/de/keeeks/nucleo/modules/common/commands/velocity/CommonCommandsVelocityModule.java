@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.common.commands.velocity;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -25,8 +26,14 @@ import java.util.List;
 
 @ModuleDescription(
         name = "common-commands",
-        depends = {"translations"},
-        softDepends = {"players", "messaging", "lejet", "verifica", "config", "notifications"}
+        dependencies = {
+                @Dependency(name = "translations"),
+                @Dependency(name = "players", required = false),
+                @Dependency(name = "messaging", required = false),
+                @Dependency(name = "lejet", required = false),
+                @Dependency(name = "notifications", required = false),
+                @Dependency(name = "config", required = false)
+        }
 )
 public class CommonCommandsVelocityModule extends VelocityModule {
 

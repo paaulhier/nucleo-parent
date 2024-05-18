@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.tabdecoration;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -10,7 +11,11 @@ import de.keeeks.nucleo.modules.tabdecoration.service.TabDecorationService;
 
 @ModuleDescription(
         name = "tabdecoration",
-        depends = {"players", "syncproxy", "lejet"}
+        dependencies = {
+                @Dependency(name = "players"),
+                @Dependency(name = "syncproxy"),
+                @Dependency(name = "lejet")
+        }
 )
 public class TabDecorationModule extends VelocityModule {
     @Override

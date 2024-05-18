@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.translation.velocity;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -14,7 +15,11 @@ import lombok.Getter;
 @ModuleDescription(
         name = "translations",
         description = "The velocity translations module",
-        depends = {"config", "messaging", "database-mysql"}
+        dependencies = {
+                @Dependency(name = "config"),
+                @Dependency(name = "messaging"),
+                @Dependency(name = "database-mysql")
+        }
 )
 public class VelocityTranslationsModule extends VelocityModule {
     private TranslationApi translationApi;

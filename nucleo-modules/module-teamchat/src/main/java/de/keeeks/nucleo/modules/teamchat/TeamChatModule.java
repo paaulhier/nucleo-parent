@@ -2,6 +2,7 @@ package de.keeeks.nucleo.modules.teamchat;
 
 import de.keeeks.lejet.api.permission.PermissionApi;
 import de.keeeks.lejet.api.permission.PermissionUser;
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -16,7 +17,12 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 @ModuleDescription(
         name = "teamchat",
         description = "This module provides a team chat.",
-        depends = {"messaging", "notifications", "players", "lejet"}
+        dependencies = {
+                @Dependency(name = "messaging"),
+                @Dependency(name = "notifications"),
+                @Dependency(name = "players"),
+                @Dependency(name = "lejet")
+        }
 )
 public class TeamChatModule extends VelocityModule {
     private final MiniMessage miniMessage = MiniMessage.miniMessage();

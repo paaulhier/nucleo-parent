@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.syncproxy.velocity;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -16,7 +17,13 @@ import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 
 @ModuleDescription(
         name = "syncproxy",
-        depends = {"config", "database-mysql", "messaging", "players"}
+        dependencies = {
+                @Dependency(name = "config"),
+                @Dependency(name = "database-mysql"),
+                @Dependency(name = "messaging"),
+                @Dependency(name = "players")
+
+        }
 )
 public class SyncProxyVelocityModule extends VelocityModule {
     private SyncProxyService syncProxyService;

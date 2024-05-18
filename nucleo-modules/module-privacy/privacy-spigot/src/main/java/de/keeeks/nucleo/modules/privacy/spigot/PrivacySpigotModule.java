@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.privacy.spigot;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
@@ -10,7 +11,12 @@ import de.keeeks.nucleo.modules.privacy.spigot.listener.PrivacyQuitListener;
 
 @ModuleDescription(
         name = "privacy",
-        depends = {"config", "database-mysql", "messaging", "karistus"}
+        dependencies = {
+                @Dependency(name = "config"),
+                @Dependency(name = "database-mysql"),
+                @Dependency(name = "messaging"),
+                @Dependency(name = "karistus")
+        }
 )
 public class PrivacySpigotModule extends SpigotModule {
     private PrivacyApi privacyApi;

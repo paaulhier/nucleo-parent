@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.moderation.tools.velocity;
 
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -31,8 +32,12 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearServerChat
 @ModuleDescription(
         name = "moderation-tools",
         description = "A module for moderation tools like e.g. click checks",
-        depends = {"players", "messaging", "notifications"},
-        softDepends = {"karistus"}
+        dependencies = {
+                @Dependency(name = "players"),
+                @Dependency(name = "messaging"),
+                @Dependency(name = "notifications"),
+                @Dependency(name = "karistus", required = false)
+        }
 )
 public class ModerationToolsVelocityModule extends VelocityModule {
 

@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.messaging;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -7,7 +8,7 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import lombok.Getter;
 
 @Getter
-@ModuleDescription(name = "messaging", depends = "config")
+@ModuleDescription(name = "messaging", dependencies = @Dependency(name = "config"))
 public class MessagingModule extends Module {
 
     private NatsConnection defaultNatsConnection;

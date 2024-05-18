@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.privacy.velocity;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
@@ -10,7 +11,11 @@ import de.keeeks.nucleo.modules.privacy.velocity.listener.PrivacyLoginListener;
 
 @ModuleDescription(
         name = "privacy",
-        depends = {"config", "database-mysql", "messaging"}
+        dependencies = {
+                @Dependency(name = "config"),
+                @Dependency(name = "database-mysql"),
+                @Dependency(name = "messaging")
+        }
 )
 public class PrivacyVelocityModule extends VelocityModule {
     private PrivacyApi privacyApi;

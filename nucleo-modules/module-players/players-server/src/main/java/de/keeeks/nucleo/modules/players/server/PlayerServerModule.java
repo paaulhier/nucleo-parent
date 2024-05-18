@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.players.server;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -11,7 +12,11 @@ import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
 @ModuleDescription(
         name = "players",
         description = "The PlayerServerModule is responsible for handling player data (like deleting) and events.",
-        depends = {"messaging", "database-mysql", "privacy"}
+        dependencies = {
+                @Dependency(name = "messaging"),
+                @Dependency(name = "database-mysql"),
+                @Dependency(name = "privacy")
+        }
 )
 public class PlayerServerModule extends Module {
 

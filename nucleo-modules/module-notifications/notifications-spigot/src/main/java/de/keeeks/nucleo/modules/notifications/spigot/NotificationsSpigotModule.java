@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.notifications.spigot;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.spigot.module.SpigotModule;
@@ -10,7 +11,11 @@ import org.bukkit.Bukkit;
 
 @ModuleDescription(
         name = "notifications",
-        depends = {"config", "messaging", "database-mysql"},
+        dependencies = {
+                @Dependency(name = "config"),
+                @Dependency(name = "messaging"),
+                @Dependency(name = "database-mysql")
+        },
         description = "Provides notifications for various events"
 )
 public class NotificationsSpigotModule extends SpigotModule {

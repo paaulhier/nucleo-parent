@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.hologram.spigot;
 
+import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
@@ -11,7 +12,7 @@ import de.keeeks.nucleo.modules.hologram.spigot.listener.HologramItemDespawnList
 
 @ModuleDescription(
         name = "holograms",
-        softDepends = "config"
+        dependencies = {@Dependency(name = "config")}
 )
 public class HologramSpigotModule extends SpigotModule {
     @Override
