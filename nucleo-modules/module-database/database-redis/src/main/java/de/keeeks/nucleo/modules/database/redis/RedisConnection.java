@@ -1,8 +1,10 @@
 package de.keeeks.nucleo.modules.database.redis;
 
 import de.keeeks.nucleo.core.api.Module;
+import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
+import io.lettuce.core.SocketOptions;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 import io.lettuce.core.api.sync.RedisCommands;
@@ -16,33 +18,43 @@ import java.util.logging.Logger;
 public final class RedisConnection {
     private static final List<RedisConnection> connections = new LinkedList<>();
 
-    private final RedisAsyncCommands<String, String> async;
-    private final RedisCommands<String, String> sync;
+    private final StatefulRedisConnection<String, String> connection;
+    private final RedisClient redisClient;
 
     public RedisConnection(RedisCredentials credentials) {
-        try (RedisClient redisClient = RedisClient.create(RedisURI.Builder.redis(
+        this.redisClient = RedisClient.create(RedisURI.Builder.redis(
                 credentials.host(),
                 credentials.port()
         ).withPassword(
                 credentials.password().toCharArray()
-        ).withDatabase(0).build())) {
-            StatefulRedisConnection<String, String> connect = redisClient.connect();
+        ).withDatabase(0).build());
+        redisClient.setOptions(ClientOptions.builder()
+                .autoReconnect(true)
+                .socketOptions(SocketOptions.builder().keepAlive(true).build())
+                .build());
 
-            async = connect.async();
-            sync = connect.sync();
+        this.connection = redisClient.connect();
 
-            Logger logger = Module.module(RedisDatabaseModule.class).logger();
-            logger.info("Created new Redis connection to %s:%d.".formatted(
-                    credentials.host(),
-                    credentials.port()
-            ));
-        }
+        Logger logger = Module.module(RedisDatabaseModule.class).logger();
+        logger.info("Created new Redis connection to %s:%d.".formatted(
+                credentials.host(),
+                credentials.port()
+        ));
+
         connections.add(this);
     }
 
     public void close() {
-        sync.quit();
-        async.quit();
+        connection.close();
+        redisClient.close();
+    }
+
+    public RedisCommands<String, String> sync() {
+        return connection.sync();
+    }
+
+    public RedisAsyncCommands<String, String> async() {
+        return connection.async();
     }
 
     public static void closeAll() {
