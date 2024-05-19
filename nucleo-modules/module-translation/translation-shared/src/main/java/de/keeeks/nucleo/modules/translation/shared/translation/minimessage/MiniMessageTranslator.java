@@ -83,7 +83,6 @@ public abstract class MiniMessageTranslator implements Translator {
                         Component childComponent = child.asComponent();
 
                         if (childComponent instanceof TranslatableComponent translatableComponent) {
-                            System.out.println("%s has children %s".formatted(component.key(), translatableComponent.key()));
                             return GlobalTranslator.render(translatableComponent, locale).clickEvent(
                                     childComponent.clickEvent()
                             ).hoverEvent(childComponent.hoverEvent());
