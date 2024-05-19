@@ -6,6 +6,7 @@ import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.ScoreboardApi;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AnimatedScoreboardLine;
+import de.keeeks.nucleo.modules.scoreboard.api.lines.AutoUpdatingScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.listener.ScoreboardPlayerQuitListener;
 import org.bukkit.Bukkit;
 
@@ -40,14 +41,15 @@ public class ScoreboardSpigotModule extends SpigotModule {
     private void initializeScheduler() {
         Bukkit.getAsyncScheduler().runAtFixedRate(
                 plugin(),
-                scheduledTask -> scoreboardApi.scoreboards().forEach(this::tickAllAnimatedLines),
+                scheduledTask -> scoreboardApi.scoreboards().forEach(this::tickAllLines),
                 0,
                 50,
                 TimeUnit.MILLISECONDS
         );
     }
 
-    private void tickAllAnimatedLines(Scoreboard scoreboard) {
+    private void tickAllLines(Scoreboard scoreboard) {
         scoreboard.lines(AnimatedScoreboardLine.class).forEach(AnimatedScoreboardLine::tickAndRender);
+        scoreboard.lines(AutoUpdatingScoreboardLine.class).forEach(AutoUpdatingScoreboardLine::tickAndRender);
     }
 }

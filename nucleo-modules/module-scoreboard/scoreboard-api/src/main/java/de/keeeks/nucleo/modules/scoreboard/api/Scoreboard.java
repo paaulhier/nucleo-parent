@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.scoreboard.api;
 
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AnimatedScoreboardLine;
+import de.keeeks.nucleo.modules.scoreboard.api.lines.AutoUpdatingScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.DynamicScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.ScoreboardLine;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,8 @@ public interface Scoreboard {
     default <T> List<T> lines(Class<T> type) {
         return lines().stream().filter(type::isInstance).map(type::cast).toList();
     }
+
+    AutoUpdatingScoreboardLine autoUpdatingLine(int tickInterval, Supplier<Component> component);
 
     DynamicScoreboardLine dynamicLine(Supplier<Component> component);
 

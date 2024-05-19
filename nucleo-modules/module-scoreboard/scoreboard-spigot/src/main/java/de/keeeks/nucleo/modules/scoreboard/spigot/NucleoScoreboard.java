@@ -5,9 +5,11 @@ import com.comphenix.protocol.ProtocolManager;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AnimatedScoreboardLine;
+import de.keeeks.nucleo.modules.scoreboard.api.lines.AutoUpdatingScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.DynamicScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.ScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoAnimatedScoreboardLine;
+import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoAutoUpdatingScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoDynamicScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.lines.NucleoStaticScoreboardLine;
 import fr.mrmicky.fastboard.adventure.FastBoard;
@@ -56,6 +58,16 @@ public class NucleoScoreboard implements Scoreboard {
     @Override
     public List<ScoreboardLine> lines() {
         return lines;
+    }
+
+    @Override
+    public AutoUpdatingScoreboardLine autoUpdatingLine(int tickInterval, Supplier<Component> component) {
+        return createLine(new NucleoAutoUpdatingScoreboardLine(
+                this,
+                lineCounter.getAndIncrement(),
+                tickInterval,
+                component
+        ));
     }
 
     @Override
