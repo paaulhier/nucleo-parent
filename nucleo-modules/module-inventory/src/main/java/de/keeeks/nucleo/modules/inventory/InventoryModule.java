@@ -6,6 +6,7 @@ import de.keeeks.nucleo.core.spigot.module.SpigotModule;
 import de.keeeks.nucleo.modules.inventory.hotbar.PlayerHotBarService;
 import de.keeeks.nucleo.modules.inventory.hotbar.listener.PlayerHotBarInteractListener;
 import de.keeeks.nucleo.modules.inventory.hotbar.listener.PlayerHotBarInventoryClickEventListener;
+import de.keeeks.nucleo.modules.inventory.hotbar.listener.PlayerHotBarItemDropListener;
 import xyz.xenondevs.invui.InvUI;
 
 @ModuleDescription(
@@ -28,7 +29,8 @@ public class InventoryModule extends SpigotModule {
         InvUI.getInstance().setPlugin(plugin());
         registerListener(
                 new PlayerHotBarInteractListener(),
-                new PlayerHotBarInventoryClickEventListener()
+                new PlayerHotBarInventoryClickEventListener(),
+                new PlayerHotBarItemDropListener()
         );
     }
 }
