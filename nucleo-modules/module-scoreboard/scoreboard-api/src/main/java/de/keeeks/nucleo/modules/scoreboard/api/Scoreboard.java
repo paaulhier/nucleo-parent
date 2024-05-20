@@ -44,7 +44,11 @@ public interface Scoreboard {
         return animatedLine(tickInterval, lines);
     }
 
-    AnimatedScoreboardLine animatedLine(int tickInterval, List<Component> lines);
+    default AnimatedScoreboardLine animatedLine(int tickInterval, List<Component> lines) {
+        return animatedLine(tickInterval, () -> lines);
+    }
+
+    AnimatedScoreboardLine animatedLine(int tickInterval, Supplier<List<Component>> lines);
 
     default AnimatedScoreboardLine animatedLineWithDefaultTicking(int index, List<Component> lines) {
         return animatedLine(index, 20, lines);

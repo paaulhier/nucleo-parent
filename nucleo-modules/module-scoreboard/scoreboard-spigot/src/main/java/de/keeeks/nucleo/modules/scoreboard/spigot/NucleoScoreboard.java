@@ -89,7 +89,7 @@ public class NucleoScoreboard implements Scoreboard {
     }
 
     @Override
-    public AnimatedScoreboardLine animatedLine(int tickInterval, List<Component> lines) {
+    public AnimatedScoreboardLine animatedLine(int tickInterval, Supplier<List<Component>> lines) {
         return createLine(new NucleoAnimatedScoreboardLine(
                 this,
                 lineCounter.getAndIncrement(),

@@ -7,15 +7,21 @@ import net.kyori.adventure.text.Component;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Supplier;
 
 public class NucleoAnimatedScoreboardLine extends NucleoScoreboardLine implements AnimatedScoreboardLine {
     private final AtomicInteger index = new AtomicInteger(0);
     private final AtomicLong lastUpdate = new AtomicLong(0);
 
     private final int tickInterval;
-    private final List<Component> lines;
+    private final Supplier<List<Component>> lines;
 
-    public NucleoAnimatedScoreboardLine(NucleoScoreboard scoreboard, int index, int tickInterval, List<Component> lines) {
+    public NucleoAnimatedScoreboardLine(
+            NucleoScoreboard scoreboard,
+            int index,
+            int tickInterval,
+            Supplier<List<Component>> lines
+    ) {
         super(scoreboard, index);
         this.tickInterval = tickInterval;
         this.lines = lines;
@@ -32,7 +38,7 @@ public class NucleoAnimatedScoreboardLine extends NucleoScoreboardLine implement
 
         int currentIndex = index.incrementAndGet();
 
-        if (currentIndex >= (lines.size())) {
+        if (currentIndex >= (lines.get().size())) {
             index.set(0);
         }
         lastUpdate.set(System.currentTimeMillis());
@@ -41,7 +47,7 @@ public class NucleoAnimatedScoreboardLine extends NucleoScoreboardLine implement
 
     @Override
     public Component currentComponent() {
-        return lines.get(index.get());
+        return lines.get().get(index.get());
     }
 
     private int ticksToMilliseconds() {
