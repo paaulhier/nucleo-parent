@@ -8,7 +8,10 @@ import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import lombok.Getter;
 
 @Getter
-@ModuleDescription(name = "messaging", dependencies = @Dependency(name = "config"))
+@ModuleDescription(
+        name = "messaging",
+        dependencies = @Dependency(name = "config")
+)
 public class MessagingModule extends Module {
 
     private NatsConnection defaultNatsConnection;

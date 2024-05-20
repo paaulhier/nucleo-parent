@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 public abstract class PacketListener<P extends Packet> {
-    private final String channelName;
     private final int priority;
     private final Class<P> packetClass;
 
@@ -20,8 +19,7 @@ public abstract class PacketListener<P extends Packet> {
             );
         }
         this.packetClass = packetClass;
-        channelName = listenerChannel.value();
-        priority = listenerChannel.priority();
+        this.priority = listenerChannel.priority();
     }
 
     public abstract void receive(P p, Message message);

@@ -22,8 +22,11 @@ public @interface ListenerChannel {
     /**
      * The priority of the packet listener. The lower the priority, the earlier the listener is called.
      *
+     * @deprecated Use {@link Order} instead.
+     *
      * @return The priority of the packet listener.
      */
+    @Deprecated
     int priority() default 0;
 
 }

@@ -1,9 +1,6 @@
 package de.keeeks.nucleo.modules.messaging;
 
-import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
-import de.keeeks.nucleo.modules.messaging.packet.Packet;
-import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
-import de.keeeks.nucleo.modules.messaging.packet.PacketMeta;
+import de.keeeks.nucleo.modules.messaging.packet.*;
 import io.nats.client.*;
 import lombok.Getter;
 
@@ -108,7 +105,6 @@ public class NatsConnection {
                     s -> new ArrayList<>()
             ).add(packetListener);
             registerDispatcher(listenerChannel.value());
-            logger.info("Registered packet listener %s".formatted(clazz.getName()));
         }
     }
 
@@ -187,6 +183,13 @@ public class NatsConnection {
                                         packet.getClass()
                                 ))
                                 .sorted(Comparator.comparingInt(PacketListener::priority))
+                                .sorted(Comparator.comparingInt(value -> {
+                                    Class<? extends PacketListener> clazz = value.getClass();
+                                    if (clazz.isAnnotationPresent(Order.class)) {
+                                        return clazz.getAnnotation(Order.class).value().priority();
+                                    }
+                                    return 0;
+                                }))
                                 .forEach(packetListener -> packetListener.receiveRaw(packet, message));
                     }).subscribe(channel);
 
