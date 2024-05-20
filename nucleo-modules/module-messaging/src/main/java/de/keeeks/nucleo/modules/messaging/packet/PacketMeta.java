@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.messaging.packet;
 
 import com.google.gson.Gson;
+import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import lombok.Getter;
 
@@ -10,6 +11,9 @@ import java.util.function.Supplier;
 @Getter
 public class PacketMeta {
     private static final Supplier<Gson> gson = GsonBuilder::globalGson;
+
+    private final String sender = Module.serviceName();
+
     private final String packetJson;
     private final String className;
 

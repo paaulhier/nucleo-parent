@@ -117,7 +117,10 @@ public class NatsConnection {
                 channel,
                 packet.packetMeta().toBytes()
         ).thenApply(
-                message -> responsePacketClass.cast(parsePacketFromMessage(message))
+                message -> {
+                    message.ack();
+                    return responsePacketClass.cast(parsePacketFromMessage(message));
+                }
         );
     }
 
