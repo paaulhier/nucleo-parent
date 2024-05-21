@@ -15,6 +15,7 @@ import java.util.List;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
+@Usage("nucleo.moderation.comment.usage")
 @Command({"comment"})
 @CommandPermission("nucleo.moderation.comment")
 public class CommentCommand {
