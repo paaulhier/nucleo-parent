@@ -21,6 +21,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -57,7 +58,7 @@ public class NucleoScoreboard implements Scoreboard {
 
     @Override
     public List<ScoreboardLine> lines() {
-        return lines;
+        return List.copyOf(lines).stream().filter(Objects::nonNull).toList();
     }
 
     @Override
