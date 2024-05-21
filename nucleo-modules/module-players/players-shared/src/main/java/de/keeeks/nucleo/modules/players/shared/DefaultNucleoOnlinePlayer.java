@@ -102,6 +102,15 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     }
 
     @Override
+    public void executeCommand(CommandTarget commandTarget, String command) {
+        playerService().executeCommand(
+                this,
+                commandTarget,
+                command
+        );
+    }
+
+    @Override
     public void kick(Component reason, boolean raw) {
         playerService().kickPlayer(
                 this,

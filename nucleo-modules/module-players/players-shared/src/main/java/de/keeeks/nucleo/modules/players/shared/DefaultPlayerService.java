@@ -342,6 +342,22 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
+    public void executeCommand(
+            NucleoOnlinePlayer nucleoOnlinePlayer,
+            CommandTarget commandTarget,
+            String command
+    ) {
+        natsConnection.publishPacket(
+                CHANNEL,
+                new NucleoOnlinePlayerExecuteCommandPacket(
+                        nucleoOnlinePlayer,
+                        commandTarget,
+                        command
+                )
+        );
+    }
+
+    @Override
     public void connectPlayer(
             NucleoOnlinePlayer nucleoOnlinePlayer,
             String server,

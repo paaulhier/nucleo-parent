@@ -14,6 +14,7 @@ import de.keeeks.nucleo.modules.players.velocity.listener.PlayerDisconnectListen
 import de.keeeks.nucleo.modules.players.velocity.listener.PreLoginListener;
 import de.keeeks.nucleo.modules.players.velocity.listener.ServerConnectedListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerConnectRequestPacketListener;
+import de.keeeks.nucleo.modules.players.velocity.packet.listener.VelocityNucleoOnlinePlayerExecuteCommandPacketListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerKickPacketListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerMessagePacketListener;
 
@@ -67,7 +68,8 @@ public class PlayersVelocityModule extends VelocityModule {
         ServiceRegistry.service(NatsConnection.class).registerPacketListener(
                 new NucleoOnlinePlayerMessagePacketListener(plugin.proxyServer()),
                 new NucleoOnlinePlayerConnectRequestPacketListener(plugin.proxyServer()),
-                new NucleoOnlinePlayerKickPacketListener(plugin.proxyServer())
+                new NucleoOnlinePlayerKickPacketListener(plugin.proxyServer()),
+                new VelocityNucleoOnlinePlayerExecuteCommandPacketListener(plugin.proxyServer())
         );
     }
 }

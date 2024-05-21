@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.players.api;
 
-import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import net.kyori.adventure.text.Component;
 
@@ -30,6 +29,8 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
     }
 
     void connect(String server, Consumer<State> successCallback);
+
+    void executeCommand(CommandTarget commandTarget, String command);
 
     void kick(Component reason, boolean raw);
 

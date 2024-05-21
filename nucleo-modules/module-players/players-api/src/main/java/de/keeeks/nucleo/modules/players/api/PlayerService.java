@@ -221,6 +221,12 @@ public interface PlayerService {
         send(nucleoOnlinePlayer.uuid(), component, messageType);
     }
 
+    void executeCommand(
+            NucleoOnlinePlayer nucleoOnlinePlayer,
+            CommandTarget commandTarget,
+            String command
+    );
+
     void connectPlayer(
             NucleoOnlinePlayer nucleoOnlinePlayer,
             String server,
