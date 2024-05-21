@@ -47,7 +47,11 @@ public class PlayerHotBarInteractListener implements Listener {
         int heldItemSlot = inventory.getHeldItemSlot();
 
         playerHotBar.item(heldItemSlot).ifPresent(
-                hotBarItem -> hotBarItem.interactAtEntity(player, heldItemSlot, event.getRightClicked())
+                hotBarItem -> event.setCancelled(hotBarItem.interactAtEntity(
+                        player,
+                        heldItemSlot,
+                        event.getRightClicked()
+                ))
         );
     }
 
@@ -60,7 +64,11 @@ public class PlayerHotBarInteractListener implements Listener {
 
             playerHotBar.item(heldItemSlot).ifPresent(hotBarItem -> {
                 if (!hotBarItem.allowLeftClick()) return;
-                hotBarItem.interactAtEntity(player, heldItemSlot, event.getEntity());
+                event.setCancelled(hotBarItem.interactAtEntity(
+                        player,
+                        heldItemSlot,
+                        event.getEntity()
+                ));
             });
         }
     }

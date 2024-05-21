@@ -27,10 +27,11 @@ public abstract class HotBarItem {
             PlayerInteractEvent event
     );
 
-    public void interactAtEntity(
+    public boolean interactAtEntity(
             Player player,
             int slot,
             Entity entity
     ) {
+        return false;
     }
 }
