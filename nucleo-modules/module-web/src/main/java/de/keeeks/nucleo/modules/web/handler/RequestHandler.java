@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.web.handler;
 import com.google.gson.Gson;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
-import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.modules.web.WebModule;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -39,7 +38,7 @@ public abstract class RequestHandler implements Handler {
         HandlerType method = context.method();
 
         if (supportedHandlerTypes.contains(method)) {
-            Scheduler.runAsync(() -> {
+            context.async(() -> {
                 try {
                     processRequest(context, context.req(), context.res());
                 } catch (Exception e) {
@@ -58,7 +57,7 @@ public abstract class RequestHandler implements Handler {
     protected final <T> void sendResponse(
             HttpServletResponse response,
             ResponseEntity<T> responseEntity
-    ) throws Exception{
+    ) throws Exception {
         sendResponse(
                 response,
                 responseEntity.status(),
