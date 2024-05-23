@@ -32,6 +32,7 @@
         <module>module-buildserverconnector</module>
         <module>module-privacy</module>
         <module>module-tabdecoration</module>
+        <module>module-vanish</module>
     </modules>
 
     <properties>
