@@ -19,23 +19,11 @@ public class TranslationEntryResultSetTransformer implements ResultSetTransforme
         return new DefaultTranslationEntry(
                 resultSet.getInt("id"),
                 resultSet.getString("translationKey"),
-                locale(resultSet.getString("locale")),
+                TranslationApi.locale(resultSet.getString("locale")),
                 translationApi.module(resultSet.getInt("moduleId")).orElseThrow(),
                 resultSet.getTimestamp("createdAt").toInstant(),
                 resultSet.getString("translationValue"),
                 resultSet.getTimestamp("updatedAt").toInstant()
         );
-    }
-
-    private Locale locale(String localeString) {
-        String[] localeParts = localeString.split("-");
-
-        if (localeParts.length == 1) {
-            return Locale.of(localeParts[0]);
-        } else if (localeParts.length == 2) {
-            return Locale.of(localeParts[0], localeParts[1]);
-        } else {
-            return Locale.of(localeParts[0], localeParts[1], localeParts[2]);
-        }
     }
 }

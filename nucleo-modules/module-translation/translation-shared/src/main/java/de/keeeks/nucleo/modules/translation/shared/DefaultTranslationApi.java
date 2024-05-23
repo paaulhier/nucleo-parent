@@ -24,6 +24,8 @@ import de.keeeks.nucleo.modules.translations.api.TranslationEntry;
 import de.keeeks.nucleo.modules.translations.api.packet.ReloadTranslationsPacket;
 import de.keeeks.nucleo.modules.translations.api.packet.module.ModuleDetailsCreatePacket;
 import de.keeeks.nucleo.modules.translations.api.packet.translationentry.TranslationEntryCreatePacket;
+import de.keeeks.nucleo.modules.translations.api.packet.translationentry.TranslationEntryDeletePacket;
+import de.keeeks.nucleo.modules.translations.api.packet.translationentry.TranslationEntryUpdatePacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +129,18 @@ public class DefaultTranslationApi implements TranslationApi {
             publishPacket(new TranslationEntryCreatePacket(translationEntry));
             return translationEntry;
         });
+    }
+
+    @Override
+    public void updateTranslationEntry(TranslationEntry translationEntry) {
+        translationEntryRepository.updateTranslationEntry(translationEntry);
+        publishPacket(new TranslationEntryUpdatePacket(translationEntry));
+    }
+
+    @Override
+    public void deleteTranslationEntry(TranslationEntry translationEntry) {
+        translationEntryRepository.deleteTranslationEntry(translationEntry);
+        publishPacket(new TranslationEntryDeletePacket(translationEntry));
     }
 
     @Override

@@ -17,13 +17,31 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class DefaultTranslationEntry implements TranslationEntry {
     private final int id;
-    private final String key;
-    private final Locale locale;
     private final ModuleDetails module;
     private final Instant createdAt;
 
+    private String key;
     private String value;
+    private Locale locale;
     private Instant updatedAt;
+
+    public DefaultTranslationEntry(
+            int id,
+            String key,
+            Locale locale,
+            ModuleDetails module,
+            Instant createdAt,
+            String value,
+            Instant updatedAt
+    ) {
+        this.id = id;
+        this.key = key;
+        this.locale = locale;
+        this.module = module;
+        this.createdAt = createdAt;
+        this.value = value;
+        this.updatedAt = updatedAt;
+    }
 
     public DefaultTranslationEntry(int id, String key, Locale locale, ModuleDetails module, String value) {
         this.id = id;

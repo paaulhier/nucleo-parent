@@ -4,15 +4,19 @@ import com.google.gson.Gson;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.modules.web.WebModule;
+import de.keeeks.nucleo.modules.web.handler.dto.ExceptionDto;
+import de.keeeks.nucleo.modules.web.handler.dto.StatusDto;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HandlerType;
+import io.javalin.http.HttpStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -23,7 +27,7 @@ import java.util.logging.Logger;
 public abstract class RequestHandler implements Handler {
     protected final Logger logger = Module.module(WebModule.class).logger();
 
-    private final Supplier<Gson> gson = GsonBuilder::globalGson;
+    protected final Supplier<Gson> gson = GsonBuilder::globalGson;
 
     private final List<HandlerType> supportedHandlerTypes;
     private final String path;
@@ -52,6 +56,36 @@ public abstract class RequestHandler implements Handler {
         } else {
             context.status(405);
         }
+    }
+
+    protected final <T> T readBody(Context context, Class<T> clazz) {
+        return gson.get().fromJson(context.body(), clazz);
+    }
+
+    protected final <T> void writeBody(Context context, T t) {
+        context.result(gson.get().toJson(t));
+    }
+
+    protected final void writeError(Context context, HttpStatus httpStatus, Throwable throwable) {
+        context.status(httpStatus);
+        context.result(gson.get().toJson(new ExceptionDto(
+                context.path(),
+                throwable.getMessage(),
+                Instant.now()
+        )));
+    }
+
+    protected final <T> void writeStatus(Context context, HttpStatus httpStatus, T data) {
+        context.status(httpStatus);
+        context.result(gson.get().toJson(new StatusDto<>(
+                context.path(),
+                httpStatus.getCode(),
+                data
+        )));
+    }
+
+    protected final void writeStatus(Context context, HttpStatus httpStatus) {
+        writeStatus(context, httpStatus, null);
     }
 
     protected final <T> void sendResponse(

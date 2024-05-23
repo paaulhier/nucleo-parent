@@ -18,6 +18,9 @@ public interface TranslationEntry {
 
     Instant updatedAt();
 
+    TranslationEntry key(String key);
+
     TranslationEntry value(String value);
 
+    TranslationEntry locale(Locale locale);
 }

@@ -40,7 +40,17 @@ public interface TranslationApi {
         return createTranslationEntry(moduleDetails, locale, key, "");
     }
 
+    void updateTranslationEntry(TranslationEntry translationEntry);
+
+    void deleteTranslationEntry(TranslationEntry translationEntry);
+
     List<TranslationEntry> translations();
+
+    default Optional<TranslationEntry> translationEntry(int id) {
+        return translations().stream().filter(
+                translationEntry -> translationEntry.id() == id
+        ).findFirst();
+    }
 
     default Optional<TranslationEntry> translationEntry(
             ModuleDetails moduleDetails,
@@ -68,5 +78,17 @@ public interface TranslationApi {
         return translations().stream().filter(
                 translationEntry -> translationEntry.locale().equals(locale)
         ).toList();
+    }
+
+    static Locale locale(String localeString) {
+        String[] localeParts = localeString.split("-");
+
+        if (localeParts.length == 1) {
+            return Locale.of(localeParts[0]);
+        } else if (localeParts.length == 2) {
+            return Locale.of(localeParts[0], localeParts[1]);
+        } else {
+            return Locale.of(localeParts[0], localeParts[1], localeParts[2]);
+        }
     }
 }
