@@ -3,6 +3,8 @@ package de.keeeks.nucleo.modules.translation.server;
 import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.modules.translation.server.handler.LocalesHandler;
+import de.keeeks.nucleo.modules.translation.server.handler.ModulesHandler;
 import de.keeeks.nucleo.modules.translation.server.handler.TranslationHandler;
 import de.keeeks.nucleo.modules.translation.shared.DefaultTranslationApi;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
@@ -27,7 +29,9 @@ public class TranslationServerModule extends WebModule {
     @Override
     public void enable() {
         RequestHandlerRegistrar.register(
-                new TranslationHandler()
+                new TranslationHandler(),
+                new LocalesHandler(),
+                new ModulesHandler()
         );
     }
 }

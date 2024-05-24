@@ -14,6 +14,7 @@ import io.javalin.http.HttpStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
 
@@ -50,6 +51,38 @@ public class TranslationHandler extends RequestHandler {
 
     private void getTranslations(Context context) {
         String localeParam = context.queryParam("locale");
+        String moduleId = context.queryParam("moduleId");
+
+        if (moduleId != null) {
+            translationByModuleId(context, Integer.parseInt(moduleId), localeParam);
+            return;
+        }
+
+        if (localeParam != null) {
+            translationsByLocale(context, localeParam);
+            return;
+        }
+
+        writeStatus(context, HttpStatus.BAD_REQUEST, "No moduleId or locale provided.");
+    }
+
+    private void translationByModuleId(Context context, Integer id, String locale) {
+        translationApi.module(id).ifPresentOrElse(
+                moduleDetails -> {
+                    List<TranslationEntry> translations = translationApi.translations(moduleDetails).stream().filter(
+                            translationEntry -> {
+                                if (locale == null) return true;
+                                return translationEntry.locale().equals(TranslationApi.locale(locale));
+                            }
+                    ).toList();
+                    logger.info("Returning translations for module: " + moduleDetails.name() + " with locale: " + locale);
+                    context.result(gsonSupplier.get().toJson(translations));
+                },
+                () -> writeStatus(context, HttpStatus.NO_CONTENT)
+        );
+    }
+
+    private void translationsByLocale(Context context, String localeParam) {
         Locale locale = localeParam == null ? null : TranslationApi.locale(localeParam);
 
         if (locale == null) {

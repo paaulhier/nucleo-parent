@@ -4,8 +4,10 @@ import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
+import de.keeeks.nucleo.modules.web.auth.ApiKeyAuthenticationHandler;
 import de.keeeks.nucleo.modules.web.auth.BasicAuthenticationHandler;
 import de.keeeks.nucleo.modules.web.configuration.WebConfiguration;
+import de.keeeks.nucleo.modules.web.configuration.authorization.ApiKeyAuthenticationConfiguration;
 import de.keeeks.nucleo.modules.web.configuration.authorization.BasicAuthenticationConfiguration;
 import de.keeeks.nucleo.modules.web.handler.socket.SocketHandler;
 import io.javalin.Javalin;
@@ -78,22 +80,39 @@ public class WebModule extends Module {
     }
 
     private void initializeAuthentication() {
-        if (webConfiguration.authenticationType().equals(WebConfiguration.AuthenticationType.BASIC)) {
-            var basicAuthenticationConfiguration = JsonConfiguration.create(
-                    new File(dataFolder(), "auth"),
-                    "auth"
-            ).loadObject(
-                    BasicAuthenticationConfiguration.class,
-                    BasicAuthenticationConfiguration.defaultConfiguration()
-            );
-
-            javalin.before(new BasicAuthenticationHandler(
-                    basicAuthenticationConfiguration
-            ));
-            logger.info("Basic authentication enabled");
-            return;
+        switch (webConfiguration.authenticationType()) {
+            case NONE -> logger.info("No authentication enabled");
+            case API_KEY -> initializeApikeyAuthentication();
+            case BASIC -> initializeBasicAuthentication();
+            case CUSTOM -> logger.warning("Using custom authentication, but no custom handler found");
         }
+    }
 
-        logger.info("Using custom authentication handler");
+    private void initializeApikeyAuthentication() {
+        ApiKeyAuthenticationConfiguration configuration = JsonConfiguration.create(
+                new File(dataFolder(), "auth"),
+                "apiKeyAuthentication"
+        ).loadObject(
+                ApiKeyAuthenticationConfiguration.class,
+                ApiKeyAuthenticationConfiguration.defaultConfiguration()
+        );
+
+        javalin.before(new ApiKeyAuthenticationHandler(configuration));
+        logger.info("Api key authentication enabled");
+    }
+
+    private void initializeBasicAuthentication() {
+        var basicAuthenticationConfiguration = JsonConfiguration.create(
+                new File(dataFolder(), "auth"),
+                "basicAuthentication"
+        ).loadObject(
+                BasicAuthenticationConfiguration.class,
+                BasicAuthenticationConfiguration.defaultConfiguration()
+        );
+
+        javalin.before(new BasicAuthenticationHandler(
+                basicAuthenticationConfiguration
+        ));
+        logger.info("Basic authentication enabled");
     }
 }

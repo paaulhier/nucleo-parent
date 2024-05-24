@@ -14,6 +14,7 @@ public record WebConfiguration(
     public enum AuthenticationType {
         NONE,
         BASIC,
+        API_KEY,
         CUSTOM
     }
 }
