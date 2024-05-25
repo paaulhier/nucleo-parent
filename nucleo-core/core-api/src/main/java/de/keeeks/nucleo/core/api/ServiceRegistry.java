@@ -27,4 +27,12 @@ public final class ServiceRegistry {
     public static <T> T service(Class<T> clazz) {
         return (T) services.get(clazz.getName());
     }
+
+    public static boolean isRegistered(String name) {
+        return services.containsKey(name);
+    }
+
+    public static boolean isRegistered(Class<?> clazz) {
+        return isRegistered(clazz.getName());
+    }
 }
