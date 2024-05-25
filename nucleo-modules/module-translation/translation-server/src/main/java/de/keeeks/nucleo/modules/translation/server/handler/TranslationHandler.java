@@ -52,6 +52,12 @@ public class TranslationHandler extends RequestHandler {
     private void getTranslations(Context context) {
         String localeParam = context.queryParam("locale");
         String moduleId = context.queryParam("moduleId");
+        Integer translationId = context.queryParamAsClass("id", Integer.class).allowNullable().get();
+
+        if (translationId != null) {
+            translationById(context, translationId, moduleId);
+            return;
+        }
 
         if (moduleId != null) {
             translationByModuleId(context, Integer.parseInt(moduleId), localeParam);
@@ -66,6 +72,16 @@ public class TranslationHandler extends RequestHandler {
         writeStatus(context, HttpStatus.BAD_REQUEST, "No moduleId or locale provided.");
     }
 
+    private void translationById(Context context, Integer id, String moduleId) {
+        translationApi.translationEntry(id).filter(translationEntry -> {
+            if (moduleId == null) return true;
+            return translationEntry.module()    .id() == Integer.parseInt(moduleId);
+        }).ifPresentOrElse(
+                translationEntry -> context.result(gsonSupplier.get().toJson(translationEntry)),
+                () -> writeStatus(context, HttpStatus.NO_CONTENT)
+        );
+    }
+
     private void translationByModuleId(Context context, Integer id, String locale) {
         translationApi.module(id).ifPresentOrElse(
                 moduleDetails -> {
@@ -75,7 +91,6 @@ public class TranslationHandler extends RequestHandler {
                                 return translationEntry.locale().equals(TranslationApi.locale(locale));
                             }
                     ).toList();
-                    logger.info("Returning translations for module: " + moduleDetails.name() + " with locale: " + locale);
                     context.result(gsonSupplier.get().toJson(translations));
                 },
                 () -> writeStatus(context, HttpStatus.NO_CONTENT)
@@ -111,6 +126,7 @@ public class TranslationHandler extends RequestHandler {
                     createTranslationDto.key(),
                     createTranslationDto.value()
             );
+            logger.info("Created a new translation entry with key: " + translationEntry.key());
             translationApi.reload();
             writeBody(context, translationEntry);
         }, () -> writeStatus(context, HttpStatus.NO_CONTENT));
@@ -133,6 +149,7 @@ public class TranslationHandler extends RequestHandler {
                         changed = true;
                     }
                     if (changed) {
+                        logger.info("Updated the translation entry with key: " + translationEntry.key());
                         translationApi.updateTranslationEntry(translationEntry);
                         translationApi.reload();
                     }
@@ -154,9 +171,10 @@ public class TranslationHandler extends RequestHandler {
                     translationEntry -> {
                         translationApi.deleteTranslationEntry(translationEntry);
                         translationApi.reload();
+                        logger.info("Deleted the translation entry with key: " + translationEntry.key());
                         writeStatus(context, HttpStatus.OK);
                     },
-                    () -> writeStatus(context, HttpStatus.BAD_REQUEST)
+                    () -> writeStatus(context, HttpStatus.NO_CONTENT)
             );
         } catch (NumberFormatException e) {
             writeStatus(context, HttpStatus.BAD_REQUEST, "Id must be a number.");
