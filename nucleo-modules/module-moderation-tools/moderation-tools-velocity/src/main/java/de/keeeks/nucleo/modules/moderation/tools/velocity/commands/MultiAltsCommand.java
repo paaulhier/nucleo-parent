@@ -14,6 +14,7 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
 @Command("mutltialts")
@@ -28,12 +29,13 @@ public class MultiAltsCommand {
         List<PlayerWithAlts> playerWithAltsCollection = playerService.onlinePlayers().stream().map(
                 onlinePlayer -> new PlayerWithAlts(
                         onlinePlayer,
+                        playerService.players(onlinePlayer.ipAddress()).stream().filter(
+                                this::isPunished
+                        ).toList(),
                         playerService.players(onlinePlayer.ipAddress())
                 )
         ).filter(
-                nucleoPlayers -> nucleoPlayers.alts().size() > 1
-        ).filter(
-                playerWithAlts -> playerWithAlts.alts().stream().anyMatch(this::isPunished)
+                nucleoPlayers -> nucleoPlayers.bannedAlts().size() > 1
         ).toList();
         if (playerWithAltsCollection.isEmpty()) {
             player.sendMessage(translatable("nucleo.commands.moderation.multialts.noAlts"));
@@ -48,15 +50,11 @@ public class MultiAltsCommand {
         for (PlayerWithAlts playerWithAlts : paginationResult) {
             player.sendMessage(translatable(
                     "nucleo.commands.moderation.multialts.player",
-                    NameColorizer.coloredName(playerWithAlts.player().uuid())
+                    NameColorizer.coloredName(playerWithAlts.player().uuid()),
+                    text(playerWithAlts.player().name()),
+                    text(playerWithAlts.bannedAlts().size()),
+                    text(playerWithAlts.totalAlts().size())
             ));
-            for (NucleoPlayer alt : playerWithAlts.alts()) {
-                if (alt.equals(playerWithAlts.player())) continue;
-                player.sendMessage(translatable(
-                        "nucleo.commands.moderation.multialts.alt",
-                        NameColorizer.coloredName(alt.uuid())
-                ));
-            }
         }
     }
 
@@ -65,6 +63,6 @@ public class MultiAltsCommand {
                 punishmentApi.activePunishment(nucleoPlayer.uuid(), PunishmentType.BAN).isPresent();
     }
 
-    record PlayerWithAlts(NucleoPlayer player, List<NucleoPlayer> alts) {
+    record PlayerWithAlts(NucleoPlayer player, List<NucleoPlayer> bannedAlts, List<NucleoPlayer> totalAlts) {
     }
 }
