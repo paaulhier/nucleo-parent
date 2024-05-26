@@ -41,6 +41,7 @@ public class DefaultPlayerService implements PlayerService {
             "mysql"
     );
     private final List<PlayerCacheElement<? extends NucleoPlayer>> playersCache = new LinkedList<>();
+    private final Map<String, List<NucleoPlayer>> playersByIpAddress = new HashMap<>();
     private final List<UUID> playersSortedByPlayTime = new ArrayList<>();
 
     private final Logger logger = playersModule.logger();
@@ -167,16 +168,21 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public List<NucleoPlayer> players(String ipAddress) {
-        List<NucleoPlayer> players = new ArrayList<>(onlinePlayers().stream().filter(
-                onlinePlayer -> onlinePlayer.ipAddress().equals(ipAddress)
-        ).toList());
+        return playersByIpAddress.computeIfAbsent(
+                ipAddress,
+                s -> {
+                    List<NucleoPlayer> players = new ArrayList<>(onlinePlayers().stream().filter(
+                            onlinePlayer -> onlinePlayer.ipAddress().equals(ipAddress)
+                    ).toList());
 
-        for (NucleoPlayer player : playerRepository.players(ipAddress)) {
-            if (players.stream().anyMatch(nucleoPlayer -> nucleoPlayer.uuid().equals(player.uuid()))) continue;
-            players.add(player);
-        }
-
-        return List.copyOf(players);
+                    for (NucleoPlayer player : playerRepository.players(ipAddress)) {
+                        if (players.stream().anyMatch(nucleoPlayer -> nucleoPlayer.uuid().equals(player.uuid())))
+                            continue;
+                        players.add(player);
+                    }
+                    return List.copyOf(players);
+                }
+        );
     }
 
     @Override
@@ -224,7 +230,7 @@ public class DefaultPlayerService implements PlayerService {
     @Override
     public List<NucleoPlayer> playersSortedByPlayTime() {
         return List.copyOf(playersSortedByPlayTime).stream().map(uuid ->
-            player(uuid).orElse(null)
+                player(uuid).orElse(null)
         ).filter(Objects::nonNull).toList();
     }
 
