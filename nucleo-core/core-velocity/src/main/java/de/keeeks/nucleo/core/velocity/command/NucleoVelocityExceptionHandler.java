@@ -2,16 +2,15 @@ package de.keeeks.nucleo.core.velocity.command;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
+import de.keeeks.nucleo.core.api.utils.Formatter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.command.CommandActor;
-import revxrsal.commands.exception.DefaultExceptionHandler;
-import revxrsal.commands.exception.MissingArgumentException;
-import revxrsal.commands.exception.NoPermissionException;
-import revxrsal.commands.exception.SendableException;
+import revxrsal.commands.exception.*;
 import revxrsal.commands.velocity.VelocityCommandActor;
 
+import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,6 +61,16 @@ public class NucleoVelocityExceptionHandler extends DefaultExceptionHandler {
     public void sendableException(@NotNull CommandActor actor, @NotNull SendableException exception) {
         actor.as(VelocityCommandActor.class).requirePlayer().sendMessage(translatable(
                 exception.getMessage()
+        ));
+    }
+
+    @Override
+    public void cooldown(@NotNull CommandActor actor, @NotNull CooldownException exception) {
+        actor.as(VelocityCommandActor.class).getSource().sendMessage(translatable(
+                "nucleo.command.cooldown",
+                Formatter.duration(Duration.ofMillis(
+                        exception.getTimeLeftMillis()
+                ))
         ));
     }
 }
