@@ -46,7 +46,7 @@ public abstract class AbstractModuleLoader {
     private void enableModule(ModuleContainer moduleContainer) {
         Module module = moduleContainer.module();
         try {
-            if (module.moduleState().failed()) return;
+            if (!moduleContainer.available().get() || module.moduleState().failed()) return;
             moduleOutput("Enabling", moduleContainer);
             module.enable();
             module.updateState(ModuleState.ENABLED);
@@ -93,6 +93,7 @@ public abstract class AbstractModuleLoader {
     private void loadModule(ModuleContainer moduleContainer) {
         Module module = moduleContainer.module();
         try {
+            if (!moduleContainer.available().get() || module.moduleState().failed()) return;
             moduleOutput("Loading", moduleContainer);
             module.load();
             module.updateState(ModuleState.LOADED);
@@ -114,7 +115,7 @@ public abstract class AbstractModuleLoader {
     private void disableModule(ModuleContainer moduleContainer) {
         Module module = moduleContainer.module();
         try {
-            if (module.moduleState().failed()) return;
+            if (!moduleContainer.available().get() || module.moduleState().failed()) return;
             moduleOutput("Disabling", moduleContainer);
             module.disable();
             module.updateState(ModuleState.DISABLED);
