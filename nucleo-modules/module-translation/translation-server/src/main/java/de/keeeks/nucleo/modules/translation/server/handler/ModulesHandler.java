@@ -38,6 +38,8 @@ public class ModulesHandler extends RequestHandler {
             return;
         }
 
-        writeBody(context, translationApi.modules().stream().sorted(Comparator.comparing(ModuleDetails::name)));
+        writeBody(context, translationApi.modules().stream().sorted(
+                Comparator.comparing(ModuleDetails::name)
+        ).toList());
     }
 }
