@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.translation.server.handler;
 
 import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.modules.translations.api.ModuleDetails;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import de.keeeks.nucleo.modules.web.handler.RequestHandler;
 import io.javalin.http.Context;
@@ -8,6 +9,8 @@ import io.javalin.http.HandlerType;
 import io.javalin.http.HttpStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Comparator;
 
 public class ModulesHandler extends RequestHandler {
     private final TranslationApi translationApi = ServiceRegistry.service(TranslationApi.class);
@@ -35,6 +38,6 @@ public class ModulesHandler extends RequestHandler {
             return;
         }
 
-        writeBody(context, translationApi.modules());
+        writeBody(context, translationApi.modules().stream().sorted(Comparator.comparing(ModuleDetails::name)));
     }
 }
