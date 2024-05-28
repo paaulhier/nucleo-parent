@@ -63,7 +63,16 @@ public abstract class RequestHandler implements Handler {
     }
 
     protected final <T> void writeBody(Context context, T t) {
+        writeBody(context, HttpStatus.OK, t);
+    }
+
+    protected final <T> void writeBody(Context context, int httpStatus, T t) {
+        context.status(httpStatus);
         context.result(gson.get().toJson(t));
+    }
+
+    protected final <T> void writeBody(Context context, HttpStatus httpStatus, T t) {
+        writeBody(context, httpStatus.getCode(), t);
     }
 
     protected final void writeError(Context context, HttpStatus httpStatus, Throwable throwable) {

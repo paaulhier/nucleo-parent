@@ -84,7 +84,7 @@ public class WebModule extends Module {
             case NONE -> logger.info("No authentication enabled");
             case API_KEY -> initializeApikeyAuthentication();
             case BASIC -> initializeBasicAuthentication();
-            case CUSTOM -> logger.warning("Using custom authentication, but no custom handler found");
+            case CUSTOM -> logger.info("Using custom authentication");
         }
     }
 
