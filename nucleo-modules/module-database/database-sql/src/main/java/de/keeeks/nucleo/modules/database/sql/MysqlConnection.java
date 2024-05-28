@@ -45,6 +45,16 @@ public final class MysqlConnection {
         hikariConfig.setPoolName("kks-sql-%d".formatted(
                 connectionCounter.getAndIncrement()
         ));
+
+        if (!sqlCredentials.host().equals("172.17.0.1")) {
+            logger.warning(" ");
+            logger.warning("Using non-local database host (%s): %s".formatted(
+                    sqlCredentials.database(),
+                    sqlCredentials.host()
+            ));
+            logger.warning(" ");
+        }
+
         this.hikariDataSource = new HikariDataSource(hikariConfig);
         sqlConnections.add(this);
     }
