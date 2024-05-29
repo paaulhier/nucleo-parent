@@ -22,13 +22,9 @@ public class PlayersPrivacyInformationDeclinedPacketListener extends PacketListe
 
     @Override
     public void receive(PrivacyInformationDeclinedPacket privacyInformationDeclinedPacket, Message message) {
-        logger.info("Received privacy information declined packet from player %s.".formatted(privacyInformationDeclinedPacket.playerId()));
         playerService.player(privacyInformationDeclinedPacket.playerId()).ifPresent(nucleoPlayer -> {
-            logger.info("Player %s (%s) declined privacy information. Deleting player data.".formatted(
-                    nucleoPlayer.name(),
-                    nucleoPlayer.uuid()
-            ));
             playerService.deletePlayer(nucleoPlayer.uuid());
+            logger.info("Player " + nucleoPlayer.uuid() + " has declined the privacy policy and has been deleted.");
         });
     }
 }

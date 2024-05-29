@@ -50,6 +50,12 @@
             <artifactId>privacy-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>de.keeeks.nucleo</groupId>
+            <artifactId>module-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

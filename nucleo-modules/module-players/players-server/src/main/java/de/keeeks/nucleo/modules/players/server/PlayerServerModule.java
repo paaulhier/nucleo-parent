@@ -1,13 +1,16 @@
 package de.keeeks.nucleo.modules.players.server;
 
 import de.keeeks.nucleo.core.api.Dependency;
-import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.server.packetlistener.PlayersPrivacyInformationDeclinedPacketListener;
+import de.keeeks.nucleo.modules.players.server.requests.PlayerCountRequestHandler;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
+import de.keeeks.nucleo.modules.web.WebModule;
+import de.keeeks.nucleo.modules.web.handler.RequestHandlerRegistrar;
+import de.keeeks.nucleo.modules.web.handler.socket.SocketHandler;
 
 @ModuleDescription(
         name = "players",
@@ -18,7 +21,7 @@ import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
                 @Dependency(name = "privacy")
         }
 )
-public class PlayerServerModule extends Module {
+public class PlayerServerModule extends WebModule {
 
     @Override
     public void load() {
@@ -34,5 +37,12 @@ public class PlayerServerModule extends Module {
         natsConnection.registerPacketListener(
                 new PlayersPrivacyInformationDeclinedPacketListener()
         );
+
+        RequestHandlerRegistrar.register(new PlayerCountRequestHandler(this));
+    }
+
+    @Override
+    public void disable() {
+        SocketHandler.closeAllSessions();
     }
 }
