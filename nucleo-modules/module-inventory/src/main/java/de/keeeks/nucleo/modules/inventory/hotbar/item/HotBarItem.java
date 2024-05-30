@@ -27,6 +27,13 @@ public abstract class HotBarItem {
             PlayerInteractEvent event
     );
 
+    public boolean checkForCondition(
+            Player player,
+            int slot
+    ) {
+        return true;
+    }
+
     public boolean interactAtEntity(
             Player player,
             int slot,

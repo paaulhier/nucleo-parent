@@ -5,8 +5,10 @@ import de.keeeks.nucleo.modules.inventory.hotbar.item.ItemLoader;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -58,13 +60,21 @@ public class NucleoPlayerHotBar implements PlayerHotBar {
         for (Integer slot : Map.copyOf(hotbarItems).keySet()) {
             Supplier<HotBarItem> itemProviderSupplier = hotbarItems.get(slot);
 
-            itemLoader.loadItemProvider(
-                    itemProviderSupplier.get(),
-                    itemProvider -> ownerInventory().ifPresent(inventory -> inventory.setItem(
-                            slot,
-                            itemProvider.get()
-                    ))
-            );
+            HotBarItem hotBarItem = itemProviderSupplier.get();
+            ownerAsPlayer().ifPresent(player -> {
+                if (!hotBarItem.checkForCondition(player, slot)) {
+                    player.getInventory().setItem(slot, new ItemStack(Material.AIR));
+                    return;
+                }
+
+                itemLoader.loadItemProvider(
+                        hotBarItem,
+                        itemProvider -> ownerInventory().ifPresent(inventory -> inventory.setItem(
+                                slot,
+                                itemProvider.get()
+                        ))
+                );
+            });
         }
     }
 
