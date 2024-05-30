@@ -17,6 +17,7 @@
         <module>core-spigot</module>
         <module>core-application</module>
         <module>core-velocity</module>
+        <module>core-commands</module>
     </modules>
 
     <properties>

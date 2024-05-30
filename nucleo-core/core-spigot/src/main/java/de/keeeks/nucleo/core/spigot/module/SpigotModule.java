@@ -1,30 +1,18 @@
 package de.keeeks.nucleo.core.spigot.module;
 
-import de.keeeks.nucleo.core.api.ConditionTester;
-import de.keeeks.nucleo.core.api.Module;
+import de.keeeks.nucleo.core.command.CommandSupportingModule;
 import de.keeeks.nucleo.core.spigot.NucleoSpigotPlugin;
 import lombok.Getter;
 import org.bukkit.event.Listener;
-import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.util.Optional;
 
 @Getter
-public abstract class SpigotModule extends Module {
-    private final NucleoSpigotPlugin plugin = NucleoSpigotPlugin.plugin();
+public abstract class SpigotModule extends CommandSupportingModule {
+    protected static final NucleoSpigotPlugin plugin = NucleoSpigotPlugin.plugin();
 
-    public void registerCommands(Object... objects) {
-        plugin.registerCommands(objects);
-    }
-
-    public <T> void registerConditionally(ConditionTester conditionTester, Object... objects) {
-        if (conditionTester.test()) {
-            registerCommands(objects);
-        }
-    }
-
-    public BukkitCommandHandler commandHandler() {
-        return plugin.bukkitCommandHandler();
+    public SpigotModule() {
+        super(plugin.bukkitCommandHandler());
     }
 
     public void registerListener(Listener... listeners) {
@@ -43,4 +31,7 @@ public abstract class SpigotModule extends Module {
         return plugin.templateOrServerName();
     }
 
+    public NucleoSpigotPlugin plugin() {
+        return plugin;
+    }
 }
