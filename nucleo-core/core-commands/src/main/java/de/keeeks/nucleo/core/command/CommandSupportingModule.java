@@ -4,6 +4,7 @@ import de.keeeks.nucleo.core.api.ConditionTester;
 import de.keeeks.nucleo.core.api.Module;
 import lombok.RequiredArgsConstructor;
 import revxrsal.commands.CommandHandler;
+import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.autocomplete.SuggestionProvider;
 
@@ -12,7 +13,12 @@ public abstract class CommandSupportingModule extends Module {
     private final CommandHandler commandHandler;
 
     public final void registerCommands(Object... commands) {
-        commandHandler.register(commands);
+        for (Object command : commands) {
+            commandHandler.register(command);
+            if (command instanceof CommandHandlerVisitor commandHandlerVisitor) {
+                commandHandlerVisitor.visit(commandHandler);
+            }
+        }
     }
 
     public final void registerAutoCompletion(String command, SuggestionProvider suggestionProvider) {
