@@ -8,32 +8,42 @@ import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.autocomplete.SuggestionProvider;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
 @RequiredArgsConstructor
 public abstract class CommandSupportingModule extends Module {
-    private final CommandHandler commandHandler;
+    private final List<Object> commandBackLog = new ArrayList<>();
+
+    private final Supplier<CommandHandler> commandHandler;
 
     public final void registerCommands(Object... commands) {
+        if (commandHandler.get() == null) {
+            throw new IllegalStateException("CommandHandler is not initialized yet. " +
+                    "Use command registration in enable method.");
+        }
         for (Object command : commands) {
-            commandHandler.register(command);
+            commandHandler.get().register(command);
             if (command instanceof CommandHandlerVisitor commandHandlerVisitor) {
-                commandHandlerVisitor.visit(commandHandler);
+                commandHandlerVisitor.visit(commandHandler.get());
             }
         }
     }
 
     public final void registerAutoCompletion(String command, SuggestionProvider suggestionProvider) {
-        commandHandler.getAutoCompleter().registerSuggestion(
+        commandHandler.get().getAutoCompleter().registerSuggestion(
                 command,
                 suggestionProvider
         );
     }
 
     public final AutoCompleter autoCompleter() {
-        return commandHandler.getAutoCompleter();
+        return commandHandler.get().getAutoCompleter();
     }
 
     public final <T extends CommandHandler> T commandHandler() {
-        return (T) commandHandler;
+        return (T) commandHandler.get();
     }
 
     public final void registerConditionally(ConditionTester conditionTester, Object... commands) {

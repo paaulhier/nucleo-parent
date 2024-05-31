@@ -12,7 +12,7 @@ public abstract class SpigotModule extends CommandSupportingModule {
     protected static final NucleoSpigotPlugin plugin = NucleoSpigotPlugin.plugin();
 
     public SpigotModule() {
-        super(plugin.bukkitCommandHandler());
+        super(plugin::bukkitCommandHandler);
     }
 
     public void registerListener(Listener... listeners) {
