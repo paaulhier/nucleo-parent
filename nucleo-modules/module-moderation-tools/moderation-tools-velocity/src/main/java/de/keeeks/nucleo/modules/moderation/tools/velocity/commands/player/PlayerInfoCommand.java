@@ -25,13 +25,12 @@ import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.annotation.AutoComplete;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.annotation.Optional;
+import revxrsal.commands.annotation.Usage;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static de.keeeks.lejet.api.NameColorizer.coloredName;
@@ -50,35 +49,19 @@ public final class PlayerInfoCommand {
     private final VerificaApi verificaApi = ServiceRegistry.service(VerificaApi.class);
     private final PermissionApi permissionApi = PermissionApi.instance();
 
+    @Usage("commands.playerinfo.usage")
     @AutoComplete("@players")
     @DefaultFor({"pi", "playerinfo", "π", "3.14", "3,14"})
     public void playerInfo(
             Player player,
-            @Optional String targetName
+            NucleoPlayer nucleoPlayer
     ) {
-        if (targetName == null) {
-            player.sendMessage(translatable("commands.playerinfo.usage"));
+        if (nucleoPlayer == null) {
+            player.sendMessage(translatable("playerNotFound"));
             return;
         }
 
-        if (uuidPattern.matcher(targetName).matches()) {
-            playerService.player(UUID.fromString(targetName)).ifPresentOrElse(
-                    nucleoPlayer -> sendPlayerInfoMessage(player, nucleoPlayer),
-                    () -> player.sendMessage(translatable(
-                            "playerNotFound",
-                            text(targetName)
-                    ))
-            );
-            return;
-        }
-
-        playerService.player(targetName).ifPresentOrElse(
-                nucleoPlayer -> sendPlayerInfoMessage(player, nucleoPlayer),
-                () -> player.sendMessage(translatable(
-                        "playerNotFound",
-                        text(targetName)
-                ))
-        );
+        sendPlayerInfoMessage(player, nucleoPlayer);
     }
 
     private void sendPlayerInfoMessage(Player player, NucleoPlayer nucleoPlayer) {
