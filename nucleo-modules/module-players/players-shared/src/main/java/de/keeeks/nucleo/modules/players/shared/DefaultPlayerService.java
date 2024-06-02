@@ -43,6 +43,7 @@ public class DefaultPlayerService implements PlayerService {
     private final List<PlayerCacheElement<? extends NucleoPlayer>> playersCache = new LinkedList<>();
     private final Map<String, List<NucleoPlayer>> playersByIpAddress = new HashMap<>();
     private final List<UUID> playersSortedByPlayTime = new ArrayList<>();
+    private final List<NucleoPlayer> players = new ArrayList<>();
 
     private final Logger logger = playersModule.logger();
 
@@ -69,6 +70,7 @@ public class DefaultPlayerService implements PlayerService {
                 commentRepository,
                 propertiesRepository
         );
+        this.players.addAll(playerRepository.players());
 
         this.natsConnection = ServiceRegistry.service(NatsConnection.class);
         GsonBuilder.registerSerializer(
@@ -130,7 +132,7 @@ public class DefaultPlayerService implements PlayerService {
         );
     }
 
-    private List<NucleoPlayer> players() {
+    private List<NucleoPlayer> cachedPlayers() {
         return List.copyOf(playersCache).stream().map(
                 PlayerCacheElement::player
         ).collect(Collectors.toList());
@@ -138,8 +140,9 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public NucleoPlayer createPlayer(UUID uuid, String name) {
-        logger.info("Creating player " + name + " with UUID " + uuid);
-        return playerRepository.createPlayer(uuid, name);
+        NucleoPlayer player = playerRepository.createPlayer(uuid, name);
+        players.add(player);
+        return player;
     }
 
     @Override
@@ -186,6 +189,11 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
+    public List<NucleoPlayer> players() {
+        return List.copyOf(players);
+    }
+
+    @Override
     public void deletePlayer(UUID uuid) {
         playerRepository.deletePlayer(uuid);
     }
@@ -200,7 +208,7 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public Optional<NucleoPlayer> player(UUID uuid) {
-        return players().stream().filter(
+        return cachedPlayers().stream().filter(
                 player -> player.uuid().equals(uuid)
         ).findFirst().or(() -> Optional.ofNullable(playerRepository.player(uuid)).map(nucleoPlayer -> {
             updateNetworkWide(nucleoPlayer);
@@ -210,9 +218,9 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public Optional<NucleoPlayer> player(String name) {
-        return players().stream().filter(
+        return cachedPlayers().stream().filter(
                 player -> player.name().equals(name)
-        ).findFirst().or(() -> players().stream().filter(
+        ).findFirst().or(() -> cachedPlayers().stream().filter(
                 player -> player.name().equalsIgnoreCase(name)
         ).findFirst()).or(() -> Optional.ofNullable(playerRepository.player(name)).map(nucleoPlayer -> {
             updateNetworkWide(nucleoPlayer);
@@ -222,7 +230,7 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public List<NucleoOnlinePlayer> onlinePlayers() {
-        return players().stream().filter(
+        return cachedPlayers().stream().filter(
                 player -> player instanceof NucleoOnlinePlayer
         ).map(player -> (NucleoOnlinePlayer) player).toList();
     }

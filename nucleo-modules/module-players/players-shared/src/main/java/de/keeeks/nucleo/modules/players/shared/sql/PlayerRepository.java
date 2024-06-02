@@ -132,4 +132,11 @@ public final class PlayerRepository {
                 resultSet -> player(UUID.fromString(resultSet.getString("uuid")))
         );
     }
+
+    public Collection<? extends NucleoPlayer> players() {
+        return mysqlConnection.queryList(
+                "select uuid from players;",
+                resultSet -> player(UUID.fromString(resultSet.getString("uuid")))
+        );
+    }
 }

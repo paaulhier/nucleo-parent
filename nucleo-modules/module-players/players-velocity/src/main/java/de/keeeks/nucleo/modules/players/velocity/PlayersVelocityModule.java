@@ -18,12 +18,17 @@ import de.keeeks.nucleo.modules.players.velocity.packet.listener.VelocityNucleoO
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerKickPacketListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerMessagePacketListener;
 
+import java.util.UUID;
+import java.util.regex.Pattern;
+
 @ModuleDescription(
         name = "players",
         description = "The PlayersProxyModule is responsible for handling player data and events.",
         dependencies = @Dependency(name = "messaging")
 )
 public class PlayersVelocityModule extends VelocityModule {
+    private static final Pattern uuidPattern = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+
     private PlayerService playerService;
 
     @Override
@@ -35,6 +40,12 @@ public class PlayersVelocityModule extends VelocityModule {
 
         autoCompleter().registerSuggestion(
                 "players",
+                (list, commandActor, executableCommand) -> playerService.players().stream()
+                        .map(NucleoPlayer::name)
+                        .toList()
+        );
+        autoCompleter().registerSuggestion(
+                "onlinePlayers",
                 (list, commandActor, executableCommand) -> playerService.onlinePlayers().stream()
                         .map(NucleoPlayer::name)
                         .toList()
@@ -53,15 +64,21 @@ public class PlayersVelocityModule extends VelocityModule {
         commandHandler().registerValueResolver(
                 NucleoOnlinePlayer.class,
                 valueResolverContext -> {
-                    String playerName = valueResolverContext.pop();
-                    return playerService.onlinePlayer(playerName).orElse(null);
+                    String argument = valueResolverContext.pop();
+                    if (uuidPattern.matcher(argument).matches()) {
+                        return playerService.onlinePlayer(UUID.fromString(argument)).orElse(null);
+                    }
+                    return playerService.onlinePlayer(argument).orElse(null);
                 }
         );
         commandHandler().registerValueResolver(
                 NucleoPlayer.class,
                 valueResolverContext -> {
-                    String playerName = valueResolverContext.pop();
-                    return playerService.player(playerName).orElse(null);
+                    String argument = valueResolverContext.pop();
+                    if (uuidPattern.matcher(argument).matches()) {
+                        return playerService.onlinePlayer(UUID.fromString(argument)).orElse(null);
+                    }
+                    return playerService.player(argument).orElse(null);
                 }
         );
 

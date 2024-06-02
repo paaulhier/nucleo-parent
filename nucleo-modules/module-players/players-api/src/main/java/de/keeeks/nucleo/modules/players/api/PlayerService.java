@@ -41,6 +41,8 @@ public interface PlayerService {
 
     List<NucleoPlayer> players(String ipAddress);
 
+    List<NucleoPlayer> players();
+
     /**
      * Deletes the player with the given UUID.
      *
