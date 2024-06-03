@@ -158,21 +158,23 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public List<NucleoPlayer> players(String ipAddress) {
-        return playersByIpAddress.computeIfAbsent(
-                ipAddress,
-                s -> {
-                    List<NucleoPlayer> players = new ArrayList<>(onlinePlayers().stream().filter(
-                            onlinePlayer -> onlinePlayer.ipAddress().equals(ipAddress)
-                    ).toList());
+        Map<String, List<NucleoPlayer>> playersByIpAddress = Map.copyOf(this.playersByIpAddress);
 
-                    for (NucleoPlayer player : playerRepository.players(ipAddress)) {
-                        if (players.stream().anyMatch(nucleoPlayer -> nucleoPlayer.uuid().equals(player.uuid())))
-                            continue;
-                        players.add(player);
-                    }
-                    return List.copyOf(players);
-                }
-        );
+        if (playersByIpAddress.containsKey(ipAddress)) {
+            return playersByIpAddress.get(ipAddress);
+        }
+
+        List<NucleoPlayer> players = new ArrayList<>(onlinePlayers().stream().filter(
+                onlinePlayer -> onlinePlayer.ipAddress().equals(ipAddress)
+        ).toList());
+
+        for (NucleoPlayer player : playerRepository.players(ipAddress)) {
+            if (players.stream().anyMatch(nucleoPlayer -> nucleoPlayer.uuid().equals(player.uuid())))
+                continue;
+            players.add(player);
+        }
+        this.playersByIpAddress.put(ipAddress, players);
+        return List.copyOf(players);
     }
 
     @Override
