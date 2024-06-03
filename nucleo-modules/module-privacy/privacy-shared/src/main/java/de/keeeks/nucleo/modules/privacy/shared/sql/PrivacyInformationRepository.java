@@ -28,7 +28,6 @@ public class PrivacyInformationRepository {
                 "insert into privacy (playerId) values (?)",
                 statement -> statement.setString(1, uuid.toString())
         );
-        System.out.println("Created privacy information for " + uuid + " with id " + id);
 
         return new NucleoPrivacyInformation(
                 id,

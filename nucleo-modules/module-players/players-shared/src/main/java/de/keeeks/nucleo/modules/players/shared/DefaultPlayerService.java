@@ -94,9 +94,6 @@ public class DefaultPlayerService implements PlayerService {
                 );
                 playersCache.add(cacheElement);
             }
-            logger.info("Received online players from the network (Count: %s)".formatted(
-                    nucleoOnlinePlayersResponsePacket.onlinePlayers().size()
-            ));
         });
 
         this.natsConnection.registerPacketListener(
@@ -110,10 +107,6 @@ public class DefaultPlayerService implements PlayerService {
                 () -> List.copyOf(playersCache).stream().filter(
                         cacheElement -> cacheElement.expired(Duration.ofMinutes(30))
                 ).forEach(cacheElement -> {
-                    logger.info("Invalidating player %s with UUID %s. Reason: Expired".formatted(
-                            cacheElement.player().name(),
-                            cacheElement.player().uuid()
-                    ));
                     invalidateCacheNetworkWide(cacheElement.player().uuid());
                 }),
                 0,
@@ -153,12 +146,6 @@ public class DefaultPlayerService implements PlayerService {
             String address,
             Version version
     ) {
-        logger.info("Creating online player %s with UUID %s on proxy %s (Connected from: %s)".formatted(
-                nucleoPlayer.name(),
-                nucleoPlayer.uuid(),
-                proxy,
-                address
-        ));
         return new DefaultNucleoOnlinePlayer(
                 nucleoPlayer,
                 proxy,
@@ -286,7 +273,6 @@ public class DefaultPlayerService implements PlayerService {
     public void updateCache(NucleoPlayer nucleoPlayer) {
         if (nucleoPlayer instanceof NucleoOnlinePlayer) {
             updateCache((NucleoOnlinePlayer) nucleoPlayer);
-            System.out.println("Tried to update cache with online player");
             return;
         }
         cacheLocal(nucleoPlayer, aBoolean -> {
@@ -294,7 +280,6 @@ public class DefaultPlayerService implements PlayerService {
                 logger.warning("Tried to update cache with online player");
             }
         });
-        logger.info("Updated offline player " + nucleoPlayer.name() + " with UUID " + nucleoPlayer.uuid());
     }
 
     @Override
@@ -302,7 +287,6 @@ public class DefaultPlayerService implements PlayerService {
         cacheLocal(nucleoOnlinePlayer, aBoolean -> {
             if (!aBoolean) logger.warning("Tried to update cache with offline player");
         });
-        logger.info("Updated online player " + nucleoOnlinePlayer.name() + " with UUID " + nucleoOnlinePlayer.uuid());
     }
 
     private <T extends NucleoPlayer> void cacheLocal(T nucleoPlayer, Consumer<Boolean> consumer) {
@@ -318,11 +302,9 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public void invalidateCache(UUID uuid) {
-        if (playersCache.removeIf(
+        playersCache.removeIf(
                 cacheElement -> cacheElement.player().uuid().equals(uuid)
-        )) {
-            logger.info("Invalidated player with UUID " + uuid);
-        }
+        );
     }
 
     @Override

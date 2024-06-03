@@ -1,7 +1,7 @@
 package de.keeeks.nucleo.core.loader;
 
-import de.keeeks.nucleo.core.api.*;
 import de.keeeks.nucleo.core.api.Module;
+import de.keeeks.nucleo.core.api.*;
 import lombok.RequiredArgsConstructor;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
@@ -51,11 +51,9 @@ public abstract class AbstractModuleLoader {
             module.enable();
             module.updateState(ModuleState.ENABLED);
         } catch (Throwable throwable) {
-            disableModule(moduleContainer);
-            module.updateState(ModuleState.FAILED_TO_ENABLE);
-            logger.log(
-                    Level.SEVERE,
-                    "Failed to enabled module %s".formatted(moduleContainer.description().name()),
+            failedToEnableModule(
+                    moduleContainer,
+                    ModuleState.FAILED_TO_ENABLE,
                     throwable
             );
         }
@@ -67,11 +65,9 @@ public abstract class AbstractModuleLoader {
         try {
             module.postStartup();
         } catch (Throwable throwable) {
-            disableModule(moduleContainer);
-            module.updateState(ModuleState.FAILED_TO_ENABLE);
-            logger.log(
-                    Level.SEVERE,
-                    "Failed to enabled module %s".formatted(moduleContainer.description().name()),
+            failedToEnableModule(
+                    moduleContainer,
+                    ModuleState.FAILED_TO_ENABLE,
                     throwable
             );
         }
@@ -98,11 +94,9 @@ public abstract class AbstractModuleLoader {
             module.load();
             module.updateState(ModuleState.LOADED);
         } catch (Throwable throwable) {
-            disableModule(moduleContainer);
-            module.updateState(ModuleState.FAILED_TO_LOAD);
-            logger.log(
-                    Level.SEVERE,
-                    "Failed to load module %s".formatted(moduleContainer.description().name()),
+            failedToEnableModule(
+                    moduleContainer,
+                    ModuleState.FAILED_TO_LOAD,
                     throwable
             );
         }
@@ -229,4 +223,17 @@ public abstract class AbstractModuleLoader {
         ).findFirst().orElse(null);
     }
 
+    private void failedToEnableModule(
+            ModuleContainer moduleContainer,
+            ModuleState failedToEnable,
+            Throwable throwable
+    ) {
+        disableModule(moduleContainer);
+        moduleContainer.module().updateState(failedToEnable);
+        logger.log(
+                Level.SEVERE,
+                "Failed to enabled module %s".formatted(moduleContainer.description().name()),
+                throwable
+        );
+    }
 }

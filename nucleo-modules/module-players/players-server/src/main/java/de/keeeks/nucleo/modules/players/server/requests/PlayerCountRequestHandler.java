@@ -22,7 +22,6 @@ public class PlayerCountRequestHandler extends RequestHandler {
 
     @Override
     public void processRequest(Context context, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        logger.info("PlayerCountRequestHandler.processRequest -> " + playerService.onlinePlayerCount());
         writeBody(context, playerService.onlinePlayerCount());
     }
 }

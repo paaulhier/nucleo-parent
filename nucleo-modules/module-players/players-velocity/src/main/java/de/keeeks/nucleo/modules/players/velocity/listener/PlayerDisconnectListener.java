@@ -34,7 +34,6 @@ public class PlayerDisconnectListener {
                     }
             );
 
-            logger.info("Player %s disconnected".formatted(player.getUniqueId()));
             playerService.invalidateCacheNetworkWide(player.getUniqueId());
         });
     }

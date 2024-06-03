@@ -38,7 +38,6 @@ public class ClickCheckMessage {
                 20,
                 20
         );
-        logger.info("Started ClickCheckMessage task");
     }
 
     public final void stopIfNoClickChecks() {
@@ -51,7 +50,6 @@ public class ClickCheckMessage {
         if (actionBarTask != null && !actionBarTask.isCancelled()) {
             actionBarTask.cancel();
             actionBarTask = null;
-            logger.info("Stopped ClickCheckMessage task");
         }
     }
 }

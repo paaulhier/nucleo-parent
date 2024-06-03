@@ -20,10 +20,6 @@ public class NucleoPlayerUpdatePacketListener extends PacketListener<NucleoPlaye
             NucleoPlayerUpdatePacket nucleoPlayerUpdatePacket,
             Message message
     ) {
-        System.out.println("Received player update for %s from %s.".formatted(
-                nucleoPlayerUpdatePacket.nucleoPlayer().uuid(),
-                nucleoPlayerUpdatePacket.senderServiceName()
-        ));
         playerService.updateCache(nucleoPlayerUpdatePacket.nucleoPlayer());
     }
 }

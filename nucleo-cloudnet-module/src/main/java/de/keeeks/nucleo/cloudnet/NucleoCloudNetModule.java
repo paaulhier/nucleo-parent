@@ -29,7 +29,6 @@ public class NucleoCloudNetModule extends DriverModule {
                     false,
                     ""
             )));
-            logger.info("Created default configuration file");
         }
 
         NucleoCloudNetConfiguration nucleoCloudNetConfiguration = document.toInstanceOf(NucleoCloudNetConfiguration.class);

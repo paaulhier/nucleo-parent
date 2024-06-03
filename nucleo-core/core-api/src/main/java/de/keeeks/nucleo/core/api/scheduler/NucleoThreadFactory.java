@@ -1,7 +1,6 @@
 package de.keeeks.nucleo.core.api.scheduler;
 
 import de.keeeks.nucleo.core.api.NucleoUncaughtExceptionHandler;
-import de.keeeks.nucleo.core.api.logger.NucleoLogger;
 import lombok.NonNull;
 
 import java.util.concurrent.ThreadFactory;

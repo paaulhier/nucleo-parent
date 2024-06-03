@@ -48,12 +48,10 @@ public abstract class TranslationRegistry {
                 (dir, name) -> name.endsWith(".json")
         );
         if (availableFiles == null) {
-            logger.warning("No translations found");
             return;
         }
 
         for (File file : availableFiles) {
-            logger.info("Loading translations from %s".formatted(file.getName()));
             loadFromJson(file);
         }
     }
@@ -104,13 +102,11 @@ public abstract class TranslationRegistry {
     }
 
     public void registerEntry(TranslationEntry translationEntry) {
-        logger.info("Registering %s for %s".formatted(translationEntry.key(), translationEntry.locale()));
         translationEntries.add(translationEntry);
     }
 
     @Deprecated
     public void register(TranslationEntry translationEntry) {
-        logger.info("Registering %s for %s".formatted(translationEntry.key(), translationEntry.locale()));
         translationEntries.add(translationEntry);
     }
 

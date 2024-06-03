@@ -36,11 +36,5 @@ public class TranslationServerModule extends WebModule {
                 new LocalesHandler(),
                 new ModulesHandler()
         );
-
-        try {
-            logger.info("Local address: " + (InetAddress.getLocalHost().toString()));
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
