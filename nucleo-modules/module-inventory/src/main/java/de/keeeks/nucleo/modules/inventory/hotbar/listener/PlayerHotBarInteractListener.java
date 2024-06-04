@@ -77,10 +77,6 @@ public class PlayerHotBarInteractListener implements Listener {
 
             playerHotBar.item(heldItemSlot).ifPresent(hotBarItem -> {
                 if (!hotBarItem.allowLeftClick()) return;
-
-                player.sendMessage(text("Damaging entity with item %s".formatted(
-                        hotBarItem.getClass().getName()
-                )));
                 event.setCancelled(hotBarItem.interactAtEntity(
                         player,
                         heldItemSlot,
