@@ -48,9 +48,8 @@ public interface NucleoPlayer {
 
     NucleoPlayer updateOnlineTime(long onlineTime);
 
-    @Deprecated(forRemoval = true)
-    default NucleoPlayer addOnlineTime(long onlineTime) {
-        throw new UnsupportedOperationException("Use updateOnlineTime instead");
+    default boolean isOnline() {
+        return this instanceof NucleoOnlinePlayer;
     }
 
     PropertyHolder properties();
