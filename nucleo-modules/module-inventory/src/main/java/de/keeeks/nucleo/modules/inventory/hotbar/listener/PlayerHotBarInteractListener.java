@@ -3,6 +3,7 @@ package de.keeeks.nucleo.modules.inventory.hotbar.listener;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.inventory.hotbar.PlayerHotBar;
 import de.keeeks.nucleo.modules.inventory.hotbar.PlayerHotBarService;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,11 +15,17 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class PlayerHotBarInteractListener implements Listener {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
+import static net.kyori.adventure.text.Component.text;
+
+public class PlayerHotBarInteractListener implements Listener {
     private final PlayerHotBarService playerHotBarService = ServiceRegistry.service(
             PlayerHotBarService.class
     );
+    private final Map<UUID, Long> lastInteractions = new HashMap<>();
 
     @EventHandler
     public void handleInteract(PlayerInteractEvent event) {
@@ -46,13 +53,19 @@ public class PlayerHotBarInteractListener implements Listener {
         if (playerHotBar == null) return;
         int heldItemSlot = inventory.getHeldItemSlot();
 
-        playerHotBar.item(heldItemSlot).ifPresent(
-                hotBarItem -> event.setCancelled(hotBarItem.interactAtEntity(
-                        player,
-                        heldItemSlot,
-                        event.getRightClicked()
-                ))
-        );
+        if (lastInteractions.containsKey(player.getUniqueId())) {
+            long lastInteraction = lastInteractions.get(player.getUniqueId());
+            if (System.currentTimeMillis() - lastInteraction < 500) {
+                return;
+            }
+        }
+
+        lastInteractions.put(player.getUniqueId(), System.currentTimeMillis());
+        playerHotBar.item(heldItemSlot).ifPresent(hotBarItem -> event.setCancelled(hotBarItem.interactAtEntity(
+                player,
+                heldItemSlot,
+                event.getRightClicked()
+        )));
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -64,6 +77,10 @@ public class PlayerHotBarInteractListener implements Listener {
 
             playerHotBar.item(heldItemSlot).ifPresent(hotBarItem -> {
                 if (!hotBarItem.allowLeftClick()) return;
+
+                player.sendMessage(text("Damaging entity with item %s".formatted(
+                        hotBarItem.getClass().getName()
+                )));
                 event.setCancelled(hotBarItem.interactAtEntity(
                         player,
                         heldItemSlot,
