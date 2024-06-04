@@ -7,6 +7,7 @@ import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.command.NucleoSpigotExceptionHandler;
+import de.keeeks.nucleo.core.spigot.command.NucleoStopCommand;
 import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
 import de.keeeks.nucleo.core.spigot.json.WorldSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
@@ -16,6 +17,8 @@ import eu.cloudnetservice.driver.service.ServiceInfoSnapshot;
 import eu.cloudnetservice.wrapper.holder.ServiceInfoHolder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -71,9 +74,14 @@ public class NucleoSpigotPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        CommandMap commandMap = Bukkit.getCommandMap();
+        Command stopCommand = commandMap.getCommand("stop");
+        if (stopCommand != null) stopCommand.unregister(commandMap);
+
         bukkitCommandHandler = BukkitCommandHandler.create(this);
         bukkitCommandHandler.enableAdventure();
         bukkitCommandHandler.register(commandRegistrations.toArray());
+        bukkitCommandHandler.register(new NucleoStopCommand());
         bukkitCommandHandler.registerBrigadier();
         bukkitCommandHandler.setExceptionHandler(new NucleoSpigotExceptionHandler(getLogger()));
 
