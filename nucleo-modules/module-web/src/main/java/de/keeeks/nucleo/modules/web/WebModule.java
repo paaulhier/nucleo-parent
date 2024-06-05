@@ -80,6 +80,7 @@ public class WebModule extends Module {
     }
 
     private void initializeAuthentication() {
+        if (webConfiguration == null) return;
         switch (webConfiguration.authenticationType()) {
             case NONE -> logger.info("No authentication enabled");
             case API_KEY -> initializeApikeyAuthentication();
