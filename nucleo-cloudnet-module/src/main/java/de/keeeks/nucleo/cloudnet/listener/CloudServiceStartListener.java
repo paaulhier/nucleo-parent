@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.function.Consumer;
 
 @Singleton
 public final class CloudServiceStartListener {
@@ -21,37 +22,52 @@ public final class CloudServiceStartListener {
     @EventListener
     public void handleServiceStart(CloudServicePostPrepareEvent event) {
         var cloudService = event.service();
-        File serverNameFile = new File(cloudService.directory().toFile(), "serviceName");
-        if (!serverNameFile.exists()) {
-            try (var fileWriter = new FileWriter(serverNameFile)) {
-                fileWriter.write(cloudService.serviceId().name());
-            } catch (IOException e) {
-                printErrorMessageAndStopService(cloudService, e);
-            }
-        }
+        loadAndSaveProperties(
+                cloudService,
+                "nucleo.properties",
+                properties -> properties.setProperty("service.name", cloudService.serviceId().name())
+        );
         if (!cloudService.serviceId().environment().readPropertyOrDefault(
                 DocProperty.property("isJavaProxy", Boolean.class),
                 false
         )) {
-            File serverPropertiesFile = new File(
-                    cloudService.directory().toFile(),
-                    "server.properties"
+            loadAndSaveProperties(
+                    cloudService,
+                    "server.properties",
+                    properties -> properties.setProperty("server-name", cloudService.serviceId().name())
             );
-            var properties = new Properties();
-            try (var reader = new FileReader(serverPropertiesFile)) {
-                properties.load(reader);
+        }
+    }
+
+    private void loadAndSaveProperties(
+            CloudService cloudService,
+            String fileName,
+            Consumer<Properties> consumer
+    ) {
+        File file = new File(cloudService.directory().toFile(), fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
             } catch (IOException e) {
                 printErrorMessageAndStopService(cloudService, e);
             }
-            properties.setProperty("server-name", cloudService.serviceId().name());
-            try (var writer = new FileWriter(serverPropertiesFile)) {
-                properties.store(
-                        writer,
-                        null
-                );
-            } catch (IOException e) {
-                printErrorMessageAndStopService(cloudService, e);
-            }
+        }
+
+        var properties = new Properties();
+        try (var reader = new FileReader(file)) {
+            properties.load(reader);
+            consumer.accept(properties);
+        } catch (IOException e) {
+            printErrorMessageAndStopService(cloudService, e);
+        }
+        try (var writer = new FileWriter(file)) {
+            properties.store(
+                    writer,
+                    null
+            );
+            logger.info("Successfully saved properties to file " + file.getName());
+        } catch (IOException e) {
+            printErrorMessageAndStopService(cloudService, e);
         }
     }
 

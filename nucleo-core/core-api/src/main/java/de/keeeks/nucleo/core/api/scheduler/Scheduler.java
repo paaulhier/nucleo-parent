@@ -12,7 +12,12 @@ public final class Scheduler {
     );
 
 
+    @Deprecated
     public static void runAsync(Runnable runnable) {
+        executorService.execute(runnable);
+    }
+
+    public static void runAsync(ExceptionRunnable runnable) {
         executorService.execute(runnable);
     }
 
