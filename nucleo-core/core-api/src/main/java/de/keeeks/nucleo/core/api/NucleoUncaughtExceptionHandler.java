@@ -5,6 +5,7 @@ import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import de.keeeks.nucleo.core.api.utils.discord.DiscordWebhook;
 import lombok.RequiredArgsConstructor;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +27,13 @@ public class NucleoUncaughtExceptionHandler implements Thread.UncaughtExceptionH
         if (lastException.containsKey(e)) {
             long last = lastException.get(e);
             long now = System.currentTimeMillis();
-            if (now - last < 5000) {
+
+            if (Duration.between(
+                    java.time.Instant.ofEpochMilli(last),
+                    java.time.Instant.ofEpochMilli(now)
+            ).toMinutes() >= 5) {
                 sendDiscordMessage(e);
+                lastException.put(e, System.currentTimeMillis());
             }
         } else {
             sendDiscordMessage(e);
