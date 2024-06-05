@@ -1,9 +1,7 @@
 package de.keeeks.nucleo.core.api.utils;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface ListModifier<T> {
-
-    void modify(List<T> list);
-
+    void modify(Collection<T> list);
 }
