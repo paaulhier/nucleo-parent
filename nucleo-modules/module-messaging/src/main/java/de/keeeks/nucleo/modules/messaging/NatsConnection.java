@@ -176,7 +176,7 @@ public class NatsConnection {
                 channelName,
                 channel -> {
                     var dispatcher = connection.createDispatcher(message -> {
-                        var packetListeners = this.packetListeners.get(channel);
+                        var packetListeners = new ArrayList<>(this.packetListeners.get(channel));
 
                         Packet packet = parsePacketFromMessage(message);
 
