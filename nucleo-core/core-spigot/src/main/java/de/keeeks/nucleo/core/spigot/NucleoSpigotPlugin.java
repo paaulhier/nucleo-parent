@@ -1,9 +1,11 @@
 package de.keeeks.nucleo.core.spigot;
 
 import de.keeeks.nucleo.core.api.NucleoUncaughtExceptionHandler;
+import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.core.api.logger.NucleoLogger;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
+import de.keeeks.nucleo.core.api.version.VersionAccessor;
 import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.spigot.command.NucleoSpigotExceptionHandler;
@@ -12,6 +14,7 @@ import de.keeeks.nucleo.core.spigot.json.LocationSerializer;
 import de.keeeks.nucleo.core.spigot.json.WorldSerializer;
 import de.keeeks.nucleo.core.spigot.listener.NucleoPluginMessageListener;
 import de.keeeks.nucleo.core.spigot.listener.PlayerCommandExecutionListener;
+import de.keeeks.nucleo.core.spigot.version.PaperVersionAccessor;
 import eu.cloudnetservice.driver.inject.InjectionLayer;
 import eu.cloudnetservice.driver.service.ServiceInfoSnapshot;
 import eu.cloudnetservice.wrapper.holder.ServiceInfoHolder;
@@ -67,6 +70,10 @@ public class NucleoSpigotPlugin extends JavaPlugin {
                 new WorldSerializer()
         );
 
+        ServiceRegistry.registerService(
+                VersionAccessor.class,
+                new PaperVersionAccessor()
+        );
         ModuleLoader.classLoader(moduleClassLoader);
         moduleLoader.loadModulesFromFolder();
         moduleLoader.loadModules();
