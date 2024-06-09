@@ -33,6 +33,7 @@
         <module>module-privacy</module>
         <module>module-tabdecoration</module>
         <module>module-vanish</module>
+        <module>module-npc</module>
     </modules>
 
     <properties>
