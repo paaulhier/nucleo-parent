@@ -1,10 +1,14 @@
 package de.keeeks.nucleo.modules.messaging.packet;
 
+import de.keeeks.nucleo.core.api.ServiceRegistry;
+import de.keeeks.nucleo.modules.messaging.NatsConnection;
 import io.nats.client.Message;
 import lombok.Getter;
 
 @Getter
 public abstract class PacketListener<P extends Packet> {
+    protected static final NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);
+
     private final int priority;
     private final Class<P> packetClass;
 
