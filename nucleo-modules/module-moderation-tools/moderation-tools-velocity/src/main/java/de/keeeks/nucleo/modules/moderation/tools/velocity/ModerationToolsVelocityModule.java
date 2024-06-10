@@ -8,17 +8,16 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
+import de.keeeks.nucleo.modules.moderation.tools.broadcast.BroadcastApi;
 import de.keeeks.nucleo.modules.moderation.tools.chatclear.ChatClearApi;
 import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
+import de.keeeks.nucleo.modules.moderation.tools.shared.broadcast.NucleoBroadcastApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.chatclear.NucleoChatClearApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ChatClearCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSecondCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
-import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PullCommand;
-import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.PushCommand;
-import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.SendCommand;
-import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.ServerCommand;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.*;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.CommentCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.JumpToCommand;
@@ -28,6 +27,7 @@ import de.keeeks.nucleo.modules.moderation.tools.velocity.listener.ModerationToo
 import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearGlobalChatPacketListener;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearPlayerChatPacketListener;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.packet.ClearServerChatPacketListener;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.packetlistener.BroadcastPacketListener;
 
 @ModuleDescription(
         name = "moderation-tools",
@@ -52,11 +52,16 @@ public class ModerationToolsVelocityModule extends VelocityModule {
                 ChatClearApi.class,
                 new NucleoChatClearApi()
         );
+        ServiceRegistry.registerService(
+                BroadcastApi.class,
+                new NucleoBroadcastApi()
+        );
 
         natsConnection.registerPacketListener(
                 new ClearGlobalChatPacketListener(proxyServer),
                 new ClearPlayerChatPacketListener(proxyServer),
-                new ClearServerChatPacketListener(proxyServer)
+                new ClearServerChatPacketListener(proxyServer),
+                new BroadcastPacketListener(proxyServer)
         );
     }
 
@@ -88,7 +93,7 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
         boolean karistusModuleEnabled = Module.isAvailable("karistus");
 
-        registerCommands(new ServerCommand());
+        registerCommands(new ServerCommand(), new BroadcastCommand());
 
         registerConditionally(() -> configModuleEnabled, new PushCommand(pushConfiguration()));
         registerConditionally(
