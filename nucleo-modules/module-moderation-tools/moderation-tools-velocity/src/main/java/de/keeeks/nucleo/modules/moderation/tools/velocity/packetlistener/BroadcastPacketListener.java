@@ -10,6 +10,8 @@ import de.keeeks.nucleo.modules.moderation.tools.broadcast.BroadcastOptions;
 import de.keeeks.nucleo.modules.moderation.tools.broadcast.packet.BroadcastPacket;
 import io.nats.client.Message;
 
+import static net.kyori.adventure.text.Component.translatable;
+
 @ListenerChannel(BroadcastApi.CHANNEL)
 public class BroadcastPacketListener extends PacketListener<BroadcastPacket> {
     private final ProxyServer proxyServer;
@@ -34,7 +36,10 @@ public class BroadcastPacketListener extends PacketListener<BroadcastPacket> {
             if (broadcastOptions.permission() != null) {
                 if (!player.hasPermission(broadcastOptions.permission())) continue;
             }
-            player.sendMessage(broadcastPacket.message());
+            player.sendMessage(translatable(
+                    "nucleo.moderation.tools.broadcast.message",
+                    broadcastPacket.message()
+            ));
         }
     }
 }
