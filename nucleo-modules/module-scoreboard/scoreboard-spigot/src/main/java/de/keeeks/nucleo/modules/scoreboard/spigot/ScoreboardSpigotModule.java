@@ -10,18 +10,10 @@ import de.keeeks.nucleo.modules.scoreboard.api.lines.AutoUpdatingScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.listener.ScoreboardPlayerQuitListener;
 import org.bukkit.Bukkit;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@ModuleDescription(
-        name = "scoreboard"
-)
+@ModuleDescription(name = "scoreboard")
 public class ScoreboardSpigotModule extends SpigotModule {
-    private static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor(
-            r -> new Thread(r, "Scoreboard-Executor")
-    );
-
     private ScoreboardApi scoreboardApi;
 
     @Override
