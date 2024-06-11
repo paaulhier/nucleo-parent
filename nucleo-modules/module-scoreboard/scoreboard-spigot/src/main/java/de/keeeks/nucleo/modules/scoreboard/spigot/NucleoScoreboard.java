@@ -25,16 +25,17 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 @Getter
 public class NucleoScoreboard implements Scoreboard {
     private static final GsonComponentSerializer gsonComponentSerializer = GsonComponentSerializer.gson();
     private static final ScoreboardSpigotModule module = Module.module(ScoreboardSpigotModule.class);
     private static final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+    private static final Logger logger = module.logger();
 
     private final AtomicInteger lineCounter = new AtomicInteger(0);
     private final List<ScoreboardLine> lines = new LinkedList<>();
-    private final List<UUID> viewer = new LinkedList<>();
 
     private final FastBoard fastBoard;
     private final Player player;
@@ -105,13 +106,15 @@ public class NucleoScoreboard implements Scoreboard {
     }
 
     @Override
+    @Deprecated
     public void addPlayer(Player player) {
-        viewer.add(player.getUniqueId());
         player.setMetadata("scoreboardId", new FixedMetadataValue(
                 module.plugin(),
                 uuid.toString()
         ));
         renderAll();
+        logger.warning("Scoreboard#addPlayer is deprecated and will be removed in the future. " +
+                "Please create for each player a new scoreboard instance.");
     }
 
     @Override
