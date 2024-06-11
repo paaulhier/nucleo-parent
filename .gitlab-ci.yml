@@ -19,7 +19,6 @@ variables:
 stages:
   - test
   - deploy
-  - javadocs
 
 cache:
   paths:
@@ -37,14 +36,5 @@ deploy:
   script:
     - 'echo $MAVEN_SETTINGS_XML >> ci_settings.xml'
     - 'mvn $MAVEN_CLI_OPTS deploy -U --settings ci_settings.xml'
-  only:
-    - main
-
-javadocs:
-  stage: javadocs
-  script:
-    - 'echo $MAVEN_SETTINGS_XML >> ci_settings.xml'
-    - 'cat ci_settings.xml'
-    - 'mvn $MAVEN_CLI_OPTS javadoc:javadoc --settings ci_settings.xml'
   only:
     - main
