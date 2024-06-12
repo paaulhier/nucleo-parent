@@ -33,6 +33,6 @@ public class MessagingModule extends Module {
 
     @Override
     public void disable() {
-        NatsConnection.closeAllConnections();
+        NucleoNatsConnection.closeAllConnections();
     }
 }

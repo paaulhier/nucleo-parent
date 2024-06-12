@@ -30,7 +30,11 @@ public class PacketMeta {
         try {
             return (P) gson.get().fromJson(packetJson, Class.forName(className));
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            //The ClassNotFoundException is ok, because if a module sends this packet, but the module is
+            //not on the receiver's classpath, the receiver will not be able to deserialize the packet.
+            return null;
+        } catch (Throwable throwable) {
+            throw new RuntimeException("Error while deserializing packet", throwable);
         }
     }
 
