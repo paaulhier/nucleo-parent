@@ -29,7 +29,7 @@
         <module>module-teamchat</module>
         <module>module-economy</module>
         <module>module-scoreboard</module>
-        <module>module-buildserverconnector</module>
+        <module>module-forcedhostconnector</module>
         <module>module-privacy</module>
         <module>module-tabdecoration</module>
         <module>module-vanish</module>
