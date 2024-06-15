@@ -25,7 +25,7 @@ public class JumpToCommand {
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
     private final VelocityModule module = Module.module(ModerationToolsVelocityModule.class);
 
-    @AutoComplete("players")
+    @AutoComplete("@players")
     @Usage("jumpto <player>")
     @DefaultFor({"jumpto", "jt", "goto"})
     public void jumpToCommand(
