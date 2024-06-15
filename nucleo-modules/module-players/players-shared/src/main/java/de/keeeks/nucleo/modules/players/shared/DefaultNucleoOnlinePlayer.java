@@ -21,6 +21,7 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     private final Version version;
 
     private OnlineState onlineState = OnlineState.ONLINE;
+    private ClientBrand clientBrand = ClientBrand.VANILLA;
 
     private String proxy;
     private String server;
@@ -89,6 +90,12 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     @Override
     public NucleoOnlinePlayer updateProxy(String proxy) {
         this.proxy = proxy;
+        return this;
+    }
+
+    @Override
+    public NucleoOnlinePlayer updateClientBrand(ClientBrand clientBrand) {
+        this.clientBrand = clientBrand;
         return this;
     }
 

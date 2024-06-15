@@ -17,11 +17,15 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
 
     OnlineState onlineState();
 
+    ClientBrand clientBrand();
+
     NucleoOnlinePlayer updateOnlineState(OnlineState onlineState);
 
     NucleoOnlinePlayer updateServer(String server);
 
     NucleoOnlinePlayer updateProxy(String proxy);
+
+    NucleoOnlinePlayer updateClientBrand(ClientBrand clientBrand);
 
     default void connect(String server) {
         connect(server, success -> {
@@ -39,4 +43,5 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
     }
 
     void update();
+
 }

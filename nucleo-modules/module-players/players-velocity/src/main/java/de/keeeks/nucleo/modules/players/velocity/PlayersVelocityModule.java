@@ -5,14 +5,12 @@ import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.messaging.NatsConnection;
+import de.keeeks.nucleo.modules.players.api.ClientBrand;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
 import de.keeeks.nucleo.modules.players.shared.DefaultPlayerService;
-import de.keeeks.nucleo.modules.players.velocity.listener.LoginListener;
-import de.keeeks.nucleo.modules.players.velocity.listener.PlayerDisconnectListener;
-import de.keeeks.nucleo.modules.players.velocity.listener.PreLoginListener;
-import de.keeeks.nucleo.modules.players.velocity.listener.ServerConnectedListener;
+import de.keeeks.nucleo.modules.players.velocity.listener.*;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerConnectRequestPacketListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.VelocityNucleoOnlinePlayerExecuteCommandPacketListener;
 import de.keeeks.nucleo.modules.players.velocity.packet.listener.NucleoOnlinePlayerKickPacketListener;
@@ -57,6 +55,7 @@ public class PlayersVelocityModule extends VelocityModule {
         registerListener(
                 new LoginListener(),
                 new PreLoginListener(),
+                new ClientBrandListener(),
                 new ServerConnectedListener(),
                 new PlayerDisconnectListener()
         );

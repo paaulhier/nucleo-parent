@@ -41,8 +41,6 @@ import static net.kyori.adventure.text.Component.translatable;
 @CommandPermission("nucleo.commands.playerinfo")
 @RequiredArgsConstructor
 public final class PlayerInfoCommand {
-    private static final Pattern uuidPattern = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
-
     private final Economy economy = ServiceRegistry.service(EconomyApi.class).create("cookies");
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
     private final PunishmentApi punishmentApi = ServiceRegistry.service(PunishmentApi.class);
@@ -141,7 +139,8 @@ public final class PlayerInfoCommand {
                             "/jumpto %s".formatted(nucleoOnlinePlayer.name())
                     )),
                     text(nucleoOnlinePlayer.version().version()),
-                    nucleoOnlinePlayer.onlineState().displayName()
+                    nucleoOnlinePlayer.onlineState().displayName(),
+                    nucleoOnlinePlayer.clientBrand().displayName()
             ));
             player.sendMessage(translatable(
                     "commands.playerinfo.playerInfo"
