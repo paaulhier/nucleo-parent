@@ -12,6 +12,9 @@ import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.ClicksPerSecondProvider;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.cps.clickcheck.ClickCheckMessage;
 import de.keeeks.nucleo.modules.moderation.tools.spigot.listener.ModerationToolsClickListener;
+import de.keeeks.nucleo.modules.moderation.tools.spigot.tpsbar.SpigotNucleoTpsBarApi;
+import de.keeeks.nucleo.modules.moderation.tools.tpsbar.TpsBarApi;
+import org.bukkit.Bukkit;
 
 @ModuleDescription(
         name = "moderation-tools",
@@ -45,6 +48,10 @@ public class ModerationToolsSpigotModule extends SpigotModule {
         ServiceRegistry.registerService(
                 ClickCheckMessage.class,
                 new ClickCheckMessage(logger)
+        );
+        ServiceRegistry.registerService(
+                TpsBarApi.class,
+                new SpigotNucleoTpsBarApi(Bukkit.getScheduler())
         );
         registerListener(new ModerationToolsClickListener());
     }

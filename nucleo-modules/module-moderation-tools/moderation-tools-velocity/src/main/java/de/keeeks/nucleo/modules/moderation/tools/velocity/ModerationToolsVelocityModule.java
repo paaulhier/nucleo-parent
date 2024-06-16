@@ -14,10 +14,13 @@ import de.keeeks.nucleo.modules.moderation.tools.cps.ClickCheckApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.broadcast.NucleoBroadcastApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.chatclear.NucleoChatClearApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.cps.NucleoClickCheckApi;
+import de.keeeks.nucleo.modules.moderation.tools.shared.tpsbar.NucleoTpsBarApi;
+import de.keeeks.nucleo.modules.moderation.tools.tpsbar.TpsBarApi;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ChatClearCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.ClicksPerSecondCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.TeamCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.administration.*;
+import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.development.TpsBarCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.AltsCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.CommentCommand;
 import de.keeeks.nucleo.modules.moderation.tools.velocity.commands.player.JumpToCommand;
@@ -56,6 +59,10 @@ public class ModerationToolsVelocityModule extends VelocityModule {
                 BroadcastApi.class,
                 new NucleoBroadcastApi()
         );
+        ServiceRegistry.registerService(
+                TpsBarApi.class,
+                new NucleoTpsBarApi()
+        );
 
         natsConnection.registerPacketListener(
                 new ClearGlobalChatPacketListener(proxyServer),
@@ -93,7 +100,11 @@ public class ModerationToolsVelocityModule extends VelocityModule {
         boolean verificaModuleEnabled = Module.isAvailable("verifica");
         boolean karistusModuleEnabled = Module.isAvailable("karistus");
 
-        registerCommands(new ServerCommand(), new BroadcastCommand());
+        registerCommands(
+                new ServerCommand(),
+                new TpsBarCommand(),
+                new BroadcastCommand()
+        );
 
         registerConditionally(() -> configModuleEnabled, new PushCommand(pushConfiguration()));
         registerConditionally(
