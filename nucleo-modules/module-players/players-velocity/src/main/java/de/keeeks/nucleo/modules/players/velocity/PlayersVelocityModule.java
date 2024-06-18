@@ -75,7 +75,7 @@ public class PlayersVelocityModule extends VelocityModule {
                 valueResolverContext -> {
                     String argument = valueResolverContext.pop();
                     if (uuidPattern.matcher(argument).matches()) {
-                        return playerService.onlinePlayer(UUID.fromString(argument)).orElse(null);
+                        return playerService.player(UUID.fromString(argument)).orElse(null);
                     }
                     return playerService.player(argument).orElse(null);
                 }
