@@ -35,15 +35,12 @@ public class PlayerCommandExecutionListener implements Listener {
         String message = event.getMessage();
         Player player = event.getPlayer();
 
-        logger.info("Player " + player.getName() + " tried to execute command " + message);
         for (DisabledCommandMeta disabledCommand : disabledCommands) {
             if (!message.startsWith(disabledCommand.commandName())) continue;
             if (disabledCommand.requiredPermission() != null) {
                 event.setCancelled(!player.hasPermission(disabledCommand.requiredPermission()));
-                logger.info("Player " + player.getName() + " tried to execute command " + message + " (cancelled: " + event.isCancelled() + ")");
             } else {
                 event.setCancelled(true);
-                logger.info("Player " + player.getName() + " tried to execute command " + message + " (cancelled: " + event.isCancelled() + ")");
             }
         }
     }
