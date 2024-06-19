@@ -23,6 +23,5 @@ public final class TpsBarUpdateStatePacketListener extends PacketListener<TpsBar
         } else {
             tpsBarApi.modifyEnabledPlayers(modifier -> modifier.remove(tpsBarUpdateStatePacket.uuid()));
         }
-        System.out.println("Received TpsBarUpdateStatePacket -> " + tpsBarUpdateStatePacket.uuid() + " enabled: " + tpsBarUpdateStatePacket.enabled());
     }
 }
