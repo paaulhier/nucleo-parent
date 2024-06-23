@@ -75,6 +75,14 @@ public abstract class Module {
         //Does not have any function yet. Do a "module-override" to implement stuff for modules
     }
 
+    protected <T> void registerService(Class<T> service, T implementation) {
+        ServiceRegistry.registerService(service, implementation);
+    }
+
+    protected <T> T service(Class<T> serviceClass) {
+        return ServiceRegistry.service(serviceClass);
+    }
+
     @SneakyThrows
     public void updateState(ModuleState moduleState) {
         Class<?> callerClass = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass();
