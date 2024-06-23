@@ -23,6 +23,10 @@ public enum Version {
             "1.20.5",
             "1.20.6",
             766
+    ),
+    VERSION_1_21(
+            "1.21",
+            767
     );
 
     private final String version;
