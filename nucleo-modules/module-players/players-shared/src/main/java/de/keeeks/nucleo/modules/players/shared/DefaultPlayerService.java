@@ -12,10 +12,7 @@ import de.keeeks.nucleo.modules.players.api.*;
 import de.keeeks.nucleo.modules.players.api.packet.*;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import de.keeeks.nucleo.modules.players.api.packet.message.NucleoOnlinePlayerMessagePacket;
-import de.keeeks.nucleo.modules.players.shared.json.CommentSerializer;
-import de.keeeks.nucleo.modules.players.shared.json.NucleoOnlinePlayerSerializer;
-import de.keeeks.nucleo.modules.players.shared.json.NucleoPlayerSerializer;
-import de.keeeks.nucleo.modules.players.shared.json.PropertyHolderSerializer;
+import de.keeeks.nucleo.modules.players.shared.json.*;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlayerUpdatePacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoOnlinePlayersRequestPacketListener;
 import de.keeeks.nucleo.modules.players.shared.packet.listener.NucleoPlayerInvalidatePacketListener;
@@ -75,6 +72,7 @@ public class DefaultPlayerService implements PlayerService {
         this.natsConnection = ServiceRegistry.service(NatsConnection.class);
         GsonBuilder.registerSerializer(
                 new CommentSerializer(),
+                new VersionSerializer(),
                 new NucleoPlayerSerializer(),
                 new PropertyHolderSerializer(),
                 new NucleoOnlinePlayerSerializer()

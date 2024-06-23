@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum Version {
 
+    UNKNOWN("Unknown", 0),
     VERSION_1_20_1(
             "1.20.0/1.20.1",
             "1.20.0",
@@ -53,7 +54,7 @@ public enum Version {
     }
 
     public static Version lowestVersion() {
-        return values()[0];
+        return VERSION_1_20_1;
     }
 
     public static Version highestVersion() {
