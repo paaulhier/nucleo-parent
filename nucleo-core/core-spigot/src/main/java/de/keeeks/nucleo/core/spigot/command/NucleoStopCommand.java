@@ -53,6 +53,7 @@ public class NucleoStopCommand {
         if (uuid == null) {
             stopRequests.put(consoleUUID, System.currentTimeMillis());
             confirmStop(consoleUUID, commandSender);
+            return;
         }
 
         if (stopRequests.containsKey(uuid)) {
