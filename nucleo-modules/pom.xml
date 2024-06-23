@@ -34,6 +34,7 @@
         <module>module-tabdecoration</module>
         <module>module-vanish</module>
         <module>module-npc</module>
+        <module>module-tablist</module>
     </modules>
 
     <properties>
