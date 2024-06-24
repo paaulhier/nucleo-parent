@@ -19,9 +19,8 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 @RequiredArgsConstructor
 public class TeamChatCommand {
     private final NatsConnection natsConnection;
-    private final ProxyServer proxyServer;
 
-    @DefaultFor({"teamchat", "tc"})
+    @DefaultFor("~")
     public void teamChatCommand(
             Player player,
             @Optional String message

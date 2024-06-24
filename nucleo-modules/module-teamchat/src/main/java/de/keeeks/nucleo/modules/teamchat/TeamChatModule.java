@@ -47,6 +47,6 @@ public class TeamChatModule extends VelocityModule {
 
     @Override
     public void enable() {
-        registerCommands(new TeamChatCommand(natsConnection, proxyServer));
+        registerCommands(new TeamChatCommand(natsConnection));
     }
 }
