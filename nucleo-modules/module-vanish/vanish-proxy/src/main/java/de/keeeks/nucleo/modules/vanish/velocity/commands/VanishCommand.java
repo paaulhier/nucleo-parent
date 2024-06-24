@@ -20,7 +20,7 @@ import static net.kyori.adventure.text.Component.translatable;
 public class VanishCommand {
     private final VanishApi vanishApi = ServiceRegistry.service(VanishApi.class);
 
-    @DefaultFor({"vanish", "v"})
+    @DefaultFor("~")
     public void vanishCommand(
             Player player,
             @Optional NucleoOnlinePlayer targetPlayer
