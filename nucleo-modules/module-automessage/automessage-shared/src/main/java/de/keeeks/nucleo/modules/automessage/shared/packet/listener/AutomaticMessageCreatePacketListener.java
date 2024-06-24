@@ -24,6 +24,5 @@ public class AutomaticMessageCreatePacketListener extends AutomaticMessagePacket
             Message message
     ) {
         messageApi.modifyMessages(list -> list.add(automaticMessageCreatePacket.automaticMessage()));
-        logger.info("Received new automatic message: " + automaticMessageCreatePacket.automaticMessage().id());
     }
 }

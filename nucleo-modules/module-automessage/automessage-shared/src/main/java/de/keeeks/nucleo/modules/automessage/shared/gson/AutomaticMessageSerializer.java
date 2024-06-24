@@ -29,7 +29,11 @@ public class AutomaticMessageSerializer extends JsonSerializer<AutomaticMessage>
     }
 
     @Override
-    public JsonElement serialize(AutomaticMessage automaticMessage, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(
+            AutomaticMessage automaticMessage,
+            Type type,
+            JsonSerializationContext jsonSerializationContext
+    ) {
         return jsonSerializationContext.serialize(
                 automaticMessage,
                 NucleoAutomaticMessage.class

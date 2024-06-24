@@ -14,33 +14,15 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 
 import java.util.List;
 
-@Command({
-        "automessage",
-        "am",
-        "automessages",
-        "automaticmessage",
-        "automaticmessages",
-        "auto-message",
-        "auto-messages"
-})
+@Command({"automessage", "am"})
 @CommandPermission("nucleo.commands.automessage")
 public class AutoMessageCommand {
     private final AutomaticMessageApi messageApi = ServiceRegistry.service(AutomaticMessageApi.class);
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
 
-    @DefaultFor({
-            "automessage",
-            "am",
-            "automessages",
-            "automaticmessage",
-            "automaticmessages",
-            "auto-message",
-            "auto-messages"
-    })
+    @DefaultFor("~")
     public void autoMessageCommand(Player player) {
-        player.sendMessage(Component.translatable(
-                "nucleo.automessage.command.usage"
-        ));
+        player.sendMessage(Component.translatable("nucleo.automessage.command.usage"));
     }
 
     @Subcommand("create")
@@ -66,18 +48,14 @@ public class AutoMessageCommand {
     @CommandPermission("nucleo.commands.automessage.reload")
     public void reloadCommand(Player player) {
         messageApi.reload();
-        player.sendMessage(Component.translatable(
-                "nucleo.automessage.command.reload"
-        ));
+        player.sendMessage(Component.translatable("nucleo.automessage.command.reload"));
     }
 
     @Subcommand("list")
     public void listCommand(Player player) {
         List<AutomaticMessage> messages = messageApi.enabledMessages();
         if (messages.isEmpty()) {
-            player.sendMessage(Component.translatable(
-                    "nucleo.automessage.command.list.empty"
-            ));
+            player.sendMessage(Component.translatable("nucleo.automessage.command.list.empty"));
             return;
         }
         Scheduler.runAsync(() -> {

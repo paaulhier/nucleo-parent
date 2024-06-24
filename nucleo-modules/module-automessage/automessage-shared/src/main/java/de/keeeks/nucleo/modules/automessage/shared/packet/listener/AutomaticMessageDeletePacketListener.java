@@ -21,6 +21,5 @@ public class AutomaticMessageDeletePacketListener extends AutomaticMessagePacket
     @Override
     public void receive(AutomaticMessageDeletePacket automaticMessageDeletePacket, Message message) {
         messageApi.modifyMessages(list -> list.remove(automaticMessageDeletePacket.automaticMessage()));
-        logger.info("Deleted automatic message: " + automaticMessageDeletePacket.automaticMessage().id());
     }
 }

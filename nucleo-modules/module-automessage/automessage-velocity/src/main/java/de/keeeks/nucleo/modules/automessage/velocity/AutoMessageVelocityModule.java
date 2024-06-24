@@ -7,6 +7,9 @@ import de.keeeks.nucleo.core.velocity.module.VelocityModule;
 import de.keeeks.nucleo.modules.automessage.api.AutomaticMessage;
 import de.keeeks.nucleo.modules.automessage.api.AutomaticMessageApi;
 import de.keeeks.nucleo.modules.automessage.velocity.commands.AutoMessageCommand;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 @ModuleDescription(
         name = "automessage",
@@ -33,13 +36,17 @@ public class AutoMessageVelocityModule extends VelocityModule {
     public void enable() {
         autoCompleter().registerSuggestion(
                 "autoMessageIds",
-                (list, commandActor, executableCommand) -> messageApi.messages().stream().map(
-                        AutomaticMessage::id
-                ).map(
-                        integer -> Integer.toString(integer)
-                ).toList()
+                (list, commandActor, executableCommand) -> messageIdsAsList()
         );
 
         registerCommands(new AutoMessageCommand());
+    }
+
+    private @NotNull List<String> messageIdsAsList() {
+        return messageApi.messages().stream().map(
+                AutomaticMessage::id
+        ).map(
+                integer -> Integer.toString(integer)
+        ).toList();
     }
 }
