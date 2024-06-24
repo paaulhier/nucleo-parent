@@ -39,9 +39,9 @@ public class NucleoEconomy implements Economy {
         this.name = name;
         this.economyRepository = economyRepository;
 
-        this.balances = CacheBuilder.newBuilder().build(
-                CacheLoader.from(uuid -> economyRepository.balance(id, uuid))
-        );
+        this.balances = CacheBuilder
+                .newBuilder()
+                .build(CacheLoader.from(uuid -> economyRepository.balance(id, uuid)));
 
         Scheduler.runAsyncTimer(
                 () -> {

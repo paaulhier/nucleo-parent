@@ -36,6 +36,10 @@ public final class EconomyRepository {
                 "delete from economies where id = ?",
                 statement -> statement.setInt(1, id)
         );
+        mysqlConnection.prepare(
+                "delete from economy_balances where economyId = ?",
+                statement -> statement.setInt(1, id)
+        );
     }
 
     public double balance(int economyId, UUID uuid) {

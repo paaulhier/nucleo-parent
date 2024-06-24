@@ -19,17 +19,12 @@ public class EconomyCommand {
 
     @DefaultFor({"economy", "eco"})
     public void economyCommand(Player player) {
-        player.sendMessage(Component.translatable(
-                "nucleo.economy.command.help"
-        ));
+        player.sendMessage(Component.translatable("nucleo.economy.command.help"));
     }
 
     @Subcommand("create")
     @CommandPermission("nucleo.commands.economy.create")
-    public void create(
-            Player player,
-            String economyName
-    ) {
+    public void create(Player player, String economyName) {
         Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(
                 economy -> sendEconomyAlreadyExists(player, economyName),
                 () -> {
@@ -45,10 +40,7 @@ public class EconomyCommand {
 
     @Subcommand("delete")
     @CommandPermission("nucleo.commands.economy.delete")
-    public void delete(
-            Player player,
-            String economyName
-    ) {
+    public void delete(Player player, String economyName) {
         Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
             economyApi.delete(economyName);
             player.sendMessage(Component.translatable(
@@ -68,23 +60,21 @@ public class EconomyCommand {
     @Usage("balance <economy> <player>")
     @AutoComplete("@economies @players")
     @Subcommand("balance")
-    public void balance(
-            Player player,
-            String economyName,
-            String playerName
-    ) {
-        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
-            playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
-                double balance = economy.balance(targetPlayer.uuid());
+    public void balance(Player player, String economyName, String playerName) {
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(
+                economy -> playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
+                            double balance = economy.balance(targetPlayer.uuid());
 
-                player.sendMessage(Component.translatable(
-                        "nucleo.economy.command.balance",
-                        NameColorizer.coloredName(targetPlayer.uuid()),
-                        Component.text(balance),
-                        Component.text(economy.name())
-                ));
-            }, () -> sendPlayerNotFound(player, playerName));
-        }, () -> sendEconomyNotFound(player, economyName)));
+                            player.sendMessage(Component.translatable(
+                                    "nucleo.economy.command.balance",
+                                    NameColorizer.coloredName(targetPlayer.uuid()),
+                                    Component.text(balance),
+                                    Component.text(economy.name())
+                            ));
+                        },
+                        () -> sendPlayerNotFound(player, playerName)),
+                () -> sendEconomyNotFound(player, economyName)
+        ));
     }
 
     @Usage("set <economy> <player> <amount>")
@@ -97,18 +87,20 @@ public class EconomyCommand {
             String playerName,
             double amount
     ) {
-        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
-            playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
-                economy.setBalance(targetPlayer.uuid(), amount);
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(
+                economy -> playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
+                            economy.setBalance(targetPlayer.uuid(), amount);
 
-                player.sendMessage(Component.translatable(
-                        "nucleo.economy.command.set",
-                        NameColorizer.coloredName(targetPlayer.uuid()),
-                        Component.text(amount),
-                        Component.text(economy.name())
-                ));
-            }, () -> sendPlayerNotFound(player, playerName));
-        }, () -> sendEconomyNotFound(player, economyName)));
+                            player.sendMessage(Component.translatable(
+                                    "nucleo.economy.command.set",
+                                    NameColorizer.coloredName(targetPlayer.uuid()),
+                                    Component.text(amount),
+                                    Component.text(economy.name())
+                            ));
+                        },
+                        () -> sendPlayerNotFound(player, playerName)),
+                () -> sendEconomyNotFound(player, economyName))
+        );
     }
 
     @Usage("deposit <economy> <player> <amount>")
@@ -120,18 +112,20 @@ public class EconomyCommand {
             String playerName,
             double amount
     ) {
-        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
-            playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
-                economy.deposit(targetPlayer.uuid(), amount);
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(
+                economy -> playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
+                            economy.deposit(targetPlayer.uuid(), amount);
 
-                player.sendMessage(Component.translatable(
-                        "nucleo.economy.command.deposit",
-                        NameColorizer.coloredName(targetPlayer.uuid()),
-                        Component.text(amount),
-                        Component.text(economy.name())
-                ));
-            }, () -> sendPlayerNotFound(player, playerName));
-        }, () -> sendEconomyNotFound(player, economyName)));
+                            player.sendMessage(Component.translatable(
+                                    "nucleo.economy.command.deposit",
+                                    NameColorizer.coloredName(targetPlayer.uuid()),
+                                    Component.text(amount),
+                                    Component.text(economy.name())
+                            ));
+                        },
+                        () -> sendPlayerNotFound(player, playerName)),
+                () -> sendEconomyNotFound(player, economyName))
+        );
     }
 
     @Usage("withdraw <economy> <player> <amount>")
@@ -143,18 +137,20 @@ public class EconomyCommand {
             String playerName,
             double amount
     ) {
-        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
-            playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
-                economy.withdraw(targetPlayer.uuid(), amount);
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(
+                economy -> playerService.player(playerName).ifPresentOrElse(targetPlayer -> {
+                            economy.withdraw(targetPlayer.uuid(), amount);
 
-                player.sendMessage(Component.translatable(
-                        "nucleo.economy.command.withdraw",
-                        NameColorizer.coloredName(targetPlayer.uuid()),
-                        Component.text(amount),
-                        Component.text(economy.name())
-                ));
-            }, () -> sendPlayerNotFound(player, playerName));
-        }, () -> sendEconomyNotFound(player, economyName)));
+                            player.sendMessage(Component.translatable(
+                                    "nucleo.economy.command.withdraw",
+                                    NameColorizer.coloredName(targetPlayer.uuid()),
+                                    Component.text(amount),
+                                    Component.text(economy.name())
+                            ));
+                        },
+                        () -> sendPlayerNotFound(player, playerName)),
+                () -> sendEconomyNotFound(player, economyName))
+        );
     }
 
     @Usage("transfer <economy> <from> <to> <amount>")
@@ -167,21 +163,23 @@ public class EconomyCommand {
             String toName,
             double amount
     ) {
-        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(economy -> {
-            playerService.player(fromName).ifPresentOrElse(fromPlayer -> {
-                playerService.player(toName).ifPresentOrElse(toPlayer -> {
-                    economy.transfer(fromPlayer.uuid(), toPlayer.uuid(), amount);
+        Scheduler.runAsync(() -> economyApi.economy(economyName).ifPresentOrElse(
+                economy -> playerService.player(fromName).ifPresentOrElse(
+                        fromPlayer -> playerService.player(toName).ifPresentOrElse(toPlayer -> {
+                                    economy.transfer(fromPlayer.uuid(), toPlayer.uuid(), amount);
 
-                    player.sendMessage(Component.translatable(
-                            "nucleo.economy.command.transfer",
-                            NameColorizer.coloredName(fromPlayer.uuid()),
-                            NameColorizer.coloredName(toPlayer.uuid()),
-                            Component.text(amount),
-                            Component.text(economy.name())
-                    ));
-                }, () -> sendPlayerNotFound(player, toName));
-            }, () -> sendPlayerNotFound(player, fromName));
-        }, () -> sendEconomyNotFound(player, economyName)));
+                                    player.sendMessage(Component.translatable(
+                                            "nucleo.economy.command.transfer",
+                                            NameColorizer.coloredName(fromPlayer.uuid()),
+                                            NameColorizer.coloredName(toPlayer.uuid()),
+                                            Component.text(amount),
+                                            Component.text(economy.name())
+                                    ));
+                                },
+                                () -> sendPlayerNotFound(player, toName)),
+                        () -> sendPlayerNotFound(player, fromName)),
+                () -> sendEconomyNotFound(player, economyName))
+        );
     }
 
     private void sendPlayerNotFound(Player player, String playerName) {
@@ -197,5 +195,4 @@ public class EconomyCommand {
                 Component.text(economyName)
         ));
     }
-
 }
