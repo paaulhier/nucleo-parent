@@ -1,5 +1,6 @@
 package de.keeeks.nucleo.modules.database.sql;
 
+import com.google.common.base.Preconditions;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import de.keeeks.nucleo.core.api.Module;
@@ -27,24 +28,7 @@ public final class MysqlConnection {
     private final HikariDataSource hikariDataSource;
 
     public MysqlConnection(MysqlCredentials sqlCredentials) {
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:%s://%s:%s/%s".formatted(
-                sqlCredentials.type().name().toLowerCase(),
-                sqlCredentials.host(),
-                sqlCredentials.port(),
-                sqlCredentials.database()
-        ));
-        hikariConfig.setUsername(sqlCredentials.username());
-        hikariConfig.setPassword(sqlCredentials.password());
-        String driverClassName = sqlCredentials.type().driverClass();
-        logger.info("Using %s as driver class".formatted(
-                driverClassName
-        ));
-        hikariConfig.setDriverClassName(driverClassName);
-        hikariConfig.setThreadFactory(r -> new Thread(r, "kks-sql-%d"));
-        hikariConfig.setPoolName("kks-sql-%d".formatted(
-                connectionCounter.getAndIncrement()
-        ));
+        HikariConfig hikariConfig = prepareHikariConfig(sqlCredentials);
 
         if (!sqlCredentials.host().equals("172.17.0.1")) {
             logger.warning(" ");
@@ -57,6 +41,25 @@ public final class MysqlConnection {
 
         this.hikariDataSource = new HikariDataSource(hikariConfig);
         sqlConnections.add(this);
+    }
+
+    private HikariConfig prepareHikariConfig(MysqlCredentials mysqlCredentials) {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl("jdbc:%s://%s:%s/%s".formatted(
+                mysqlCredentials.type().name().toLowerCase(),
+                mysqlCredentials.host(),
+                mysqlCredentials.port(),
+                mysqlCredentials.database()
+        ));
+        hikariConfig.setUsername(mysqlCredentials.username());
+        hikariConfig.setPassword(mysqlCredentials.password());
+        String driverClassName = mysqlCredentials.type().driverClass();
+        hikariConfig.setDriverClassName(driverClassName);
+        hikariConfig.setThreadFactory(r -> new Thread(r, "kks-sql-%d"));
+        hikariConfig.setPoolName("kks-sql-%d".formatted(
+                connectionCounter.getAndIncrement()
+        ));
+        return hikariConfig;
     }
 
     public static void shutdown() {
@@ -90,7 +93,10 @@ public final class MysqlConnection {
     }
 
     public int keyInsert(String sql, PreparedStatementFiller filler) {
-        return keyInsert(sql, filler, int.class);
+        return Preconditions.checkNotNull(
+                keyInsert(sql, filler, int.class),
+                "Failed to insert key. The returned key was null."
+        );
     }
 
     public <T> T keyInsert(String sql, PreparedStatementFiller filler, Class<T> clazz) {
@@ -103,11 +109,7 @@ public final class MysqlConnection {
                 return resultSet.getObject(1, clazz);
             }
         } catch (SQLException e) {
-            logger.log(
-                    Level.SEVERE,
-                    "Error while executing keyInsert: " + e.getMessage(),
-                    e
-            );
+            printException("Error while executing keyInsert: ", e);
         }
         return null;
     }
@@ -126,11 +128,7 @@ public final class MysqlConnection {
             }
             preparedStatement.executeBatch();
         } catch (SQLException e) {
-            logger.log(
-                    Level.SEVERE,
-                    "Error while executing batchInsert: " + e.getMessage(),
-                    e
-            );
+            printException("Error while executing batchInsert: ", e);
         }
     }
 
@@ -158,11 +156,7 @@ public final class MysqlConnection {
             }
 
         } catch (SQLException e) {
-            logger.log(
-                    Level.SEVERE,
-                    "Error while executing queryList: " + e.getMessage(),
-                    e
-            );
+            printException("Error while executing queryList: ", e);
         }
         return result;
     }
@@ -187,11 +181,7 @@ public final class MysqlConnection {
                 return resultSetTransformer.transform(resultSet);
             }
         } catch (SQLException e) {
-            logger.log(
-                    Level.SEVERE,
-                    "Error while executing query: " + e.getMessage(),
-                    e
-            );
+            printException("Error while executing query: ", e);
         }
         return null;
     }
@@ -205,13 +195,17 @@ public final class MysqlConnection {
             filler.fill(preparedStatement);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            logger.log(
-                    Level.SEVERE,
-                    "Error while executing rawExecute: " + e.getMessage(),
-                    e
-            );
+            printException("Error while executing rawExecute: ", e);
         }
         return null;
+    }
+
+    private void printException(String x, SQLException e) {
+        logger.log(
+                Level.SEVERE,
+                x + e.getMessage(),
+                e
+        );
     }
 
     public Connection connection() throws SQLException {

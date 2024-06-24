@@ -22,12 +22,7 @@ public final class RedisConnection {
     private final RedisClient redisClient;
 
     public RedisConnection(RedisCredentials credentials) {
-        this.redisClient = RedisClient.create(RedisURI.Builder.redis(
-                credentials.host(),
-                credentials.port()
-        ).withPassword(
-                credentials.password().toCharArray()
-        ).withDatabase(0).build());
+        this.redisClient = RedisClient.create(buildRedisURI(credentials));
         redisClient.setOptions(ClientOptions.builder()
                 .autoReconnect(true)
                 .socketOptions(SocketOptions.builder().keepAlive(true).build())
@@ -42,6 +37,15 @@ public final class RedisConnection {
         ));
 
         connections.add(this);
+    }
+
+    private RedisURI buildRedisURI(RedisCredentials credentials) {
+        return RedisURI.Builder.redis(
+                credentials.host(),
+                credentials.port()
+        ).withPassword(
+                credentials.password().toCharArray()
+        ).withDatabase(0).build();
     }
 
     public void close() {
