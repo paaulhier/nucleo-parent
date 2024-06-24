@@ -132,24 +132,8 @@ public abstract class AbstractModuleLoader {
 
             graph.addVertex(moduleContainer);
 
-            for (String depend : description.depends()) {
-                handleDependency(moduleContainer, depend, graph, false);
-            }
-            if (description.depends().length > 0) {
-                logger.severe("Module %s uses deprecated depends field. Use dependencies instead".formatted(
-                        description.name()
-                ));
-            }
             for (Dependency dependency : description.dependencies()) {
                 handleDependency(moduleContainer, dependency.name(), graph, !dependency.required());
-            }
-            for (String depend : description.softDepends()) {
-                handleDependency(moduleContainer, depend, graph, true);
-            }
-            if (description.softDepends().length > 0) {
-                logger.severe("Module %s uses deprecated depends field. Use dependencies instead".formatted(
-                        description.name()
-                ));
             }
         });
 

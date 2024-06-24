@@ -51,7 +51,6 @@ public class NucleoSpigotPlugin extends JavaPlugin {
             getLogger()
     );
 
-
     @Getter
     private final long startupTime = System.currentTimeMillis();
     @Getter

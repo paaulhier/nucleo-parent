@@ -16,7 +16,12 @@ public class LocationSerializer extends JsonSerializer<Location> {
     }
 
     @Override
-    public Location deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public Location deserialize(
+            JsonElement jsonElement,
+            Type type,
+            JsonDeserializationContext jsonDeserializationContext
+    ) throws JsonParseException {
+        if (Bukkit.getWorlds().isEmpty()) throw new IllegalStateException("No worlds are loaded yet!");
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
         float yaw = jsonObject.has("yaw")
@@ -40,7 +45,11 @@ public class LocationSerializer extends JsonSerializer<Location> {
     }
 
     @Override
-    public JsonElement serialize(Location location, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(
+            Location location,
+            Type type,
+            JsonSerializationContext jsonSerializationContext
+    ) {
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.add("world", jsonSerializationContext.serialize(location.getWorld(), World.class));

@@ -15,13 +15,7 @@ public @interface ModuleDescription {
 
     String[] authors() default "Keeeks Development Team";
 
-    @Deprecated
-    String[] depends() default {};
-
     Dependency[] dependencies() default {};
-
-    @Deprecated
-    String[] softDepends() default {};
 
     String version() default "1.0-SNAPSHOT";
 
