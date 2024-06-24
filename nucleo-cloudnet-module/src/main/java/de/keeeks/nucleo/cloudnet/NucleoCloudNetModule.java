@@ -18,8 +18,6 @@ import java.nio.file.Files;
 
 @Singleton
 public class NucleoCloudNetModule extends DriverModule {
-    private final Logger logger = LogManager.logger(NucleoCloudNetModule.class);
-
     @ModuleTask(lifecycle = ModuleLifeCycle.STARTED)
     public void finishStartup(@NonNull EventManager eventManager) {
         eventManager.registerListener(CloudServiceStartListener.class);
