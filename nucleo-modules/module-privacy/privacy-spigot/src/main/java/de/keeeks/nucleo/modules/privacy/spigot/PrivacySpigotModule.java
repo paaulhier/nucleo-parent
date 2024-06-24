@@ -19,11 +19,10 @@ import de.keeeks.nucleo.modules.privacy.spigot.listener.PrivacyQuitListener;
         }
 )
 public class PrivacySpigotModule extends SpigotModule {
-    private PrivacyApi privacyApi;
 
     @Override
     public void load() {
-        this.privacyApi = ServiceRegistry.registerService(
+        ServiceRegistry.registerService(
                 PrivacyApi.class,
                 new NucleoPrivacyApi(this)
         );

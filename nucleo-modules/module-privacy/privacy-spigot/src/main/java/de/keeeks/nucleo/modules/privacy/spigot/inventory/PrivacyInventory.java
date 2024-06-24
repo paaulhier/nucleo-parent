@@ -23,14 +23,14 @@ public class PrivacyInventory {
             Module.module(PrivacySpigotModule.class),
             PrivacyInventory.class
     );
-    private final ItemConfiguration informationItemConfiguration = ItemConfiguration.load(
-            Module.module(PrivacySpigotModule.class),
-            "informationItem"
-    );
 
     private final Gui gui;
 
     public PrivacyInventory() {
+        ItemConfiguration informationItemConfiguration = ItemConfiguration.load(
+                Module.module(PrivacySpigotModule.class),
+                "informationItem"
+        );
         gui = Gui.of(new Structure(
                 "XXXXXXXXX",
                 "XXYXIXNXX",
