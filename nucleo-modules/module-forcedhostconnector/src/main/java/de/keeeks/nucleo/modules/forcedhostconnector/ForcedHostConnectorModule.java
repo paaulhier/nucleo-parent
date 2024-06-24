@@ -8,14 +8,11 @@ import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.ModuleDescription;
 import de.keeeks.nucleo.core.velocity.module.VelocityModule;
+import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
 import de.keeeks.nucleo.modules.forcedhostconnector.config.ForcedHost;
 import de.keeeks.nucleo.modules.forcedhostconnector.config.ForcedHostCommand;
 import de.keeeks.nucleo.modules.forcedhostconnector.config.ForcedHostConfiguration;
 import de.keeeks.nucleo.modules.forcedhostconnector.listener.ForcedHostJoinListener;
-import de.keeeks.nucleo.modules.config.json.JsonConfiguration;
-
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.Component.translatable;
 
 @ModuleDescription(
         name = "forcedhostconnector",
@@ -25,7 +22,10 @@ import static net.kyori.adventure.text.Component.translatable;
 public class ForcedHostConnectorModule extends VelocityModule {
     @Override
     public void enable() {
-        ForcedHostConfiguration forcedHostConfiguration = JsonConfiguration.create(dataFolder(), "config").loadObject(
+        ForcedHostConfiguration forcedHostConfiguration = JsonConfiguration.create(
+                dataFolder(),
+                "config"
+        ).loadObject(
                 ForcedHostConfiguration.class,
                 ForcedHostConfiguration.createDefault()
         );

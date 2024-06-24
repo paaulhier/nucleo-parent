@@ -18,13 +18,10 @@ public class ForcedHostJoinListener {
     @Subscribe(order = PostOrder.LAST)
     public EventTask onPlayerJoin(PlayerChooseInitialServerEvent event) {
         Player player = event.getPlayer();
-        return EventTask.async(() -> {
-
-            player.getVirtualHost().flatMap(
-                    inetSocketAddress -> configuration.forcedHost(inetSocketAddress.getHostName())
-            ).filter(ForcedHost::enabled).filter(
-                    forcedHost -> forcedHost.requiredPermission() == null || player.hasPermission(forcedHost.requiredPermission())
-            ).flatMap(forcedHost -> proxyServer.getServer(forcedHost.serverName())).ifPresent(event::setInitialServer);
-        });
+        return EventTask.async(() -> player.getVirtualHost().flatMap(
+                inetSocketAddress -> configuration.forcedHost(inetSocketAddress.getHostName())
+        ).filter(ForcedHost::enabled).filter(
+                forcedHost -> forcedHost.requiredPermission() == null || player.hasPermission(forcedHost.requiredPermission())
+        ).flatMap(forcedHost -> proxyServer.getServer(forcedHost.serverName())).ifPresent(event::setInitialServer));
     }
 }

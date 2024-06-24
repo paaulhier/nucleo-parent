@@ -22,8 +22,8 @@ public class DefaultHologram implements Hologram {
 
     private final UUID uuid = UUID.randomUUID();
 
-    private String name;
-    private Location location;
+    private final String name;
+    private final Location location;
 
     public DefaultHologram(String name, Location location) {
         this.name = name;
@@ -54,6 +54,20 @@ public class DefaultHologram implements Hologram {
             hologramLine.remove();
             hologramLines.remove(hologramLine);
         }
+    }
+
+    /**
+     * Moves this hologram to the given location.
+     *
+     * @param location the new location of this hologram
+     */
+    @Override
+    public void move(Location location) {
+        this.location.setX(location.getX());
+        this.location.setY(location.getY());
+        this.location.setZ(location.getZ());
+        this.location.setWorld(location.getWorld());
+        update();
     }
 
     @Override
