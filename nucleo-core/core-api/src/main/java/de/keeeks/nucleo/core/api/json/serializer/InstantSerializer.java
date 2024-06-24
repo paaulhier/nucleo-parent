@@ -16,11 +16,16 @@ public class InstantSerializer extends JsonSerializer<Instant> {
             Type type,
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
+        if (jsonElement.isJsonNull()) return Instant.EPOCH;
         return Instant.ofEpochMilli(jsonElement.getAsLong());
     }
 
     @Override
-    public JsonElement serialize(Instant instant, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(
+            Instant instant,
+            Type type,
+            JsonSerializationContext jsonSerializationContext
+    ) {
         return new JsonPrimitive(instant.toEpochMilli());
     }
 }

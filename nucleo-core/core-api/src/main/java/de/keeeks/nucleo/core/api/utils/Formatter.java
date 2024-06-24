@@ -28,7 +28,7 @@ public class Formatter {
             "(\\d+)([smhdy])"
     );
     private static final Pattern permanentPattern = Pattern.compile(
-            "perm|perma|permanent|forever|-1"
+            "(?i)\\b(perm|perma|permanent|forever)\\b"
     );
 
     public static String formatInstant(Instant instant) {

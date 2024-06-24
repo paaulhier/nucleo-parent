@@ -24,7 +24,6 @@ public final class ModuleLoader extends AbstractModuleLoader {
         super(logger);
     }
 
-
     public void loadModule(File file) {
         try {
             try (JarFile jarFile = new JarFile(file)) {

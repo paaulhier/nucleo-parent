@@ -14,8 +14,6 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public abstract class CommandSupportingModule extends Module {
-    private final List<Object> commandBackLog = new ArrayList<>();
-
     private final Supplier<CommandHandler> commandHandler;
 
     public final void registerCommands(Object... commands) {

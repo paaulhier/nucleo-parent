@@ -16,6 +16,7 @@ public class DurationSerializer extends JsonSerializer<Duration> {
             Type type,
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
+        if (jsonElement.isJsonNull()) return Duration.ZERO;
         return Duration.ofMillis(jsonElement.getAsLong());
     }
 

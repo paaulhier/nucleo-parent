@@ -4,6 +4,7 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class LocaleSerializer extends JsonSerializer<Locale> {
     private static final String underscore = "_";
@@ -19,25 +20,15 @@ public class LocaleSerializer extends JsonSerializer<Locale> {
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
         var localeString = jsonElement.getAsJsonPrimitive().getAsString();
+        if (localeString == null) return Locale.ENGLISH;
+
         var localeParts = localeString.split(underscore);
 
-        if (localeParts.length == 1) {
-            return Locale.of(localeParts[0]);
-        }
-        if (localeParts.length == 2) {
-            return Locale.of(
-                    localeParts[0],
-                    localeParts[1]
-            );
-        }
-        if (localeParts.length == 3) {
-            return Locale.of(
-                    localeParts[0],
-                    localeParts[1],
-                    localeParts[2]
-            );
-        }
-        return Locale.ENGLISH;
+        return Locale.of(
+                stringOrIfNotPresentEmpty(localeParts, 0),
+                stringOrIfNotPresentEmpty(localeParts, 1),
+                stringOrIfNotPresentEmpty(localeParts, 2)
+        );
     }
 
     @Override
@@ -46,27 +37,14 @@ public class LocaleSerializer extends JsonSerializer<Locale> {
             Type type,
             JsonSerializationContext jsonSerializationContext
     ) {
-        var localeStringBuilder = new StringBuilder();
-        localeStringBuilder.append(locale.getLanguage());
+        return new JsonPrimitive("%s_%s_%s".formatted(
+                locale.getLanguage(),
+                locale.getCountry(),
+                locale.getVariant()
+        ));
+    }
 
-        if (!locale.getCountry().isEmpty()) {
-            localeStringBuilder.append(
-                    underscore
-            ).append(
-                    locale.getCountry()
-            );
-        }
-
-        if (!locale.getVariant().isEmpty()) {
-            localeStringBuilder.append(
-                    underscore
-            ).append(
-                    locale.getVariant()
-            );
-        }
-
-        return new JsonPrimitive(
-                localeStringBuilder.toString()
-        );
+    private String stringOrIfNotPresentEmpty(String[] parts, int index) {
+        return parts.length > index ? parts[index] : "";
     }
 }

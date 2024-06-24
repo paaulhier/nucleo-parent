@@ -38,9 +38,7 @@ public abstract class AbstractModuleLoader {
         Module module = (Module) clazz.getConstructor().newInstance();
         ModuleLogger moduleLogger = ModuleLogger.create(module, logger);
         module.updateLogger(moduleLogger);
-        moduleContainers.add(ModuleContainer.create(
-                module
-        ));
+        moduleContainers.add(ModuleContainer.create(module));
     }
 
     private void enableModule(ModuleContainer moduleContainer) {

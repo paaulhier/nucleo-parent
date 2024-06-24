@@ -15,15 +15,15 @@ public class ComponentSerializer extends JsonSerializer<Component> {
             Type type,
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
-        return gsonComponentSerializer.deserialize(
-                jsonElement.getAsString()
-        );
+        return gsonComponentSerializer.deserialize(jsonElement.getAsString());
     }
 
     @Override
-    public JsonElement serialize(Component component, Type type, JsonSerializationContext jsonSerializationContext) {
-        return new JsonPrimitive(gsonComponentSerializer.serialize(
-                component
-        ));
+    public JsonElement serialize(
+            Component component,
+            Type type,
+            JsonSerializationContext jsonSerializationContext
+    ) {
+        return new JsonPrimitive(gsonComponentSerializer.serialize(component));
     }
 }

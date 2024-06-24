@@ -25,6 +25,7 @@ public final class GsonBuilder {
             .setPrettyPrinting()
             .create();
 
+    @Deprecated
     public static void registerUpdateListener(UpdateListener<Gson> updateListener) {
         GsonBuilder.updateListener.add(updateListener);
     }
