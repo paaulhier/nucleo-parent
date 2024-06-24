@@ -33,7 +33,7 @@ public class TopCommand {
             () -> economyApi.create("cookies")
     );
 
-    @DefaultFor({"top", "best"})
+    @DefaultFor("~")
     public void topCommand(Player player) {
         player.sendMessage(translatable("nucleo.command.top.usage"));
     }

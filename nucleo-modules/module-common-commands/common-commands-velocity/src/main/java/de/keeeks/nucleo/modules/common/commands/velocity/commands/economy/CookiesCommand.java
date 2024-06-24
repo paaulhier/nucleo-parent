@@ -20,7 +20,7 @@ public class CookiesCommand {
     private final EconomyApi economyApi = ServiceRegistry.service(EconomyApi.class);
     private final Economy economy = economyApi.create("cookies");
 
-    @DefaultFor({"cookies", "cookie"})
+    @DefaultFor("~")
     public void cookiesCommand(Player player) {
         Scheduler.runAsync(() -> {
             double cookies = economy.balance(player.getUniqueId());

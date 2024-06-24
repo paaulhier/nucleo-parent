@@ -27,17 +27,12 @@ public class ListCommand {
 
     @AutoComplete("@servers")
     @DefaultFor("~")
-    public void listCommand(
-            Player player,
-            @Optional String server
-    ) {
+    public void listCommand(Player player, @Optional String server) {
         Scheduler.runAsync(() -> {
             if (server == null || !player.hasPermission("nucleo.command.list.server")) {
                 int playerCount = playerService.onlinePlayerCount();
                 player.sendMessage(translatable(
-                        "nucleo.command.list.players.%s".formatted(
-                                playerCount == 1 ? "singular" : "plural"
-                        ),
+                        "nucleo.command.list.players.%s".formatted(playerCount == 1 ? "singular" : "plural"),
                         text(playerCount)
                 ));
                 return;
