@@ -24,10 +24,10 @@ public class PlayerHotBarInventoryClickEventListener implements Listener {
             PlayerHotBar playerHotBar = playerHotBarService.hotBar(player);
             if (playerHotBar == null) return;
 
-            int hotbarButton = event.getHotbarButton();
+            int hotBarButton = event.getHotbarButton();
             int slot = event.getSlot();
 
-            playerHotBar.item(hotbarButton).ifPresent(hotBarItem -> event.setCancelled(true));
+            playerHotBar.item(hotBarButton).ifPresent(hotBarItem -> event.setCancelled(true));
             playerHotBar.item(slot).ifPresent(hotBarItem -> event.setCancelled(true));
         }
     }
