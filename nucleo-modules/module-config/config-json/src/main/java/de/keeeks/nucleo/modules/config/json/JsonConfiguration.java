@@ -25,14 +25,7 @@ public class JsonConfiguration extends Configuration<Gson> {
         try (var fileReader = new FileReader(file)) {
             return handle().fromJson(fileReader, clazz);
         } catch (Throwable e) {
-            module.logger().log(
-                    Level.SEVERE,
-                    "Failed to read object %s from %s.".formatted(
-                            clazz.getName(),
-                            file.getPath()
-                    ),
-                    e
-            );
+            printException("Failed to read object %s from %s.", clazz.getName(), e);
         }
         return null;
     }
@@ -43,16 +36,17 @@ public class JsonConfiguration extends Configuration<Gson> {
         try (var fileWriter = new FileWriter(file)) {
             handle().toJson(t, fileWriter);
         } catch (Throwable e) {
-            module.logger().log(
-                    Level.SEVERE,
-                    "Failed to save object %s to file %s.".formatted(
-                            t.getClass().getName(),
-                            file.getPath()
-                    ),
-                    e
-            );
+            printException("Failed to save object %s to file %s.", t.getClass().getName(), e);
         }
         return t;
+    }
+
+    private void printException(String message, String clazz, Throwable e) {
+        module.logger().log(
+                Level.SEVERE,
+                message.formatted(clazz, file.getPath()),
+                e
+        );
     }
 
     public static JsonConfiguration create(File file, Gson handle) {
