@@ -43,7 +43,6 @@ public class TopCommand {
         Scheduler.runAsync(() -> {
             player.sendMessage(translatable("nucleo.command.top.cookies.header"));
 
-
             List<NucleoPlayer> topEconomyPlayers = economy.top().stream().map(
                     uuid -> playerService.player(uuid).orElse(null)
             ).filter(Objects::nonNull).toList();

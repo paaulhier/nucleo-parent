@@ -17,13 +17,10 @@ import static net.kyori.adventure.text.Component.translatable;
 @Command("fly")
 @CommandPermission("nucleo.commands.fly")
 public class FlyCommand {
-    private final PluginManager pluginManager =  Bukkit.getPluginManager();
+    private final PluginManager pluginManager = Bukkit.getPluginManager();
 
     @DefaultFor("fly")
-    public void flyCommand(
-            Player player,
-            @Optional String targetName
-    ) {
+    public void flyCommand(Player player, @Optional String targetName) {
         if (targetName == null || targetName.equalsIgnoreCase(player.getName())) {
             toggleFlyFor(player, player);
             return;

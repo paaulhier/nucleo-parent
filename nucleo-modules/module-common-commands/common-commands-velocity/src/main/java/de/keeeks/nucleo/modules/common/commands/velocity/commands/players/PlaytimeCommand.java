@@ -25,11 +25,8 @@ public class PlaytimeCommand {
     private final PermissionApi permissionApi = PermissionApi.instance();
 
     @AutoComplete("@players")
-    @DefaultFor({"playtime", "pt"})
-    public void commandUsage(
-            Player player,
-            @Optional String otherPlayerName
-    ) {
+    @DefaultFor("~")
+    public void commandUsage(Player player, @Optional String otherPlayerName) {
         Scheduler.runAsync(() -> {
             if (otherPlayerName == null || otherPlayerName.equalsIgnoreCase(player.getUsername())) {
                 Long playTime = playerService.onlinePlayer(player.getUniqueId()).map(

@@ -26,7 +26,7 @@ public class ListCommand {
     private final ProxyServer proxyServer;
 
     @AutoComplete("@servers")
-    @DefaultFor({"list", "glist", "online", "players"})
+    @DefaultFor("~")
     public void listCommand(
             Player player,
             @Optional String server

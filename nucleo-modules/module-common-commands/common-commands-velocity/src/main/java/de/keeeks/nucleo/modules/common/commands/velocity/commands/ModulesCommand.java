@@ -14,7 +14,7 @@ import java.util.List;
 @CommandPermission("nucleo.commands.modules")
 public class ModulesCommand extends RedirectableCommand {
 
-    @DefaultFor({"modules", "module"})
+    @DefaultFor("~")
     public void modulesCommand(Player player) {
         List<Module> modules = Module.modules();
 
@@ -25,9 +25,6 @@ public class ModulesCommand extends RedirectableCommand {
 
     @Subcommand({"spigot", "bukkit"})
     public void modulesSpigotCommand(Player player) {
-        sendMessageOnServer(
-                player,
-                "modules"
-        );
+        sendMessageOnServer(player, "modules");
     }
 }

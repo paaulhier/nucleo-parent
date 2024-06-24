@@ -31,7 +31,7 @@ public class BetterPasteLocationCommand {
             @Switch("correctYaw") boolean correctYaw
     ) {
         if (!actor.isPlayer()) return;
-        Player player = actor.getAsPlayer();
+        Player player = actor.requirePlayer();
         var location = player.getLocation();
 
         Component xComponent = formatLocation("X", location.getX());

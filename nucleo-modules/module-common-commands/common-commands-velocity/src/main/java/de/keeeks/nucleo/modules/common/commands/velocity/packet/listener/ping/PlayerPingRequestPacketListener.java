@@ -21,11 +21,11 @@ public class PlayerPingRequestPacketListener extends PacketListener<PlayerPingRe
             PlayerPingRequestPacket playerPingRequestPacket,
             Message message
     ) {
-        module.proxyServer().getPlayer(playerPingRequestPacket.uuid()).ifPresent(player -> {
-            reply(message, new PlayerPingResponsePacket(
-                    playerPingRequestPacket.uuid(),
-                    (int) player.getPing()
-            ));
-        });
+        module.proxyServer().getPlayer(playerPingRequestPacket.uuid()).ifPresent(
+                player -> reply(message, new PlayerPingResponsePacket(
+                        playerPingRequestPacket.uuid(),
+                        (int) player.getPing()
+                ))
+        );
     }
 }

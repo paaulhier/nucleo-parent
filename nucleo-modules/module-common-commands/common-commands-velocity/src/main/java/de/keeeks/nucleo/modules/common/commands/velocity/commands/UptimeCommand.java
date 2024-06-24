@@ -11,17 +11,18 @@ import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
+import static net.kyori.adventure.text.Component.translatable;
+
 @Command("uptime")
 @CommandPermission("nucleo.command.uptime")
 @RequiredArgsConstructor
 public class UptimeCommand extends RedirectableCommand {
     private final NucleoVelocityPlugin plugin;
 
-    @DefaultFor("uptime")
+    @DefaultFor("~")
     public void uptime(Player player) {
-        player.sendMessage(Component.translatable(
-                "nucleo.command.uptime"
-        ).arguments(
+        player.sendMessage(translatable(
+                "nucleo.command.uptime",
                 Component.text(Module.serviceName()),
                 Component.text(Formatter.formatTime(
                         (System.currentTimeMillis() - plugin.startupTime()),
@@ -36,9 +37,6 @@ public class UptimeCommand extends RedirectableCommand {
 
     @Subcommand({"spigot", "bukkit"})
     public void spigotUptime(Player player) {
-        sendMessageOnServer(
-                player,
-                "uptime"
-        );
+        sendMessageOnServer(player, "uptime");
     }
 }

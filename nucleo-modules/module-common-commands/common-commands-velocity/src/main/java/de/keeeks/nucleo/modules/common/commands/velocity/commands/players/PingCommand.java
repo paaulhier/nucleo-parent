@@ -24,13 +24,10 @@ public class PingCommand {
             CommonCommandsVelocityModule.class
     );
 
-    @Usage("ping [player]")
-    @DefaultFor({"ping", "latenz", "latency"})
-    @AutoComplete("@players")
-    public void ping(
-            Player player,
-            @Optional String targetName
-    ) {
+    @Usage("nucleo.commands.ping.usage")
+    @DefaultFor("~")
+    @AutoComplete("@onlinePlayers")
+    public void ping(Player player, @Optional String targetName) {
         if (!player.hasPermission("nucleo.commands.ping.other")) {
             pingSelf(player);
             return;

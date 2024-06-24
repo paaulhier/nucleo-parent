@@ -11,8 +11,8 @@
 
     <artifactId>module-common-commands</artifactId>
     <packaging>pom</packaging>
+
     <modules>
-        <module>common-commands-api</module>
         <module>common-commands-spigot</module>
         <module>common-commands-velocity</module>
     </modules>

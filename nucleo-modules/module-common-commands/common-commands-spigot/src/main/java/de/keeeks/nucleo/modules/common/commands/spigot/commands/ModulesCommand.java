@@ -12,9 +12,7 @@ public class ModulesCommand {
 
     @Command({"modules", "module"})
     @CommandPermission("nucleo.commands.modules")
-    public void modulesCommand(
-            final BukkitCommandActor actor
-    ) {
+    public void modulesCommand(final BukkitCommandActor actor) {
         List<Module> modules = Module.modules();
 
         actor.audience().sendMessage(Component.text("Modules (%s): ".formatted(

@@ -19,9 +19,7 @@ public class UptimeCommand {
     }
 
     @DefaultFor("uptime")
-    public void uptime(
-            final BukkitCommandActor actor
-    ) {
+    public void uptime(final BukkitCommandActor actor) {
         actor.audience().sendMessage(Component.translatable(
                 "nucleo.command.uptime",
                 Component.text(Module.serviceName()),

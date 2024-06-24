@@ -9,7 +9,7 @@ import static net.kyori.adventure.text.Component.translatable;
 @Command({"help", "?", "about"})
 public class HelpCommand {
 
-    @DefaultFor({"help", "?", "about"})
+    @DefaultFor("~")
     public void helpCommand(Player player) {
         player.sendMessage(translatable("nucleo.commands.help"));
     }
