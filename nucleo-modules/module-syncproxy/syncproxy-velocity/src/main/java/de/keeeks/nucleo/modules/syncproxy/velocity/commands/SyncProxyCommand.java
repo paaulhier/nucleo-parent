@@ -21,7 +21,7 @@ public class SyncProxyCommand {
     );
 
 
-    @DefaultFor({"syncproxy", "sp"})
+    @DefaultFor("~")
     public void syncProxyCommand(Player player) {
         player.sendMessage(Component.translatable(
                 "nucleo.command.syncproxy.usage"
@@ -52,10 +52,7 @@ public class SyncProxyCommand {
 
     @AutoComplete("@syncproxy:configurations")
     @Subcommand({"activate", "enable"})
-    public void activateConfiguration(
-            final Player player,
-            final String configurationName
-    ) {
+    public void activateConfiguration(final Player player, final String configurationName) {
         syncProxyService.configuration(configurationName).ifPresentOrElse(
                 syncProxyConfiguration -> {
                     syncProxyService.activateConfiguration(syncProxyConfiguration.id());

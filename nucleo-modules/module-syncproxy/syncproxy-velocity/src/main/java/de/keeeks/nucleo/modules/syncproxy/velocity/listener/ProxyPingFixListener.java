@@ -11,9 +11,10 @@ public class ProxyPingFixListener {
     public void handleLastPing(ProxyPingEvent event) {
         ServerPing ping = event.getPing();
         if (ping.getVersion().getProtocol() == 0) {
-            event.setPing(ping.asBuilder().version(
-                    new ServerPing.Version(event.getConnection().getProtocolVersion().getProtocol(), "")
-            ).build());
+            event.setPing(ping
+                    .asBuilder()
+                    .version(new ServerPing.Version(event.getConnection().getProtocolVersion().getProtocol(), ""))
+                    .build());
         }
     }
 }

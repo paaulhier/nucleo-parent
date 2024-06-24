@@ -17,12 +17,8 @@ public class MotdConfigurationTransformer implements ResultSetTransformer<MotdCo
         return new MotdConfiguration(
                 resultSet.getInt("id"),
                 resultSet.getInt("configurationId"),
-                miniMessage.deserialize(
-                        resultSet.getString("firstLine")
-                ),
-                miniMessage.deserialize(
-                        resultSet.getString("secondLine")
-                ),
+                miniMessage.deserialize(resultSet.getString("firstLine")),
+                miniMessage.deserialize(resultSet.getString("secondLine")),
                 resultSet.getTimestamp("createdAt").toInstant(),
                 resultSet.getTimestamp("updatedAt").toInstant()
         );
