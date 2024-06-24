@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class DefaultPropertyHolder implements PropertyHolder {
-    private Map<String, Object> properties = new HashMap<>();
+    private final Map<String, Object> properties = new HashMap<>();
 
     public DefaultPropertyHolder(PropertyHolder propertyHolder) {
         setProperties(propertyHolder);

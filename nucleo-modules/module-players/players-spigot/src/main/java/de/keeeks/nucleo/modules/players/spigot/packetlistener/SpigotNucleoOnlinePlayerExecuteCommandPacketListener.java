@@ -27,9 +27,6 @@ public class SpigotNucleoOnlinePlayerExecuteCommandPacketListener extends Packet
         Player player = server.getPlayer(nucleoOnlinePlayerExecuteCommandPacket.player().uuid());
         if (player == null) return;
 
-        server.dispatchCommand(
-                player,
-                nucleoOnlinePlayerExecuteCommandPacket.command()
-        );
+        server.dispatchCommand(player, nucleoOnlinePlayerExecuteCommandPacket.command());
     }
 }

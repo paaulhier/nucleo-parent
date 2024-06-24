@@ -39,6 +39,11 @@ public interface PlayerService {
             Version version
     );
 
+    /**
+     * Returns a list of all players with the given IP address. The IP address is case-sensitive.
+     * @param ipAddress the IP address of the players
+     * @return a list of all players with the given IP address
+     */
     List<NucleoPlayer> players(String ipAddress);
 
     List<NucleoPlayer> players();

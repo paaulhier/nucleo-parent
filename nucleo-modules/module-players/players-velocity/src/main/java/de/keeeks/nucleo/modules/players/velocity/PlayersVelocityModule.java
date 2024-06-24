@@ -25,7 +25,9 @@ import java.util.regex.Pattern;
         dependencies = @Dependency(name = "messaging")
 )
 public class PlayersVelocityModule extends VelocityModule {
-    private static final Pattern uuidPattern = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+    private static final Pattern uuidPattern = Pattern.compile(
+            "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    );
 
     private PlayerService playerService;
 

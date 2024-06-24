@@ -9,10 +9,22 @@ import static net.kyori.adventure.text.Component.translatable;
 
 @Getter
 public enum ClientBrand {
+    /**
+     * The player is using the vanilla Minecraft client.
+     */
     VANILLA(translatable("brand.vanilla")),
+    /**
+     * The player is using the LabyMod Client
+     */
     LABY_MOD(translatable("brand.labymod"), Pattern.compile("^labymod$")),
+    /**
+     * The player is using the Lunar Client
+     */
     LUNAR(translatable("brand.lunar"), Pattern.compile("^lunarclient:v[0-9]+\\.[0-9]+\\.[0-9]+-[0-9]+$")),
-    FEATHER(translatable("brand.feather"), Pattern.compile("^Feather Fabric$")),;
+    /**
+     * The player is using the Feather Client
+     */
+    FEATHER(translatable("brand.feather"), Pattern.compile("^Feather Fabric$"));
 
     private final Component displayName;
     private final Pattern pattern;

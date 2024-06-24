@@ -18,9 +18,7 @@ public record AFKConfiguration(
                 true,
                 true,
                 true,
-                List.of(
-                        new TitleMessage("afk.title", "afk.title.subtitle")
-                ),
+                List.of(new TitleMessage("afk.title", "afk.title.subtitle")),
                 1,
                 TimeUnit.MINUTES,
                 5,

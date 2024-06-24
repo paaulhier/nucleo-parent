@@ -1,7 +1,5 @@
 package de.keeeks.nucleo.modules.players.shared.sql;
 
-import com.google.gson.Gson;
-import de.keeeks.nucleo.core.api.json.GsonBuilder;
 import de.keeeks.nucleo.modules.database.sql.MysqlConnection;
 import de.keeeks.nucleo.modules.database.sql.statement.PreparedStatementFiller;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
@@ -13,18 +11,8 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-
-/**
- * The player repository is currently saved under <a href="https://panel.keeeks.de/server/bf00c498/databases">Teamspeak Testserver</a>
- * Don't ask why, the reason is too dumb to explain.
- */
 
 public final class PlayerRepository {
-    private final Supplier<Gson> gsonSupplier = GsonBuilder::globalGson;
-
     private final NucleoPlayerResultSetTransformer playerTransformer;
     private final PropertiesRepository propertiesRepository;
     private final MysqlConnection mysqlConnection;

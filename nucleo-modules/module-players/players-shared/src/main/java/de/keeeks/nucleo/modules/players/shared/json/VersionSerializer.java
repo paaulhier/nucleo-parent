@@ -13,7 +13,11 @@ public final class VersionSerializer extends JsonSerializer<Version> {
     }
 
     @Override
-    public Version deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public Version deserialize(
+            JsonElement json,
+            Type typeOfT,
+            JsonDeserializationContext context
+    ) throws JsonParseException {
         String versionAsString = json.getAsJsonPrimitive().getAsString();
         Version version = Version.getByName(versionAsString);
         if (version == null) return Version.UNKNOWN;
@@ -21,7 +25,11 @@ public final class VersionSerializer extends JsonSerializer<Version> {
     }
 
     @Override
-    public JsonElement serialize(Version src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(src.name());
+    public JsonElement serialize(
+            Version version,
+            Type typeOfSrc,
+            JsonSerializationContext context
+    ) {
+        return new JsonPrimitive(version.name());
     }
 }

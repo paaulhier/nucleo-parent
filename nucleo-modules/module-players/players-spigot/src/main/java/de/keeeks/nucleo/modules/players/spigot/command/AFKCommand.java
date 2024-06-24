@@ -14,7 +14,7 @@ public class AFKCommand {
     private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
     private final AFKService afkService = ServiceRegistry.service(AFKService.class);
 
-    @DefaultFor({"away", "afk"})
+    @DefaultFor("~")
     public void afkCommand(Player player) {
         Scheduler.runAsync(() -> playerService.onlinePlayer(player.getUniqueId()).ifPresent(
                 onlinePlayer -> afkService.forceChangeState(

@@ -38,7 +38,7 @@ public class PlayerServerModule extends WebModule {
                 new PlayersPrivacyInformationDeclinedPacketListener()
         );
 
-        RequestHandlerRegistrar.register(new PlayerCountRequestHandler(this));
+        RequestHandlerRegistrar.register(new PlayerCountRequestHandler());
     }
 
     @Override
