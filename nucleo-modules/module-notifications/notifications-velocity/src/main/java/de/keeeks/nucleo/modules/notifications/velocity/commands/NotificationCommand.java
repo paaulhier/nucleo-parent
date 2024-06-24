@@ -22,7 +22,7 @@ import static net.kyori.adventure.text.Component.translatable;
 public final class NotificationCommand implements CommandHandlerVisitor {
     private final NotificationApi notificationApi = ServiceRegistry.service(NotificationApi.class);
 
-    @DefaultFor({"notify", "notification", "notifications"})
+    @DefaultFor("~")
     public void notificationCommand(Player player) {
         sendHelpMessage(player);
     }
