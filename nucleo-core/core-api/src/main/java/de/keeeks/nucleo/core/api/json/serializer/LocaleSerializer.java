@@ -4,7 +4,6 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class LocaleSerializer extends JsonSerializer<Locale> {
     private static final String underscore = "_";

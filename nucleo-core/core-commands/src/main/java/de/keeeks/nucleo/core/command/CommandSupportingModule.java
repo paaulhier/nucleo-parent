@@ -8,8 +8,6 @@ import revxrsal.commands.CommandHandlerVisitor;
 import revxrsal.commands.autocomplete.AutoCompleter;
 import revxrsal.commands.autocomplete.SuggestionProvider;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 @RequiredArgsConstructor

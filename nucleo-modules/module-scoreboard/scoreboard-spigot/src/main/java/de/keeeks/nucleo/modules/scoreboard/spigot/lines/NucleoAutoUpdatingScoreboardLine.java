@@ -3,10 +3,8 @@ package de.keeeks.nucleo.modules.scoreboard.spigot.lines;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AutoUpdatingScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.spigot.NucleoScoreboard;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 

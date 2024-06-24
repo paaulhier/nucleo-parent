@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.inventory.hotbar.item;
 import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import xyz.xenondevs.invui.item.ItemProvider;
 

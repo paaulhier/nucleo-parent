@@ -6,6 +6,7 @@ public interface StaticScoreboardLine extends ScoreboardLine {
 
     /**
      * Returns the component of this line.
+     *
      * @return the component of this line
      */
     Component component();

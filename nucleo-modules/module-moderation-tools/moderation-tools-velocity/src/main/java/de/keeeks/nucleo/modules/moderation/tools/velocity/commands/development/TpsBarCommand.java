@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.moderation.tools.velocity.commands.development;
 import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.moderation.tools.tpsbar.TpsBarApi;
-import net.kyori.adventure.text.Component;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.velocity.annotation.CommandPermission;

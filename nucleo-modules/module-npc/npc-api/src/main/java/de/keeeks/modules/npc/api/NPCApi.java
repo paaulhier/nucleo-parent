@@ -11,12 +11,14 @@ public interface NPCApi {
 
     /**
      * Returns all NPCs that are currently spawned
+     *
      * @return all NPCs that are currently spawned
      */
     List<NPC> npcs();
 
     /**
      * Returns the nearest NPC to the given location
+     *
      * @param location the location to search the nearest NPC for
      * @return the nearest NPC to the given location
      */
@@ -28,9 +30,10 @@ public interface NPCApi {
 
     /**
      * Creates a new NPC with the given skin model, location and name
+     *
      * @param skinModel the skin model of the NPC
-     * @param location the location of the NPC
-     * @param name the name of the NPC
+     * @param location  the location of the NPC
+     * @param name      the name of the NPC
      * @return the created NPC instance
      */
     NPC createNpc(NPCSkinModel skinModel, Location location, Component name);

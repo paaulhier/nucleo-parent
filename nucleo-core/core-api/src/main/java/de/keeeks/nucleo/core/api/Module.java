@@ -9,7 +9,6 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
-import revxrsal.commands.CommandHandler;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,6 @@
 package de.keeeks.nucleo.modules.teamchat.commands;
 
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import de.keeeks.nucleo.core.api.Module;

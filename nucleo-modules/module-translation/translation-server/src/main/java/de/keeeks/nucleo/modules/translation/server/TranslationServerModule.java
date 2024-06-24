@@ -11,9 +11,6 @@ import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import de.keeeks.nucleo.modules.web.WebModule;
 import de.keeeks.nucleo.modules.web.handler.RequestHandlerRegistrar;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 @ModuleDescription(
         name = "translations",
         dependencies = {

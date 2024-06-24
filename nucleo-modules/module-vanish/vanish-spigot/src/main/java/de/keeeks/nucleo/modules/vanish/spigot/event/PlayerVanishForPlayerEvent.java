@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
+
 @Getter
 public class PlayerVanishForPlayerEvent extends PlayerEvent {
     private static final HandlerList handlerList = new HandlerList();

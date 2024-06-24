@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ListenerOrder implements GenericListenerOrder{
+public enum ListenerOrder implements GenericListenerOrder {
     FIRST(-100),
     EARLY(-50),
     NORMAL(0),

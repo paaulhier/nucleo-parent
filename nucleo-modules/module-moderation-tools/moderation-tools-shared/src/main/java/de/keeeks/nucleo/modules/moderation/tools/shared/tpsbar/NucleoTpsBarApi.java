@@ -12,7 +12,9 @@ import de.keeeks.nucleo.modules.moderation.tools.tpsbar.packet.TpsBarEnablePacke
 import de.keeeks.nucleo.modules.moderation.tools.tpsbar.packet.TpsBarStatesRequestPacket;
 import de.keeeks.nucleo.modules.moderation.tools.tpsbar.packet.TpsBarStatesResponsePacket;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class NucleoTpsBarApi implements TpsBarApi {
     private final NatsConnection natsConnection = ServiceRegistry.service(NatsConnection.class);

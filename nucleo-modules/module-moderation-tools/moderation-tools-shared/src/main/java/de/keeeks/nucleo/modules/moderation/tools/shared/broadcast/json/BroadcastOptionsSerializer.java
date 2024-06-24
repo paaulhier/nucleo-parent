@@ -6,7 +6,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import de.keeeks.nucleo.core.api.json.serializer.JsonSerializer;
 import de.keeeks.nucleo.modules.moderation.tools.broadcast.BroadcastOptions;
-import de.keeeks.nucleo.modules.moderation.tools.shared.broadcast.NucleoBroadcastApi;
 import de.keeeks.nucleo.modules.moderation.tools.shared.broadcast.NucleoBroadcastOptions;
 
 import java.lang.reflect.Type;

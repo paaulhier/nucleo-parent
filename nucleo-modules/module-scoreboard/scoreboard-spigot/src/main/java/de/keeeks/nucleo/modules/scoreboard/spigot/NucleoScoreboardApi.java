@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.scoreboard.spigot;
 import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.ScoreboardApi;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;

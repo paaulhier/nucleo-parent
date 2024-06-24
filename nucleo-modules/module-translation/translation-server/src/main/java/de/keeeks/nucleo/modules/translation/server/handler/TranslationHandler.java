@@ -75,7 +75,7 @@ public class TranslationHandler extends RequestHandler {
     private void translationById(Context context, Integer id, String moduleId) {
         translationApi.translationEntry(id).filter(translationEntry -> {
             if (moduleId == null) return true;
-            return translationEntry.module()    .id() == Integer.parseInt(moduleId);
+            return translationEntry.module().id() == Integer.parseInt(moduleId);
         }).ifPresentOrElse(
                 translationEntry -> context.result(gsonSupplier.get().toJson(translationEntry)),
                 () -> writeStatus(context, HttpStatus.NO_CONTENT)

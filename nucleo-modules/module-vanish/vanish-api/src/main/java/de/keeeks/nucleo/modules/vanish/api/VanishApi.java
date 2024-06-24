@@ -7,6 +7,7 @@ public interface VanishApi {
 
     /**
      * Get the vanish data of a player
+     *
      * @param uuid The UUID of the player
      * @return The vanish data
      */
@@ -14,6 +15,7 @@ public interface VanishApi {
 
     /**
      * Invalidates the vanish data of a player
+     *
      * @param uuid The UUID of the player
      */
     void invalidate(UUID uuid);

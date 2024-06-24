@@ -9,7 +9,6 @@ import xyz.xenondevs.invui.item.impl.controlitem.PageItem;
 
 import java.util.List;
 
-import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
 abstract class InventoryPageItem extends PageItem {

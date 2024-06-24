@@ -14,12 +14,14 @@ public interface EconomyApi {
 
     /**
      * Returns a list of all economies.
+     *
      * @return List of economies
      */
     List<Economy> economies();
 
     /**
      * Creates a new economy.
+     *
      * @param name Name of the economy
      * @return The created economy
      */
@@ -27,6 +29,7 @@ public interface EconomyApi {
 
     /**
      * Returns an economy by its id.
+     *
      * @param id The id of the searched economy
      * @return The economy or an empty optional if not found
      */
@@ -36,6 +39,7 @@ public interface EconomyApi {
 
     /**
      * Returns an economy by its name.
+     *
      * @param name The name of the searched economy
      * @return The economy or an empty optional if not found
      */
@@ -45,6 +49,7 @@ public interface EconomyApi {
 
     /**
      * Deletes an economy by its id.
+     *
      * @param id The id of the economy to delete
      */
     default void delete(int id) {
@@ -53,6 +58,7 @@ public interface EconomyApi {
 
     /**
      * Deletes an economy by its name.
+     *
      * @param name The name of the economy to delete
      */
     default void delete(String name) {
@@ -61,6 +67,7 @@ public interface EconomyApi {
 
     /**
      * Deletes an economy by its instance.
+     *
      * @param economy The economy to delete
      */
     default void delete(Economy economy) {

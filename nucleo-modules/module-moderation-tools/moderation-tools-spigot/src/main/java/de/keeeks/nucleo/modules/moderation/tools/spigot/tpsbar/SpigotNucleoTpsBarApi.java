@@ -41,6 +41,7 @@ public class SpigotNucleoTpsBarApi extends NucleoTpsBarApi {
 
     /**
      * Returns the TPS value at the given index of the last minute, last 5 minutes or last 15 minutes.
+     *
      * @param index The index of the TPS value
      * @return The TPS value or 0 if the index is out of bounds
      */
@@ -56,6 +57,7 @@ public class SpigotNucleoTpsBarApi extends NucleoTpsBarApi {
 
     /**
      * Calculates the used RAM in MiB.
+     *
      * @return The used RAM in MiB
      */
     private double usedRam() {
@@ -64,6 +66,7 @@ public class SpigotNucleoTpsBarApi extends NucleoTpsBarApi {
 
     /**
      * Calculates the total assigned RAM to the current process in MiB.
+     *
      * @return The total assigned RAM in MiB
      */
     private double totalAssignedRam() {
@@ -72,6 +75,7 @@ public class SpigotNucleoTpsBarApi extends NucleoTpsBarApi {
 
     /**
      * Calculates the percentage of used RAM based on the total assigned RAM.
+     *
      * @return The percentage of used RAM
      */
     private double ramPercentage() {
@@ -80,6 +84,7 @@ public class SpigotNucleoTpsBarApi extends NucleoTpsBarApi {
 
     /**
      * Calculates the average CPU usage in percent based on the system load average and the number of processors.
+     *
      * @return The average CPU usage in percent
      */
     private double averageCpuUsage() {

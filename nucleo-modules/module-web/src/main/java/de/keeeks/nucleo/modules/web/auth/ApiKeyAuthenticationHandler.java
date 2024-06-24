@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ApiKeyAuthenticationHandler extends AuthenticationHandler{
+public class ApiKeyAuthenticationHandler extends AuthenticationHandler {
     private final ApiKeyAuthenticationConfiguration configuration;
 
     @Override

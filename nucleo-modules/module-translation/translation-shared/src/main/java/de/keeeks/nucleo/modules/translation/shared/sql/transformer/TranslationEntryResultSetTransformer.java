@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Locale;
 
 @RequiredArgsConstructor
 public class TranslationEntryResultSetTransformer implements ResultSetTransformer<TranslationEntry> {

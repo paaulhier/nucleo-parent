@@ -6,6 +6,7 @@ public interface ScoreboardLine {
 
     /**
      * Returns the index of this scoreboard line.
+     *
      * @return the index of this scoreboard line
      */
     int index();
@@ -17,6 +18,7 @@ public interface ScoreboardLine {
 
     /**
      * Returns the component of this line.
+     *
      * @return the component of this line
      */
     Component currentComponent();

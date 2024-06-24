@@ -3,7 +3,6 @@ package de.keeeks.nucleo.modules.inventory.hotbar.listener;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.inventory.hotbar.PlayerHotBar;
 import de.keeeks.nucleo.modules.inventory.hotbar.PlayerHotBarService;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,8 +17,6 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import static net.kyori.adventure.text.Component.text;
 
 public class PlayerHotBarInteractListener implements Listener {
     private final PlayerHotBarService playerHotBarService = ServiceRegistry.service(

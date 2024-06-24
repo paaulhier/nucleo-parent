@@ -68,9 +68,10 @@ public interface TranslationApi {
 
     /**
      * Creates a new translation entry with an empty value.
+     *
      * @param moduleDetails the module details
-     * @param locale the locale of the translation
-     * @param key the key of the translation
+     * @param locale        the locale of the translation
+     * @param key           the key of the translation
      * @return the created translation entry
      */
     default TranslationEntry createTranslationEntry(
@@ -83,24 +84,28 @@ public interface TranslationApi {
 
     /**
      * Updates the translation entry. If the translation entry does not exist, nothing happens.
+     *
      * @param translationEntry the translation entry
      */
     void updateTranslationEntry(TranslationEntry translationEntry);
 
     /**
      * Deletes the translation entry. If the translation entry does not exist, nothing happens.
+     *
      * @param translationEntry the translation entry
      */
     void deleteTranslationEntry(TranslationEntry translationEntry);
 
     /**
      * Returns all translation entries.
+     *
      * @return all translation entries
      */
     List<TranslationEntry> translations();
 
     /**
      * Returns the translation entry with the given id.
+     *
      * @param id the id of the translation entry
      * @return the translation entry
      */
@@ -112,9 +117,10 @@ public interface TranslationApi {
 
     /**
      * Returns the translation entry with the given module, key and locale.
+     *
      * @param moduleDetails the module details
-     * @param key the key
-     * @param locale the locale
+     * @param key           the key
+     * @param locale        the locale
      * @return the translation entry
      */
     default Optional<TranslationEntry> translationEntry(
@@ -131,6 +137,7 @@ public interface TranslationApi {
 
     /**
      * Returns all translation entries of the given module.
+     *
      * @param module the module
      * @return all translation entries of the module
      */
@@ -142,6 +149,7 @@ public interface TranslationApi {
 
     /**
      * Returns all translation entries of the given module.
+     *
      * @param module the module
      * @return all translation entries of the module
      */
@@ -151,6 +159,7 @@ public interface TranslationApi {
 
     /**
      * Returns all translation entries of the given locale.
+     *
      * @param locale the locale
      * @return all translation entries of the locale
      */

@@ -31,7 +31,6 @@ import revxrsal.commands.velocity.annotation.CommandPermission;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static de.keeeks.lejet.api.NameColorizer.coloredName;
 import static net.kyori.adventure.text.Component.text;

@@ -2,7 +2,6 @@ package de.keeeks.modules.npc.spigot.listener;
 
 import de.keeeks.modules.npc.api.NPC;
 import de.keeeks.modules.npc.api.NPCApi;
-
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.scheduler.Scheduler;
 import org.bukkit.entity.Player;

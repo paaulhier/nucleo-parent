@@ -41,6 +41,7 @@ public interface PlayerService {
 
     /**
      * Returns a list of all players with the given IP address. The IP address is case-sensitive.
+     *
      * @param ipAddress the IP address of the players
      * @return a list of all players with the given IP address
      */
@@ -119,12 +120,14 @@ public interface PlayerService {
 
     /**
      * Returns a sorted list of all players by play time.
+     *
      * @return a sorted list of all players by play time
      */
     List<NucleoPlayer> playersSortedByPlayTime();
 
     /**
      * Returns a list of all online players on the given server.
+     *
      * @param server the server to get the online players from
      * @return a list of all online players on the given server
      */

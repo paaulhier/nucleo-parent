@@ -4,6 +4,7 @@ public interface EconomyBalanceModifier {
 
     /**
      * Modifies the current balance.
+     *
      * @param currentBalance The current balance
      * @return The modified balance
      */

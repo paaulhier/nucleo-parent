@@ -97,20 +97,23 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
 
     /**
      * Executes a command as the player. The command will be executed on the server the player is currently connected to.
+     *
      * @param commandTarget the target of the command
-     * @param command the command to execute
+     * @param command       the command to execute
      */
     void executeCommand(CommandTarget commandTarget, String command);
 
     /**
      * Kicks the player from the network.
+     *
      * @param reason the reason for the kick
-     * @param raw whether the reason should be displayed as raw text
+     * @param raw    whether the reason should be displayed as raw text
      */
     void kick(Component reason, boolean raw);
 
     /**
      * Kicks the player from the network.
+     *
      * @param reason the reason for the kick
      */
     default void kick(Component reason) {

@@ -64,9 +64,9 @@ public class NPCPathfinder {
     private List<Location> getNeighbors(Location location) {
         List<Location> neighbors = new ArrayList<>();
 
-        for (double x = -1; x <= 1; x+=0.5) {
-            for (double y = -1; y <= 1; y+=0.5) {
-                for (double z = -1; z <= 1; z+=0.5) {
+        for (double x = -1; x <= 1; x += 0.5) {
+            for (double y = -1; y <= 1; y += 0.5) {
+                for (double z = -1; z <= 1; z += 0.5) {
                     if (x == 0 && y == 0 && z == 0) continue; // Skip the current location itself
                     Location neighbor = location.clone().add(x, y, z);
                     neighbors.add(neighbor);

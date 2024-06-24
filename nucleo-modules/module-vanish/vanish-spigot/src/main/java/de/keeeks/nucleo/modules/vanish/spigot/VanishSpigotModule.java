@@ -50,13 +50,13 @@ public class VanishSpigotModule extends SpigotModule {
 
             if (event.cancelled()) continue;
 
-           Bukkit.getScheduler().runTask(plugin(), () -> {
-               if (vanishData.vanished()) {
-                   onlinePlayer.hidePlayer(plugin(), player);
-               } else {
-                   onlinePlayer.showPlayer(plugin(), player);
-               }
-           });
+            Bukkit.getScheduler().runTask(plugin(), () -> {
+                if (vanishData.vanished()) {
+                    onlinePlayer.hidePlayer(plugin(), player);
+                } else {
+                    onlinePlayer.showPlayer(plugin(), player);
+                }
+            });
         }
     }
 }

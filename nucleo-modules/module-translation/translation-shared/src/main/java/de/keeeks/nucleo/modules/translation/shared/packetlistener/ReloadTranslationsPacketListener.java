@@ -6,6 +6,7 @@ import de.keeeks.nucleo.modules.translation.shared.DefaultTranslationApi;
 import de.keeeks.nucleo.modules.translations.api.TranslationApi;
 import de.keeeks.nucleo.modules.translations.api.packet.ReloadTranslationsPacket;
 import io.nats.client.Message;
+
 @ListenerChannel(TranslationApi.CHANNEL)
 public class ReloadTranslationsPacketListener extends PacketListener<ReloadTranslationsPacket> {
     private final DefaultTranslationApi translationApi;
