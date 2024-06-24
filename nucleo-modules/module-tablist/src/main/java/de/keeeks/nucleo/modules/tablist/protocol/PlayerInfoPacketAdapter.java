@@ -16,12 +16,11 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.comphenix.protocol.PacketType.Play.Server.PLAYER_INFO;
-import static com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction.INITIALIZE_CHAT;
 import static de.keeeks.nucleo.modules.tablist.event.PlayerTabListForPlayerEvent.TargetType.TAB_LIST;
-import static net.kyori.adventure.text.Component.*;
+import static net.kyori.adventure.text.Component.empty;
+import static net.kyori.adventure.text.Component.space;
 
 public class PlayerInfoPacketAdapter extends PacketAdapter {
     private static final GsonComponentSerializer gsonComponentSerializer = GsonComponentSerializer.gson();
@@ -38,12 +37,6 @@ public class PlayerInfoPacketAdapter extends PacketAdapter {
     @Override
     public void onPacketSending(PacketEvent event) {
         WrapperPlayServerPlayerInfo wrapperPlayServerPlayerInfo = new WrapperPlayServerPlayerInfo(event.getPacket());
-        /*if (wrapperPlayServerPlayerInfo.getActions().contains(INITIALIZE_CHAT)) {
-            System.out.println("INITIALIZE_CHAT -> " + wrapperPlayServerPlayerInfo.getActions().stream().map(
-                    Enum::name
-            ).collect(Collectors.joining(", ")));
-            return;
-        }*/
 
         List<PlayerInfoData> modifiedPlayerInfoData = new ArrayList<>();
 
