@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.translation.velocity;
 
-import com.velocitypowered.api.event.Subscribe;
 import de.keeeks.nucleo.core.api.Dependency;
 import de.keeeks.nucleo.core.api.Module;
 import de.keeeks.nucleo.core.api.ModuleDescription;

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public interface TranslationAdapter {
 
-    static final GsonComponentSerializer gsonComponentSerializer = GsonComponentSerializer.gson();
+    GsonComponentSerializer gsonComponentSerializer = GsonComponentSerializer.gson();
 
     default void handleItem(Player player, AbstractStructure packet, int index) {
         packet.getItemModifier().modify(index, item -> modifyItem(player, item));

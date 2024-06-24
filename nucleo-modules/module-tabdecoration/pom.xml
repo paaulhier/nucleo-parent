@@ -60,11 +60,6 @@
             <artifactId>syncproxy-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>translation-global</artifactId>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>

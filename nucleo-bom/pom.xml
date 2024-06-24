@@ -369,11 +369,6 @@
             </dependency>
             <dependency>
                 <groupId>de.keeeks.nucleo</groupId>
-                <artifactId>translation-global</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>de.keeeks.nucleo</groupId>
                 <artifactId>translation-spigot</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>

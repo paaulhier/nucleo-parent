@@ -39,11 +39,6 @@
     <dependencies>
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>translation-global</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>de.keeeks.nucleo</groupId>
             <artifactId>translation-shared</artifactId>
             <exclusions>
                 <exclusion>

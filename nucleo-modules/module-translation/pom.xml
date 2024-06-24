@@ -12,7 +12,6 @@
     <artifactId>module-translation</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>translation-global</module>
         <module>translation-spigot</module>
         <module>translation-velocity</module>
         <module>translation-server</module>

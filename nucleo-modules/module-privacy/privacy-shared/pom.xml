@@ -26,10 +26,6 @@
 
         <dependency>
             <groupId>de.keeeks.nucleo</groupId>
-            <artifactId>translation-global</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.keeeks.nucleo</groupId>
             <artifactId>core-api</artifactId>
             <scope>provided</scope>
         </dependency>

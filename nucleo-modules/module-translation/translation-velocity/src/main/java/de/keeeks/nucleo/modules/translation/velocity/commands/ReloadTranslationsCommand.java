@@ -16,7 +16,7 @@ import static net.kyori.adventure.text.Component.text;
 public class ReloadTranslationsCommand {
     private final TranslationApi translationApi = ServiceRegistry.service(TranslationApi.class);
 
-    @DefaultFor("reloadtranslations")
+    @DefaultFor("~")
     public void reloadTranslations(Player player) {
         translationApi.reload();
         player.sendMessage(text("Die Übersetzungen werden netzwerkweit neu geladen!", Style.style(NamedTextColor.GREEN)));
