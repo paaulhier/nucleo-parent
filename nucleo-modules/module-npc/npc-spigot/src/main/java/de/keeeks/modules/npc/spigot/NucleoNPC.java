@@ -39,12 +39,12 @@ public class NucleoNPC implements NPC {
     private static final NPCPathfinder pathfinder = new NPCPathfinder();
     private static final Random random = new Random();
 
+    private final Component displayName;
     private final UUID uniqueId;
     private final int entityId;
 
     private NPCSkinModel skinModel;
     private Location location;
-    private Component displayName;
 
     public NucleoNPC(NPCSkinModel skinModel, Component name, Location location) {
         this.skinModel = skinModel;

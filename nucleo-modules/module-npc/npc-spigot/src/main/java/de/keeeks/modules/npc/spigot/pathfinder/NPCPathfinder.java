@@ -33,7 +33,13 @@ public class NPCPathfinder {
             closedList.add(currentNode);
 
             for (Location neighbor : getNeighbors(currentNode.location())) {
-                Node neighborNode = new Node(neighbor, currentNode, currentNode.gCost() + 1, neighbor.distance(end), currentNode.gCost() + 1 + neighbor.distance(end));
+                Node neighborNode = new Node(
+                        neighbor,
+                        currentNode,
+                        currentNode.gCost() + 1,
+                        neighbor.distance(end),
+                        currentNode.gCost() + 1 + neighbor.distance(end)
+                );
 
                 if (closedList.stream().anyMatch(n -> sameLocation(n.location(), neighbor)) || !isWalkable(neighbor)) {
                     continue;
@@ -106,6 +112,8 @@ public class NPCPathfinder {
     }
 
     private boolean sameLocation(Location loc1, Location loc2) {
-        return loc1.getBlockX() == loc2.getBlockX() && loc1.getBlockY() == loc2.getBlockY() && loc1.getBlockZ() == loc2.getBlockZ();
+        return loc1.getBlockX() == loc2.getBlockX()
+                && loc1.getBlockY() == loc2.getBlockY()
+                && loc1.getBlockZ() == loc2.getBlockZ();
     }
 }
