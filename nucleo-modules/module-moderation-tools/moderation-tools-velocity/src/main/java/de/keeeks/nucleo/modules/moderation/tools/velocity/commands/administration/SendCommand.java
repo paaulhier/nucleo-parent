@@ -55,7 +55,7 @@ public class SendCommand implements CommandHandlerVisitor {
 
     @Usage("nucleo.command.send.usage")
     @AutoComplete("@players @servers")
-    @DefaultFor("send")
+    @DefaultFor("~")
     public void sendCommand(
             Player player,
             String playerName,

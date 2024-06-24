@@ -22,7 +22,7 @@ public class ServerCommand {
 
     @Usage("nucleo.command.server.usage")
     @AutoComplete("@servers")
-    @DefaultFor("server")
+    @DefaultFor("~")
     public void serverCommand(Player player, RegisteredServer registeredServer) {
         if (registeredServer == null) {
             player.sendMessage(translatable("nucleo.command.server.notFound"));

@@ -18,7 +18,7 @@ public class PullCommand {
 
     @Usage("nucleo.moderation.pull.usage")
     @AutoComplete("@players")
-    @DefaultFor("pull")
+    @DefaultFor("~")
     public void pullCommand(Player player, NucleoOnlinePlayer onlinePlayer) {
         if (onlinePlayer == null) {
             player.sendMessage(translatable("playerNotOnline"));

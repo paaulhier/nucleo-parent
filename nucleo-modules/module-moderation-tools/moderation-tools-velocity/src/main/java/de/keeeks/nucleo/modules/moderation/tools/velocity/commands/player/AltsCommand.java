@@ -32,7 +32,7 @@ public class AltsCommand {
 
     @Usage("nucleo.commands.alts.usage")
     @AutoComplete("@players")
-    @DefaultFor("alts")
+    @DefaultFor("~")
     public void altsCommand(
             Player player,
             NucleoPlayer nucleoPlayer,

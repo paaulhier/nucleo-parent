@@ -23,8 +23,8 @@ public class ChatClearCommand {
 
     private final ProxyServer proxyServer;
 
-    @AutoComplete("@players")
-    @DefaultFor({"chatclear", "cc"})
+    @AutoComplete("@onlinePlayers")
+    @DefaultFor("~")
     public void chatClearCommand(Player player, @Optional String serverOrPlayer) {
         if (serverOrPlayer == null) {
             player.getCurrentServer().ifPresent(serverConnection -> chatClearApi.clearChat(

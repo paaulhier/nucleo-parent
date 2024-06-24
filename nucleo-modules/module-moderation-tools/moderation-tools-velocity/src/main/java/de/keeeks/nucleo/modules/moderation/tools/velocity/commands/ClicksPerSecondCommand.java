@@ -28,7 +28,7 @@ public class ClicksPerSecondCommand {
     private final ClickCheckApi clickCheckApi = ServiceRegistry.service(ClickCheckApi.class);
 
     @AutoComplete("@players")
-    @DefaultFor({"cps", "clickspersecond", "clicks-per-second"})
+    @DefaultFor("~")
     public void clicksPerSecondCommand(
             Player player,
             @Optional String target
@@ -119,21 +119,21 @@ public class ClicksPerSecondCommand {
         UUID uuid = player.getUniqueId();
 
         clickCheckApi.clickCheck(uuid).ifPresentOrElse(
-                clickCheckInformation -> Scheduler.runAsync(() -> {
-                    playerService.onlinePlayer(clickCheckInformation.target()).ifPresentOrElse(
-                            nucleoOnlinePlayer -> sendDetailedInformation(
-                                    player,
-                                    clickCheckInformation,
-                                    nucleoOnlinePlayer
-                            ),
-                            () -> playerService.player(clickCheckInformation.target()).ifPresent(
-                                    nucleoPlayer -> deleteIfTargetIsOffline(
-                                            player,
-                                            clickCheckInformation,
-                                            nucleoPlayer.uuid()
-                                    )
-                            ));
-                }),
+                clickCheckInformation -> Scheduler.runAsync(
+                        () -> playerService.onlinePlayer(clickCheckInformation.target()).ifPresentOrElse(
+                                nucleoOnlinePlayer -> sendDetailedInformation(
+                                        player,
+                                        clickCheckInformation,
+                                        nucleoOnlinePlayer
+                                ),
+                                () -> playerService.player(clickCheckInformation.target()).ifPresent(
+                                        nucleoPlayer -> deleteIfTargetIsOffline(
+                                                player,
+                                                clickCheckInformation,
+                                                nucleoPlayer.uuid()
+                                        )
+                                ))
+                ),
                 () -> player.sendMessage(Component.translatable(
                         "nucleo.moderation.tools.cps.info.noActive"
                 ))

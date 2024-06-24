@@ -47,7 +47,7 @@ public class ModerationToolsSpigotModule extends SpigotModule {
     public void enable() {
         ServiceRegistry.registerService(
                 ClickCheckMessage.class,
-                new ClickCheckMessage(logger)
+                new ClickCheckMessage()
         );
         ServiceRegistry.registerService(
                 TpsBarApi.class,

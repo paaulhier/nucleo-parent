@@ -21,7 +21,7 @@ import static net.kyori.adventure.text.Component.translatable;
 public class CommentCommand {
 
     @AutoComplete("@players")
-    @DefaultFor("comment")
+    @DefaultFor("~")
     public void comment(Player player, NucleoPlayer nucleoPlayer, @Optional @Default("1") int page) {
         if (nucleoPlayer == null) {
             player.sendMessage(translatable("playerNotFound"));

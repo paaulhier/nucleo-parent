@@ -15,7 +15,7 @@ import static net.kyori.adventure.text.Component.translatable;
 public final class TpsBarCommand {
     private final TpsBarApi tpsBarApi = ServiceRegistry.service(TpsBarApi.class);
 
-    @DefaultFor("tpsbar")
+    @DefaultFor("~")
     public void tpsBar(Player player) {
         if (tpsBarApi.toggle(player.getUniqueId())) {
             player.sendMessage(translatable("nucleo.command.development.tpsbar.enabled"));

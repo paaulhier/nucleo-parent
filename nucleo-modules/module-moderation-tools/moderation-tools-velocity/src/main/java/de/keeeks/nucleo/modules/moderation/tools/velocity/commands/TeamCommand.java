@@ -31,8 +31,7 @@ public class TeamCommand {
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
     private final PermissionApi permissionApi = PermissionApi.instance();
 
-
-    @DefaultFor({"team"})
+    @DefaultFor("~")
     public void teamCommand(Player player) {
         player.sendMessage(Component.translatable("nucleo.commands.team.header"));
         playerService.onlinePlayers().stream().map(

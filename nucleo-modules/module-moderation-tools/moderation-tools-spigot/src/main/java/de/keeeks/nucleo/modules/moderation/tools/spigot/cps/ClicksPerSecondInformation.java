@@ -24,5 +24,4 @@ public record ClicksPerSecondInformation(
         LEFT,
         RIGHT;
     }
-
 }

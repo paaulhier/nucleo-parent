@@ -189,6 +189,7 @@ public final class NucleoNatsConnection implements NatsConnection {
             tryConnect(credentials);
         }
     }
+
     private void sendBacklogPackets() {
         for (PacketBacklogMeta packetBacklogMeta : packetBacklog) {
             publishPacket(
@@ -212,9 +213,6 @@ public final class NucleoNatsConnection implements NatsConnection {
         return new NucleoNatsConnection(logger, credentials);
     }
 
-    public record PacketBacklogMeta(
-            Packet packet,
-            String channel
-    ) {
+    public record PacketBacklogMeta(Packet packet, String channel) {
     }
 }
