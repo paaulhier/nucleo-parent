@@ -14,11 +14,11 @@ import java.util.function.Supplier;
 public interface Scoreboard {
 
     /**
-     * Returns the unique identifier of this scoreboard.
+     * Returns the unique identifier of the owner of this scoreboard.
      *
-     * @return the unique identifier of this scoreboard
+     * @return the unique identifier of the owner of this scoreboard
      */
-    UUID uuid();
+    UUID playerId();
 
     /**
      * Sets the title of the scoreboard.
@@ -123,9 +123,6 @@ public interface Scoreboard {
      * Renders all the lines of the scoreboard.
      */
     void renderAll();
-
-    @Deprecated
-    void addPlayer(Player player);
 
     /**
      * Destroys the scoreboard and removes all lines.

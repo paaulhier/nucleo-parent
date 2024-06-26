@@ -17,7 +17,6 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,17 +37,11 @@ public class NucleoScoreboard implements Scoreboard {
     private final List<ScoreboardLine> lines = new LinkedList<>();
 
     private final FastBoard fastBoard;
-    private final Player player;
-    private final UUID uuid;
+    private final UUID playerId;
 
     public NucleoScoreboard(Player player) {
         this.fastBoard = new FastBoard(player);
-        this.player = player;
-        this.uuid = UUID.randomUUID();
-        player.setMetadata("scoreboardId", new FixedMetadataValue(
-                module.plugin(),
-                uuid.toString()
-        ));
+        this.playerId = player.getUniqueId();
     }
 
     @Override
@@ -106,22 +99,22 @@ public class NucleoScoreboard implements Scoreboard {
     }
 
     @Override
-    @Deprecated
-    public void addPlayer(Player player) {
-        player.setMetadata("scoreboardId", new FixedMetadataValue(
-                module.plugin(),
-                uuid.toString()
-        ));
-        renderAll();
-        logger.warning("Scoreboard#addPlayer is deprecated and will be removed in the future. " +
-                "Please create for each player a new scoreboard instance.");
+    public void destroy() {
+        if (fastBoard.isDeleted()) return;
+        fastBoard.delete();
     }
 
     @Override
-    public void destroy() {
-        player.removeMetadata("scoreboardId", module.plugin());
-        if (fastBoard.isDeleted()) return;
-        fastBoard.delete();
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        NucleoScoreboard that = (NucleoScoreboard) object;
+        return Objects.equals(playerId, that.playerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(playerId);
     }
 
     private <T extends ScoreboardLine> T createLine(T line) {

@@ -7,8 +7,8 @@ import de.keeeks.nucleo.modules.scoreboard.api.Scoreboard;
 import de.keeeks.nucleo.modules.scoreboard.api.ScoreboardApi;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AnimatedScoreboardLine;
 import de.keeeks.nucleo.modules.scoreboard.api.lines.AutoUpdatingScoreboardLine;
-import de.keeeks.nucleo.modules.scoreboard.spigot.listener.ScoreboardPlayerQuitListener;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +26,6 @@ public class ScoreboardSpigotModule extends SpigotModule {
 
     @Override
     public void enable() {
-        registerListener(new ScoreboardPlayerQuitListener(scoreboardApi));
         initializeScheduler();
     }
 
@@ -36,6 +35,20 @@ public class ScoreboardSpigotModule extends SpigotModule {
                 scheduledTask -> scoreboardApi.scoreboards().forEach(this::tickAllLines),
                 0,
                 50,
+                TimeUnit.MILLISECONDS
+        );
+        Bukkit.getAsyncScheduler().runAtFixedRate(
+                plugin(),
+                scheduledTask -> {
+                    for (Scoreboard scoreboard : scoreboardApi.scoreboards()) {
+                        Player player = Bukkit.getPlayer(scoreboard.playerId());
+                        if (player == null) {
+                            scoreboardApi.destroyScoreboard(scoreboard.playerId());
+                        }
+                    }
+                },
+                0,
+                250,
                 TimeUnit.MILLISECONDS
         );
     }

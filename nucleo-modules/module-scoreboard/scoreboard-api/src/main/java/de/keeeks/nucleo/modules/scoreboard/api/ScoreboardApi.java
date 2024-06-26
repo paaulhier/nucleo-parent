@@ -27,23 +27,11 @@ public interface ScoreboardApi {
     Scoreboard createScoreboard(Player player);
 
     /**
-     * Destroy a scoreboard by its UUID and remove it from the list of scoreboards
+     * Destroy a scoreboard by its owner's UUID and remove it from the list of scoreboards
      *
-     * @param uuid The UUID of the scoreboard
+     * @param playerId The UUID of the owner of the scoreboard
      */
-    void destroyScoreboard(UUID uuid);
-
-    /**
-     * Get a scoreboard by its UUID
-     *
-     * @param uuid The UUID of the scoreboard
-     * @return The scoreboard or an empty optional if no scoreboard with the given UUID exists
-     */
-    default Optional<Scoreboard> scoreboard(UUID uuid) {
-        return scoreboards().stream().filter(
-                scoreboard -> scoreboard.uuid().equals(uuid)
-        ).findFirst();
-    }
+    void destroyScoreboard(UUID playerId);
 
     /**
      * Get the scoreboard of a player
@@ -52,8 +40,8 @@ public interface ScoreboardApi {
      * @return The scoreboard or an empty optional if the player has no scoreboard
      */
     default Optional<Scoreboard> scoreboard(Player player) {
-        return player.getMetadata("scoreboardId").stream().findFirst().flatMap(
-                metadataValue -> scoreboard(UUID.fromString(metadataValue.asString()))
-        );
+        return scoreboards().stream().filter(
+                scoreboard -> scoreboard.playerId().equals(player.getUniqueId())
+        ).findFirst();
     }
 }

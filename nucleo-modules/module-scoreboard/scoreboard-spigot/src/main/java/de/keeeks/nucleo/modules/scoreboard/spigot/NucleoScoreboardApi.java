@@ -19,6 +19,11 @@ public class NucleoScoreboardApi implements ScoreboardApi {
     }
 
     @Override
+    public List<Scoreboard> scoreboards() {
+        return List.copyOf(scoreboards);
+    }
+
+    @Override
     public Scoreboard createScoreboard(Player player) {
         NucleoScoreboard nucleoScoreboard = new NucleoScoreboard(player);
         scoreboards.add(nucleoScoreboard);
@@ -26,9 +31,9 @@ public class NucleoScoreboardApi implements ScoreboardApi {
     }
 
     @Override
-    public void destroyScoreboard(UUID uuid) {
+    public void destroyScoreboard(UUID playerId) {
         for (Scoreboard scoreboard : List.copyOf(scoreboards)) {
-            if (scoreboard.uuid().equals(uuid)) {
+            if (scoreboard.playerId().equals(playerId)) {
                 scoreboard.destroy();
                 scoreboards.remove(scoreboard);
             }
