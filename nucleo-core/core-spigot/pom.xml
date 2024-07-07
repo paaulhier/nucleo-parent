@@ -98,7 +98,6 @@
             <version>1.20-2.2.1</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <build>

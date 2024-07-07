@@ -1,0 +1,22 @@
+name: nucleo-spigot
+version: 1.0
+main: de.keeeks.nucleo.core.spigot.NucleoSpigotPlugin
+loader: de.keeeks.nucleo.core.spigot.paper.NucleoPaperPluginLoader
+bootstrap: de.keeeks.nucleo.core.spigot.paper.NucleoPaperBootstrap
+
+api-version: 1.20.6
+
+dependencies:
+  server:
+    ProtocolLib:
+      load: BEFORE
+      required: false
+    CloudNet-Bridge:
+      load: BEFORE
+      required: false
+    Vulcan:
+      load: BEFORE
+      required: false
+    PacketWrapper:
+      load: BEFORE
+      required: false
