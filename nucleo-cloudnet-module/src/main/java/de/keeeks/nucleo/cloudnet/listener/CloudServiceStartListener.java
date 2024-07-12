@@ -65,7 +65,6 @@ public final class CloudServiceStartListener {
                     writer,
                     null
             );
-            logger.info("Successfully saved properties to file " + file.getName());
         } catch (IOException e) {
             printErrorMessageAndStopService(cloudService, e);
         }
