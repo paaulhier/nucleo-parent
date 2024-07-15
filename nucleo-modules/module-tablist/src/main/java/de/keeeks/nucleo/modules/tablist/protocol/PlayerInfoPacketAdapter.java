@@ -8,6 +8,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import de.keeeks.nucleo.modules.tablist.event.PlayerTabListForPlayerEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -77,7 +78,12 @@ public class PlayerInfoPacketAdapter extends PacketAdapter {
                 displayName = empty();
             }
 
-            displayName = displayName.append(player.displayName());
+            Style coloredStyle = Style.style(
+                    tabListForPlayerEvent.color()
+            );
+            displayName = displayName.append(
+                    player.displayName().style(coloredStyle)
+            ).style(coloredStyle);
 
             if (!suffix.equals(empty())) {
                 displayName = displayName.append(space().append(suffix));
