@@ -52,6 +52,24 @@ public class LoginListener {
                 );
                 playerService.savePlayerToDatabase(nucleoPlayer);
                 nucleoPlayer.update();
+            } else {
+                NucleoPlayer nucleoPlayer = playerService.player(player.getUniqueId()).orElseThrow();
+                nucleoPlayer.updateLastLogin().updateLastIpAddress(
+                        player.getRemoteAddress().getHostString()
+                );
+                System.out.println("Player %s is already known as %s".formatted(
+                        player.getUsername(),
+                        nucleoPlayer.name()
+                ));
+                if (!nucleoPlayer.name().equals(player.getUsername())) {
+                    System.out.println("Updating player name from %s to %s".formatted(
+                            nucleoPlayer.name(),
+                            player.getUsername()
+                    ));
+                    nucleoPlayer.updateName(player.getUsername());
+                }
+                playerService.savePlayerToDatabase(nucleoPlayer);
+                nucleoPlayer.update();
             }
         });
     }
@@ -112,7 +130,13 @@ public class LoginListener {
         );
     }
 
-    private void handlePlayerJoin(NucleoPlayer nucleoPlayer, GameProfile.Property property, Player player, String ipAddress, Version version) {
+    private void handlePlayerJoin(
+            NucleoPlayer nucleoPlayer,
+            GameProfile.Property property,
+            Player player,
+            String ipAddress,
+            Version version
+    ) {
         handleSkinUpdate(
                 nucleoPlayer,
                 property
@@ -123,9 +147,7 @@ public class LoginListener {
                     player.getUsername()
             );
         }
-        handleOnlinePlayerCreation(nucleoPlayer.updateName(
-                player.getUsername()
-        ), ipAddress, version);
+        handleOnlinePlayerCreation(nucleoPlayer, ipAddress, version);
     }
 
     private void handleSkinUpdate(NucleoPlayer onlinePlayer, GameProfile.Property property) {

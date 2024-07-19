@@ -21,12 +21,10 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 public class DefaultNucleoPlayer implements NucleoPlayer {
-    protected static final PlayerService playerService = ServiceRegistry.service(
-            PlayerService.class
-    );
     protected static final CommentRepository commentRepository = ServiceRegistry.service(
             CommentRepository.class
     );
+    protected static PlayerService playerService;
 
     protected final PropertyHolder propertyHolder = new DefaultPropertyHolder();
 
@@ -113,7 +111,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
         );
         comments.add(nucleoComment);
         commentRepository.createComment(nucleoComment);
-        playerService.updateNetworkWide(this);
+        playerService().updateNetworkWide(this);
         return nucleoComment;
     }
 
@@ -121,7 +119,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     public void deleteComment(Comment comment) {
         commentRepository.deleteComment(comment);
         comments.remove(comment);
-        playerService.updateNetworkWide(this);
+        playerService().updateNetworkWide(this);
     }
 
     @Override
@@ -129,7 +127,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
         commentRepository.updateComment(comment.content(content));
         comments.remove(comment);
         comments.add(comment);
-        playerService.updateNetworkWide(this);
+        playerService().updateNetworkWide(this);
     }
 
     @Override
@@ -160,7 +158,7 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
 
     @Override
     public void update() {
-        playerService.updateNetworkWide(this);
+        playerService().updateNetworkWide(this);
     }
 
     @Override
@@ -174,5 +172,12 @@ public class DefaultNucleoPlayer implements NucleoPlayer {
     @Override
     public int hashCode() {
         return Objects.hashCode(uuid);
+    }
+
+    protected static PlayerService playerService() {
+        if (playerService == null) {
+            playerService = ServiceRegistry.service(PlayerService.class);
+        }
+        return playerService;
     }
 }

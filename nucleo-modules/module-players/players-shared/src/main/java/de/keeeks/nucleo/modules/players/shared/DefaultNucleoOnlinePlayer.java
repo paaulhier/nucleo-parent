@@ -1,9 +1,9 @@
 package de.keeeks.nucleo.modules.players.shared;
 
-import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.players.api.*;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import lombok.Getter;
+import lombok.NonNull;
 import net.kyori.adventure.text.Component;
 
 import java.time.Duration;
@@ -14,12 +14,12 @@ import java.util.function.Consumer;
 
 @Getter
 public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements NucleoOnlinePlayer {
-    private static PlayerService playerService;
-
     private final String ipAddress;
     private final Version version;
 
+    @NonNull
     private OnlineState onlineState = OnlineState.ONLINE;
+    @NonNull
     private ClientBrand clientBrand = ClientBrand.VANILLA;
 
     private String proxy;
@@ -37,7 +37,7 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
             String server,
             String ipAddress,
             Version version,
-            OnlineState onlineState
+            @NonNull OnlineState onlineState
     ) {
         super(
                 nucleoPlayer.uuid(),
@@ -133,13 +133,6 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     @Override
     public void update() {
         playerService().updateNetworkWide(this);
-    }
-
-    private PlayerService playerService() {
-        if (playerService == null) {
-            return playerService = ServiceRegistry.service(PlayerService.class);
-        }
-        return playerService;
     }
 
     @Override
