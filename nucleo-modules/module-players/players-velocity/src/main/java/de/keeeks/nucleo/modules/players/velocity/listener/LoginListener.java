@@ -57,15 +57,7 @@ public class LoginListener {
                 nucleoPlayer.updateLastLogin().updateLastIpAddress(
                         player.getRemoteAddress().getHostString()
                 );
-                System.out.println("Player %s is already known as %s".formatted(
-                        player.getUsername(),
-                        nucleoPlayer.name()
-                ));
                 if (!nucleoPlayer.name().equals(player.getUsername())) {
-                    System.out.println("Updating player name from %s to %s".formatted(
-                            nucleoPlayer.name(),
-                            player.getUsername()
-                    ));
                     nucleoPlayer.updateName(player.getUsername());
                 }
                 playerService.savePlayerToDatabase(nucleoPlayer);
