@@ -1,17 +1,18 @@
 package de.keeeks.nucleo.modules.tabdecoration.listener;
 
-import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.connection.PostLoginEvent;
-import com.velocitypowered.api.proxy.Player;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.tabdecoration.service.TabDecorationService;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 
-public class TabDecorationLoginListener {
+public final class TabDecorationLoginListener implements Listener {
     private final TabDecorationService tabDecorationService = ServiceRegistry.service(TabDecorationService.class);
 
-    @Subscribe
-    public void handleLogin(PostLoginEvent event) {
-        Player player = event.getPlayer();
-        tabDecorationService.sendPlayerListHeaderAndFooter(player);
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void handleLogin(PlayerJoinEvent event) {
+        tabDecorationService.sendPlayerListHeaderAndFooter(event.getPlayer());
     }
 }

@@ -1,6 +1,5 @@
 package de.keeeks.nucleo.modules.tabdecoration.packetlistener;
 
-import com.velocitypowered.api.proxy.ProxyServer;
 import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.modules.messaging.packet.ListenerChannel;
 import de.keeeks.nucleo.modules.messaging.packet.PacketListener;
@@ -8,16 +7,14 @@ import de.keeeks.nucleo.modules.tabdecoration.service.TabDecorationService;
 import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 import de.keeeks.nucleo.syncproxy.api.packet.SyncProxyConfigurationUpdatePacket;
 import io.nats.client.Message;
+import org.bukkit.Bukkit;
 
 @ListenerChannel(SyncProxyService.CHANNEL)
-public class TabDecorationSyncProxyConfigurationUpdatePacketListener extends PacketListener<SyncProxyConfigurationUpdatePacket> {
+public final class TabDecorationSyncProxyConfigurationUpdatePacketListener extends PacketListener<SyncProxyConfigurationUpdatePacket> {
     private final TabDecorationService tabDecorationService = ServiceRegistry.service(TabDecorationService.class);
 
-    private final ProxyServer proxyServer;
-
-    public TabDecorationSyncProxyConfigurationUpdatePacketListener(ProxyServer proxyServer) {
+    public TabDecorationSyncProxyConfigurationUpdatePacketListener() {
         super(SyncProxyConfigurationUpdatePacket.class);
-        this.proxyServer = proxyServer;
     }
 
     @Override
@@ -25,6 +22,6 @@ public class TabDecorationSyncProxyConfigurationUpdatePacketListener extends Pac
             SyncProxyConfigurationUpdatePacket syncProxyConfigurationUpdatePacket,
             Message message
     ) {
-        proxyServer.getAllPlayers().forEach(tabDecorationService::sendPlayerListHeaderAndFooter);
+        Bukkit.getOnlinePlayers().forEach(tabDecorationService::sendPlayerListHeaderAndFooter);
     }
 }

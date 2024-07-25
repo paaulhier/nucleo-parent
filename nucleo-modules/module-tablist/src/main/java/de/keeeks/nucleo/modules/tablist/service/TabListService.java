@@ -33,9 +33,6 @@ public final class TabListService {
             // Get or create the team
             Team team = getOrCreateTeam(scoreboard, event);
 
-            // Add the player to the team
-            team.addPlayer(otherPlayer);
-
             // Set the prefix and suffix
             if (!event.prefix().equals(empty())) {
                 team.prefix(event.prefix());
@@ -44,6 +41,9 @@ public final class TabListService {
                 team.suffix(space().append(event.suffix()));
             }
             team.color(event.color());
+
+            // Add the player to the team
+            team.addPlayer(otherPlayer);
 
             // Set the options for the team
             team.setAllowFriendlyFire(event.allowFriendlyFire());
