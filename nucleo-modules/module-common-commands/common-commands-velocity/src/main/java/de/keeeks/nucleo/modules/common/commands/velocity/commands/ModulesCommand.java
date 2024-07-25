@@ -8,6 +8,7 @@ import revxrsal.commands.annotation.DefaultFor;
 import revxrsal.commands.annotation.Subcommand;
 import revxrsal.commands.velocity.annotation.CommandPermission;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Command({"modules", "module"})
@@ -17,6 +18,7 @@ public class ModulesCommand extends RedirectableCommand {
     @DefaultFor("~")
     public void modulesCommand(Player player) {
         List<Module> modules = Module.modules();
+        modules.sort(Comparator.comparing(o -> o.description().name()));
 
         player.sendMessage(Component.text("Modules (%s): ".formatted(
                 modules.size()

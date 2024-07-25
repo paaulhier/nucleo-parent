@@ -6,6 +6,8 @@ import revxrsal.commands.annotation.Command;
 import revxrsal.commands.bukkit.BukkitCommandActor;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ModulesCommand {
@@ -14,6 +16,7 @@ public class ModulesCommand {
     @CommandPermission("nucleo.commands.modules")
     public void modulesCommand(final BukkitCommandActor actor) {
         List<Module> modules = Module.modules();
+        modules.sort(Comparator.comparing(o -> o.description().name()));
 
         actor.audience().sendMessage(Component.text("Modules (%s): ".formatted(
                 modules.size()
