@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -51,11 +52,13 @@ public abstract class Module {
 
     private void readServiceName() throws IOException {
         if (serviceName != null) return;
-        File serviceFile = new File("serviceName");
+        File serviceFile = new File("nucleo.properties");
         if (!serviceFile.exists()) return;
-        serviceName = Files.readString(
-                serviceFile.toPath()
-        );
+        Properties properties = new Properties();
+        try (var reader = Files.newBufferedReader(serviceFile.toPath())) {
+            properties.load(reader);
+            serviceName = properties.getProperty("service.name");
+        }
     }
 
     public void load() {
