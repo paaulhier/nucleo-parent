@@ -16,6 +16,7 @@ import de.keeeks.nucleo.core.loader.ModuleLoader;
 import de.keeeks.nucleo.core.loader.classloader.ModuleClassLoader;
 import de.keeeks.nucleo.core.velocity.command.NucleoVelocityExceptionHandler;
 import de.keeeks.nucleo.core.velocity.listener.PlayerAvailableCommandsListener;
+import de.keeeks.nucleo.core.velocity.logging.ModuleToSlf4jLogger;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.CommandHandlerVisitor;
@@ -66,10 +67,10 @@ public class NucleoVelocityPlugin {
     private Duration startupDuration;
 
     @Inject
-    public NucleoVelocityPlugin(ProxyServer proxyServer, Logger logger) {
+    public NucleoVelocityPlugin(ProxyServer proxyServer, org.slf4j.Logger platformLogger) {
         plugin = this;
         this.proxyServer = proxyServer;
-        this.logger = logger;
+        this.logger = new ModuleToSlf4jLogger(platformLogger);
         NucleoLogger.logger(NucleoLogger.create(logger));
         Thread.setDefaultUncaughtExceptionHandler(new NucleoUncaughtExceptionHandler());
 
