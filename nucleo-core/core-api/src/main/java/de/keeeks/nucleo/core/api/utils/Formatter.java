@@ -387,4 +387,24 @@ public class Formatter {
         }
         return component;
     }
+
+    public static String formatBytes(long bytes) {
+        long kilobytes = bytes / 1024;
+        if (kilobytes < 1024) {
+            return kilobytes + " KB";
+        }
+
+        long megabytes = kilobytes / 1024;
+        if (megabytes < 1024) {
+            return megabytes + " MB";
+        }
+
+        long gigabytes = megabytes / 1024;
+        if (gigabytes < 1024) {
+            return gigabytes + " GB";
+        }
+
+        long terabytes = gigabytes / 1024;
+        return terabytes + " TB";
+    }
 }
