@@ -83,7 +83,7 @@ public class PlayerInfoPacketAdapter extends PacketAdapter {
             );
             displayName = displayName.append(
                     player.displayName().style(coloredStyle)
-            ).style(coloredStyle);
+            );
 
             if (!suffix.equals(empty())) {
                 displayName = displayName.append(space().append(suffix));

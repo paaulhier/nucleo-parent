@@ -39,7 +39,7 @@ public class PlayerTabListForPlayerEvent extends PlayerEvent implements Cancella
     private boolean canSeeFriendlyInvisibles = false;
     private boolean allowFriendlyFire = false;
 
-    private NamedTextColor color = NamedTextColor.WHITE;
+    private NamedTextColor color = NamedTextColor.GRAY;
 
     public PlayerTabListForPlayerEvent(@NotNull Player who, Player viewer, TargetType targetType) {
         super(who, false);
