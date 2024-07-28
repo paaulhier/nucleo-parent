@@ -53,11 +53,19 @@ public abstract class Module {
     private void readServiceName() throws IOException {
         if (serviceName != null) return;
         File serviceFile = new File("nucleo.properties");
-        if (!serviceFile.exists()) return;
+        if (!serviceFile.exists()) {
+            System.out.println("The service file does not exist. Please create a file named 'nucleo.properties' in the root directory of the server and add the property 'service.name' with the name of the service.");
+            System.exit(0);
+            return;
+        }
         Properties properties = new Properties();
         try (var reader = Files.newBufferedReader(serviceFile.toPath())) {
             properties.load(reader);
             serviceName = properties.getProperty("service.name");
+            System.out.printf("This service is operating as %s%n", serviceName);
+        } catch (Throwable throwable) {
+            System.out.println("An error occurred while reading the service file. Please make sure that the file is correctly formatted.");
+            System.exit(0);
         }
     }
 
