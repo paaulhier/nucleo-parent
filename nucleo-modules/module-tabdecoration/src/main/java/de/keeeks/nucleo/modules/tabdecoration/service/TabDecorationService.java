@@ -9,6 +9,7 @@ import de.keeeks.nucleo.syncproxy.api.SyncProxyConfiguration;
 import de.keeeks.nucleo.syncproxy.api.SyncProxyService;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -52,5 +53,9 @@ public final class TabDecorationService {
                     translatable("nucleo.tabdecoration.footer", arguments)
             );
         });
+    }
+
+    public void sendPlayerListHeaderAndFooterToAll() {
+        Bukkit.getOnlinePlayers().forEach(this::sendPlayerListHeaderAndFooter);
     }
 }

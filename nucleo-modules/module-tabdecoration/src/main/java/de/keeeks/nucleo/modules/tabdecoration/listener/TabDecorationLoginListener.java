@@ -13,6 +13,6 @@ public final class TabDecorationLoginListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void handleLogin(PlayerJoinEvent event) {
-        tabDecorationService.sendPlayerListHeaderAndFooter(event.getPlayer());
+        tabDecorationService.sendPlayerListHeaderAndFooterToAll();
     }
 }
