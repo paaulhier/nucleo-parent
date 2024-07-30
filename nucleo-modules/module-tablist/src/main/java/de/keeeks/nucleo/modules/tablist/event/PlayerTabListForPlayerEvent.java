@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -39,7 +40,7 @@ public class PlayerTabListForPlayerEvent extends PlayerEvent implements Cancella
     private boolean canSeeFriendlyInvisibles = false;
     private boolean allowFriendlyFire = false;
 
-    private NamedTextColor color = NamedTextColor.GRAY;
+    private TextColor color = NamedTextColor.GRAY;
 
     public PlayerTabListForPlayerEvent(@NotNull Player who, Player viewer, TargetType targetType) {
         super(who, false);

@@ -1,6 +1,7 @@
 package de.keeeks.nucleo.modules.tablist.service;
 
 import de.keeeks.nucleo.modules.tablist.event.PlayerTabListForPlayerEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
@@ -40,7 +41,9 @@ public final class TabListService {
             if (!event.suffix().equals(empty())) {
                 team.suffix(space().append(event.suffix()));
             }
-            team.color(event.color());
+            if (event.color() instanceof NamedTextColor tabColor) {
+                team.color(tabColor);
+            }
 
             // Add the player to the team
             team.addPlayer(otherPlayer);
