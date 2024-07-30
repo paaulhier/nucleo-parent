@@ -78,9 +78,7 @@ public class PlayerInfoPacketAdapter extends PacketAdapter {
                 displayName = empty();
             }
 
-            Style coloredStyle = Style.style(
-                    tabListForPlayerEvent.color()
-            );
+            Style coloredStyle = Style.style(tabListForPlayerEvent.color());
             displayName = displayName.append(
                     player.displayName().style(coloredStyle)
             );
