@@ -45,6 +45,7 @@ public final class TabDecorationService {
                     text(serviceName),
                     permissionGroup.coloredName(),
                     text(PlaceholderAPI.setPlaceholders(player, permissionGroup.imageName())),
+                    text(PlaceholderAPI.setPlaceholders(player, permissionGroup.chatImageName())),
                     text(maxPlayers)
             );
 
