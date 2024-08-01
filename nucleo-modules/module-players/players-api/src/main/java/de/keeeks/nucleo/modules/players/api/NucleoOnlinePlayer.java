@@ -3,6 +3,8 @@ package de.keeeks.nucleo.modules.players.api;
 import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResponsePacket.State;
 import net.kyori.adventure.text.Component;
 
+import javax.annotation.Nonnull;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
@@ -47,7 +49,7 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
      *
      * @return the client brand of the player
      */
-    ClientBrand clientBrand();
+    Optional<ClientBrand> clientBrand();
 
     /**
      * Updates the online state of the player. See {@link OnlineState}.
@@ -55,7 +57,7 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
      * @param onlineState the new online state
      * @return this player
      */
-    NucleoOnlinePlayer updateOnlineState(OnlineState onlineState);
+    NucleoOnlinePlayer updateOnlineState(@Nonnull OnlineState onlineState);
 
     /**
      * Updates the server the player is currently connected to.
@@ -65,16 +67,13 @@ public interface NucleoOnlinePlayer extends NucleoPlayer, NucleoMessageSender {
      */
     NucleoOnlinePlayer updateServer(String server);
 
-    @Deprecated
-    NucleoOnlinePlayer updateProxy(String proxy);
-
     /**
      * Updates the client brand of the player. See {@link ClientBrand}.
      *
      * @param clientBrand the new client brand
      * @return this player
      */
-    NucleoOnlinePlayer updateClientBrand(ClientBrand clientBrand);
+    NucleoOnlinePlayer updateClientBrand(@Nonnull ClientBrand clientBrand);
 
     /**
      * Connects the player to the specified server.

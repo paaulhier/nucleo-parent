@@ -15,8 +15,7 @@ public final class ClientBrandListener {
         Player player = event.getPlayer();
         String brand = event.getBrand();
 
-        playerService.onlinePlayer(player.getUniqueId()).ifPresent(
-                onlinePlayer -> onlinePlayer.updateClientBrand(ClientBrand.fromString(brand)).update()
-        );
+        playerService.onlinePlayer(player.getUniqueId())
+                .ifPresent(onlinePlayer -> onlinePlayer.updateClientBrand(ClientBrand.fromString(brand)).update());
     }
 }

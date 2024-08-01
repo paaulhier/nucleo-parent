@@ -23,9 +23,7 @@ import java.net.InetSocketAddress;
 import static net.kyori.adventure.text.Component.text;
 
 public class LoginListener {
-    private final PlayerService playerService = ServiceRegistry.service(
-            PlayerService.class
-    );
+    private final PlayerService playerService = ServiceRegistry.service(PlayerService.class);
 
     @Subscribe(order = PostOrder.FIRST)
     public EventTask handleVersionCheck(LoginEvent event) {

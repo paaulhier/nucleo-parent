@@ -19,9 +19,7 @@ public final class VersionSerializer extends JsonSerializer<Version> {
             JsonDeserializationContext context
     ) throws JsonParseException {
         String versionAsString = json.getAsJsonPrimitive().getAsString();
-        Version version = Version.getByName(versionAsString);
-        if (version == null) return Version.UNKNOWN;
-        return version;
+        return Version.valueOf(versionAsString);
     }
 
     @Override
