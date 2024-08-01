@@ -5,24 +5,31 @@ import de.keeeks.nucleo.modules.players.api.packet.NucleoOnlinePlayerConnectResp
 import lombok.Getter;
 import lombok.NonNull;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-@Getter
 public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements NucleoOnlinePlayer {
+    @Getter
     private final String ipAddress;
+    @Getter
     private final Version version;
 
+    @Getter
     @NonNull
     private OnlineState onlineState = OnlineState.ONLINE;
     @NonNull
     private ClientBrand clientBrand = ClientBrand.VANILLA;
 
+    @Getter
     private String proxy;
+    @Getter
     private String server;
 
     public DefaultNucleoOnlinePlayer(UUID uuid, String ipAddress, Version version) {
@@ -80,7 +87,13 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     }
 
     @Override
-    public NucleoOnlinePlayer updateOnlineState(OnlineState onlineState) {
+    public Optional<ClientBrand> clientBrand() {
+        return Optional.of(clientBrand);
+    }
+
+    @Override
+    public NucleoOnlinePlayer updateOnlineState(@NotNull OnlineState onlineState) {
+        Validate.notNull(onlineState, "The online state cannot be null");
         this.onlineState = onlineState;
         return this;
     }
@@ -92,13 +105,8 @@ public class DefaultNucleoOnlinePlayer extends DefaultNucleoPlayer implements Nu
     }
 
     @Override
-    public NucleoOnlinePlayer updateProxy(String proxy) {
-        this.proxy = proxy;
-        return this;
-    }
-
-    @Override
-    public NucleoOnlinePlayer updateClientBrand(ClientBrand clientBrand) {
+    public NucleoOnlinePlayer updateClientBrand(@NotNull ClientBrand clientBrand) {
+        Validate.notNull(clientBrand, "The client brand cannot be null");
         this.clientBrand = clientBrand;
         return this;
     }

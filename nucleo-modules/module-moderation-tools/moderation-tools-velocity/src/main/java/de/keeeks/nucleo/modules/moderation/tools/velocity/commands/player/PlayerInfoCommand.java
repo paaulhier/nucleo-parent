@@ -10,6 +10,7 @@ import de.keeeks.nucleo.core.api.ServiceRegistry;
 import de.keeeks.nucleo.core.api.utils.Formatter;
 import de.keeeks.nucleo.modules.economy.api.Economy;
 import de.keeeks.nucleo.modules.economy.api.EconomyApi;
+import de.keeeks.nucleo.modules.players.api.ClientBrand;
 import de.keeeks.nucleo.modules.players.api.NucleoOnlinePlayer;
 import de.keeeks.nucleo.modules.players.api.NucleoPlayer;
 import de.keeeks.nucleo.modules.players.api.PlayerService;
@@ -139,15 +140,13 @@ public final class PlayerInfoCommand {
                     )),
                     text(nucleoOnlinePlayer.version().version()),
                     nucleoOnlinePlayer.onlineState().displayName(),
-                    nucleoOnlinePlayer.clientBrand().displayName()
+                    nucleoOnlinePlayer.clientBrand()
+                            .map(ClientBrand::displayName)
+                            .orElse(translatable("commands.playerinfo.unknownClientBrand"))
             ));
-            player.sendMessage(translatable(
-                    "commands.playerinfo.playerInfo"
-            ).arguments(arguments));
+            player.sendMessage(translatable("commands.playerinfo.playerInfo", arguments));
         } else {
-            player.sendMessage(translatable(
-                    "commands.playerinfo.playerInfoOffline"
-            ).arguments(arguments));
+            player.sendMessage(translatable("commands.playerinfo.playerInfoOffline", arguments));
         }
     }
 
